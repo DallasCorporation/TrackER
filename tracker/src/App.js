@@ -1,10 +1,12 @@
 import TestButton from './TestButton';
-import { Button } from 'antd';
 
 function App() {
   return (
     <div>
-      <Button>test</Button>
+      <TestButton initCont={0} text="dasd"/>
+      <TestButton initCont={0} text="dasd"/>
+      <TestButton initCont={0} text="dasd"/>
+      <TestButton text="dasd"/>
     </div>
   );
 }

@@ -14,7 +14,7 @@ export const Nav30DataSource = {
         name: 'item0',
         className: 'header3-item',
         children: {
-          href: '#',
+          href: '/Service',
           children: [{ children: 'Service', name: 'text' }],
         },
       },
@@ -22,7 +22,7 @@ export const Nav30DataSource = {
         name: 'item1',
         className: 'header3-item',
         children: {
-          href: '#',
+          href: '/About',
           children: [{ children: 'About', name: 'text' }],
         },
       },
@@ -30,7 +30,7 @@ export const Nav30DataSource = {
         name: 'item2',
         className: 'header3-item',
         children: {
-          href: '#',
+          href: '/Access',
           children: [{ children: "Join/Access", name: 'text' }],
         },
       },

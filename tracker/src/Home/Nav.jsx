@@ -5,7 +5,7 @@ import { getChildrenToRender } from './utils';
 
 const { Item, SubMenu } = Menu;
 
-class Header3 extends React.Component {
+class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -89,7 +89,9 @@ class Header3 extends React.Component {
             animation={{ x: -30, type: 'from', ease: 'easeOutQuad' }}
             {...dataSource.logo}
           >
-            <img width="100%" src={dataSource.logo.children} alt="img" />
+            <a  href={dataSource.logo.children.href}>
+              <img width="100%" src={dataSource.logo.children.logo} alt="img" />
+            </a>
           </TweenOne>
           {isMobile && (
             <div
@@ -137,4 +139,4 @@ class Header3 extends React.Component {
   }
 }
 
-export default Header3;
+export default Header;

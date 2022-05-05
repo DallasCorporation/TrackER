@@ -1,0 +1,104 @@
+
+@import "~antd/dist/antd.less";
+
+.basic-form {
+  .basic-form-forgot {
+    float: left;
+  }
+  .basic-form-register {
+    float: right;
+  }
+  .basic-form-button {
+    width: 100%;
+  }
+  .ant-card {
+    .ant-card-head {
+      background: #185596;
+      color: #ffffff;
+      .ant-card-head-title {
+        font-size: 1.5rem;
+        font-weight: 400;
+        white-space: normal;
+        text-align: center;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        .new-title {
+          font-size: 1rem;
+          display: block;
+          width: 100%;
+        }
+        .new-title-second {
+          font-size: 1rem;
+          display: block;
+          width: 100%;
+        }
+      }
+    }
+    .ant-card-body {
+      text-align: center;
+      .starting-at {
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+      .price {
+        .currency {
+          color: #185596;
+          display: inline-block;
+          margin-top: 10px;
+          vertical-align: top;
+          font-size: 2rem;
+          font-weight: 700;
+          @media (max-width: @screen-md-max) {
+            font-size: 1.6rem;
+          }
+          @media (max-width: @screen-sm-max) {
+            font-size: 2rem;
+          }
+        }
+        .value {
+          font-size: 6rem;
+          font-weight: 400;
+          @media (max-width: @screen-md-max) {
+            font-size: 4rem;
+          }
+          @media (max-width: @screen-sm-max) {
+            font-size: 6rem;
+          }
+        }
+        .info {
+          color: #185596;
+          //  font-weight: 700;
+          font-size: 1.4rem;
+          padding-bottom: 20px;
+          text-transform: uppercase;
+          @media (max-width: @screen-md-max) {
+            font-size: 1rem;
+          }
+          @media (max-width: @screen-sm-max) {
+            font-size: 1.4rem;
+          }
+          &:before {
+            content: "/";
+            margin-right: 2px;
+          }
+        }
+        .duration {
+          color: #185596;
+          font-weight: 700;
+          font-size: 1.4rem;
+          text-transform: uppercase;
+          @media (max-width: @screen-md-max) {
+            font-size: 1rem;
+          }
+          @media (max-width: @screen-sm-max) {
+            font-size: 1.4rem;
+          }
+          &:before {
+            content: "/";
+            margin-right: 2px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -7,9 +7,10 @@ import {
   Nav30DataSource,
   Footer10DataSource,
 } from './Home/data.source.js';
-import Header3 from './Home/Nav3';
+import Header3 from './Home/Nav';
 import Footer from './Home/Footer1';
 import Service from './Service';
+import Login from './Login/Login';
 
 let isMobile;
 enquireScreen((b) => {
@@ -55,6 +56,7 @@ class App extends Component {
           <Route path="*" element={<Home />} />
           <Route path="/Service" element={<Service />} />
           <Route path="/About" element={<Home />} />
+          <Route path="/Access" element={<Login />} />
         </Routes>
 
         <Footer

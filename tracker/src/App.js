@@ -11,6 +11,8 @@ import Header3 from './Home/Nav';
 import Footer from './Home/Footer1';
 import Service from './Service';
 import Login from './Login/Login';
+import Dashboard from './Consumer/Dashboard';
+
 
 let isMobile;
 enquireScreen((b) => {
@@ -57,6 +59,7 @@ class App extends Component {
           <Route path="/Service" element={<Service />} />
           <Route path="/About" element={<Home />} />
           <Route path="/Access" element={<Login />} />
+          <Route path="/d" element={<Dashboard />} />
         </Routes>
 
         <Footer

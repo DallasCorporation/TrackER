@@ -4,18 +4,6 @@ import Chart from "./Chart";
 import LineKpiChart from "./Charts/LineKpiChart";
 import GlobalMap from "./GlobalMap";
 
-const { Countdown } = Statistic;
-const deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30;
-
-function onFinish() {
-  console.log('finished!');
-}
-
-function onChange(val) {
-  if (4.95 * 1000 < val && val < 5 * 1000) {
-    console.log('changed!');
-  }
-}
 
 const Dashboard = () => {
   return (
@@ -29,22 +17,22 @@ const Dashboard = () => {
     >
       <Row justify="space-between" gutter={[16, 16]}>
         <Col span={18}>
-          <Card title="Card title" bordered={false} >
+          <Card title="Global Load Profile" bordered={false} >
             <Row>
               <Col span={6}>
-                <Countdown title="Countdown" value={deadline} onFinish={onFinish} />
+                <Statistic title="Electric KPI" value={1111} suffix="Kwh"/>
               </Col>
               <Col span={6}>
-                <Countdown title="Million Seconds" value={deadline} format="HH:mm:ss:SSS" />
+                <Statistic title="Energy Production" value={0}  />
               </Col>
               <Col span={6}>
-                <Countdown title="Day Level" value={deadline} />
+                <Statistic title="Gas KPI" value={111}  suffix="Sm3"/>
               </Col>
               <Col span={6}>
-                <Countdown title="Countdown" value={Date.now() + 10 * 1000} onChange={onChange} />
+                <Statistic title="Total Cost" value={2000} prefix="$" />
               </Col>
             </Row>
-            <GlobalMap style={{marginTop:"22px"}}/>
+            <GlobalMap/>
           </Card>
         </Col>
         <Col span={6}>

@@ -8,13 +8,11 @@ import RingKpi from "./Charts/RingKpi";
 import GlobalMap from "./GlobalMap";
 import MapKpi from "./Kpi/MapKpi";
 
-
 const Dashboard = () => {
   return (
     <Layout
       className="site-layout-background"
       style={{
-        margin: '24px 16px',
         padding: 24,
         minHeight: 280,
       }}
@@ -76,9 +74,6 @@ const Dashboard = () => {
                 />
               </Col>
             </Row>
-
-
-
           </Card>
         </Col>
         <Col span={7}>

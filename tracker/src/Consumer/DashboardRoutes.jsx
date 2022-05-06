@@ -4,10 +4,12 @@ import {
     DesktopOutlined,
     PieChartOutlined,
     FileOutlined,
+    UserOutlined,
 } from '@ant-design/icons';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Dashboard from './Dashboard'
+import Account from './Account/Account';
 // import "./Dashboard.less"
 const { Header, Sider } = Layout;
 function getItem(label, key, icon, children) {
@@ -23,7 +25,7 @@ const items = [
     getItem('Dashboard', 'dashboard', <PieChartOutlined />),
     getItem('My buildings', 'buildings', <DesktopOutlined />),
     // getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-    getItem('Account', 'account', <FileOutlined />),
+    getItem('Account', 'account', <UserOutlined />),
 ];
 
 const DashboardRoute = () => {
@@ -42,7 +44,7 @@ const DashboardRoute = () => {
                 <div className="logo" style={{ color: "white" }} >LOGO</div>
                 <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']} items={[]} />
             </Header>
-            <Layout>
+            <Layout hasSider>
                 <Sider theme="light" collapsible collapsed={collapsed} onCollapse={onCollapse}>
                     <Menu theme="light" defaultSelectedKeys={['1']} mode="inline" items={items} onSelect={(e) => { navigate(e.key, { replace: true }); }} />
                 </Sider>
@@ -51,7 +53,7 @@ const DashboardRoute = () => {
                         <Route path="*" element={<Dashboard />} />
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/buildings" element={<Dashboard />} />
-                        <Route path="/account" element={<Dashboard />} />
+                        <Route path="/account" element={<Account />} />
                     </Routes>
                 </Layout>
             </Layout>

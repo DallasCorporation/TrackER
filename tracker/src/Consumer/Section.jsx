@@ -1,7 +1,7 @@
 import { Card, Layout, PageHeader, Row } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
 
-const Dashboard = () => {
+const Section = () => {
 
     return (
         <Layout style={{ height: "100vh" }}>
@@ -23,4 +23,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default Section;

@@ -11,7 +11,7 @@ import Header3 from './Home/Nav';
 import Footer from './Home/Footer1';
 import Service from './Service';
 import Login from './Login/Login';
-import Dashboard from './Consumer/Dashboard';
+import DashboardRoutes from './Consumer/DashboardRoutes';
 
 
 let isMobile;
@@ -27,6 +27,7 @@ class App extends Component {
     this.state = {
       isMobile,
       show: !location.port,
+      logged: false
     };
   }
 
@@ -45,30 +46,32 @@ class App extends Component {
 
   render() {
     return (
-      this.state.show && 
-      <BrowserRouter>
-        <Header3
-          id="Nav3_0"
-          key="Nav3_0"
-          dataSource={Nav30DataSource}
-          isMobile={this.state.isMobile}
-        />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="*" element={<Home />} />
-          <Route path="/Service" element={<Service />} />
-          <Route path="/About" element={<Home />} />
-          <Route path="/Access" element={<Login />} />
-          <Route path="/d" element={<Dashboard />} />
-        </Routes>
+      this.state.show && !this.state.logged ?
+        <BrowserRouter>
+          <DashboardRoutes />
+        </BrowserRouter> :
+        <BrowserRouter>
+          <Header3
+            id="Nav3_0"
+            key="Nav3_0"
+            dataSource={Nav30DataSource}
+            isMobile={this.state.isMobile}
+          />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="*" element={<Home />} />
+            <Route path="/Service" element={<Service />} />
+            <Route path="/About" element={<Home />} />
+            <Route path="/Access" element={<Login />} />
+          </Routes>
 
-        <Footer
-          id="Footer1_0"
-          key="Footer1_0"
-          dataSource={Footer10DataSource}
-          isMobile={this.state.isMobile}
-        />
-      </BrowserRouter>
+          <Footer
+            id="Footer1_0"
+            key="Footer1_0"
+            dataSource={Footer10DataSource}
+            isMobile={this.state.isMobile}
+          />
+        </BrowserRouter>
     );
   }
 }

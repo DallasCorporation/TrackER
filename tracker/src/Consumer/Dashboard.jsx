@@ -1,75 +1,68 @@
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Card, Col, Layout, Row, Statistic } from "antd";
 import React from "react";
-import {
-  DesktopOutlined,
-  PieChartOutlined,
-  FileOutlined,
-  TeamOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
+import Chart from "./Chart";
+import LineKpiChart from "./Charts/LineKpiChart";
+import GlobalMap from "./GlobalMap";
 
-const { Header, Content, Footer, Sider } = Layout;
-function getItem(label, key, icon, children) {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  };
+const { Countdown } = Statistic;
+const deadline = Date.now() + 1000 * 60 * 60 * 24 * 2 + 1000 * 30;
+
+function onFinish() {
+  console.log('finished!');
 }
 
-const items = [
-  getItem('Quick View', '1', <PieChartOutlined />),
-  getItem('My buildings', '2', <DesktopOutlined />),
-  // getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-  getItem('Files', '9', <FileOutlined />),
-];
-
-class Dashboard extends React.Component {
-  state = {
-    collapsed: false,
-  };
-  onCollapse = (collapsed) => {
-    console.log(collapsed);
-    this.setState({
-      collapsed,
-    });
-  };
-
-  navigate=()=>{
-
-  }
-
-  render() {
-    const { collapsed } = this.state;
-    return (
-      <Layout
-        style={{
-          minHeight: '100vh',
-        }}
-      >
-        <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
-          <div className="logo" />
-          <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} onClick={this.navigate} />
-        </Sider>
-        <Layout className="site-layout">
-          <Header
-            className="site-layout-background"
-            style={{
-              padding: 0,
-            }}
-          />
-          <Content
-            style={{
-              margin: '0 16px',
-            }}
-          >
-            
-          </Content>
-        </Layout>
-      </Layout>
-    );
+function onChange(val) {
+  if (4.95 * 1000 < val && val < 5 * 1000) {
+    console.log('changed!');
   }
 }
 
-export default () => <Dashboard />;
+const Dashboard = () => {
+  return (
+    <Layout
+      className="site-layout-background"
+      style={{
+        margin: '24px 16px',
+        padding: 24,
+        minHeight: 280,
+      }}
+    >
+      <Row justify="space-between" gutter={[16, 16]}>
+        <Col span={18}>
+          <Card title="Card title" bordered={false} >
+            <Row>
+              <Col span={6}>
+                <Countdown title="Countdown" value={deadline} onFinish={onFinish} />
+              </Col>
+              <Col span={6}>
+                <Countdown title="Million Seconds" value={deadline} format="HH:mm:ss:SSS" />
+              </Col>
+              <Col span={6}>
+                <Countdown title="Day Level" value={deadline} />
+              </Col>
+              <Col span={6}>
+                <Countdown title="Countdown" value={Date.now() + 10 * 1000} onChange={onChange} />
+              </Col>
+            </Row>
+            <GlobalMap style={{marginTop:"22px"}}/>
+          </Card>
+        </Col>
+        <Col span={6}>
+          <Row justify="space-between" gutter={[16, 16]}>
+            <Col span={24}>
+              <Card title="Card title" bordered={false} >
+                <LineKpiChart />
+              </Card>
+            </Col>
+            <Col span={24}>
+              <Card title="Efficiency" bordered={false} >
+                <Chart />
+              </Card>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+    </Layout>
+  );
+}
+export default () => <Dashboard />

@@ -1,5 +1,7 @@
-import { UserOutlined } from "@ant-design/icons"
-import { Avatar, Card, Col, Layout, Row } from "antd"
+
+import { Col, Layout, Row } from "antd"
+import AccountInfo from "./AccountInfo"
+import AccountTab from "./AccountTab"
 
 const Account = () => {
     return (
@@ -10,16 +12,14 @@ const Account = () => {
                 minHeight: 280,
             }}
         >
-            <Col span={6}>
-
-                <Card>
-                    <Row justify="center">
-
-                        <Avatar size={64} icon={<UserOutlined />} />
-                        <Col span={24} style={{textAlign:"center"}}>Username</Col>
-                    </Row>
-                </Card>
-            </Col>
+            <Row gutter={[16, 16]}>
+                <Col span={6}>
+                    <AccountInfo />
+                </Col>
+                <Col span={18}>
+                    <AccountTab />
+                </Col>
+            </Row>
         </Layout>
     )
 }

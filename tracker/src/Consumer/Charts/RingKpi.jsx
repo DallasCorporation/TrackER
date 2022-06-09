@@ -1,8 +1,14 @@
 import React from 'react';
 import { RingProgress } from '@ant-design/plots';
 
-const RingKpi = ({color, value=0.60, label=""}) => {
+const RingKpi = ({ color, value = 0.60, label = "" }) => {
     const config = {
+        animation: {
+            appear: {
+                animation: 'wave-in',
+                duration: 3000,
+            },
+        },
         height: 120,
         width: 120,
         autoFit: false,

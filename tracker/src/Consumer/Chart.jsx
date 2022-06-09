@@ -3,6 +3,12 @@ import { Gauge } from '@ant-design/plots';
 
 const Chart = () => {
     const config = {
+        animation: {
+            appear: {
+                animation: 'path-in',
+                duration: 3000,
+            },
+        },
         percent: 0.20,
         range: {
             ticks: [0, 1 / 3, 2 / 3, 1],

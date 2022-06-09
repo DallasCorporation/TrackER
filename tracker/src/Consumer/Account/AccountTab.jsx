@@ -1,7 +1,13 @@
 import { Card, Col, Tabs } from 'antd';
-import { AppleOutlined, AndroidOutlined } from '@ant-design/icons';
+import { AppleOutlined, AndroidOutlined, createFromIconfontCN } from '@ant-design/icons';
 import Market from './AccountSections/Market';
 const { TabPane } = Tabs;
+
+
+const IconFont = createFromIconfontCN({
+    scriptUrl: '//at.alicdn.com/t/font_3378177_a38j8mygyq9.js',
+});
+
 const AccountTab = () => {
     return (
         <Card>
@@ -10,9 +16,10 @@ const AccountTab = () => {
                     <TabPane
                         tab={
                             <span>
-                                <AppleOutlined />
+                               <IconFont type='i-a-EnergyResources' style={{fontSize:"1.6em"}}/>
                                 Market
                             </span>
+                          
                         }
                         key="1"
                     >
@@ -21,24 +28,13 @@ const AccountTab = () => {
                     <TabPane
                         tab={
                             <span>
-                                <AndroidOutlined />
+                               <IconFont type='i-news' style={{fontSize:"1.2em"}}/>
                                 Announcements
                             </span>
                         }
                         key="2"
                     >
                         Content2
-                    </TabPane>
-                    <TabPane
-                        tab={
-                            <span>
-                                <AndroidOutlined />
-                                Announcements
-                            </span>
-                        }
-                        key="3"
-                    >
-                        Content3
                     </TabPane>
                 </Tabs>
             </Col>

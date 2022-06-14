@@ -10,16 +10,17 @@ const IconFont = createFromIconfontCN({
 
 const AccountTab = () => {
     return (
-        <Card>
+        <Card style={{ borderRadius: "20px", boxShadow: "1px 1px 8px 1px rgba(0,0,0,0.25)", }} >
             <Col span={24}>
                 <Tabs type='card' defaultActiveKey="2" tabPosition='top' size='large' tabBarGutter={10}>
                     <TabPane
+
                         tab={
                             <span>
-                               <IconFont type='i-a-EnergyResources' style={{fontSize:"1.6em"}}/>
+                                <IconFont type='i-a-EnergyResources' style={{ fontSize: "1.6em" }} />
                                 Market
                             </span>
-                          
+
                         }
                         key="1"
                     >
@@ -28,7 +29,7 @@ const AccountTab = () => {
                     <TabPane
                         tab={
                             <span>
-                               <IconFont type='i-news' style={{fontSize:"1.2em"}}/>
+                                <IconFont type='i-news' style={{ fontSize: "1.2em" }} />
                                 Announcements
                             </span>
                         }

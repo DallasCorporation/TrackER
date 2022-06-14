@@ -1,4 +1,4 @@
-import { Card, Avatar, Col, Row, Tooltip } from 'antd';
+import { Card, Avatar, Col, Row, Tooltip, Layout } from 'antd';
 
 const { Meta } = Card;
 
@@ -9,19 +9,19 @@ const obj = [
         description: "Vendor description",
         time: "A few moments ago"
 
-    },  {
+    }, {
         src: "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png",
         title: "Vendor Service",
         description: "Vendor description",
         time: "A few moments ago"
 
-    },  {
+    }, {
         src: "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png",
         title: "Vendor Service",
         description: "Vendor description",
         time: "A few moments ago"
 
-    },  {
+    }, {
         src: "https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png",
         title: "Vendor Service",
         description: "Vendor description",
@@ -33,8 +33,8 @@ const obj = [
 const renderFooter = (time) => {
     return (
         <Row justify='space-between' gutter={[48, 0]} style={{ marginTop: "22px", }}>
-            <Col flex> 
-                <p style={{ justifyContent: 'center', fontSize: "12px", marginTop:"6px"}}>{time}</p>
+            <Col flex>
+                <p style={{ justifyContent: 'center', fontSize: "12px", marginTop: "6px" }}>{time}</p>
             </Col>
             <Col flex >
                 < Avatar.Group >
@@ -63,17 +63,15 @@ const renderFooter = (time) => {
 
 
 const Market = () => (
-    <Row justify="space-between" gutter={[16, 24]}>
+    <Row justify="space-between" gutter={[16, 24]} style={{ overflow: "auto", height:"80vh" }}>
         {obj.map(el =>
             <Col span={12}>
                 <Card
+                    headStyle={{ borderRadius: "20px" }}
+                    style={{ borderRadius: "20px" }}
+                    bodyStyle={{ borderRadius: "20px" }}
                     hoverable
-                    cover={
-                        <img
-                            alt="example"
-                            src={el.src}
-                        />
-                    }
+                    cover={<img alt="example" src={el.src} style={{ borderTopLeftRadius: "20px", borderTopRightRadius: "20px" }} />}
                 >
                     <Meta
                         title={el.title}

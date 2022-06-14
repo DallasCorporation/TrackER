@@ -1,4 +1,4 @@
-import { Affix, Button, Layout, Menu, Row } from 'antd';
+import { Affix, Avatar, Button, Descriptions, Layout, Menu, Result, Row, Space, Statistic } from 'antd';
 import React from "react";
 import {
     DesktopOutlined,
@@ -8,6 +8,9 @@ import {
     RightOutlined,
     LeftOutlined,
     SettingOutlined,
+    createFromIconfontCN,
+    LikeOutlined,
+    SmileOutlined,
 } from '@ant-design/icons';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
@@ -15,7 +18,11 @@ import Dashboard from './Dashboard'
 import Account from './Account/Account';
 import BuildingsTab from './Building/BuildingsTab';
 import "./Dashboard.less"
-const { Sider } = Layout;
+import { PageContainer, ProLayout } from '@ant-design/pro-components';
+const IconFont = createFromIconfontCN({
+    scriptUrl: '//at.alicdn.com/t/font_3378177_a38j8mygyq9.js',
+});
+
 function getItem(label, key, icon, children) {
     return {
         key,
@@ -24,53 +31,107 @@ function getItem(label, key, icon, children) {
         label,
     };
 }
-
 const items = [
-    getItem('Dashboard', 'dashboard', <PieChartOutlined  style={{fontSize:"20px"}}/>),
-    getItem('Buildings', 'buildings', <DesktopOutlined    style={{fontSize:"20px"}}/>),
-    getItem('Account', 'account', <UserOutlined   style={{fontSize:"20px"}}/>),
+    getItem('Dashboard', 'dashboard', <PieChartOutlined style={{ fontSize: "20px" }} />),
+    getItem('Buildings', 'buildings', <DesktopOutlined style={{ fontSize: "20px" }} />),
+    getItem('Account', 'account', <UserOutlined style={{ fontSize: "20px" }} />),
+    getItem('Market', 'market', <IconFont type='i-a-EnergyResources' style={{ fontSize: "38px", textAlign: "center", marginLeft: "-10px" }} />)
 ];
 const items2 = [
-    getItem('Settings', 'settings',  <SettingOutlined   style={{fontSize:"20px"}}/>),
+    getItem('Settings', 'settings', <SettingOutlined style={{ fontSize: "20px" }} />),
 ];
 
 const DashboardRoute = () => {
-    const [collapsed, setCollapsed] = useState(true)
-    const onCollapse = (collapsed) => {
-        setCollapsed(collapsed)
-    };
     let navigate = useNavigate();
+    let defaultProps = {
+        route: {
+            path: '/',
+            routes: [
+                {
+                    path: '/Dashboard',
+                    name: 'Dashboard',
+                    icon: <SmileOutlined />,
+                    component: './Dashboard',
+                },
+                {
+                    path: '/Account',
+                    name: 'Account',
+                    icon: <SmileOutlined />,
+                    component: './Dashboard',
+                },
+            ],
+        },
+        location: {
+            pathname: '/',
+        },
+    };
+    const [settings, setSetting] = useState({ fixSiderbar: true });
+    const [pathname, setPathname] = useState('/Dashboard');
     return (
-        <div>
-            <Layout
-                style={{
-                    minHeight: '100vh',
-                }}
-            >
-                <Affix style={{ position: "absolute", top: 150, left: collapsed? 80:140, zIndex: 2}}>
-                    <Button size='small' shape='circle' icon={collapsed ? <RightOutlined style={{ fontSize: "10px" }} /> : <LeftOutlined style={{ fontSize: "10px" }} />}
-                        onClick={()=>onCollapse(!collapsed)}
-                    />
-                </Affix>
-                <Layout hasSider style={{ margin: "10px 0px 10px 10px", }}>
-                    <Sider theme="light" trigger={null} collapsible collapsed={collapsed} onCollapse={onCollapse} style={{ borderRadius: "20px", overflow: "hidden", boxShadow: "1px 1px 5px 2px rgba(111,106,249,0.25)", verticalAlign: "middle", backgroundColor: "#6f6af9", }} width={145}>
-                        <p>Icon</p>
-                        <Row style={{ minHeight: "80vh", justifyContent: 'center', alignItems: 'center', backgroundColor: "#6f6af9" }} >
-                            <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} onSelect={(e) => { navigate(e.key, { replace: true }); }} style={{ backgroundColor: "#6f6af9" }} />
-                        </Row>
-                        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items2} onSelect={(e) => { navigate(e.key, { replace: true }); }} style={{ backgroundColor: "#6f6af9" }} />
-                    </Sider>
-                    <Layout className="site-layout" style={{ padding: 10 }}>
-                        <Routes>
-                            <Route path="*" element={<Dashboard />} />
-                            <Route path="/dashboard" element={<Dashboard />} />
-                            <Route path="/buildings" element={<BuildingsTab />} />
-                            <Route path="/account" element={<Account />} />
-                        </Routes>
-                    </Layout>
-                </Layout>
-            </Layout >
-        </div>
+        <ProLayout
+            // logo={<p></p>}
+            title="TrackER"
+            {...defaultProps}
+            location={{
+                pathname,
+            }}
+            navTheme="light"
+            waterMarkProps={{
+                content: 'TrackER',
+            }}
+            menuFooterRender={(props) => {
+                return (
+                    <a
+                        style={{
+                            lineHeight: '48rpx',
+                            display: 'flex',
+                            height: 48,
+                            color: 'rgba(255, 255, 255, 0.65)',
+                            alignItems: 'center',
+                        }}
+                        href="https://preview.pro.ant.design/dashboard/analysis"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        <img
+                            alt="pro-logo"
+                            src="https://procomponents.ant.design/favicon.ico"
+                            style={{
+                                width: 16,
+                                height: 16,
+                                margin: '0 16px',
+                                marginRight: 10,
+                            }}
+                        />
+                        {!props?.collapsed && 'Preview Pro'}
+                    </a>
+                );
+            }}
+            menuItemRender={(item, dom) => (
+                <a
+                    onClick={() => {
+                        setPathname(item.path || '/Dashboard');
+                        navigate(item.path, { replace: true });
+                    }}
+                >
+                    {dom}
+                </a>
+            )}
+            rightContentRender={() => (
+                <div>
+
+                    <Avatar shape="square" size="small" icon={<UserOutlined />} />
+                </div>
+            )}
+            {...settings}
+        >
+            <Routes>
+                <Route path="*" element={<Dashboard />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/buildings" element={<BuildingsTab />} />
+                <Route path="/account" element={<Account />} />
+            </Routes>
+        </ProLayout>
     );
 }
 

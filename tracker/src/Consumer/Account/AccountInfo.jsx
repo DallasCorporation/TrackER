@@ -14,7 +14,7 @@ font-size: 16px;
 `
 const AccountInfo = () => {
     return (
-        <Card>
+        <Card style={{borderRadius:"20px", boxShadow:"1px 1px 8px 1px rgba(0,0,0,0.25)", minHeight:"80vh"}}>
             <Row justify="center">
                 <Avatar size={104} src="https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png" />
                 <Col span={24} style={{ textAlign: "center" }}>

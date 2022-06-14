@@ -8,8 +8,8 @@ const Account = () => {
         <Layout
             className="site-layout-background"
             style={{
-                padding: 24,
-                minHeight: 280,
+                paddingLeft: 24,
+                paddingRight: 24,
             }}
         >
             <Row gutter={[16, 16]}>

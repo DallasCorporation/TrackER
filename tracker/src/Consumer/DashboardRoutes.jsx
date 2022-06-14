@@ -72,11 +72,6 @@ const DashboardRoute = () => {
                         },
                     ],
                 },
-                {
-                    name: '管理页',
-                    access: 'canAdmin',
-                    component: './Admin',
-                },
             ],
         },
         location: {

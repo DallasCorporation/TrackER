@@ -1,15 +1,6 @@
-import { Affix, Avatar, Button, Descriptions, Layout, Menu, Result, Row, Space, Statistic } from 'antd';
 import React from "react";
 import {
-    DesktopOutlined,
-    PieChartOutlined,
-    FileOutlined,
-    UserOutlined,
-    RightOutlined,
-    LeftOutlined,
-    SettingOutlined,
     createFromIconfontCN,
-    LikeOutlined,
     SmileOutlined,
 } from '@ant-design/icons';
 import { Route, Routes, useNavigate } from 'react-router-dom';
@@ -18,28 +9,10 @@ import Dashboard from './Dashboard'
 import Account from './Account/Account';
 import BuildingsTab from './Building/BuildingsTab';
 import "./Dashboard.less"
-import { PageContainer, ProLayout } from '@ant-design/pro-components';
+import { ProLayout } from '@ant-design/pro-components';
 const IconFont = createFromIconfontCN({
     scriptUrl: '//at.alicdn.com/t/font_3378177_a38j8mygyq9.js',
 });
-
-function getItem(label, key, icon, children) {
-    return {
-        key,
-        icon,
-        children,
-        label,
-    };
-}
-const items = [
-    getItem('Dashboard', 'dashboard', <PieChartOutlined style={{ fontSize: "20px" }} />),
-    getItem('Buildings', 'buildings', <DesktopOutlined style={{ fontSize: "20px" }} />),
-    getItem('Account', 'account', <UserOutlined style={{ fontSize: "20px" }} />),
-    getItem('Market', 'market', <IconFont type='i-a-EnergyResources' style={{ fontSize: "38px", textAlign: "center", marginLeft: "-10px" }} />)
-];
-const items2 = [
-    getItem('Settings', 'settings', <SettingOutlined style={{ fontSize: "20px" }} />),
-];
 
 const DashboardRoute = () => {
     let navigate = useNavigate();
@@ -51,13 +24,58 @@ const DashboardRoute = () => {
                     path: '/Dashboard',
                     name: 'Dashboard',
                     icon: <SmileOutlined />,
-                    component: './Dashboard',
+                },
+                {
+                    path: '/Buildings',
+                    name: 'Buildings',
+                    icon: <SmileOutlined />,
+                },
+                {
+                    path: '/Invoices',
+                    name: 'Invoices',
+                    icon: <SmileOutlined />,
+                    routes: [
+                        {
+                            path: '/Invoices/week',
+                            name: 'Weekly',
+                        },
+                        {
+                            path: '/Invoices/month',
+                            name: 'Monthly',
+                        },
+                        {
+                            path: '/Invoices/year',
+                            name: 'Yearly',
+                        },
+                    ],
                 },
                 {
                     path: '/Account',
-                    name: 'Account',
+                    name: 'Profile',
                     icon: <SmileOutlined />,
-                    component: './Dashboard',
+                    routes: [
+                        {
+                            path: '/Profile/Edit',
+                            name: 'Personal Information',
+                        },
+                        {
+                            path: '/Profile/Notification',
+                            name: 'Notification',
+                        },
+                        {
+                            path: '/Profile/Security',
+                            name: 'Security Settings',
+                        },
+                        {
+                            path: '/Profile/Password',
+                            name: 'Change Password',
+                        },
+                    ],
+                },
+                {
+                    name: '管理页',
+                    access: 'canAdmin',
+                    component: './Admin',
                 },
             ],
         },
@@ -70,11 +88,10 @@ const DashboardRoute = () => {
     return (
         <ProLayout
             //logo={<p></p>}
+
             title="TrackER"
             {...defaultProps}
-            location={{
-                pathname,
-            }}
+            location={{ pathname, }}
             navTheme="light"
             waterMarkProps={{
                 content: 'TrackER',
@@ -117,7 +134,7 @@ const DashboardRoute = () => {
                     {dom}
                 </a>
             )}
-           
+
             {...settings}
         >
             <Routes>

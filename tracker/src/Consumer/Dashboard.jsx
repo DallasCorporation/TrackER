@@ -1,8 +1,12 @@
 import { DesktopOutlined, EditOutlined, EyeOutlined, MoreOutlined, } from "@ant-design/icons";
-import { Card, Col, Dropdown, Layout, Menu, Row, } from "antd";
+import { ProCard } from "@ant-design/pro-components";
+import { Card, Col, DatePicker, Dropdown, Layout, Menu, Row, } from "antd";
+import { Button } from "antd/lib/radio";
 import React from "react";
 import styled from "styled-components";
-
+import BannerCard from "./DashboardCards/BannerCard";
+import ReactApexChart from "react-apexcharts";
+import LineCard from "./DashboardCards/LineCard";
 
 
 const menu = (
@@ -63,6 +67,21 @@ const Dashboard = () => {
         minHeight: 280,
       }}
     >
+      <h3 style={{ fontFamily: "Manrope,sanserif", color: "#2d3436" }}>Welcome back, Edward 👋</h3>
+      <p style={{ color: "#636e72", fontFamily: "Manrope,sanserif" }}>template p</p>
+      <Row gutter={[32, 32]}>
+        <Col span={16}>
+          <Row gutter={[0, 32]}>
+            <BannerCard name="Get exclusive discounts for any payment method" />
+            <LineCard />
+          </Row>
+        </Col>
+        <Col span={8}>
+          <ProCard colSpan={12} bordered title="Get exclusive discounts for any payment method" extra="extra" tooltip="tooltip" >
+            <div>by upgrading your plan to premium</div>
+          </ProCard>
+        </Col>
+      </Row>
     </Layout>
   );
 }

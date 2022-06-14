@@ -2,7 +2,8 @@ import { Button, Col, DatePicker, Row } from "antd";
 import { ProCard } from "@ant-design/pro-components";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
-
+import locale from 'antd/es/date-picker/locale/it_IT'
+import { CardTitle } from "../../Components/CustomComponents";
 const LineCard = () => {
     let state = {
         series: [{
@@ -47,10 +48,12 @@ const LineCard = () => {
         <ProCard colSpan={12} bordered style={{ borderRadius: "10px" }}>
             <Row justify="space-between" align="middle" >
                 <Col>
-                    <h4>Visit</h4>
+                    <CardTitle>
+                        Visit
+                    </CardTitle>
                 </Col>
                 <Col>
-                    <DatePicker placeholder="Choose"></DatePicker>
+                    <DatePicker placeholder="Choose" picker="month" locale={locale} />
                 </Col>
             </Row>
             <ReactApexChart options={state.options} series={state.series} type="area" height={350} />

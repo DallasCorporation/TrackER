@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { enquireScreen } from 'enquire-js';
 import Home from './Home';
+import "./index.css"
 
 import {
   Nav30DataSource,

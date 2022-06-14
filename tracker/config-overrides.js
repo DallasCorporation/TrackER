@@ -12,7 +12,8 @@ module.exports = override(
       lessOptions: {
         javascriptEnabled: true,
         modifyVars: {
-          '@primary-color': '#185596',
+          '@primary-color': '#0010f7',
+          '@font-family':"Manrope,sanserif"
         }
       }
     }

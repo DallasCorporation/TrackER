@@ -69,7 +69,7 @@ const DashboardRoute = () => {
     const [pathname, setPathname] = useState('/Dashboard');
     return (
         <ProLayout
-            // logo={<p></p>}
+            //logo={<p></p>}
             title="TrackER"
             {...defaultProps}
             location={{
@@ -83,7 +83,7 @@ const DashboardRoute = () => {
                 return (
                     <a
                         style={{
-                            lineHeight: '48rpx',
+                            lineHeight: '48px',
                             display: 'flex',
                             height: 48,
                             color: 'rgba(255, 255, 255, 0.65)',
@@ -117,12 +117,7 @@ const DashboardRoute = () => {
                     {dom}
                 </a>
             )}
-            rightContentRender={() => (
-                <div>
-
-                    <Avatar shape="square" size="small" icon={<UserOutlined />} />
-                </div>
-            )}
+           
             {...settings}
         >
             <Routes>

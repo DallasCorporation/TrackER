@@ -67,7 +67,7 @@ const Dashboard = () => {
         minHeight: 280,
       }}
     >
-      <h3 style={{ fontFamily: "Manrope,sanserif", color: "#2d3436" }}>Welcome back, Edward 👋</h3>
+      <h1 style={{  fontSize:"24px", }}>Welcome back, Edward 👋</h1>
       <p style={{ color: "#636e72", fontFamily: "Manrope,sanserif" }}>template p</p>
       <Row gutter={[32, 32]}>
         <Col span={16}>

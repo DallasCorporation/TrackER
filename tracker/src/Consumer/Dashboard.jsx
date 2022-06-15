@@ -14,6 +14,7 @@ import i4 from './icon/i4.svg';
 import i5 from './icon/i5.svg';
 import i6 from './icon/i6.svg';
 import { ArrowRightOutlined } from "@ant-design/icons";
+import TableCard from "./DashboardCards/TableCard";
 
 const Dashboard = () => {
 
@@ -61,7 +62,7 @@ const Dashboard = () => {
           </Row>
 
           <Row style={{ marginTop: "32px" }}>
-            <ProCard colSpan={12} bordered style={{
+            <ProCard bordered style={{
               borderRadius: "10px"
             }}>
               <Row justify="space-between" align="middle" >
@@ -89,7 +90,7 @@ const Dashboard = () => {
           </Row>
 
           <Row style={{ marginTop: "32px" }}>
-            <ProCard colSpan={12} bordered style={{
+            <ProCard bordered style={{
               borderRadius: "10px"
             }}>
               <Row justify="space-between" align="middle" >
@@ -99,14 +100,17 @@ const Dashboard = () => {
                     <p>This month</p>
                     <p>$6.340.42</p>
                   </div>
-
                 </Col>
-                <Col flex>
+                <Col>
                   <ReactApexChart options={stacked.options} series={stacked.series} type="bar" height={125} width={1000} />
                 </Col>
 
+
               </Row>
             </ProCard>
+          </Row>
+          <Row style={{ marginTop: "32px" }}>
+            <TableCard />
           </Row>
 
         </Col>

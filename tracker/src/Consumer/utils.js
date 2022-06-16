@@ -1,7 +1,7 @@
 import ApexCharts from 'apexcharts';
 export const statebar = {
     series: [{
-        name: 'Inflation',
+        name: 'Something',
         data: [2.3, 3.1, 4.0, 2.8]
     }],
     options: {
@@ -9,27 +9,25 @@ export const statebar = {
             show: false
         },
         chart: {
-            height: 150,
+            animations: {
+                enabled: true,
+                easing: "easein",
+                dynamicAnimation: {
+                    speed: 1000
+                }
+            },
             type: 'bar',
             toolbar: { show: false }
         },
         plotOptions: {
             bar: {
                 dataLabels: {
-                    position: 'top', // top, center, bottom
+                    position: 'top',
                 },
             }
         },
         dataLabels: {
             enabled: false,
-            formatter: function(val) {
-                return val + "%";
-            },
-            offsetY: -20,
-            style: {
-                fontSize: '12px',
-                colors: ["#304758"]
-            }
         },
         xaxis: {
             labels: {
@@ -43,7 +41,6 @@ export const statebar = {
             axisTicks: {
                 show: false
             },
-            crosshairs: {},
             tooltip: {
                 enabled: false,
             }
@@ -57,43 +54,26 @@ export const statebar = {
             },
             labels: {
                 show: false,
-                formatter: function(val) {
-                    return val + "%";
-                }
             }
-
         },
-        title: {
-            floating: true,
-            align: 'center'
-        }
     },
-
-
 };
 
 export const stateradial = {
-
     series: [40],
     options: {
         chart: {
-            height: 350,
             type: 'radialBar',
         },
         plotOptions: {
             radialBar: {
                 hollow: {
-                    margin: 15,
                     size: "70%"
                 },
-
                 dataLabels: {
                     showOn: "always",
                     name: {
-                        offsetY: -10,
                         show: false,
-                        color: "#888",
-                        fontSize: "13px"
                     },
                     value: {
                         color: "#111",
@@ -104,8 +84,6 @@ export const stateradial = {
             }
         },
     },
-
-
 };
 
 export const stacked = {
@@ -120,6 +98,7 @@ export const stacked = {
         data: [31]
     }],
     options: {
+        colors: ['#26f8c9', '#1be7ff', '#022cf7', ],
         grid: {
             show: false
         },
@@ -159,21 +138,20 @@ export const stacked = {
             },
             labels: {
                 show: false,
-                formatter: function(val) {
+                formatter: function (val) {
                     return val + "%";
                 }
             }
         },
         tooltip: {
             y: {
-                formatter: function(val) {
+                formatter: function (val) {
                     return val + "K"
                 }
             }
         },
         fill: {
             opacity: 1
-
         },
         legend: {
             position: 'left',

@@ -20,6 +20,15 @@ const LineCard = () => {
                 align: "right"
             },
             chart: {
+                animations: {
+                    enabled: true,
+                    easing: 'easein',
+                    speed: 800,
+                    animateGradually: {
+                        enabled: true,
+                        delay: 150
+                    },
+                },
                 toolbar: { show: false },
                 height: 350,
                 type: 'area'

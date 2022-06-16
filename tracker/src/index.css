@@ -41,3 +41,7 @@ h6,
     font-variant: "tabular-nums";
     font-feature-settings: "tnum"
 }
+
+.ant-pro-basicLayout .ant-layout-header.ant-pro-header-light {
+    background-color: #f0f2f5 !important;
+}

@@ -2,7 +2,6 @@ import { Col, Row } from "antd";
 import { ProCard } from "@ant-design/pro-components";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
-import { CardTitle } from "../../Components/CustomComponents";
 import { stacked } from "../utils";
 const EarningsCard = ({...props}) => {
     return (

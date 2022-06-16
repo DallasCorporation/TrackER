@@ -1,6 +1,7 @@
 import React from "react";
 import {
     createFromIconfontCN,
+    GithubOutlined,
     SmileOutlined,
 } from '@ant-design/icons';
 import { Route, Routes, useNavigate } from 'react-router-dom';
@@ -9,7 +10,8 @@ import Dashboard from './Dashboard'
 import Account from './Account/Account';
 import BuildingsTab from './Building/BuildingsTab';
 import "./Dashboard.less"
-import { ProLayout } from '@ant-design/pro-components';
+import { DefaultFooter, ProLayout } from '@ant-design/pro-components';
+import { Row } from "antd";
 const IconFont = createFromIconfontCN({
     scriptUrl: '//at.alicdn.com/t/font_3378177_a38j8mygyq9.js',
 });
@@ -50,7 +52,7 @@ const DashboardRoute = () => {
                     ],
                 },
                 {
-                    path: '/Account',
+                    path: '/Profile',
                     name: 'Profile',
                     icon: <SmileOutlined />,
                     routes: [
@@ -83,62 +85,69 @@ const DashboardRoute = () => {
     return (
         <ProLayout
             //logo={<p></p>}
-
             title="TrackER"
             {...defaultProps}
             location={{ pathname, }}
             navTheme="light"
+            menu={{ defaultOpenAll: true }}
             waterMarkProps={{
                 content: 'TrackER',
             }}
+            headerRender={() =>
+                <Row justify="center" style={{ marginTop: "15px", }}>
+                    <Row style={{ width: "95%", backgroundColor: "white", borderRadius: "10px", }} align="middle" justify="center">ß
+
+                    </Row>
+                </Row>
+            }
+            footerRender={() =>
+                <DefaultFooter style={{ backgroundColor: "#f7fafd", }}
+                    copyright="2022 by TrackER"
+                    links={[
+                        {
+                            key: 'github',
+                            title: <GithubOutlined />,
+                            href: 'https://github.com/DallasCorporation/TrackER',
+                            blankTarget: true,
+                        },]}
+
+                />
+            }
             menuFooterRender={(props) => {
                 return (
-                    <a
+                    <img
+                        alt="pro-logo"
+                        src="https://procomponents.ant.design/favicon.ico"
                         style={{
-                            lineHeight: '48px',
-                            display: 'flex',
-                            height: 48,
-                            color: 'rgba(255, 255, 255, 0.65)',
-                            alignItems: 'center',
+                            width: 16,
+                            height: 16,
+                            margin: '0 16px',
+                            marginRight: 10,
                         }}
-                        href="https://preview.pro.ant.design/dashboard/analysis"
-                        target="_blank"
-                        rel="noreferrer"
-                    >
-                        <img
-                            alt="pro-logo"
-                            src="https://procomponents.ant.design/favicon.ico"
-                            style={{
-                                width: 16,
-                                height: 16,
-                                margin: '0 16px',
-                                marginRight: 10,
-                            }}
-                        />
-                        {!props?.collapsed && 'Preview Pro'}
-                    </a>
+                    />
                 );
             }}
             menuItemRender={(item, dom) => (
-                <a
-                    onClick={() => {
-                        setPathname(item.path || '/Dashboard');
-                        navigate(item.path, { replace: true });
-                    }}
+                <p onClick={() => {
+                    setPathname(item.path || '/Dashboard');
+                    navigate(item.path, { replace: true });
+                }}
                 >
                     {dom}
-                </a>
+                </p>
             )}
-
             {...settings}
         >
-            <Routes>
+            <Routes >
                 <Route path="*" element={<Dashboard />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/buildings" element={<BuildingsTab />} />
-                <Route path="/account" element={<Account />} />
+                <Route path="/Profile/Edit" element={<Account updateRoute={(val) => { setPathname(val); navigate(val) }}  />} />
+                <Route path="/Profile/Notification" element={<Account updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                <Route path="/Profile/Security" element={<Account updateRoute={(val) => { setPathname(val); navigate(val) }}  />} />
+                <Route path="/Profile/Password" element={<Account updateRoute={(val) => { setPathname(val); navigate(val) }}  />} />
             </Routes>
-        </ProLayout>
+        </ProLayout >
     );
 }
 

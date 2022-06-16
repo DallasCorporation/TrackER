@@ -4,7 +4,7 @@ import BannerCard from "./DashboardCards/BannerCard";
 import ReactApexChart from "react-apexcharts";
 import LineCard from "./DashboardCards/LineCard";
 import StatsCard from "./DashboardCards/StatsCard";
-import { stacked, statebar, stateradial } from "./utils";
+import {statebar, stateradial } from "./utils";
 import ExpensiveChart from "./DashboardCards/ExpensiveChart";
 import { ProCard } from "@ant-design/pro-components";
 import i1 from './icon/i1.svg';
@@ -27,6 +27,7 @@ const Dashboard = () => {
         paddingRight: 24,
         paddingLeft: 24,
         minHeight: 280,
+        marginTop:"32px"
       }}
     >
       <h1 style={{ fontSize: "24px", }}>Welcome back, Edward 👋</h1>

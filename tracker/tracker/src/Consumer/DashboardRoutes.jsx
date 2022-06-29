@@ -1,6 +1,8 @@
 import React from "react";
 import {
+    AntDesignOutlined,
     createFromIconfontCN,
+    DownOutlined,
     GithubOutlined,
     SmileOutlined,
 } from '@ant-design/icons';
@@ -11,13 +13,16 @@ import Account from './Account/Account';
 import BuildingsTab from './Building/BuildingsTab';
 import "./Dashboard.less"
 import { DefaultFooter, ProLayout } from '@ant-design/pro-components';
-import { Row } from "antd";
+import { Avatar, Dropdown, Menu, Row, Space } from "antd";
+import Header from "./Header/Header";
 const IconFont = createFromIconfontCN({
     scriptUrl: '//at.alicdn.com/t/font_3378177_a38j8mygyq9.js',
 });
 
+
 const DashboardRoute = () => {
     let navigate = useNavigate();
+
     let defaultProps = {
         route: {
             path: '/',
@@ -30,6 +35,7 @@ const DashboardRoute = () => {
                 {
                     path: '/Buildings',
                     name: 'Buildings',
+                    // icon: <span class="iconfont">&#x100d9;</span>
                     icon: <SmileOutlined />,
                 },
                 {
@@ -93,13 +99,7 @@ const DashboardRoute = () => {
             waterMarkProps={{
                 content: 'TrackER',
             }}
-            headerRender={() =>
-                <Row justify="center" style={{ marginTop: "15px", }}>
-                    <Row style={{ width: "95%", backgroundColor: "white", borderRadius: "10px", }} align="middle" justify="center">ß
-
-                    </Row>
-                </Row>
-            }
+            headerRender={() => <Header />}
             footerRender={() =>
                 <DefaultFooter style={{ backgroundColor: "#f7fafd", }}
                     copyright="2022 by TrackER"
@@ -110,7 +110,6 @@ const DashboardRoute = () => {
                             href: 'https://github.com/DallasCorporation/TrackER',
                             blankTarget: true,
                         },]}
-
                 />
             }
             menuFooterRender={(props) => {
@@ -142,10 +141,10 @@ const DashboardRoute = () => {
                 <Route path="*" element={<Dashboard />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/buildings" element={<BuildingsTab />} />
-                <Route path="/Profile/Edit" element={<Account updateRoute={(val) => { setPathname(val); navigate(val) }}  />} />
+                <Route path="/Profile/Edit" element={<Account updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
                 <Route path="/Profile/Notification" element={<Account updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
-                <Route path="/Profile/Security" element={<Account updateRoute={(val) => { setPathname(val); navigate(val) }}  />} />
-                <Route path="/Profile/Password" element={<Account updateRoute={(val) => { setPathname(val); navigate(val) }}  />} />
+                <Route path="/Profile/Security" element={<Account updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                <Route path="/Profile/Password" element={<Account updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
             </Routes>
         </ProLayout >
     );

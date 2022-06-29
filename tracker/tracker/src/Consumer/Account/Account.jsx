@@ -1,28 +1,29 @@
 
 import { PieChartOutlined } from "@ant-design/icons";
 import { ProCard } from "@ant-design/pro-components"
-import { Col, Divider, Layout, Menu, Row } from "antd"
+import { Avatar, Col, Divider, Layout, Menu, Row } from "antd"
 import { useLocation } from "react-router-dom";
 import { AccountSubTitle, AccountTitle, GreyParagraph } from "../../Components/CustomComponents"
 
 
 const Account = ({ updateRoute }) => {
-    function getItem(label, key, icon, children, type) {
+    function getItem(label, key, icon, children, type, style) {
         return {
             key,
             icon,
             children,
             label,
             type,
+            style
         };
     }
     const items = [
-        getItem('Personal Information', '/Profile/Edit', <PieChartOutlined />),
+        getItem('Personal Information', '/Profile/Edit', <PieChartOutlined />,),
         getItem('Notification', '/Profile/Notification', <PieChartOutlined />),
         getItem('Security Settings', '/Profile/Security', <PieChartOutlined />),
         getItem('Change Password', '/Profile/Password', <PieChartOutlined />),
     ];
-    const location= useLocation()
+    const location = useLocation()
     return (
         <Layout
             className="site-layout-background"
@@ -35,6 +36,11 @@ const Account = ({ updateRoute }) => {
                 <ProCard style={{ borderRadius: "10px" }}>
                     <Row>
                         <Col span={4}>
+                            <Col style={{textAlign:"center"}}>
+                                <Avatar size={120} />
+                                <h2 style={{marginTop:22, marginBottom:2}}>Dolores Bianca </h2>
+                                <p>dolores@gmail.com</p>
+                            </Col>
                             <Menu
                                 onClick={(el) => updateRoute(el.key)}
                                 mode="inline"

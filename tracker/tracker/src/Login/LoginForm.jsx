@@ -4,7 +4,8 @@ import {
 } from 'antd';
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { createFromIconfontCN } from '@ant-design/icons';
+import { ApiFilled, createFromIconfontCN } from '@ant-design/icons';
+import api from '../api'
 
 const IconFont = createFromIconfontCN({
     scriptUrl: '//at.alicdn.com/t/font_3378177_z6cm66hvkag.js',
@@ -20,30 +21,17 @@ class LoginForm extends React.Component {
         errors: null
     };
 
-    onChange = e =>
-        this.setState({
-            data: { ...this.state.data, [e.target.name]: e.target.value }
-        });
-
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                // console.log('Received values of form: ', values);
-                this.setState({ loading: true });
-                this.props
-                    .submit(this.state.data)
-                    .catch(err => {
-                        this.setState({ errors: err.response.data.error, loading: false })
-                    });
-            }
-        });
+    handleSubmit = (data) => {
+        api.user
+            .login(data)
+            .then((data) => { return data; })
+            .catch((err) => { throw new Error(err.response.data.errors.email); });
     }
 
     render() {
         return (
             <div className="container">
-                <Form layout="vertical" onSubmit={this.handleSubmit} className="basic-form">
+                <Form layout="vertical" onFinish={this.handleSubmit} className="basic-form">
                     <Col xs={{ span: 24, offset: 0 }} sm={{ span: 18, offset: 3 }} md={{ span: 12, offset: 6 }} lg={{ span: 10, offset: 7 }} xl={{ span: 8, offset: 8 }}>
                         <Card title="Welcome back" className="basic-form-card">
                             {this.state.errors != null && (
@@ -53,8 +41,8 @@ class LoginForm extends React.Component {
                             )}
 
                             <Form.Item
-                                name="username"
-                                rules={[{ required: true, message: 'Please input your username!' }]}
+                                name="email"
+                                rules={[{ required: true, message: 'Please input your email!' }]}
                             >
                                 <Input placeholder="Email" prefix={<IconFont type="i-user" />} />
                             </Form.Item>

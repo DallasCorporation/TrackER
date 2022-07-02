@@ -6,19 +6,21 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiZG9uZGFsbGFzIiwiYSI6ImNsMnVkMzIzdTAwdmYza21wd
 export default function Map() {
   const mapContainer = useRef(null);
   const map = useRef(null);
+  const [lat, setLat] = useState(44.157944734289686);
+  const [lng, setLng] = useState(12.337966894449043);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/streets-v11',
-      center: [-70, 42],
-      zoom: 9,
-      interactive: false
+      center: [lng, lat],
+      zoom: 15,
+      interactive: true
     });
   });
 
   return (
-    <div style={{height:"100%"}} ref={mapContainer} />
+      <div ref={mapContainer} className="map-container" />
   );
 }

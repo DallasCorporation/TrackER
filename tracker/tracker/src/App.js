@@ -13,6 +13,8 @@ import Footer from './Home/Footer1';
 import Service from './Service';
 import Login from './Login/Login';
 import DashboardRoutes from './Consumer/DashboardRoutes';
+import { connect } from 'react-redux';
+
 
 
 let isMobile;
@@ -28,7 +30,6 @@ class App extends Component {
     this.state = {
       isMobile,
       show: !location.port,
-      logged: false
     };
   }
 
@@ -46,35 +47,45 @@ class App extends Component {
   }
 
   render() {
+    const { logged } = this.props;
+    console.log(logged)
     return (
-      this.state.show && !this.state.logged ?
-        <BrowserRouter>
-          <DashboardRoutes />
-        </BrowserRouter> :
-        <BrowserRouter>
-          <Header3
-            id="Nav3_0"
-            key="Nav3_0"
-            dataSource={Nav30DataSource}
-            isMobile={this.state.isMobile}
-          />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="*" element={<Home />} />
-            <Route path="/Service" element={<Service />} />
-            <Route path="/About" element={<Home />} />
-            <Route path="/Access" element={<Login />} />
-          </Routes>
-
-          <Footer
-            id="Footer1_0"
-            key="Footer1_0"
-            dataSource={Footer10DataSource}
-            isMobile={this.state.isMobile}
-          />
-        </BrowserRouter>
+      <div>
+        {this.state.show && logged ?
+          <BrowserRouter>
+            <DashboardRoutes />
+          </BrowserRouter>
+          :
+          <BrowserRouter>
+            <Header3
+              id="Nav3_0"
+              key="Nav3_0"
+              dataSource={Nav30DataSource}
+              isMobile={this.state.isMobile}
+            />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="*" element={<Home />} />
+              <Route path="/Service" element={<Service />} />
+              <Route path="/About" element={<Home />} />
+              <Route path="/Access" element={<Login />} />
+            </Routes>
+            <Footer
+              id="Footer1_0"
+              key="Footer1_0"
+              dataSource={Footer10DataSource}
+              isMobile={this.state.isMobile}
+            />
+          </BrowserRouter>
+        }
+      </div>
     );
   }
 }
 
-export default App;
+function mapStateToProps(state) {
+  const { logged } = state.user
+  return { logged }
+}
+
+export default connect(mapStateToProps)(App);

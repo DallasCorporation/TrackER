@@ -1,75 +1,89 @@
 import React from "react";
 import {
-    Form, Input, Button, Alert, Col, Card
+    Form, Input, Button, Alert, Col, Card, Row, Divider
 } from 'antd';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
-import { ApiFilled, createFromIconfontCN } from '@ant-design/icons';
+import { createFromIconfontCN } from '@ant-design/icons';
 import api from '../api'
+import { useState } from "react";
+import { AccountTitle, GreyParagraph } from "../Components/CustomComponents";
+import { useDispatch } from "react-redux";
+import { login } from "../reducers/user";
 
 const IconFont = createFromIconfontCN({
     scriptUrl: '//at.alicdn.com/t/font_3378177_z6cm66hvkag.js',
 });
 
-class LoginForm extends React.Component {
-    state = {
-        data: {
-            email: "",
-            password: ""
-        },
-        loading: false,
-        errors: null
-    };
-
-    handleSubmit = (data) => {
+const LoginForm = () => {
+    let navigate = useNavigate();
+    const [error, setError] = useState(null)
+    const dispatch = useDispatch()
+    console.log(localStorage.getItem("token"))
+    const handleSubmit = (data) => {
+        console.log(localStorage.getItem("token"))
         api.user
             .login(data)
-            .then((data) => { return data; })
+            .then((data) => {
+                dispatch(login(data))
+                localStorage.setItem("token", data.token)
+            })
             .catch((err) => { throw new Error(err.response.data.errors.email); });
     }
 
-    render() {
-        return (
-            <div className="container">
-                <Form layout="vertical" onFinish={this.handleSubmit} className="basic-form">
-                    <Col xs={{ span: 24, offset: 0 }} sm={{ span: 18, offset: 3 }} md={{ span: 12, offset: 6 }} lg={{ span: 10, offset: 7 }} xl={{ span: 8, offset: 8 }}>
-                        <Card title="Welcome back" className="basic-form-card">
-                            {this.state.errors != null && (
-                                <Form.Item>
-                                    <Alert closable message={this.state.errors} type="error" onClose={() => this.setState({ errors: null })} />
-                                </Form.Item>
-                            )}
-
-                            <Form.Item
-                                name="email"
-                                rules={[{ required: true, message: 'Please input your email!' }]}
-                            >
-                                <Input placeholder="Email" prefix={<IconFont type="i-user" />} />
-                            </Form.Item>
-
-                            <Form.Item
-                                name="password"
-                                rules={[{ required: true, message: 'Please input your password!' }]}
-                            >
-                                <Input.Password placeholder="Password" prefix={<IconFont type="i-lock" />} />
-                            </Form.Item>
-
-                            <Form.Item>
-                                <Button type="primary" htmlType="submit" className="basic-form-button">
-                                    Log in
-                                </Button>
-                            </Form.Item>
-                            <Form.Item>
-                                <Link className="basic-form-forgot" to="/forgot-password">Forgot Password?</Link>
-                                <Link className="basic-form-register" to="/signup">Sign Up</Link>
-                            </Form.Item>
-                        </Card>
-                    </Col>
-                </Form>
-            </div>
-        );
+    const errorSubmit = (data) => {
+        let res = []
+        Object.values(data.errorFields).map(el => res.push(el.errors[0]))
+        setError(res)
     }
+
+    return (
+        <Form layout="vertical" onFinishFailed={(e) => errorSubmit(e)} onFinish={(data) => handleSubmit(data)} className="basic-form">
+            <Row justify="center" align="middle" style={{ padding: "64px" }}>
+                <Col span={24}>
+                    <AccountTitle style={{ fontSize: "36px", fontWeight: "bold" }}>Welcome Back</AccountTitle>
+                    <GreyParagraph style={{ marginBottom: "16px", fontSize: "16px" }}>Check your energy production and consumption!</GreyParagraph>
+                    {error != null &&
+                        error.map(el => (
+                            <Form.Item>
+                                <Alert closable message={el} type="error" onClose={() => setError(null)} />
+                            </Form.Item>
+                        ))
+                    }
+                    <Form.Item
+                        name="email"
+
+                        rules={[{ required: true, message: 'Please input your email!' }]}
+                    >
+                        <Input allowClear style={{ height: 50 }} placeholder="Email" prefix={<IconFont type="i-user" />} />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="password"
+                        rules={[{ required: true, message: 'Please input your password!' }]}
+                    >
+                        <Input.Password style={{ height: 50 }} placeholder="Password" prefix={<IconFont type="i-lock" />} />
+                    </Form.Item>
+                    <Row justify="end">
+                        <Form.Item>
+                            <Link className="basic-form-forgot" to="/forgot-password">Forgot Password?</Link>
+                        </Form.Item>
+                    </Row>
+                    <Form.Item style={{ marginTop: "8px" }}>
+                        <Button type="primary" htmlType="submit" style={{ width: "100%", height: "50px" }}>
+                            Log in
+                        </Button>
+                    </Form.Item>
+                    <Divider plain>Or</Divider>
+                    <Form.Item>
+                        <Link className="basic-form-register" to="/signup">Sign Up</Link>
+                    </Form.Item>
+                </Col>
+            </Row>
+        </Form>
+    );
 }
+
 
 LoginForm.propTypes = {
     submit: PropTypes.func.isRequired

@@ -1,4 +1,4 @@
-import { ArrowRightOutlined, CiOutlined } from "@ant-design/icons"
+import { ArrowRightOutlined } from "@ant-design/icons"
 import { ProCard } from "@ant-design/pro-components"
 import { Col, Row } from "antd"
 import ReactApexChart from "react-apexcharts"
@@ -56,19 +56,24 @@ const ExpensiveChart = () => {
     const names = [
         {
             name: "Company Expenses",
-            desc: "Employee expenses"
+            desc: "Employee expenses",
+            icon: <span class="anticon iconfont" >&#xe715;</span>,
         },
         {
             name: "Total Invoices",
-            desc: "Gas, Water and Electric invoices"
+            desc: "Gas, Water and Electric invoices",
+            icon: <span class="anticon iconfont" >&#xe657;</span>,
         },
         {
             name: "Total Consumption",
-            desc: "Gas, Water and Electric data consumption"
+            desc: "Gas, Water and Electric data consumption",
+            icon: <span class="anticon iconfont" >&#xe730;</span>,
+
         },
         {
             name: "Energy Production",
-            desc: "Check your production"
+            desc: "Check your production",
+            icon: <span style={{ fontSize: "80px !important" }} class="anticon iconfont" >&#xe61d;</span>,
         },
     ]
 
@@ -76,7 +81,7 @@ const ExpensiveChart = () => {
         <ProCard bordered style={{ borderRadius: "10px" }}>
             <Row justify="space-between" align="middle">
                 <CardTitle >Expensive</CardTitle>
-                <CiOutlined />
+                <span class="anticon iconfont" >&#xe71b;</span>
             </Row>
             <Row justify="center">
                 <ReactApexChart options={state.options} series={state.series} type="donut" height={320} />
@@ -85,14 +90,12 @@ const ExpensiveChart = () => {
             {names.map((el) => {
                 return (
                     <RowHover justify="space-evenly" align="middle" style={{ padding: 12 }} className="hover">
-                        <Col span={4}>
-                            <CiOutlined />
-                        </Col>
+                        <Col span={4}> {el.icon}</Col>
                         <Col span={16} >
                             <CardTitle style={{ lineHeight: 1 }} >{el.name}</CardTitle>
                             <p>{el.desc}</p>
                         </Col>
-                        <Col span={4} style={{textAlign:"end"}}>
+                        <Col span={4} style={{ textAlign: "end" }}>
                             <ArrowRightOutlined />
                         </Col>
                     </RowHover>

@@ -37,9 +37,9 @@ h6,
 .h6 {
     color: #2d3436;
     font-weight: 500;
-    font-family: 'Manrope', sans-serif;
-    font-variant: "tabular-nums";
-    font-feature-settings: "tnum"
+    font-family: 'Manrope', sans-serif !important;
+    font-variant: "tabular-nums" !important;
+    font-feature-settings: "tnum" !important
 }
 
 .ant-pro-basicLayout .ant-layout-header.ant-pro-header-light {
@@ -53,10 +53,10 @@ h6,
 
 .iconfont {
     font-family: "iconfont" !important;
-    font-size: 16px;
-    font-style: normal;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    font-size: 25px !important;
+    font-style: normal !important;
+    -webkit-font-smoothing: antialiased !important;
+    font-weight: 500 !important;
 }
 
 .mapbox-improve-map {
@@ -65,4 +65,14 @@ h6,
 
 .mapboxgl-ctrl-bottom-right {
     display: none;
+}
+
+.ant-divider-inner-text {
+    color: #2d3436
+}
+
+.ant-layout-sider .ant-layout-sider-light .ant-layout-sider-collapsed .ant-pro-sider .ant-pro-sider-fixed .ant-pro-sider-layout-side .ant-pro-sider-light {
+    min-width: 60px !important;
+    max-width: 60px !important;
+    width: 60px !important;
 }

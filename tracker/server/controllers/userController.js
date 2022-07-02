@@ -41,6 +41,7 @@ const registerUser = asyncHandler(async (req, res) => {
       name: user.name,
       surname: user.surname,
       email: user.email,
+      password: hashedPassword,
       token: generateToken(user._id),
     })
   } else {
@@ -64,6 +65,7 @@ const loginUser = asyncHandler(async (req, res) => {
       name: user.name,
       surname: user.surname,
       email: user.email,
+      password: hashedPassword,
       token: generateToken(user._id),
     })
   } else {
@@ -109,7 +111,7 @@ const updateUserById = asyncHandler(async (req, res) => {
   }
 
   // Make sure the logged in user matches the goal user
-  if (user._id.toString() !== req.user.id) {
+  if (user._id.toString() !== req.params.id) {
     res.status(401)
     throw new Error('User not authorized')
   }
@@ -118,6 +120,34 @@ const updateUserById = asyncHandler(async (req, res) => {
     new: true,
   })
   res.status(200).json(updatedUser)
+})
+
+// @desc    Update user by Id
+// @route   PUT /api/user/password/:id
+// @access  Private
+const updateUserPasswordById = asyncHandler(async (req, res) => {
+  const { password } = req.body
+  const user = await User.findById(req.params.id)
+
+  if (!user) {
+    res.status(400)
+    throw new Error('User not found')
+  }
+
+  // Make sure the logged in user matches the goal user
+  if (user._id.toString() !== req.params.id) {
+    res.status(401)
+    throw new Error('User not authorized')
+  }
+  const salt = await bcrypt.genSalt(10)
+  const hashedPassword = await bcrypt.hash(password, salt)
+
+  const updatedUserPassword = await User.findByIdAndUpdate(
+    req.params.id,
+    { password: hashedPassword, }, {
+    new: true,
+  })
+  res.status(200).json(updatedUserPassword)
 })
 
 // @desc    Delete User
@@ -146,5 +176,6 @@ module.exports = {
   getMe,
   getUserById,
   updateUserById,
-  deleteUserById
+  deleteUserById,
+  updateUserPasswordById
 }

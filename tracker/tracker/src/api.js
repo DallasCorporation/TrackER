@@ -26,7 +26,9 @@ export default {
             axios.get(`${API_URL}/user/${id}`)
                 .then((res) => res.data),
         update: (id, data) =>
-            axios.put(`${API_URL}/user/users/${id}`, data),
+            axios.put(`${API_URL}/user/${id}`, data),
+        updatePassword: (id, data) =>
+            axios.put(`${API_URL}/user/password/${id}`, data),
     },
     buildings: {},
 };

@@ -1,15 +1,18 @@
-import { Layout } from 'antd';
+import { Col, Layout, Row } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
 import LoginForm from './LoginForm';
-import './login.less';
 
 const Login = () => {
-
-    const submit = () => { }
     return (
-        <Layout style={{ height: "65vh" }}>
-            <Content style={{ marginTop: 64 }} className={`form-page-wrapper`}>
-                <LoginForm submit={submit} />
+        <Layout style={{ height: "90vh" }}>
+            <Content className={`form-page-wrapper`}>
+                <Row style={{ height: "100%" }}>
+                    <Col span={10} style={{ backgroundColor: "white" }}>
+                        <LoginForm  />
+                    </Col>
+                    <Col span={14} style={{ backgroundColor: "blue" }}>
+                    </Col>
+                </Row>
             </Content>
         </Layout>
     );

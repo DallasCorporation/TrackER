@@ -4,7 +4,7 @@ import BannerCard from "./DashboardCards/BannerCard";
 import ReactApexChart from "react-apexcharts";
 import LineCard from "./DashboardCards/LineCard";
 import StatsCard from "./DashboardCards/StatsCard";
-import {statebar, stateradial } from "./utils";
+import { statebar, stateradial } from "./utils";
 import ExpensiveChart from "./DashboardCards/ExpensiveChart";
 import { ProCard } from "@ant-design/pro-components";
 import i1 from './icon/i1.svg';
@@ -18,19 +18,20 @@ import TableCard from "./DashboardCards/TableCard";
 import RevenueCard from "./DashboardCards/RevenueCard";
 import EarningsCard from "./DashboardCards/EarningsCard";
 import DownloadCard from "./DashboardCards/DowloadCard";
+import { useSelector } from "react-redux";
 
 const Dashboard = () => {
-
+  const user = useSelector((state) => state.user.user)
   return (
     <Layout
       style={{
         paddingRight: 24,
         paddingLeft: 24,
         minHeight: 280,
-        marginTop:"32px"
+        marginTop: "32px"
       }}
     >
-      <h1 style={{ fontSize: "24px", }}>Welcome back, Edward 👋</h1>
+      <h1 style={{ fontSize: "24px", }}>Welcome back, {user.name} 👋</h1>
       <p style={{ color: "#636e72", fontSize: "14px", lineHeight: "21px" }}>Your current status and analytics are here</p>
       <Row gutter={[32, 32]}>
         <Col lg={18} md={24} sx={24}>

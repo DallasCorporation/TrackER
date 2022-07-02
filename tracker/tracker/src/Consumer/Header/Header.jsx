@@ -1,8 +1,11 @@
 import { AntDesignOutlined } from "@ant-design/icons";
 import { Avatar, Dropdown, Menu, Row, Space } from "antd";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { logout } from "../../reducers/user";
 
 const Header = () => {
+    const dispatch = useDispatch()
     const menu = (
         <Menu
             style={{ borderRadius: 10 }}
@@ -43,7 +46,7 @@ const Header = () => {
                 {
                     key: '5',
                     label: (
-                        <div>Logout</div>
+                        <div onClick={() =>dispatch(logout())}>Logout</div>
                     ),
                 },
             ]}

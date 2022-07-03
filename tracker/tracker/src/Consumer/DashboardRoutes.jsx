@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { GithubOutlined, } from '@ant-design/icons';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Link, Route, Routes, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Dashboard from './Dashboard'
 import Account from './Account/Account';
@@ -8,14 +8,27 @@ import BuildingsTab from './Building/BuildingsTab';
 import "./Dashboard.less"
 import { DefaultFooter, ProLayout } from '@ant-design/pro-components';
 import Header from "./Header/Header";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import AddNewBuildings from "./Building/AddNewBuilding";
 import { Avatar, Col, Row } from "antd";
+import { userPreference } from "../reducers/preference";
+import api from "../api";
+import { LinkHover } from "../Components/CustomComponents";
 
 
 const DashboardRoute = () => {
     let navigate = useNavigate();
     const user = useSelector((state) => state.user.user)
+    const userAvatar = useSelector((state) => state.preference.preference.avatar)
+    const dispatch = useDispatch()
+    useEffect(() => {
+        const fetchPreference = async () => {
+            api.preference.fetchPreference(user._id).then(data => dispatch(userPreference(data)))
+        }
+        fetchPreference()
+    }, [user])
+
+
     let defaultProps = {
         route: {
             path: '/',
@@ -87,7 +100,7 @@ const DashboardRoute = () => {
             pathname: '/',
         },
     };
-    const [settings, setSetting] = useState({ fixSiderbar: true, });
+    const settings = { fixSiderbar: true, };
     const [pathname, setPathname] = useState('/Dashboard');
     return (
         <ProLayout
@@ -114,19 +127,21 @@ const DashboardRoute = () => {
             menuFooterRender={(props) => {
                 return (
                     <Row
-                        align="middle"
-                        type="flex"
-                        justify="space-around"
+                        justify="center"
+                        style={{ marginBottom: 20 }}
+                        gutter={[16, 16]}
                     >
-                        <Col >
-                            <Avatar />
+                        <Col style={{ alignSelf: "center" }}>
+                            <Avatar size={40} src={userAvatar} />
                         </Col>
-                        <Col >
-                            <p>{user.name} {user.surname}</p>
-                            <p>View Profile</p>
-                        </Col>
+                        {!props.collapsed &&
+                            <Col style={{ alignSelf: "center",  }}>
+                                <div>{user.name} {user.surname} <br></br>
+                                    <LinkHover to="/Profile/Edit" >View Profile</LinkHover>
+                                </div>
+                            </Col>
+                        }
                     </Row>
-
                 );
             }}
             menuItemRender={(item, dom) => (
@@ -146,11 +161,11 @@ const DashboardRoute = () => {
                 <Route path="/dashboard" element={<Dashboard user={user} />} />
                 <Route path="/buildings" element={<BuildingsTab user={user} />} />
                 <Route path="/building/New" element={<AddNewBuildings user={user} />} />
-                <Route path="/Profile/Edit" element={<Account user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
-                <Route path="/Profile/Notification" element={<Account user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
-                <Route path="/Profile/Activity" element={<Account user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
-                <Route path="/Profile/Security" element={<Account user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
-                <Route path="/Profile/Password" element={<Account user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                <Route path="/Profile/Edit" element={<Account avatar={userAvatar} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                <Route path="/Profile/Notification" element={<Account avatar={userAvatar} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                <Route path="/Profile/Activity" element={<Account avatar={userAvatar} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                <Route path="/Profile/Security" element={<Account avatar={userAvatar} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                <Route path="/Profile/Password" element={<Account avatar={userAvatar} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
             </Routes>
         </ProLayout >
     );

@@ -1,23 +1,30 @@
 import { AntDesignOutlined } from "@ant-design/icons";
-import { Avatar, Dropdown, Menu, Row, Space } from "antd";
+import { Avatar, Card, Divider, Dropdown, Menu, Row, Space } from "antd";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { AvatarHover, LinkHover } from "../../Components/CustomComponents";
 import { logout } from "../../reducers/user";
 
 const Header = () => {
     const dispatch = useDispatch()
+    const avatar = useSelector((state) => state.preference.preference.avatar)
     const menu = (
         <Menu
             style={{ borderRadius: 10 }}
             items={[
                 {
                     key: '1',
-                    label: (
-                        <div>
-                            <h3>Profile Settings</h3>
-                            <p>View Profile</p>
-                        </div>
-                    ),
+                    type: 'group',
+                    children: [
+                        {
+                            key: '1-1',
+                            label: (
+                                <div>
+                                    <LinkHover to="/Profile/Edit">View Profile</LinkHover>
+                                </div>
+                            ),
+                        },],
+                    label: <h3>Profile Settings</h3>
                 },
                 {
                     type: "divider",
@@ -46,7 +53,7 @@ const Header = () => {
                 {
                     key: '5',
                     label: (
-                        <div onClick={() =>dispatch(logout())}>Logout</div>
+                        <div onClick={() => dispatch(logout())}>Logout</div>
                     ),
                 },
             ]}
@@ -57,7 +64,7 @@ const Header = () => {
             <Row style={{ width: "95%", backgroundColor: "white", borderRadius: "10px", }} align="middle" justify="center">
                 <Space>
                     <Dropdown overlay={menu} placement="bottomRight" overlayStyle={{ borderRadius: 10 }}>
-                        <Avatar size={"default"} icon={<AntDesignOutlined />} />
+                        <Avatar size={"default"} icon={<AvatarHover src={avatar} />} />
                     </Dropdown>
                 </Space>
             </Row>

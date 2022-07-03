@@ -21,7 +21,6 @@ const LoginForm = () => {
     const dispatch = useDispatch()
     console.log(localStorage.getItem("token"))
     const handleSubmit = (data) => {
-        console.log(localStorage.getItem("token"))
         api.user
             .login(data)
             .then((data) => {

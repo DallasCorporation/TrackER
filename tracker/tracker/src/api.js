@@ -2,13 +2,14 @@ import axios from "axios";
 
 const API_URL = "http://localhost:3000";
 
+// eslint-disable-next-line import/no-anonymous-default-export
 export default {
     user: {
         login: (credentials) =>
             axios
                 .post(`${API_URL}/user/login`, { ...credentials })
                 .then((res) => res.data),
-        signup: (user) =>
+        signUp: (user) =>
             axios
                 .post(`${API_URL}/user/register`, { ...user })
                 .then((res) => res.data),
@@ -29,6 +30,25 @@ export default {
             axios.put(`${API_URL}/user/${id}`, data),
         updatePassword: (id, data) =>
             axios.put(`${API_URL}/user/password/${id}`, data),
+    },
+    activity: {
+        fetchActivity: (userId) =>
+            axios.get(`${API_URL}/activity/${userId}`)
+                .then((res) => res.data),
+        updateActivity: (userId) =>
+            axios.post(`${API_URL}/activity`, { userId: userId })
+                .then((res) => res.data),
+    },
+    preference: {
+        fetchPreference: (userId) =>
+            axios.get(`${API_URL}/preference/${userId}`)
+                .then((res) => res.data),
+        updatePreference: (userId, body) =>
+            axios.put(`${API_URL}/preference/${userId}`, body)
+                .then((res) => res.data),
+        createPreference: (userId) =>
+            axios.post(`${API_URL}/preference/${userId}`)
+                .then((res) => res.data),
     },
     buildings: {},
 };

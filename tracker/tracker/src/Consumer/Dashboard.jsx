@@ -1,4 +1,4 @@
-import { Col, Image, Layout, Row, } from "antd";
+import { Avatar, Col, Image, Layout, Row, } from "antd";
 import React from "react";
 import BannerCard from "./DashboardCards/BannerCard";
 import ReactApexChart from "react-apexcharts";
@@ -7,18 +7,21 @@ import StatsCard from "./DashboardCards/StatsCard";
 import { statebar, stateradial } from "./utils";
 import ExpensiveChart from "./DashboardCards/ExpensiveChart";
 import { ProCard } from "@ant-design/pro-components";
-import i1 from './icon/i1.svg';
-import i2 from './icon/i2.svg';
-import i3 from './icon/i3.svg';
-import i4 from './icon/i4.svg';
-import i5 from './icon/i5.svg';
-import i6 from './icon/i6.svg';
 import { ArrowRightOutlined } from "@ant-design/icons";
 import TableCard from "./DashboardCards/TableCard";
 import RevenueCard from "./DashboardCards/RevenueCard";
 import EarningsCard from "./DashboardCards/EarningsCard";
 import DownloadCard from "./DashboardCards/DowloadCard";
 import { useSelector } from "react-redux";
+
+function importAll(r) {
+  let images = {};
+  r.keys().map(item => { images[item.replace('./', '')] = r(item); });
+  return images;
+}
+
+const component = require.context('../assets/avatars/', false, /\.svg/)
+const images = importAll(component);
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user)
@@ -71,22 +74,22 @@ const Dashboard = () => {
               borderRadius: "10px"
             }}>
               <Row justify="space-between" align="middle" >
-                <Col>
+                <Col span={12}>
                   <h4 style={{ fontSize: "20px", fontWeight: 500, color: "#2d3436" }}>Best team</h4>
                   <div>
                     <p>Highest income this month</p>
                     <p>$442.98 Highest income this month</p>
                   </div>
                 </Col>
-                <Col>
+                <Col span={8}>
                   <p>Marketing Team</p>
-                  <Row>
-                    <img src={i1} alt='' />
-                    <img src={i2} alt='' />
-                    <img src={i3} alt='' />
-                    <img src={i4} alt='' />
-                    <img src={i5} alt='' />
-                    <img src={i6} alt='' />
+                  <Row justify="space-between" align="middle" gutter={[32,32]}>
+                    <Avatar size={40} src={images['Avatar-1.svg']} />
+                    <Avatar size={40} src={images['Avatar-2.svg']} />
+                    <Avatar size={40} src={images['Avatar-3.svg']} />
+                    <Avatar size={40} src={images['Avatar-4.svg']} />
+                    <Avatar size={40} src={images['Avatar-5.svg']} />
+                    <Avatar size={40} src={images['Avatar-6.svg']} />
                     <ArrowRightOutlined />
                   </Row>
                 </Col>

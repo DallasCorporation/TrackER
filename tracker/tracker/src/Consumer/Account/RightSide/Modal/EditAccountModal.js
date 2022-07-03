@@ -11,7 +11,8 @@ const EditAccountModal = ({ visible, setVisible, user }) => {
     const [surname, setSurname] = useState(user.surname)
     const [email, setEmail] = useState(user.email)
     return (
-        <Modal visible={visible}
+        <Modal visible={visible} style={{ borderRadius: 210 }}
+            onCancel={() => setVisible(false)}
             footer={[
                 <Button key="back" onClick={() => setVisible(false)}>Cancel</Button>,
                 <Button key="submit" type="primary" onClick={() => {

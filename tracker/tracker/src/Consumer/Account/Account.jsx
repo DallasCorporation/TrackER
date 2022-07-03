@@ -20,6 +20,7 @@ const Account = ({ updateRoute, user }) => {
     const items = [
         getItem('Personal Information', '/Profile/Edit', <span className="iconfont anticon ">&#x100e5;</span>,),
         getItem('Notification', '/Profile/Notification', <span className="iconfont anticon">&#x100d9;</span>),
+        getItem('Activity Monitor', '/Profile/Activity', <span className="iconfont anticon">&#x100df;</span>),
         getItem('Security Settings', '/Profile/Security', <span className="iconfont anticon">&#x100df;</span>),
         getItem('Change Password', '/Profile/Password', <span className="iconfont anticon">&#xe6a9;</span>),
     ];
@@ -60,6 +61,7 @@ const Account = ({ updateRoute, user }) => {
                         <Col span={18}>
                             {location.pathname === "/Profile/Edit" && <InfoAccount user={user} />}
                             {location.pathname === "/Profile/Notification" && <InfoAccount user={user} />}
+                            {location.pathname === "/Profile/Activity" && <InfoAccount user={user} />}
                             {location.pathname === "/Profile/Security" && <InfoAccount user={user} />}
                             {location.pathname === "/Profile/Password" && <ChangePassword user={user} />}
                         </Col>

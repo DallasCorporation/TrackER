@@ -10,6 +10,7 @@ import { DefaultFooter, ProLayout } from '@ant-design/pro-components';
 import Header from "./Header/Header";
 import { useSelector } from "react-redux";
 import AddNewBuildings from "./Building/AddNewBuilding";
+import { Avatar, Col, Row } from "antd";
 
 
 const DashboardRoute = () => {
@@ -67,6 +68,10 @@ const DashboardRoute = () => {
                             name: 'Notification',
                         },
                         {
+                            path: '/Profile/Activity',
+                            name: 'Activity Monitor',
+                        },
+                        {
                             path: '/Profile/Security',
                             name: 'Security Settings',
                         },
@@ -108,16 +113,20 @@ const DashboardRoute = () => {
             }
             menuFooterRender={(props) => {
                 return (
-                    <img
-                        alt="pro-logo"
-                        src="https://procomponents.ant.design/favicon.ico"
-                        style={{
-                            width: 16,
-                            height: 16,
-                            margin: '0 16px',
-                            marginRight: 10,
-                        }}
-                    />
+                    <Row
+                        align="middle"
+                        type="flex"
+                        justify="space-around"
+                    >
+                        <Col >
+                            <Avatar />
+                        </Col>
+                        <Col >
+                            <p>{user.name} {user.surname}</p>
+                            <p>View Profile</p>
+                        </Col>
+                    </Row>
+
                 );
             }}
             menuItemRender={(item, dom) => (
@@ -139,6 +148,7 @@ const DashboardRoute = () => {
                 <Route path="/building/New" element={<AddNewBuildings user={user} />} />
                 <Route path="/Profile/Edit" element={<Account user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
                 <Route path="/Profile/Notification" element={<Account user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                <Route path="/Profile/Activity" element={<Account user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
                 <Route path="/Profile/Security" element={<Account user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
                 <Route path="/Profile/Password" element={<Account user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
             </Routes>

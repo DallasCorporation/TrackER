@@ -41,9 +41,7 @@ const createPreference = asyncHandler(async (req, res) => {
 // @route   PUT /api/goals/:id
 // @access  Private
 const updatePreference = asyncHandler(async (req, res) => {
-    console.log(req.params)
     const preference = await Preference.find({ userId: req.params.id })
-    console.log(preference[0]._id)
     if (!preference) {
         res.status(400)
         throw new Error('Preference not found')

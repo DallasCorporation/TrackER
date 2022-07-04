@@ -3,12 +3,13 @@ const router = express.Router()
 const {
     registerBuilding,
     getBuildingsById,
-    displayBuildings,
+    deleteBuildingById,
 } = require('../controllers/buildingController')
 
 
 router.post('/building/register', registerBuilding)
-router.get('/building/get', getBuildingsById)
+router.get('/building/:id', getBuildingsById)
+router.delete('/building/:id', deleteBuildingById)
 
 
 module.exports = router

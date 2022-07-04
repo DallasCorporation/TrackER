@@ -50,5 +50,15 @@ export default {
             axios.post(`${API_URL}/preference/${userId}`)
                 .then((res) => res.data),
     },
-    buildings: {},
+    buildings: {
+        fetchBuildings: (userId) =>
+        axios.get(`${API_URL}/building/${userId}`)
+                .then((res) => res.data),
+        addBuilding: (body) =>
+        axios.post(`${API_URL}/building/register`, body)
+                .then((res) => res.data),
+        deleteBuilding: (userId) =>
+        axios.delete(`${API_URL}/building/${userId}`)
+                .then((res) => res.data),
+    },
 };

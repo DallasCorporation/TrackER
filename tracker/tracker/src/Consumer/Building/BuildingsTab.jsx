@@ -1,6 +1,10 @@
 import { AutoComplete, Avatar, Button, Card, Col, Input, Layout, List, PageHeader, Row, Select } from "antd";
+import axios from "axios";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
+import api from "../../api";
+import { fetchBuildings } from "../../reducers/buildings";
 import Map from './Map';
 
 
@@ -17,16 +21,25 @@ const options = [
     { value: 'Downing Street' },
     { value: 'Wall Street' },
 ];
-const data = [
-    {
-        title: 'Title 1',
-    },
-    {
-        title: 'Title 2',
-    },
-];
 
 const BuildingTab = () => {
+    // const refresh = async () => {
+    //     await api.buildings.fetchBuildings(user._id).then((res) => {
+    //         dispatch(fetchBuildings(res))
+    //     })
+    // }
+    axios.get(`http://api.positionstack.com/v1/forward?access_key=42400f2d6d777645ac7654f315483bda&query=cesena`)
+    const buildings = useSelector((state) => state.buildings.buildings)
+    const user = useSelector((state) => state.user.user)
+    const dispatch = useDispatch()
+    const deleteBuilding = async (id) => {
+        await api.buildings.deleteBuilding(id)
+        await api.buildings.fetchBuildings(user._id).then((res) => {
+            dispatch(fetchBuildings(res))
+        })
+        
+    }
+    console.log(user)
     return (
         <Layout
             className="site-layout-background"
@@ -67,40 +80,37 @@ const BuildingTab = () => {
                     </AutoComplete>
                 </Input.Group>
             </Row>
+            {/* <Button onClick={() => refresh()}>Refresh</Button> */}
             <List
                 style={{ marginTop: "32px" }}
                 itemLayout="horizontal"
-                dataSource={data}
+                dataSource={buildings}
                 renderItem={item => (
                     <Card bodyStyle={{ padding: "0", marginBottom: "32px" }} >
                         <Row >
                             <Col lg={24} md={24} sx={24}>
                                 <Row justify="space-between" align="middle" style={{ backgroundColor: "#0010f7", height: "50px", padding: "10px" }}>
                                     <h3 style={{ color: "white" }}>Name of the building</h3>
-                                    <Button>test</Button>
+                                    <Button onClick={() => deleteBuilding(item._id)}>Delete</Button>
                                 </Row>
                             </Col>
                         </Row>
 
                         <Row justify="space-between" gutter={[32, 0]} style={{ marginBottom: "32px", padding: "16px" }}>
                             <Col lg={8} md={8} sx={8}>
-                                <Map />
+                                <Map lat={item.lat} lng={item.long} />
                             </Col>
                             <Col lg={8} md={8} sx={8}>
                                 <p>Building Name</p>
-                                <Input></Input>
+                                <Input value={item.name} readOnly></Input>
                                 <p>Contact Name</p>
-                                <Input></Input>
-                                <p>Customer's account number</p>
-                                <Input></Input>
+                                <Input value={item.contact} readOnly></Input>
                             </Col>
                             <Col lg={8} md={8} sx={8}>
                                 <p>Building Address</p>
-                                <Input></Input>
+                                <Input value={item.address} readOnly></Input>
                                 <p>Building Type</p>
-                                <Input></Input>
-                                <p>Customer's agreetement number</p>
-                                <Input></Input>
+                                <Input value={item.type} readOnly></Input>
                             </Col>
                         </Row>
                         <Row justify="space-between" style={{ marginBottom: "32px", padding: "32px" }}>

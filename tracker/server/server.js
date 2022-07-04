@@ -13,6 +13,7 @@ app.use(require("./routes/users"));
 app.use(require("./routes/buildings"));
 app.use(require("./routes/activity"));
 app.use(require("./routes/userPreference"));
+app.use(require("./routes/locate"));
 
 // get driver connection
 const dbo = require("./db/conn");

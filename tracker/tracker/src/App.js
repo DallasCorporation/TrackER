@@ -48,7 +48,6 @@ class App extends Component {
 
   render() {
     const { logged } = this.props;
-    console.log(logged)
     return (
       <div>
         {this.state.show && logged ?

@@ -4,15 +4,15 @@ const dbo = require("../db/conn");
 const ObjectId = require("mongodb").ObjectId;
 
 const registerBuilding = asyncHandler(async (req, res) => {
-    const { name, contact, accNumber, address, type, agreeNumber, lat, long } = req.body
+    const { name, contact, userId, address, type, lat, long } = req.body
 
-    if (!name || !contact || !address || !type || !agreeNumber || !lat || !long) {
+    if (!name || !contact || !address || !type || !lat || !long) {
         res.status(400)
         throw new Error('Please add all fields')
     }
 
     // Check if building exists
-    const buildingExists = await Building.findOne({ accNumber })
+    const buildingExists = await Building.findOne({ address })
 
     if (buildingExists) {
         res.status(400)
@@ -24,22 +24,21 @@ const registerBuilding = asyncHandler(async (req, res) => {
     const building = await Building.create({
         name,
         contact,
-        accNumber,
+        userId,
         address,
         type,
-        agreeNumber,
         lat,
         long,
     })
 
     if (building) {
         res.status(201).json({
+            _id: building.id,
             name: building.name,
             contact: building.contact,
-            accNumber: building.accNumber,
+            userId: building.userId,
             address: building.address,
             type: building.type,
-            agreeNumber: building.agreeNumber,
             lat: building.lat,
             long: building.long,
         })
@@ -54,24 +53,34 @@ const registerBuilding = asyncHandler(async (req, res) => {
 // @access  Private
 const getBuildingsById = asyncHandler(async (req, res) => {
     let db_connect = dbo.getDb();
-    let myQuery = { accNumber: ObjectId(req.params.accNumber) };
+    let myQuery = { userId: ObjectId(req.params.id) };
     db_connect
         .collection("buildings")
-        .findOne(myQuery, function (err, result) {
+        .find(myQuery).toArray(function (err, result) {
             if (err) throw err;
             res.json(result);
         });
 })
 
-// @desc    Set goal
-// @route   POST /api/goals
-// @access  Private
-const displayBuildings = asyncHandler(async (req, res) => {
-
+const deleteBuildingById = asyncHandler(async (req, res) => {
+    let myQuery = { _id: ObjectId(req.params.id) };
+    const building = await Building.findById(myQuery)
+    if (!building) {
+        res.status(400)
+        throw new Error('Goal not found')
+    }
+    // Check for user
+    if (!building._id) {
+        res.status(401)
+        throw new Error('User not found')
+    }
+    await building.remove()
+    res.status(200).json({ id: req.params.id })
 })
+
 
 module.exports = {
     registerBuilding,
     getBuildingsById,
-    displayBuildings,
+    deleteBuildingById,
 }

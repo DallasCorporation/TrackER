@@ -10,6 +10,7 @@ import { useState } from "react";
 import { AccountTitle, GreyParagraph } from "../Components/CustomComponents";
 import { useDispatch } from "react-redux";
 import { login } from "../reducers/user";
+import { fetchBuildings } from "../reducers/buildings";
 
 const IconFont = createFromIconfontCN({
     scriptUrl: '//at.alicdn.com/t/font_3378177_z6cm66hvkag.js',
@@ -26,8 +27,12 @@ const LoginForm = () => {
             .then((data) => {
                 dispatch(login(data))
                 localStorage.setItem("token", data.token)
+                api.buildings.fetchBuildings(data._id).then((res) => {
+                    dispatch(fetchBuildings(res))
+                })
             })
             .catch((err) => { throw new Error(err.response.data.errors.email); });
+        
     }
 
     const errorSubmit = (data) => {

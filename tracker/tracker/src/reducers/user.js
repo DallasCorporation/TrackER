@@ -20,6 +20,7 @@ export const userSlice = createSlice({
                 if (res.activityLog)
                     api.activity.updateActivity(action.payload._id)
             })
+            
         },
         logout: (state) => {
             state.user = initialState.user

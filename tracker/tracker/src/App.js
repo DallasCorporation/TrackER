@@ -14,6 +14,7 @@ import Service from './Service';
 import Login from './Login/Login';
 import DashboardRoutes from './Consumer/DashboardRoutes';
 import { connect } from 'react-redux';
+import VendorRoutes from './Vendor/VendorRoutes';
 
 
 
@@ -47,13 +48,17 @@ class App extends Component {
   }
 
   render() {
-    const { logged } = this.props;
+    const { logged, type } = this.props;
     return (
       <div>
         {this.state.show && logged ?
-          <BrowserRouter>
-            <DashboardRoutes />
-          </BrowserRouter>
+          type === "Vendor" ?
+            <BrowserRouter>
+              <VendorRoutes />
+            </BrowserRouter> :
+            <BrowserRouter>
+              <DashboardRoutes />
+            </BrowserRouter>
           :
           <BrowserRouter>
             <Header3
@@ -84,7 +89,8 @@ class App extends Component {
 
 function mapStateToProps(state) {
   const { logged } = state.user
-  return { logged }
+  const { type } = state.user.user
+  return { logged, type }
 }
 
 export default connect(mapStateToProps)(App);

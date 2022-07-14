@@ -27,6 +27,7 @@ export const userSlice = createSlice({
             state.logged = false
             localStorage.setItem("logged", false)
             localStorage.setItem("user", JSON.stringify(initialState.user))
+            localStorage.removeItem("preference")
 
         },
         updateUser: (state, action) => {

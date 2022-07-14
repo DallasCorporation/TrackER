@@ -1,5 +1,4 @@
-import { AntDesignOutlined } from "@ant-design/icons";
-import { Avatar, Card, Divider, Dropdown, Menu, Row, Space } from "antd";
+import { Avatar, Dropdown, Menu, Row, Space } from "antd";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AvatarHover, LinkHover } from "../../Components/CustomComponents";
@@ -64,7 +63,7 @@ const Header = () => {
             <Row style={{ width: "95%", backgroundColor: "white", borderRadius: "10px", }} align="middle" justify="center">
                 <Space>
                     <Dropdown overlay={menu} placement="bottomRight" overlayStyle={{ borderRadius: 10 }}>
-                        <Avatar size={"default"} icon={<AvatarHover src={avatar} />} />
+                        <AvatarHover size={"default"} src={avatar} />
                     </Dropdown>
                 </Space>
             </Row>

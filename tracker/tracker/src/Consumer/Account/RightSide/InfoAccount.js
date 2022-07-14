@@ -1,10 +1,12 @@
 import { Button, Col, Divider, Modal, Row } from "antd"
 import { useState } from "react"
+import { useDispatch } from "react-redux"
 import { AccountSubTitle, AccountTitle, GreyParagraph } from "../../../Components/CustomComponents"
+import { logout } from "../../../reducers/user"
 import EditAccountModal from "./Modal/EditAccountModal"
 
 const InfoAccount = ({ user }) => {
-    console.log(user)
+    const dispatch = useDispatch()
     const [visible, setVisible] = useState(false)
     return (
         <div>
@@ -19,22 +21,27 @@ const InfoAccount = ({ user }) => {
                 <Button onClick={() => setVisible(true)} type="primary" style={{ borderRadius: "4px" }}>Edit</Button>
             </Row>
             <Col span={12}>
-                <Row justify="space-between" style={{marginTop:"16px"}}>
+                <Row justify="space-between" style={{ marginTop: "16px" }}>
                     <Col >Name</Col>
                     <Col offset={8}>{user.name}</Col>
                 </Row>
-                <Row justify="space-between" style={{marginTop:"16px"}}>
+                <Row justify="space-between" style={{ marginTop: "16px" }}>
                     <Col >Surname</Col>
                     <Col offset={8}>{user.surname}</Col>
                 </Row>
-                <Row justify="space-between" style={{marginTop:"16px"}}>
+                <Row justify="space-between" style={{ marginTop: "16px" }}>
                     <Col >Email</Col>
+                    <Col offset={8}>{user.email}</Col>
+                </Row>
+                <Row justify="space-between" style={{ marginTop: "16px" }}>
+                    <Col >Account Type</Col>
                     <Col offset={8}>{user.email}</Col>
                 </Row>
             </Col>
             <Divider />
             <AccountSubTitle>Preference</AccountSubTitle>
-            <EditAccountModal visible={visible} setVisible={setVisible} user={user}/>
+            <Button type="ghost" style={{ color: "red" }} onClick={() => dispatch(logout())}>Logout</Button>
+            <EditAccountModal visible={visible} setVisible={setVisible} user={user} />
         </div>
     )
 }

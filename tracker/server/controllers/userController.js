@@ -8,7 +8,7 @@ const ObjectId = require("mongodb").ObjectId;
 // @route   POST /api/users
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, surname, email, password } = req.body
+  const { name, surname, email, password, type } = req.body
 
   if (!name || !surname || !email || !password) {
     res.status(400)
@@ -42,6 +42,7 @@ const registerUser = asyncHandler(async (req, res) => {
       surname: user.surname,
       email: user.email,
       password: hashedPassword,
+      type: type,
       token: generateToken(user._id),
     })
   } else {

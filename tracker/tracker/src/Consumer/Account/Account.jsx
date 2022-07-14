@@ -93,7 +93,7 @@ const Account = ({ updateRoute, user, avatar }) => {
                     </Row>
                 </ProCard>
             </Row>
-            <AvatarDrawer user={user} visible={visible} onClose={()=> setVisible(false)}/>
+            { user.type==="Building" &&<AvatarDrawer user={user} visible={visible} onClose={()=> setVisible(false)}/>}
         </Layout>
     )
 }

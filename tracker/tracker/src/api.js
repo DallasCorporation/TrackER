@@ -30,8 +30,8 @@ export default {
             axios.put(`${API_URL}/user/${id}`, data),
         updatePassword: (id, data) =>
             axios.put(`${API_URL}/user/password/${id}`, data),
-        delete: (id)=>{
-            axios.delete(`${API_URL}/user/${id}`).then(res=> res.data)
+        delete: (id) => {
+            axios.delete(`${API_URL}/user/${id}`).then(res => res.data)
         }
     },
     activity: {
@@ -65,9 +65,12 @@ export default {
                 .then((res) => res.data),
     },
     organization: {
-        create: (body) => {
-            axios.post(`${API_URL}/organization`, { body })
+        create: (body) =>
+            axios.post(`${API_URL}/organization`, body)
                 .then((res) => res.data)
-        }
+        ,
+        getByUserId: (userId) =>
+            axios.get(`${API_URL}/organization/${userId}`)
+                .then((res) => res.data)
     }
 };

@@ -42,6 +42,9 @@ const SignInForm = () => {
                 api.buildings.fetchBuildings(data._id).then((res) => {
                     dispatch(fetchBuildings(res))
                 })
+                api.preference.fetchPreference(data._id).then((res) => {
+                    dispatch(userPreference(res))
+                })
             })
             .catch((err) => { throw new Error(err.response.data.errors.email); });
     }
@@ -62,7 +65,7 @@ const SignInForm = () => {
             .signUp(data)
             .then((data) => {
                 if (type === "Vendor")
-                    api.organization.create(data._id, company)
+                    api.organization.create({userId: data._id, name: company})
                 api.preference.createPreference(data._id).then((res) => {
                     dispatch(userPreference(res))
                     dispatch(login(data))

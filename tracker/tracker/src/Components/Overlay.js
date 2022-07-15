@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { Alert, Divider, Form, Input, Row, Tabs } from "antd";
 import { Link } from "react-router-dom";
 import styled from "styled-components"
+import { userPreference } from "../reducers/preference";
 
 
 const { TabPane } = Tabs;
@@ -62,9 +63,12 @@ const SignInForm = () => {
             .then((data) => {
                 if (type === "Vendor")
                     api.organization.create(data._id, company)
-                api.preference.createPreference(data._id)
-                dispatch(login(data))
-                localStorage.setItem("token", data.token)
+                api.preference.createPreference(data._id).then((res) => {
+                    dispatch(userPreference(res))
+                    dispatch(login(data))
+                    localStorage.setItem("token", data.token)
+
+                })
             })
             .catch((err) => {
                 throw new Error(err.response.data.errors.email);
@@ -96,10 +100,10 @@ const SignInForm = () => {
                                     <Input size="large" type="text" placeholder="Surname" onChange={e => setSurname(e.target.value)} />
                                 </Form.Item>
                                 <Form.Item name="email" rules={[{ required: true, message: 'Please input your email!' }]}>
-                                    <Input size="large" type="email" placeholder="Email" onChange={e => setName(e.target.value)} />
+                                    <Input size="large" type="email" placeholder="Email" onChange={e => setEmail(e.target.value)} />
                                 </Form.Item>
                                 <Form.Item name="password" rules={[{ required: true, message: 'Please input your password!' }]}>
-                                    <Input.Password size="large" type="password" placeholder="Password" onChange={e => setName(e.target.value)} />
+                                    <Input.Password size="large" type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} />
                                 </Form.Item>
                                 <Form.Item name="passwordConf" rules={[{ required: true, message: 'Confirm your password!' }]}>
                                     <Input.Password size="large" placeholder="Confirm Password" onChange={e => setPasswordConf(e.target.value)} />
@@ -113,10 +117,10 @@ const SignInForm = () => {
                                         </Form.Item>
                                     ))
                                 }
-                                <Form.Item name="name" rules={[{ required: true, message: 'Please input your Company name!' }]}>
+                                <Form.Item name="company" rules={[{ required: true, message: 'Please input your Company name!' }]}>
                                     <Input size="large" placeholder="Company Name" onChange={e => setCompany(e.target.value)} />
                                 </Form.Item>
-                                <Form.Item name="surname" rules={[{ required: true, message: 'Please input Owner surname!' }]}>
+                                <Form.Item name="name" rules={[{ required: true, message: 'Please input Owner name!' }]}>
                                     <Input size="large" placeholder="Owner Name" onChange={e => setName(e.target.value)} />
                                 </Form.Item>
                                 <Form.Item name="surname" rules={[{ required: true, message: 'Please input Owner surname!' }]}>

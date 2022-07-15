@@ -2,6 +2,9 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const asyncHandler = require('express-async-handler')
 const User = require('../models/userModel')
+const Preference = require('../models/userPreferenceModel')
+const Organization = require('../models/organizationModel')
+const Buildings = require('../models/buildingModel')
 const dbo = require("../db/conn");
 const ObjectId = require("mongodb").ObjectId;
 // @desc    Register new user
@@ -33,6 +36,7 @@ const registerUser = asyncHandler(async (req, res) => {
     surname,
     email,
     password: hashedPassword,
+    type
   })
 
   if (user) {
@@ -59,7 +63,7 @@ const loginUser = asyncHandler(async (req, res) => {
 
   // Check for user email
   const user = await User.findOne({ email })
-  const resa= await bcrypt.compare(password, user.password) 
+  const resa = await bcrypt.compare(password, user.password)
   if (user && resa) {
     res.json({
       _id: user.id,
@@ -166,6 +170,13 @@ const deleteUserById = asyncHandler(async (req, res) => {
     res.status(401)
     throw new Error('User not found')
   }
+  myQuery = { userId: ObjectId(req.params.id) };
+  if (user.type === "Vendor") {
+    const organization = await Organization.findOneAndDelete(myQuery)
+  } else {
+    const buildings = await Buildings.findOneAndDelete(myQuery)
+  }
+  const preference = await Preference.findOneAndDelete(myQuery)
   await user.remove()
   res.status(200).json({ id: req.params.id })
 })

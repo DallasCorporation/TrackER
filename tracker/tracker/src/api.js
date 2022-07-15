@@ -30,6 +30,9 @@ export default {
             axios.put(`${API_URL}/user/${id}`, data),
         updatePassword: (id, data) =>
             axios.put(`${API_URL}/user/password/${id}`, data),
+        delete: (id)=>{
+            axios.delete(`${API_URL}/user/${id}`).then(res=> res.data)
+        }
     },
     activity: {
         fetchActivity: (userId) =>

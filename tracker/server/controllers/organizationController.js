@@ -59,10 +59,26 @@ const updateOrganization = asyncHandler(async (req, res) => {
     res.status(200).json(update)
 })
 
+const deleteOrganization = asyncHandler(async (req, res) => {
+    const preference = await Organization.find({ _id: req.params.id })
+    if (!preference) {
+        res.status(400)
+        throw new Error('Organization not found')
+    }
+    if (!req.params.id) {
+        res.status(401)
+        throw new Error('User not found')
+    }
+
+    const update = await Organization.findByIdAndDelete(preference)
+    res.status(200).json(update)
+})
+
 
 
 module.exports = {
     getOrganizationById,
     createOrganization,
     updateOrganization,
+    deleteOrganization
 }

@@ -15,6 +15,7 @@ app.use(require("./routes/activity"));
 app.use(require("./routes/userPreference"));
 app.use(require("./routes/locate"));
 app.use(require("./routes/mailer"));
+app.use(require("./routes/organization"));
 
 // get driver connection
 const dbo = require("./db/conn");

@@ -123,11 +123,11 @@ const DashboardRoute = () => {
             <Routes >
                 <Route path="*" element={<Dashboard user={user} />} />
                 <Route path="/dashboard" element={<Dashboard user={user} />} />
-                <Route path="/Profile/Edit" element={<Account avatar={""} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
-                <Route path="/Profile/Notification" element={<Account avatar={""} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
-                <Route path="/Profile/Activity" element={<Account avatar={""} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
-                <Route path="/Profile/Security" element={<Account avatar={""} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
-                <Route path="/Profile/Password" element={<Account avatar={""} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                <Route path="/Profile/Edit" element={<Account avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                <Route path="/Profile/Notification" element={<Account avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                <Route path="/Profile/Activity" element={<Account avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                <Route path="/Profile/Security" element={<Account avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                <Route path="/Profile/Password" element={<Account avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
             </Routes>
         </ProLayout >
     );

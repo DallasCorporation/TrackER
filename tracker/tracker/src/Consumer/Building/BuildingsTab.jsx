@@ -112,13 +112,13 @@ const BuildingTab = () => {
                                 <Col lg={8} md={8} sx={8}>
                                     <p>Building Name</p>
                                     <Input value={item.name} readOnly></Input>
-                                    <p>Contact Name</p>
+                                    <p style={{marginTop:"27px"}}>Contact Name</p>
                                     <Input value={item.contact} readOnly></Input>
                                 </Col>
                                 <Col lg={8} md={8} sx={8}>
                                     <p>Building Address</p>
                                     <Input value={item.address} readOnly></Input>
-                                    <p>Building Type</p>
+                                    <p style={{marginTop:"27px"}}>Building Type</p>
                                     <Input value={item.type} readOnly></Input>
                                 </Col>
                             </Row>

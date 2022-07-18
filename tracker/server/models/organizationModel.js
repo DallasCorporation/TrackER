@@ -8,6 +8,9 @@ const organizationSchema = new mongoose.Schema({
         minlength: 3,
         maxlength: 30,
     },
+    description: {
+        type: String,
+    },
     userId: {
         type: ObjectId,
     },

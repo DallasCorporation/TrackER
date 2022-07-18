@@ -12,13 +12,14 @@ import Dashboard from "./Dashboard";
 import api from "../api";
 import { userPreference } from "../reducers/preference";
 import { fetchOrganization } from "../reducers/organization";
+import CompleteOrganization from "./CompleteOrganization";
 
 
 const DashboardRoute = () => {
     let navigate = useNavigate();
     const user = useSelector((state) => state.user.user)
     const organization = useSelector((state) => state.organization.organization)
-    const edited= organization.type.length 
+    const edited = organization.type.length
     const icon = ""
     const dispatch = useDispatch()
     useEffect(() => {
@@ -40,39 +41,39 @@ const DashboardRoute = () => {
                 {
                     path: '/Dashboard',
                     name: 'Dashboard',
-                    disabled:edited===0,
+                    disabled: edited === 0,
                     icon: <span class="anticon iconfont">&#x100d9;</span>
                 },
                 {
                     path: '/Profile',
                     name: 'Profile',
-                    disabled:edited===0,
+                    disabled: edited === 0,
                     icon: <span class="anticon iconfont" >&#x100e5;</span>,
                     routes: [
                         {
                             path: '/Profile/Edit',
                             name: 'Personal Information',
-                            disabled:edited===0
+                            disabled: edited === 0
                         },
                         {
                             path: '/Profile/Notification',
                             name: 'Notification',
-                            disabled:edited===0
+                            disabled: edited === 0
                         },
                         {
                             path: '/Profile/Activity',
                             name: 'Activity Monitor',
-                            disabled:edited===0
+                            disabled: edited === 0
                         },
                         {
                             path: '/Profile/Security',
                             name: 'Security Settings',
-                            disabled:edited===0
+                            disabled: edited === 0
                         },
                         {
                             path: '/Profile/Password',
                             name: 'Change Password',
-                            disabled:edited===0
+                            disabled: edited === 0
                         },
                     ],
                 },
@@ -91,7 +92,7 @@ const DashboardRoute = () => {
             {...defaultProps}
             location={{ pathname, }}
             navTheme="light"
-            menu={{ defaultOpenAll: edited!==0 }}
+            menu={{ defaultOpenAll: edited !== 0 }}
             waterMarkProps={{ content: 'TrackER', }}
 
             footerRender={() =>
@@ -136,7 +137,7 @@ const DashboardRoute = () => {
             )}
             {...settings}
         >
-            {organization.type.length === 0 ? <div>Complete your Organization before....</div>
+            {organization.type.length === 0 ? <CompleteOrganization />
                 :
                 <Routes >
                     <Route path="*" element={<Dashboard user={user} />} />

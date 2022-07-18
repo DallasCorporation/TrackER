@@ -16,6 +16,7 @@ const getOrganizationById = asyncHandler(async (req, res) => {
             customers: goal.customers,
             type: goal.type,
             _id: goal._id,
+            description: goal.description
         })
     else {
         res.status(400)
@@ -38,7 +39,8 @@ const createOrganization = asyncHandler(async (req, res) => {
         icon: "",
         userId: req.body.userId,
         type: [],
-        customers: []
+        customers: [],
+        description: ""
     })
 
     res.status(200).json(preference)

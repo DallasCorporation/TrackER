@@ -16,7 +16,8 @@ const getOrganizationById = asyncHandler(async (req, res) => {
             customers: goal.customers,
             type: goal.type,
             _id: goal._id,
-            description: goal.description
+            description: goal.description,
+            createdAt: goal.createAt
         })
     else {
         res.status(400)
@@ -36,7 +37,7 @@ const createOrganization = asyncHandler(async (req, res) => {
 
     const preference = await Organization.create({
         name: req.body.name,
-        icon: "",
+        icon: {},
         userId: req.body.userId,
         type: [],
         customers: [],
@@ -50,7 +51,7 @@ const createOrganization = asyncHandler(async (req, res) => {
 // @route   PUT /api/goals/:id
 // @access  Private
 const updateOrganization = asyncHandler(async (req, res) => {
-    const preference = await Organization.find({ userId: req.params.id })
+    const preference = await Organization.find({ id: req.params.id })
     if (!preference) {
         res.status(400)
         throw new Error('Organization not found')
@@ -80,6 +81,10 @@ const deleteOrganization = asyncHandler(async (req, res) => {
 
     const update = await Organization.findByIdAndDelete(preference)
     res.status(200).json(update)
+})
+
+const uploadOrganizationIcon = asyncHandler(async (req, res) => {
+    
 })
 
 

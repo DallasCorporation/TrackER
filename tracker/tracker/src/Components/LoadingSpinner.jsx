@@ -7,7 +7,7 @@ const LoadingSpinner = ({ message, size = "large" }) => {
             margin: "20px 0", marginBottom: "20px",
             padding: "30px 50px",
             textAlign: "center",
-            background: "rgba(0, 0, 0, 0.6)",
+            background: "rgba(255, 255, 255, 0.6)",
             borderRadius: "4px",
             position: "fixed",
             bottom: 0,

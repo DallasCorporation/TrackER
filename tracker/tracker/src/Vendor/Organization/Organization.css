@@ -61,3 +61,52 @@
     text-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
     transition: 1.7s;
 }
+
+.iconfontMedium {
+    font-family: "iconfont" !important;
+    font-style: normal;
+    font-size: 50px;
+    width: 50px;
+    height: 100px;
+    align-self: center;
+    display: inline;
+    vertical-align: middle;
+    text-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+}
+
+.iconfontMedium:hover {
+    cursor: pointer;
+    font-size: 80px;
+    width: 60px;
+    height: 100px;
+    transition: 1.2s
+}
+
+.iconfontMediumSelected {
+    cursor: pointer;
+    font-family: "iconfont" !important;
+    font-style: normal;
+    font-size: 75px;
+    width: 60px;
+    height: 100px;
+    align-self: center;
+    display: inline;
+    vertical-align: middle;
+    text-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    transition: 1.2s
+}
+
+.ant-form-item {
+    margin-bottom: 8px;
+}
+
+.iconfontMedium2 {
+    font-family: "iconfont" !important;
+    font-style: normal;
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+    align-self: center;
+    display: inline;
+    vertical-align: middle;
+}

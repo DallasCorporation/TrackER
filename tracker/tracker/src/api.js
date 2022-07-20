@@ -67,10 +67,12 @@ export default {
     organization: {
         create: (body) =>
             axios.post(`${API_URL}/organization`, body)
-                .then((res) => res.data)
-        ,
+                .then((res) => res.data),
         getByUserId: (userId) =>
             axios.get(`${API_URL}/organization/${userId}`)
+                .then((res) => res.data),
+        update: (id, body) =>
+            axios.put(`${API_URL}/organization/${id}`, body)
                 .then((res) => res.data)
     }
 };

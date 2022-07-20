@@ -18,10 +18,11 @@ const organizationSchema = new mongoose.Schema({
         type: Array
     },
     icon: {
-        type: String
+        data: Buffer,
+        contentType: String
     },
-    customers:{
-        type:Array
+    customers: {
+        type: Array
     },
     createAt: {
         type: Date,

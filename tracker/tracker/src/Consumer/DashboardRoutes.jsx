@@ -26,7 +26,7 @@ const DashboardRoute = () => {
             api.preference.fetchPreference(user._id).then(data => dispatch(userPreference(data)))
         }
         fetchPreference()
-    }, [user])
+    }, [dispatch, user])
 
 
     let defaultProps = {

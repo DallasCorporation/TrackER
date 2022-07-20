@@ -1,13 +1,11 @@
-import ApexCharts from 'apexcharts';
 export const statebar = {
     series: [{
         name: 'Something',
-        data: [2.3, 3.1, 4.0, 2.8]
+        data: [2.3, 3.1, 4.0, 2.8],
     }],
     options: {
-        grid: {
-            show: false
-        },
+        colors: ['#26f8c9'],
+        grid: { show: false },
         chart: {
             animations: {
                 enabled: true,
@@ -59,9 +57,10 @@ export const statebar = {
     },
 };
 
-export const stateradial = {
+export const stateradial = (color) => ({
     series: [40],
     options: {
+        colors: [color, "#000000"],
         chart: {
             type: 'radialBar',
         },
@@ -84,7 +83,7 @@ export const stateradial = {
             }
         },
     },
-};
+});
 
 export const stacked = {
     series: [{
@@ -98,7 +97,7 @@ export const stacked = {
         data: [31]
     }],
     options: {
-        colors: ['#26f8c9', '#1be7ff', '#022cf7', ],
+        colors: ['#26f8c9', '#1be7ff', '#022cf7',],
         grid: {
             show: false
         },

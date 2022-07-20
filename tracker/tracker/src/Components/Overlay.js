@@ -5,7 +5,7 @@ import { login } from "../reducers/user";
 import { fetchBuildings } from "../reducers/buildings";
 import api from "../api";
 import { useDispatch } from "react-redux";
-import { Alert, Divider, Form, Input, Row, Tabs } from "antd";
+import { Alert, Divider, Form, Input, message, Row, Tabs } from "antd";
 import { Link } from "react-router-dom";
 import styled from "styled-components"
 import { userPreference } from "../reducers/preference";
@@ -46,7 +46,10 @@ const SignInForm = () => {
                     dispatch(userPreference(res))
                 })
             })
-            .catch((err) => { throw new Error(err.response.data.errors.email); });
+            .catch((err) => {
+                console.log(err)
+                message.error("Error! " + err.message)
+            });
     }
 
     const handleSignUpSubmit = (e) => {
@@ -65,7 +68,7 @@ const SignInForm = () => {
             .signUp(data)
             .then((data) => {
                 if (type === "Vendor")
-                    api.organization.create({userId: data._id, name: company})
+                    api.organization.create({ userId: data._id, name: company })
                 api.preference.createPreference(data._id).then((res) => {
                     dispatch(userPreference(res))
                     dispatch(login(data))

@@ -45,25 +45,29 @@ const Dashboard = () => {
           <Row justify="center" gutter={[32, 32]} style={{ marginTop: "32px" }}>
             <Col lg={6} md={6} sx={6}>
               <StatsCard
+                color={"#ebfafa"}
                 chart={<ReactApexChart options={statebar.options} series={statebar.series} type="bar" height={150} />}
                 value={"13,346"}
               />
             </Col>
             <Col lg={6} md={6} sx={6}>
               <StatsCard
-                chart={<ReactApexChart options={stateradial.options} series={stateradial.series} type="radialBar" height={185} />}
+                color={"#fff9e9"}
+                chart={<ReactApexChart options={stateradial('#ffcf26').options} series={stateradial('#ffcf26').series} type="radialBar" height={185} />}
                 value={"17,346"}
               />
             </Col>
             <Col lg={6} md={6} sx={6}>
               <StatsCard
+                color={"#ebfafa"}
                 chart={<ReactApexChart options={statebar.options} series={statebar.series} type="bar" height={150} />}
                 value={"1,346"}
               />
             </Col>
             <Col lg={6} md={6} sx={6}>
               <StatsCard
-                chart={<ReactApexChart options={stateradial.options} series={stateradial.series} type="radialBar" height={185} />}
+                color={"#fdeffc"}
+                chart={<ReactApexChart options={stateradial("#fe9ca9").options} series={stateradial('#fe9ca9').series} type="radialBar" height={185} />}
                 value={"2,345"}
               />
             </Col>

@@ -7,7 +7,7 @@ import { CardTitle } from "../../Components/CustomComponents"
 
 const RowHover = styled(Row)`
 &:hover {
-background: rgba(224, 248, 232, 1);
+background: #ebfafa;
 border-radius:10px;
 cursor: pointer;
 }
@@ -90,12 +90,12 @@ const ExpensiveChart = () => {
             {names.map((el) => {
                 return (
                     <RowHover justify="space-evenly" align="middle" style={{ padding: 12 }} className="hover">
-                        <Col span={4}> {el.icon}</Col>
+                        <Col span={4} style={{color:"blue"}}> {el.icon}</Col>
                         <Col span={16} >
                             <CardTitle style={{ lineHeight: 1 }} >{el.name}</CardTitle>
                             <p>{el.desc}</p>
                         </Col>
-                        <Col span={4} style={{ textAlign: "end" }}>
+                        <Col span={4} style={{ textAlign: "end", color:"blue" }}>
                             <ArrowRightOutlined />
                         </Col>
                     </RowHover>

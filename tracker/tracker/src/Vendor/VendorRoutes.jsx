@@ -7,12 +7,12 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import { LinkHover } from "../Components/CustomComponents";
 import Account from "../Consumer/Account/Account";
 import "./Vendor.less"
-import Header from "../Home/Nav";
 import Dashboard from "./Dashboard";
 import api from "../api";
 import { userPreference } from "../reducers/preference";
 import { fetchOrganization } from "../reducers/organization";
 import CompleteOrganization from "./CompleteOrganization";
+import Header from "../Consumer/Header/Header";
 
 
 const DashboardRoute = () => {
@@ -31,7 +31,7 @@ const DashboardRoute = () => {
         }
         fetchPreference()
         getOrganization()
-    }, [])
+    }, [dispatch, user])
 
 
     let defaultProps = {
@@ -43,6 +43,30 @@ const DashboardRoute = () => {
                     name: 'Dashboard',
                     disabled: edited === 0,
                     icon: <span class="anticon iconfont">&#x100d9;</span>
+                },
+                organization.type.includes("Electric") && {
+                    path: '/Electric',
+                    name: 'Electric Supplier',
+                    disabled: edited === 0,
+                    icon: <span class="anticon iconfont">&#xe61d;</span>
+                },
+                organization.type.includes("Water") && {
+                    path: '/Water',
+                    name: 'Water Supplier',
+                    disabled: edited === 0,
+                    icon: <span class="anticon iconfont">&#xe730;</span>
+                },
+                organization.type.includes("Gas") && {
+                    path: '/Gas',
+                    name: 'Gas Supplier',
+                    disabled: edited === 0,
+                    icon: <span class="anticon iconfont">&#xe657;</span>
+                },
+                organization.type.includes("Distributed") && {
+                    path: '/Distributed',
+                    name: 'Energy Resources',
+                    disabled: edited === 0,
+                    icon: <span class="anticon iconfont">&#xe927;</span>
                 },
                 {
                     path: '/Profile',
@@ -94,7 +118,7 @@ const DashboardRoute = () => {
             navTheme="light"
             menu={{ defaultOpenAll: edited !== 0 }}
             waterMarkProps={{ content: 'TrackER', }}
-
+            headerRender={() => <Header />}
             footerRender={() =>
                 <DefaultFooter style={{ backgroundColor: "#f7fafd", }}
                     copyright="2022 by TrackER"

@@ -5,35 +5,6 @@ import { useState } from "react"
 import { ProForm, ProFormDigit, ProFormMoney, ProFormSlider, ProFormText } from '@ant-design/pro-components';
 import { useEffect } from "react";
 
-const mockData = [
-    {
-        key: "Solar",
-        title: `Solar Energy`,
-        description: `description of content`,
-    },
-    {
-        key: "Hydro",
-        title: `Hydro Energy`,
-        description: `description of content`,
-    },
-    {
-        key: "Wind",
-        title: `Windy Energy`,
-        description: `description of content`,
-    },
-    {
-        key: "Biomass",
-        title: `Biomass Energy`,
-        description: `description of content`,
-    },
-    {
-        key: "Geo",
-        title: `Geothermal Energy`,
-        description: `description of content`,
-    },
-]
-
-
 const FirstStep = ({ gas, setGas, electric, setElectric, water, setWater, distributed, setDistributed, setPrices, prices = [] }) => {
 
     const [solar, setSolar] = useState(false)

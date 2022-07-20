@@ -35,7 +35,7 @@ const Account = ({ updateRoute, user, avatar }) => {
             items={[
                 {
                     key: '1',
-                    label: "Change Avatar",
+                    label: user.type==="Buildings"? "Change Avatar":"Change Organization Logo",
                     onClick: () => { setVisible(true) }
                 },
             ]}

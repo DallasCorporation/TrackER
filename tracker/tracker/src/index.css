@@ -57,6 +57,7 @@ h6,
     font-style: normal !important;
     -webkit-font-smoothing: antialiased !important;
     font-weight: 500 !important;
+    vertical-align: middle;
 }
 
 .mapbox-improve-map {

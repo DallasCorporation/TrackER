@@ -35,7 +35,7 @@ const InfoAccount = ({ user }) => {
                 </Row>
                 <Row justify="space-between" style={{ marginTop: "16px" }}>
                     <Col >Account Type</Col>
-                    <Col offset={8}>{user.email}</Col>
+                    <Col offset={8}>{user.type}</Col>
                 </Row>
             </Col>
             <Divider />

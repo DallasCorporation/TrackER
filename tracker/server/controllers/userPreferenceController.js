@@ -14,7 +14,8 @@ const getPreferenceById = asyncHandler(async (req, res) => {
         activityLog: goal.activityLog,
         avatar: goal.avatar,
         _id: goal._id,
-        notification: goal.notification
+        notification: goal.notification,
+        news: goal.news
     })
 })
 
@@ -31,7 +32,8 @@ const createPreference = asyncHandler(async (req, res) => {
         activityLog: true,
         avatar: "https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png",
         userId: req.params.id,
-        notification: true
+        notification: true,
+        news: false
     })
 
     res.status(200).json(preference)

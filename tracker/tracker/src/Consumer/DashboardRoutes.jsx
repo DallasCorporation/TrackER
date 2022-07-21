@@ -3,7 +3,7 @@ import { GithubOutlined, } from '@ant-design/icons';
 import { Link, Route, Routes, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Dashboard from './Dashboard'
-import Account from './Account/Account';
+import Account from '../Account/Account';
 import BuildingsTab from './Building/BuildingsTab';
 import "./Dashboard.less"
 import { DefaultFooter, ProLayout } from '@ant-design/pro-components';

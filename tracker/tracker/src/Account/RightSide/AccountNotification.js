@@ -1,8 +1,18 @@
-import { Col, Divider, Row, Switch } from "antd"
-import { AccountSubTitle, AccountTitle, GreyParagraph } from "../../../Components/CustomComponents"
+import { Col, Divider, message, Row, Switch } from "antd"
+import { useDispatch } from "react-redux"
+import api from "../../api"
+import { AccountSubTitle, AccountTitle, GreyParagraph } from "../../Components/CustomComponents"
+import { updatePreference } from "../../reducers/preference"
 
-const AccountNotification = () => {
-
+const AccountNotification = ({ user }) => {
+    const dispatch = useDispatch()
+    const setNotification = (data) => {
+        api.preference.updatePreference(user._id, data).then(res => {
+            dispatch(updatePreference(res))
+            message.success("Update Notifications Preference")
+            console.log(data)
+        }).catch(err => message.error("Error on Update Preference"))
+    }
     return (
         <div>
             <Col>
@@ -17,7 +27,7 @@ const AccountNotification = () => {
                     <GreyParagraph>Receive mails about your account operation.</GreyParagraph>
                 </Col>
                 <Col style={{ marginRight: "20px" }}>
-                    <Switch />
+                    <Switch onClick={(type) => setNotification({ notification: type })} />
                 </Col>
             </Row>
             <Divider />
@@ -28,7 +38,7 @@ const AccountNotification = () => {
                     <GreyParagraph>Notify me by email about sales and latest news of TrackEr.</GreyParagraph>
                 </Col>
                 <Col style={{ marginRight: "20px" }}>
-                    <Switch />
+                    <Switch onClick={(type) => setNotification({ news: type })} />
                 </Col>
             </Row>
         </div>

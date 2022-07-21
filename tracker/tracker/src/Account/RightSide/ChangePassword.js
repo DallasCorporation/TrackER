@@ -1,9 +1,9 @@
 import { Button, Col, Divider, Form, Input, message } from "antd"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
-import api from "../../../api"
-import { AccountTitle, GreyParagraph } from "../../../Components/CustomComponents"
-import { updateUser } from "../../../reducers/user"
+import api from "../../api"
+import { AccountTitle, GreyParagraph } from "../../Components/CustomComponents"
+import { updateUser } from "../../reducers/user"
 import bcrypt from "bcryptjs"
 
 const ChangePassword = ({ user }) => {

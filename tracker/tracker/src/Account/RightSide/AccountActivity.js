@@ -2,8 +2,9 @@ import { ProTable } from "@ant-design/pro-components"
 import { Col, Divider } from "antd";
 import { useState } from "react";
 import { useEffect } from "react";
-import api from "../../../api"
-import { AccountTitle, GreyParagraph } from "../../../Components/CustomComponents";
+import api from "../../api"
+import { AccountTitle, GreyParagraph } from "../../Components/CustomComponents";
+import LoadingSpinner from "../../Components/LoadingSpinner";
 
 const columns = [
     {
@@ -30,7 +31,7 @@ const columns = [
         render: (a) => {
             var newDate = new Date(a);
             return (
-               newDate.toLocaleString()
+                newDate.toLocaleString()
             )
         }
     },
@@ -41,11 +42,15 @@ const columns = [
 const AccountActivity = ({ user }) => {
 
     const [data, setData] = useState([])
+    const [load, setLoad] = useState(true)
 
     useEffect(() => {
         const fetch = async () => {
             let fetchData = await api.activity.fetchActivity(user._id).then(res => res)
             setData(fetchData)
+            setTimeout(() => {
+                setLoad(false)
+            }, 300);
         }
         fetch()
     }, [])
@@ -59,9 +64,9 @@ const AccountActivity = ({ user }) => {
                 <GreyParagraph>Here is your last login activities log.</GreyParagraph>
             </Col>
             <Divider />
+            {load && <LoadingSpinner />}
             <ProTable dataSource={data} rowKey="key" pagination={{
                 hideOnSinglePage: true,
-
             }} columns={columns} search={false} options={{ setting: false, reload: false, fullScreen: false, density: false, search: false }} dateFormatter="string" />
         </div>
     )

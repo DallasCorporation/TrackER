@@ -1,9 +1,9 @@
 import { Avatar, Button, Card, Col, Drawer, message, Row, Tooltip } from "antd";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import api from "../../api";
-import { AccountSubTitle, AvatarHover } from "../../Components/CustomComponents";
-import { updatePreference } from "../../reducers/preference";
+import api from "../api";
+import { AccountSubTitle, AvatarHover } from "../Components/CustomComponents";
+import { updatePreference } from "../reducers/preference";
 
 function importAll(r) {
     let images = {};
@@ -11,7 +11,7 @@ function importAll(r) {
     return images;
 }
 
-const component = require.context('../../assets/avatars/', false, /\.svg/)
+const component = require.context('../assets/avatars/', false, /\.svg/)
 const images = importAll(component);
 
 const AvatarDrawer = ({ user, visible, onClose }) => {

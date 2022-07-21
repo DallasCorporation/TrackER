@@ -81,7 +81,7 @@ const ExpensiveChart = () => {
         <ProCard bordered style={{ borderRadius: "10px" }}>
             <Row justify="space-between" align="middle">
                 <CardTitle >Expensive</CardTitle>
-                <span class="anticon iconfont" >&#xe71b;</span>
+                <span class="anticon iconfont" style={{color:"blue"}} >&#xe71b;</span>
             </Row>
             <Row justify="center">
                 <ReactApexChart options={state.options} series={state.series} type="donut" height={320} />

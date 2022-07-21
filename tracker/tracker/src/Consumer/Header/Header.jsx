@@ -18,9 +18,7 @@ const Header = () => {
                         {
                             key: '1-1',
                             label: (
-                                <div>
-                                    <LinkHover to="/Profile/Edit">View Profile</LinkHover>
-                                </div>
+                                <LinkHover to="/Profile/Edit">View Profile</LinkHover>
                             ),
                         },],
                     label: <h3>Profile Settings</h3>
@@ -37,9 +35,7 @@ const Header = () => {
                 {
                     key: '3',
                     label: (
-                        <div>
                             <LinkHover to="/Profile/Security">Settings</LinkHover>
-                        </div>
                     ),
                 },
                 {

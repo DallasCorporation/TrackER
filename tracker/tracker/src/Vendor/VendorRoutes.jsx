@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { LinkHover } from "../Components/CustomComponents";
-import Account from "../Consumer/Account/Account";
+import Account from "../Account/Account";
 import "./Vendor.less"
 import Dashboard from "./Dashboard";
 import api from "../api";
@@ -13,6 +13,7 @@ import { userPreference } from "../reducers/preference";
 import { fetchOrganization } from "../reducers/organization";
 import CompleteOrganization from "./CompleteOrganization";
 import Header from "../Consumer/Header/Header";
+import Customers from "./Customers/Customers";
 
 
 const DashboardRoute = () => {
@@ -24,10 +25,10 @@ const DashboardRoute = () => {
     const dispatch = useDispatch()
     useEffect(() => {
         const fetchPreference = async () => {
-            api.preference.fetchPreference(user._id).then(data => dispatch(userPreference(data)))
+            await api.preference.fetchPreference(user._id).then(data => dispatch(userPreference(data)))
         }
         const getOrganization = async () => {
-            api.organization.getByUserId(user._id).then(data => dispatch(fetchOrganization(data)))
+            await api.organization.getByUserId(user._id).then(data => dispatch(fetchOrganization(data)))
         }
         fetchPreference()
         getOrganization()
@@ -69,10 +70,16 @@ const DashboardRoute = () => {
                     icon: <span class="anticon iconfont">&#xe927;</span>
                 },
                 {
-                    path: '/Profile',
-                    name: 'Profile',
+                    path: '/Customers',
+                    name: 'Customers',
                     disabled: edited === 0,
-                    icon: <span class="anticon iconfont" >&#x100e5;</span>,
+                    icon: <span class="anticon iconfont">&#x100e5;</span>
+                },
+                {
+                    path: '/Profile',
+                    name: 'Organization',
+                    disabled: edited === 0,
+                    icon: <span class="anticon iconfont" >&#x100da;</span>,
                     routes: [
                         {
                             path: '/Profile/Edit',
@@ -166,6 +173,7 @@ const DashboardRoute = () => {
                 <Routes >
                     <Route path="*" element={<Dashboard user={user} />} />
                     <Route path="/dashboard" element={<Dashboard user={user} />} />
+                    <Route path="/Customers" element={<Customers organization={organization} avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
                     <Route path="/Profile/Edit" element={<Account avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
                     <Route path="/Profile/Notification" element={<Account avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
                     <Route path="/Profile/Activity" element={<Account avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />

@@ -11,6 +11,9 @@ const userPreferenceSchema = new mongoose.Schema({
     notification: {
         type: Boolean
     },
+    news: {
+        type: Boolean
+    },
     avatar: {
         type: String
     }

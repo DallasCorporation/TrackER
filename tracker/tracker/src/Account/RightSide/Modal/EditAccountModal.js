@@ -1,8 +1,8 @@
 import { Button, Col, Form, Input, Modal } from "antd"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
-import api from "../../../../api"
-import { updateUser } from "../../../../reducers/user"
+import api from "../../../api"
+import { updateUser } from "../../../reducers/user"
 
 const EditAccountModal = ({ visible, setVisible, user }) => {
     const dispatch = useDispatch()

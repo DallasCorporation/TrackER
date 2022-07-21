@@ -9,6 +9,7 @@ import { MoreOutlined } from '@ant-design/icons';
 import { useState } from "react";
 import AvatarDrawer from "./AvatarDrawer";
 import AccountNotification from "./RightSide/AccountNotification";
+import OrganizationDrawer from "./OrganizationDrawer";
 
 const Account = ({ updateRoute, user, avatar }) => {
     function getItem(label, key, icon, children, type, style) {
@@ -35,7 +36,7 @@ const Account = ({ updateRoute, user, avatar }) => {
             items={[
                 {
                     key: '1',
-                    label: user.type==="Buildings"? "Change Avatar":"Change Organization Logo",
+                    label: user.type === "Building" ? "Change Avatar" : "Change Organization Logo",
                     onClick: () => { setVisible(true) }
                 },
             ]}
@@ -93,7 +94,8 @@ const Account = ({ updateRoute, user, avatar }) => {
                     </Row>
                 </ProCard>
             </Row>
-            { user.type==="Building" &&<AvatarDrawer user={user} visible={visible} onClose={()=> setVisible(false)}/>}
+            {user.type === "Building" && <AvatarDrawer user={user} visible={visible} onClose={() => setVisible(false)} />}
+            {user.type === "Vendor" && <OrganizationDrawer user={user} visible={visible} onClose={() => setVisible(false)} />}
         </Layout>
     )
 }

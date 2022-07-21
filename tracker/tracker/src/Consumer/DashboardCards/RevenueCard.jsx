@@ -3,7 +3,7 @@ import { ProCard } from "@ant-design/pro-components";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 import { CardTitle } from "../../Components/CustomComponents";
-const RevenueCard = ({...props}) => {
+const RevenueCard = ({ ...props }) => {
     let state = {
         series: [{
             name: 'Consumption',
@@ -40,20 +40,18 @@ const RevenueCard = ({...props}) => {
 
 
     return (
-        <ProCard colSpan={12} bordered style={{ borderRadius: "10px",  }}>
+        <ProCard colSpan={12} bordered style={{ borderRadius: "10px", }}>
             <Row justify="space-between" align="middle" >
                 <Col>
                     <Row align="middle">
                         <CardTitle>
                             Revenue
                         </CardTitle>
-                        <p style={{fontSize:"12px", color:"#636e72", marginLeft:"6px"}}> Last week</p>
+                        <p style={{ fontSize: "12px", color: "#636e72", marginLeft: "6px" }}> Last week</p>
                     </Row>
                 </Col>
                 <Col>
-                    <p>
-                        icon select
-                    </p>
+                    <span class="anticon iconfont" style={{color:"blue"}} >&#x100e6;</span>
                 </Col>
             </Row>
             <ReactApexChart options={state.options} series={state.series} type="radar" height={350} />

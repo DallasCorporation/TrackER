@@ -2,11 +2,11 @@ import { QuestionCircleOutlined, QuestionOutlined } from "@ant-design/icons"
 import { Alert, Button, Col, Divider, message, Popconfirm, Row, Spin, Switch } from "antd"
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import api from "../../../api"
-import { AccountSubTitle, AccountTitle, GreyParagraph } from "../../../Components/CustomComponents"
-import { updatePreference } from "../../../reducers/preference"
-import { logout } from "../../../reducers/user"
-import LoadingSpinner from "../../../Components/LoadingSpinner"
+import api from "../../api"
+import { AccountSubTitle, AccountTitle, GreyParagraph } from "../../Components/CustomComponents"
+import { updatePreference } from "../../reducers/preference"
+import { logout } from "../../reducers/user"
+import LoadingSpinner from "../../Components/LoadingSpinner"
 
 const SecuritySettings = ({ user, updateRoute }) => {
 
@@ -16,7 +16,8 @@ const SecuritySettings = ({ user, updateRoute }) => {
     const updatePref = async (value) => {
         await api.preference.updatePreference(user._id, { activityLog: value }).then(data => {
             dispatch((updatePreference(data)))
-        })
+            message.success("Update Activity Log Preference")
+        }).catch(err=> message.error("Error on Update Preference"))
     }
     const deleteAccount = async () => {
         await api.user.delete(user._id)

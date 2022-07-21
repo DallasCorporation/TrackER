@@ -1,8 +1,9 @@
-import { Button, Col, Divider, Modal, Row } from "antd"
+import { InfoCircleFilled, InfoCircleOutlined, LogoutOutlined } from "@ant-design/icons"
+import { Button, Col, Divider, Modal, Popconfirm, Row } from "antd"
 import { useState } from "react"
 import { useDispatch } from "react-redux"
-import { AccountSubTitle, AccountTitle, GreyParagraph } from "../../../Components/CustomComponents"
-import { logout } from "../../../reducers/user"
+import { AccountSubTitle, AccountTitle, GreyParagraph } from "../../Components/CustomComponents"
+import { logout } from "../../reducers/user"
 import EditAccountModal from "./Modal/EditAccountModal"
 
 const InfoAccount = ({ user }) => {
@@ -18,7 +19,7 @@ const InfoAccount = ({ user }) => {
             <Divider />
             <Row justify="space-between">
                 <AccountSubTitle>Contact</AccountSubTitle>
-                <Button onClick={() => setVisible(true)} type="primary" style={{ borderRadius: "4px" }}>Edit</Button>
+                <Button onClick={() => setVisible(true)} type="primary" style={{ borderRadius: 6, marginRight: "20px", height: 40 }}>Edit</Button>
             </Row>
             <Col span={12}>
                 <Row justify="space-between" style={{ marginTop: "16px" }}>
@@ -39,8 +40,18 @@ const InfoAccount = ({ user }) => {
                 </Row>
             </Col>
             <Divider />
-            <AccountSubTitle>Preference</AccountSubTitle>
-            <Button type="ghost" style={{ color: "red" }} onClick={() => dispatch(logout())}>Logout</Button>
+            <Row justify="space-between" align="middle">
+                <AccountSubTitle>Exit</AccountSubTitle>
+                <Popconfirm
+                    icon={<InfoCircleFilled/>}
+                    title="Are you sure to Logout?"
+                    onConfirm={()=>dispatch(logout())}
+                    okText="Yes"
+                    cancelText="No"
+                >
+                    <Button style={{ color: "red", borderRadius: 6, marginRight: "20px", height: 40 }}>Logout <LogoutOutlined /></Button>
+                </Popconfirm>
+            </Row>
             <EditAccountModal visible={visible} setVisible={setVisible} user={user} />
         </div>
     )

@@ -4,9 +4,9 @@ const dbo = require("../db/conn");
 const ObjectId = require("mongodb").ObjectId;
 
 const registerBuilding = asyncHandler(async (req, res) => {
-    const { name, contact, userId, address, type, lat, long } = req.body
+    const { name, contact, userId, address, type, organizationId, sqft, lat, long } = req.body
 
-    if (!name || !contact || !address || !type || !lat || !long) {
+    if (!name || !contact || !address || !type || !lat || !long || !organizationId || !sqft) {
         res.status(400)
         throw new Error('Please add all fields')
     }
@@ -26,6 +26,8 @@ const registerBuilding = asyncHandler(async (req, res) => {
         contact,
         userId,
         address,
+        organizationId,
+        sqft,
         type,
         lat,
         long,
@@ -37,6 +39,8 @@ const registerBuilding = asyncHandler(async (req, res) => {
             name: building.name,
             contact: building.contact,
             userId: building.userId,
+            organizationId: building.organizationId,
+            sqft: building.sqft,
             address: building.address,
             type: building.type,
             lat: building.lat,

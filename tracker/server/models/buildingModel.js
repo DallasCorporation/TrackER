@@ -13,6 +13,9 @@ const buildingSchema = new mongoose.Schema({
     userId: {
         type: ObjectId,
     },
+    organizationId: {
+        type: ObjectId,
+    },
     address: {
         type: String,
         required: [true, 'Please add the address'],
@@ -20,6 +23,9 @@ const buildingSchema = new mongoose.Schema({
     type: {
         type: String,
         required: [true, 'Please add the typo of the building'],
+    },
+    sqft: {
+        type: Number,
     },
     lat: {
         type: String,

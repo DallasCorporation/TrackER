@@ -1,11 +1,13 @@
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { AutoComplete, Breadcrumb, Button, Card, Col, Empty, Input, Layout, List, PageHeader, Popconfirm, Radio, Row, Select } from "antd";
 import React from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import api from "../../api";
 import { fetchBuildings } from "../../reducers/buildings";
 import Map from './Map';
+import LoadingSpinner from '../../Components/LoadingSpinner';
 
 const { Option } = Select;
 const { Search } = Input;
@@ -20,11 +22,15 @@ const BuildingTab = () => {
     const buildings = useSelector((state) => state.buildings.buildings)
     const user = useSelector((state) => state.user.user)
     const dispatch = useDispatch()
-
+    const [show, setShow] = useState(false)
     const deleteBuilding = async (id) => {
+        setShow(true)
         await api.buildings.deleteBuilding(id)
         await api.buildings.fetchBuildings(user._id).then((res) => {
             dispatch(fetchBuildings(res))
+            setTimeout(() => {
+                setShow(false)
+            }, 1000);
         })
 
     }
@@ -37,6 +43,7 @@ const BuildingTab = () => {
                 minHeight: 280,
             }}
         >
+            {show && <LoadingSpinner message={"Deleting..."}></LoadingSpinner>}
             <Row gutter={[16, 16]} >
                 <Breadcrumb>
                     <Breadcrumb.Item>Home</Breadcrumb.Item>

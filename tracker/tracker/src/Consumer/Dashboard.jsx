@@ -79,14 +79,14 @@ const Dashboard = () => {
             }}>
               <Row justify="space-between" align="middle" >
                 <Col span={12}>
-                  <h4 style={{ fontSize: "20px", fontWeight: 500, color: "#2d3436" }}>Best team</h4>
+                  <h4 style={{ fontSize: "20px", fontWeight: 500, color: "#2d3436" }}>Best Organization</h4>
                   <div>
                     <p>Highest income this month</p>
                     <p>$442.98 Highest income this month</p>
                   </div>
                 </Col>
-                <Col span={8}>
-                  <p>Marketing Team</p>
+                <Col span={8} style={{marginRight:32}}>
+                  <p>Name Organization Customers</p>
                   <Row justify="space-between" align="middle" gutter={[32,32]}>
                     <Avatar size={40} src={images['Avatar-1.svg']} />
                     <Avatar size={40} src={images['Avatar-2.svg']} />

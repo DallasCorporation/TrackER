@@ -4,14 +4,14 @@ export const Nav30DataSource = {
   page: { className: 'home-page' },
   logo: {
     className: 'header3-logo',
-    children:{
-      logo:'https://gw.alipayobjects.com/zos/basement_prod/b30cdc2a-d91c-4c78-be9c-7c63b308d4b3.svg',
+    children: {
+      logo: 'https://gw.alipayobjects.com/zos/basement_prod/b30cdc2a-d91c-4c78-be9c-7c63b308d4b3.svg',
       href: '/',
     }
   },
   Menu: {
     className: 'header3-menu',
-    children: [ 
+    children: [
       {
         name: 'item0',
         className: 'header3-item',
@@ -49,9 +49,9 @@ export const Banner01DataSource = {
   },
   content: {
     className: 'banner0-content',
-    children: "Life as a shorty shouldn't be so rough. Handcuffed in the back of a bus, forty of us. Leave it up to me while I be livin' proof",
+    children: "We provides commercial and industrial customers with a cross-industry solution to scale green energy adoption and improve operating costs driving corporate sustainability.",
   },
-  button: { className: 'banner0-button', children: 'Learn More' },
+  button: { className: 'banner0-button', children: 'Learn More',},
 };
 export const Content00DataSource = {
   wrapper: { className: 'home-page-wrapper content0-wrapper' },
@@ -59,7 +59,7 @@ export const Content00DataSource = {
   OverPack: { playScale: 0.3, className: '' },
   titleWrapper: {
     className: 'title-wrapper',
-    children: [{ name: 'title', children: 'Title' }],
+    children: [{ name: 'title', children: 'Unlocking the Value of Energy Resources' }],
   },
   childWrapper: {
     className: 'content0-block-wrapper',
@@ -83,7 +83,7 @@ export const Content00DataSource = {
               className: 'content0-block-title',
               children: 'KPI 1',
             },
-            { name: 'content', children: "As the world turns I spread like germs, bless the globe with the pestilence, the hard-headed never learn. To kick the truth to the young black youth. Murderous material, made by a madman, it's the mic wrecker, Inspector, bad man." },
+            { name: 'content', children: "Our subscription model allows customers to register sites in a few clicks and scale up or down as needed. Our professional services, included in the subscription, guarantee a quick return of investment." },
           ],
         },
       },
@@ -108,7 +108,7 @@ export const Content00DataSource = {
             },
             {
               name: 'content',
-              children: "I'm no joker! Play me like poker! Be on you like a house on fire! Smoke ya! I grew up on the crime side, the New York Times side, Stayin' alive was no jive. We got stick-up kids, corrupt cops, and pop rocks.",
+              children: "The TrackER Energy Information System provides a suite of automated services to collect, standardize, and visualize 15-minute interval data and billing information so our customers can focus on their core business.",
             },
           ],
         },
@@ -134,7 +134,7 @@ export const Content00DataSource = {
             },
             {
               name: 'content',
-              children: "Lyrically perform armed robbery, flee with the lottery, possibly they spotted me. Life as a shorty shouldn't be so rough. Terrorize the jam like troops in Pakistan, swinging through your town like your neighborhood Spiderman.",
+              children: "Demand charge management, load forecasting, utility rate comparison, net energy monitoring, setback and retrospective analysis are only a few examples of the TrackER service suite.",
             },
           ],
         },
@@ -502,7 +502,7 @@ export const Content110DataSource = {
   },
   button: {
     className: '',
-    children: { a: { className: 'button', href: '#', children: '...' } },
+    children: { a: { className: 'button', href: '/Access', children: 'Join Now' } },
   },
 };
 export const Footer10DataSource = {
@@ -537,13 +537,13 @@ export const Footer10DataSource = {
         xs: 24,
         md: 6,
         className: 'block',
-        title: { children: 'Footer S1' },
+        title: { children: 'Company' },
         childWrapper: {
           children: [
-            { name: 'link0', href: '#', children: '...' },
-            { name: 'link1', href: '#', children: '...' },
-            { name: 'link2', href: '#', children: '...' },
-            { name: 'link3', href: '#', children: '...' },
+            { href: '#', name: 'link0', children: 'About us' },
+            { href: '#', name: 'link0', children: 'Partnership' },
+            { href: '#', name: 'link0', children: 'Team' },
+            { href: '#', name: 'link0', children: 'FAQ' },
           ],
         },
       },
@@ -552,11 +552,13 @@ export const Footer10DataSource = {
         xs: 24,
         md: 6,
         className: 'block',
-        title: { children: 'Footer S2' },
+        title: { children: 'Social' },
         childWrapper: {
           children: [
-            { href: '#', name: 'link0', children: 'FAQ' },
-            { href: '#', name: 'link1', children: '...' },
+            { href: '#', name: 'link0', children: 'Twitter' },
+            { href: '#', name: 'link0', children: 'Facebook' },
+            { href: '#', name: 'link0', children: 'LinkedIn' },
+            { href: '#', name: 'link1', children: 'Instagram' },
           ],
         },
       },
@@ -565,11 +567,12 @@ export const Footer10DataSource = {
         xs: 24,
         md: 6,
         className: 'block',
-        title: { children: 'Footer S3' },
+        title: { children: 'Our Partners' },
         childWrapper: {
           children: [
-            { href: '#', name: 'link0', children: '...' },
-            { href: '#', name: 'link1', children: '...' },
+            { href: 'https://www.dernetsoft.com/', target: "_blank", name: 'link0', children: 'DERNetSoft' },
+            { href: 'https://www.osisoft.com/', target: "_blank", name: 'link1', children: 'OsiSoft' },
+            { href: 'https://www.bloomenergy.com/', target: "_blank", name: 'link1', children: 'Bloom Energy' },
           ],
         },
       },

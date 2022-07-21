@@ -16,7 +16,7 @@ const EarningsCard = ({...props}) => {
                   <p>$6.340.42</p>
                 </div>
               </Col>
-              <Col slg={18} md={18} xs={24}>
+              <Col lg={20} md={20} xs={20} >
                 <ReactApexChart options={stacked.options} series={stacked.series} type="bar" height={125} />
               </Col>
             </Row>

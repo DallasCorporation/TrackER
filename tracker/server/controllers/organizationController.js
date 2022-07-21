@@ -61,7 +61,7 @@ const updateOrganization = asyncHandler(async (req, res) => {
         throw new Error('User not found')
     }
 
-    const update = await Organization.findByIdAndUpdate(preference[0]._id, req.body, {
+    const update = await Organization.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
     })
 

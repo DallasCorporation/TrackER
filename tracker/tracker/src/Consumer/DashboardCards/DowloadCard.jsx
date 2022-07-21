@@ -14,9 +14,9 @@ const DownloadCard = ({ ...props }) => {
             <Row align="middle" justify="space-between">
                 <Col>
                     <CardTitle style={{ color: "white", whiteSpace: "pre-wrap" }}>
-                        {"Check the Best Prices of\nNew Models & Boost\nYour Business"}
+                        {"Save and improve your Energy now!\nCheck our Organizations and\nBoost Your Energy"}
                     </CardTitle>
-                    <Button style={{ borderRadius: "6px", marginTop:"22px", marginLeft:"5px" }}>Download</Button>
+                    <Button style={{ borderRadius: "6px", marginTop:"22px", marginLeft:"5px" }}>View</Button>
                 </Col>
                 <img
                     alt=""

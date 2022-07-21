@@ -1,11 +1,41 @@
 import { Avatar, Card, Descriptions } from "antd"
+import { useEffect } from "react"
 
-const ThirdStep = ({ name, owner, icon, createdAt, type, description, prices = [] }) => {
+const ThirdStep = ({ name, owner, icon, createdAt, type, description, prices = [], setData }) => {
     const renderPrices = prices.filter((value, index, self) =>
+        value.name !== "" &&
         index === self.findIndex((t) => (
             t.price === value.price && t.name === value.name
         ))
     )
+
+    const getData = () => {
+        let gas = []
+        let electric = []
+        let water = []
+        let resources = []
+
+        renderPrices.map((el) => {
+            if (el.name.includes("Gas"))
+                gas.push(el)
+            if (el.name.includes("Electricity"))
+                electric.push(el)
+            if (el.name.includes("Water"))
+                water.push(el)
+            if (el.name.includes("Solar") || el.name.includes("Hydro") || el.name.includes("Wind") || el.name.includes("Bio") || el.name.includes("Geo"))
+                resources.push(el)
+        })
+        setData({
+            electric,
+            gas,
+            water,
+            resources
+        })
+    }
+    useEffect(() => {
+        getData()
+    }, [])
+
 
     const checkName = (name) => {
         if (name === "Solar" || name === "Wind" || name === "Geo" || name === "Hydro" || name === "Bio")

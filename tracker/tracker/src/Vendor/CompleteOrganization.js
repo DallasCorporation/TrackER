@@ -1,4 +1,4 @@
-import { Alert, Breadcrumb, Button, Col, message, Row, Steps } from "antd"
+import { Alert, Breadcrumb, Button, Col, Row, Steps } from "antd"
 import { useState } from "react";
 import FirstStep from "./OrganizationSteps/FirstStep";
 import {
@@ -27,6 +27,7 @@ const CompleteOrganization = () => {
     const [description, setDescription] = useState("");
     const [prices, setPrices] = useState([]);
     const [show, setShow] = useState(false);
+    const [body, setData] = useState({});
     const dispatch= useDispatch()
     const onChange = (value) => {
         if (checkValue())
@@ -66,7 +67,8 @@ const CompleteOrganization = () => {
         let data = {
             icon: {},
             type: arr,
-            description: description
+            description: description,
+            details: body
         }
         api.organization.update(organization._id, data).then((data) => {
             dispatch(fetchOrganization(data))
@@ -99,7 +101,7 @@ const CompleteOrganization = () => {
             <p></p>
             {current === 0 && <FirstStep distributed={distributed} electric={electric} gas={gas} water={water} setDistributed={setDistributed} setElectric={setElectric} setGas={setGas} setWater={setWater} setPrices={setPrices} prices={prices} />}
             {current === 1 && <SecondStep name={organization.name} setDescription={setDescription} description={description} />}
-            {current === 2 && <ThirdStep name={organization.name} owner={user.name + " " + user.surname} createdAt={organization.createdAt} prices={prices} description={description}
+            {current === 2 && <ThirdStep setData={setData} name={organization.name} owner={user.name + " " + user.surname} createdAt={organization.createdAt} prices={prices} description={description}
                 type={[distributed === true && "-Distributed Energy Resources ", gas === true && "-Gas Supplier ", electric === true && "-Electric Supplier ", water === true && "-Water Supplier "]} />}
 
 

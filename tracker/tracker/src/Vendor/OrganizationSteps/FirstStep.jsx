@@ -115,7 +115,7 @@ const FirstStep = ({ gas, setGas, electric, setElectric, water, setWater, distri
                 </Col>
                 <Col span={6}>
                     <div onClick={() => setDistributed(!distributed)}>
-                        <OrganizationCard title={"Distributed Energy Resources"}
+                        <OrganizationCard title={"Energy Resources"}
                             description={"If your organization is selling energy resources like Solar energy, Wind energy or Hydro energy"}
                             selected={distributed} />
                     </div>

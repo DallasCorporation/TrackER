@@ -16,6 +16,7 @@ const getOrganizationById = asyncHandler(async (req, res) => {
             customers: goal.customers,
             type: goal.type,
             _id: goal._id,
+            details: goal.details,
             description: goal.description,
             createdAt: goal.createAt
         })
@@ -41,7 +42,8 @@ const createOrganization = asyncHandler(async (req, res) => {
         userId: req.body.userId,
         type: [],
         customers: [],
-        description: ""
+        description: "",
+        details: {}
     })
 
     res.status(200).json(preference)
@@ -84,7 +86,7 @@ const deleteOrganization = asyncHandler(async (req, res) => {
 })
 
 const uploadOrganizationIcon = asyncHandler(async (req, res) => {
-    
+
 })
 
 

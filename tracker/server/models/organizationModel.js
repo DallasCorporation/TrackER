@@ -24,6 +24,9 @@ const organizationSchema = new mongoose.Schema({
     customers: {
         type: Array
     },
+    details: {
+        type: Object
+    },
     createAt: {
         type: Date,
         default: Date.now

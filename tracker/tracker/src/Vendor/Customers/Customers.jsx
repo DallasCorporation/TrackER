@@ -1,54 +1,58 @@
 import { ProTable } from '@ant-design/pro-components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import locale from 'antd/es/date-picker/locale/it_IT'
 import { Breadcrumb, Col, Layout, Row } from 'antd';
+import api from '../../api';
 
 
 const columns = [
     {
-        title: 'Name',
-        dataIndex: 'name',
-        key: 'name',
+        dataIndex: 'index',
+        valueType: 'index',
+        key: 'index',
     },
     {
         title: 'Name',
-        dataIndex: 'status',
+        dataIndex: 'name',
         initialValue: 'all',
         filters: true,
         onFilter: true,
         valueType: 'select',
-        valueEnum: {
-            all: { text: '全部', status: 'Default' },
-            close: { text: '关闭', status: 'Default' },
-            running: { text: '运行中', status: 'Processing' },
-            online: { text: '已上线', status: 'Success' },
-            error: { text: '异常', status: 'Error' },
-        },
+    },
+    {
+        title: 'Surname',
+        dataIndex: 'surname',
+        initialValue: 'all',
+        filters: true,
+        onFilter: true,
+        valueType: 'select',
     },
     {
         title: 'Building',
-        key: 'since',
-        dataIndex: 'createdAt',
-        valueType: 'dateTime',
-    },
-    {
-        title: 'Contract Type',
-        key: 'since2',
-        dataIndex: 'createdAt',
-        valueType: 'date',
-        hideInSetting: true,
+        dataIndex: 'building',
     },
 ];
 
 const Customers = ({ organization }) => {
-    const [columnsStateMap, setColumnsStateMap] = useState({
-        name: {
-            show: false,
-            order: 2,
-        },
-    });
-
+    const [data, setData] = useState([])
     const customers = organization.customers
+
+    useEffect(() => {
+        setData([])
+        const getAllUser = async () => {
+            setData([])
+            await customers.map(async el => await api.user.get(el.user).then(async res => {
+                await api.preference.fetchPreference(el.user).then((async res2 => {
+                    await api.buildings.getBuilding(el.building).then((res3 => {
+                        setData((old) => [...old, { buildingId: res3._id, name: res.name, surname: res.surname, avatar: res2.avatar, building: res3.name }])
+                    }))
+                }))
+            }))
+        }
+        getAllUser()
+    }, [])
+
+
     return (
         <Layout
             className="site-layout-background"
@@ -64,17 +68,15 @@ const Customers = ({ organization }) => {
                     <Breadcrumb.Item>Customers</Breadcrumb.Item>
                 </Breadcrumb>
                 <Col span={24} style={{ borderRadius: 20 }}>
-                    <ProTable columns={columns} dataSource={customers}
+                    <ProTable
+                        columns={columns} dataSource={data}
                         cardBordered
-                        cardProps={{style :{ borderRadius: "20px",  boxShadow: "0 2px 2px rgba(0,0,0,0.2)" }}}
+                        cardProps={{ style: { borderRadius: "20px", boxShadow: "0 2px 2px rgba(0,0,0,0.2)" } }}
                         options={{
                             search: true,
                         }}
                         rowKey="key"
-                        columnsState={{
-                            value: columnsStateMap,
-                            onChange: setColumnsStateMap,
-                        }}
+
                         locale={locale}
                         search={false} dateFormatter="string" headerTitle="Organization Customers List" />
                 </Col>

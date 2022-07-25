@@ -67,6 +67,17 @@ const getBuildingsById = asyncHandler(async (req, res) => {
         });
 })
 
+const getBuilding = asyncHandler(async (req, res) => {
+    let db_connect = dbo.getDb();
+    let myQuery = { _id: ObjectId(req.params.id) };
+    db_connect
+        .collection("buildings")
+        .find(myQuery).toArray(function (err, result) {
+            if (err) throw err;
+            res.json(result);
+        });
+})
+
 const deleteBuildingById = asyncHandler(async (req, res) => {
     let myQuery = { _id: ObjectId(req.params.id) };
     const building = await Building.findById(myQuery)
@@ -97,4 +108,5 @@ module.exports = {
     registerBuilding,
     getBuildingsById,
     deleteBuildingById,
+    getBuilding
 }

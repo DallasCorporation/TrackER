@@ -74,12 +74,13 @@ const AddNewBuildings = ({ user }) => {
         }
         let orgCopy = allOrganizations.filter(el => el._id === organizationId)
         let customers = orgCopy[0].customers
-        if (!customers.includes(user._id)) customers.push(user._id)
-        orgCopy[0].customers = customers
         setShow(true)
         api.buildings.addBuilding(data).then(res => {
+            customers.push({ user: user._id, building: res._id })
+            orgCopy[0].customers = customers
+
             api.buildings.fetchBuildings(user._id).then((res) => {
-                api.organization.update(organizationId, ...orgCopy).then((data1)=>{
+                api.organization.update(organizationId, ...orgCopy).then((data1) => {
                     console.log(data1)
                 })
                 dispatch(fetchBuildings(res))

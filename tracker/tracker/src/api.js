@@ -63,6 +63,9 @@ export default {
         deleteBuilding: (userId) =>
             axios.delete(`${API_URL}/building/${userId}`)
                 .then((res) => res.data),
+        getBuilding: (id) =>
+            axios.get(`${API_URL}/build/${id}`)
+                .then((res) => res.data[0]),
     },
     organization: {
         create: (body) =>

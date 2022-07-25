@@ -173,11 +173,19 @@ const deleteUserById = asyncHandler(async (req, res) => {
   }
   myQuery = { userId: ObjectId(req.params.id) };
   if (user.type === "Vendor") {
-    const organization = await Organization.findOneAndDelete(myQuery)
-  } else {
-    const buildings = await Buildings.findOneAndDelete(myQuery)
-  }
-  const preference = await Preference.findOneAndDelete(myQuery)
+    await Organization.findOneAndDelete(myQuery)
+  } else { await Buildings.findOneAndDelete(myQuery) }
+  await Preference.findOneAndDelete(myQuery)
+  
+    // const organization = await Organization.findById(building.organizationId)
+    // let tmp = organization
+    // let customersCopy = organization.customers
+    // customersCopy.pop(building.userId)
+    // tmp.customers = customersCopy
+    // const updateOrganization = await Organization.findByIdAndUpdate(building.organizationId, tmp, {
+    //     new: true,
+    // })
+  
   await user.remove()
   res.status(200).json({ id: req.params.id })
 })

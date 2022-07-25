@@ -6,7 +6,6 @@ import EditCard from "./EditCard"
 const EditPlan = () => {
     const organization = useSelector(state => state.organization.organization)
     const { gas, water, electric, resources } = organization.details
-    console.log(gas)
     return (
         <Layout
             style={{

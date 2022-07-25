@@ -4,24 +4,50 @@ const dbo = require("../db/conn");
 const billsModel = require('../models/billsModel');
 
 const addData = asyncHandler(async (req, res) => {
-    const bills = await billsModel.create({
-        buildingId: ObjectId(req.params.id),
-        electric: req.body.electric,
-        gas: req.body.gas,
-        water: req.body.water,
-        resources: req.body.resources,
-      })
-    
-      if (bills) {
-        res.status(201).json({
-            bills
-        })
-      } else {
-        res.status(400)
-        throw new Error('Invalid user data')
+  let db_connect = dbo.getDb();
+  const exist = await billsModel.findOne({ buildingId: req.params.id })
+  if (exist) {
+    billsModel.updateOne(
+      { "buildingId": req.params.id },
+      {
+        "$push": {
+          "bills": {
+            electric: req.body.electric,
+            gas: req.body.gas,
+            water: req.body.water,
+            resources: req.body.resources,
+            date: req.body.date
+          }
+        }
       }
+      , function (err, count) {
+        console.log('Updated ' + count + ' document');
+      })
+  }
+  else {
+    const bills = await billsModel.create({
+      buildingId: ObjectId(req.params.id),
+      bills: [
+        {
+          electric: req.body.electric,
+          gas: req.body.gas,
+          water: req.body.water,
+          resources: req.body.resources,
+          date: req.body.date
+        }
+      ]
+    })
+    if (bills) {
+      res.status(201).json({
+        bills
+      })
+    } else {
+      res.status(400)
+      throw new Error('Invalid user data')
+    }
+  }
 })
 
 module.exports = {
-    addData
+  addData
 }

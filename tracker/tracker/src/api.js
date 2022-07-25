@@ -75,7 +75,7 @@ export default {
             axios.put(`${API_URL}/organization/${id}`, body)
                 .then((res) => res.data),
         fetch: () =>
-            axios.get(`${API_URL}/organization`)
+            axios.get(`${API_URL}/organization/all`)
                 .then((res) => res.data)
     }
 };

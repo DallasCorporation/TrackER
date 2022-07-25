@@ -3,7 +3,7 @@ const router = express.Router()
 const { createOrganization, updateOrganization, getOrganizationById, deleteOrganization, getAll } = require('../controllers/organizationController')
 
 
-router.get('/api/organization', getAll)
+router.get('/api/organization/all', getAll)
 router.post('/api/organization', createOrganization)
 router.get('/api/organization/:id', getOrganizationById)
 router.put('/api/organization/:id', updateOrganization)

@@ -12,7 +12,7 @@ import { useEffect } from "react";
 
 
 const AddNewBuildings = ({ user }) => {
-
+    const dispatch = useDispatch()
     const [options, setOptions] = useState([])
     const [name, setName] = useState("")
     const [contact, setContact] = useState("")
@@ -21,16 +21,16 @@ const AddNewBuildings = ({ user }) => {
     const [lat, setLat] = useState(0)
     const [long, setLon] = useState(0)
     const [sqft, setSqft] = useState(0)
-    const dispatch = useDispatch()
+    const [allOrganizations, setOrganizations] = useState([])
+    const [organizationId, setOrganization] = useState([])
     const [show, setShow] = useState(false)
 
     useEffect(() => {
         const fetchOrganization = async () => {
-           await api.organization.fetch()
+            await api.organization.fetch().then(res => setOrganizations(res))
         }
         fetchOrganization()
     }, [])
-
 
     const onSelect = (tmp) => {
         setAddress(tmp)
@@ -56,7 +56,6 @@ const AddNewBuildings = ({ user }) => {
                     })
                 });
                 setOptions(tmp)
-                console.log(tmp)
             })
             .catch(error => console.log('error', error));
     }
@@ -67,15 +66,22 @@ const AddNewBuildings = ({ user }) => {
             contact,
             userId: user._id,
             address,
-            organizationId: "62d1472a348c75187e0743a0",
             sqft,
             type,
             lat,
             long,
+            organizationId: organizationId
         }
+        let orgCopy = allOrganizations.filter(el => el._id === organizationId)
+        let customers = orgCopy[0].customers
+        if (!customers.includes(user._id)) customers.push(user._id)
+        orgCopy[0].customers = customers
         setShow(true)
         api.buildings.addBuilding(data).then(res => {
             api.buildings.fetchBuildings(user._id).then((res) => {
+                api.organization.update(organizationId, ...orgCopy).then((data1)=>{
+                    console.log(data1)
+                })
                 dispatch(fetchBuildings(res))
                 setTimeout(() => {
                     setShow(false)
@@ -164,8 +170,14 @@ const AddNewBuildings = ({ user }) => {
                                 name="Building Organization"
                                 rules={[{ required: true, message: 'Please input the building type' }]}
                             >
-                                <Select placeholder={<Row align="middle"><span className="antioc iconfont" style={{ marginRight: 5 }}>&#x100dc;</span> Building Organization</Row>} size="large" onChange={(val) => setType(val)}>
-                                    { }
+                                <Select
+                                    placeholder={<Row align="middle"><span className="antioc iconfont" style={{ marginRight: 5 }}>&#x100dc;</span> Building Organization</Row>} size="large"
+                                    onChange={(val) => { setOrganization(val) }}>
+                                    {allOrganizations.length > 0 && allOrganizations.map(el =>
+                                        <Option key={el._id} value={el._id}>
+                                            {el.name}
+                                        </Option>
+                                    )}
                                 </Select>
                             </Form.Item>
                         </Col>

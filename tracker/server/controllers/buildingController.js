@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler')
 const Building = require('../models/buildingModel')
+const Organization = require('../models/organizationModel')
 const dbo = require("../db/conn");
 const ObjectId = require("mongodb").ObjectId;
 
@@ -78,6 +79,15 @@ const deleteBuildingById = asyncHandler(async (req, res) => {
         res.status(401)
         throw new Error('User not found')
     }
+    // const organization = await Organization.findById(building.organizationId)
+    // let tmp = organization
+    // let customersCopy = organization.customers
+    // customersCopy.pop(building.userId)
+    // tmp.customers = customersCopy
+    // const updateOrganization = await Organization.findByIdAndUpdate(building.organizationId, tmp, {
+    //     new: true,
+    // })
+
     await building.remove()
     res.status(200).json({ id: req.params.id })
 })

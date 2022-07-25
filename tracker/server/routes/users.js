@@ -12,13 +12,13 @@ const {
 const { protect } = require('../middleware/authMiddleware')
 
 
-router.post('/user/register', registerUser)
-router.post('/user/login', loginUser)
-router.get('/user/me', protect, getMe)
-router.get('/user/:id', getUserById )
-router.put('/user/:id', updateUserById )
-router.put('/user/password/:id', updateUserPasswordById )
-router.delete('/user/:id', deleteUserById )
+router.post('/api/user/register', registerUser)
+router.post('/api/user/login', loginUser)
+router.get('/api/user/me', protect, getMe)
+router.get('/api/user/:id', getUserById )
+router.put('/api/user/:id', updateUserById )
+router.put('/api/user/password/:id', updateUserPasswordById )
+router.delete('/api/user/:id', deleteUserById )
 
 
 module.exports = router

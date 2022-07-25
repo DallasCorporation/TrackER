@@ -4,9 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AvatarHover, LinkHover } from "../../Components/CustomComponents";
 import { logout } from "../../reducers/user";
 
-const Header = () => {
+const Header = ({avatar}) => {
     const dispatch = useDispatch()
-    const avatar = useSelector((state) => state.preference.preference.avatar)
     const menu = (
         <Menu
             style={{ borderRadius: 10 }}

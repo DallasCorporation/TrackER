@@ -22,7 +22,7 @@ const buildingSchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        required: [true, 'Please add the typo of the building'],
+        required: [true, 'Please add the type of the building'],
     },
     sqft: {
         type: Number,

@@ -6,8 +6,8 @@ const {
 } = require('../controllers/activityController')
 
 
-router.post('/activity', createActivity)
-router.get('/activity/:id', getActivityById)
+router.post('/api/activity', createActivity)
+router.get('/api/activity/:id', getActivityById)
 
 
 module.exports = router

@@ -12,13 +12,7 @@ import LoadingSpinner from '../../Components/LoadingSpinner';
 const { Option } = Select;
 const { Search } = Input;
 
-const BuildingTab = () => {
-    // const refresh = async () => {
-    //     await api.buildings.fetchBuildings(user._id).then((res) => {
-    //         dispatch(fetchBuildings(res))
-    //     })
-    // }
-    let navigate = useNavigate();
+const BuildingTab = ({updateRoute}) => {
     const buildings = useSelector((state) => state.buildings.buildings)
     const user = useSelector((state) => state.user.user)
     const dispatch = useDispatch()
@@ -34,7 +28,6 @@ const BuildingTab = () => {
         })
 
     }
-    console.log(user)
     return (
         <Layout
             className="site-layout-background"
@@ -77,21 +70,22 @@ const BuildingTab = () => {
                     </AutoComplete>
                 </Input.Group>
             </Row>
-            {/* <Button onClick={() => refresh()}>Refresh</Button> */}
             {buildings === null ?
                 <Card style={{ marginTop: "32px" }}>
                     <Empty
                         description="No Buildings found..."
                     >
-                        <Button style={{ height: 40, borderRadius: 8 }} type="primary" onClick={() => navigate("/building/New")}>
+                        <Button style={{ height: 40, borderRadius: 8 }} type="primary" onClick={() => {
+                            updateRoute("/building/New")
+                        }}>
                             Add a new Building to your account!
                         </Button>
                     </Empty>
                 </Card>
                 :
                 buildings.map((item) =>
-                    <div style={{ paddingTop: "32px"}}>
-                        <Card bodyStyle={{ padding: "0", marginBottom: "32px", borderRadius:"10px" }} headStyle={{borderRadius:"10px"}} style={{borderRadius:"10px"}}>
+                    <div style={{ paddingTop: "32px" }}>
+                        <Card bodyStyle={{ padding: "0", marginBottom: "32px", borderRadius: "10px" }} headStyle={{ borderRadius: "10px" }} style={{ borderRadius: "10px" }}>
                             <Row >
                                 <Col lg={24} md={24} sx={24}>
                                     <Row justify="space-between" align="middle" style={{ backgroundColor: "#0010f7", height: "50px", padding: "10px" }}>
@@ -119,13 +113,13 @@ const BuildingTab = () => {
                                 <Col lg={8} md={8} sx={8}>
                                     <p>Building Name</p>
                                     <Input value={item.name} readOnly></Input>
-                                    <p style={{marginTop:"27px"}}>Contact Name</p>
+                                    <p style={{ marginTop: "27px" }}>Contact Name</p>
                                     <Input value={item.contact} readOnly></Input>
                                 </Col>
                                 <Col lg={8} md={8} sx={8}>
                                     <p>Building Address</p>
                                     <Input value={item.address} readOnly></Input>
-                                    <p style={{marginTop:"27px"}}>Building Type</p>
+                                    <p style={{ marginTop: "27px" }}>Building Type</p>
                                     <Input value={item.type} readOnly></Input>
                                 </Col>
                             </Row>
@@ -165,4 +159,4 @@ const BuildingTab = () => {
         </Layout>
     );
 }
-export default () => <BuildingTab />
+export default ({ updateRoute }) => <BuildingTab updateRoute={() => updateRoute()} />

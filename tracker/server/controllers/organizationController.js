@@ -26,6 +26,18 @@ const getOrganizationById = asyncHandler(async (req, res) => {
     }
 })
 
+
+const getAll = asyncHandler(async (req, res) => {
+    const goal = await Organization.find({})
+    if (goal)
+        res.status(200).json(goal)
+    else {
+        res.status(400)
+        throw new Error('Organizations not found')
+    }
+})
+
+
 // @desc    Set goal
 // @route   POST /api/goals
 // @access  Private
@@ -85,15 +97,10 @@ const deleteOrganization = asyncHandler(async (req, res) => {
     res.status(200).json(update)
 })
 
-const uploadOrganizationIcon = asyncHandler(async (req, res) => {
-
-})
-
-
-
 module.exports = {
     getOrganizationById,
     createOrganization,
     updateOrganization,
-    deleteOrganization
+    deleteOrganization,
+    getAll
 }

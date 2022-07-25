@@ -6,8 +6,8 @@ const {
     getPreferenceById
 } = require('../controllers/userPreferenceController')
 
-router.post('/preference/:id', createPreference)
-router.put('/preference/:id', updatePreference)
-router.get('/preference/:id', getPreferenceById)
+router.post('/api/preference/:id', createPreference)
+router.put('/api/preference/:id', updatePreference)
+router.get('/api/preference/:id', getPreferenceById)
 
 module.exports = router

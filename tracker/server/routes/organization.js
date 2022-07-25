@@ -1,11 +1,12 @@
 const express = require('express')
 const router = express.Router()
-const { createOrganization, updateOrganization, getOrganizationById, deleteOrganization } = require('../controllers/organizationController')
+const { createOrganization, updateOrganization, getOrganizationById, deleteOrganization, getAll } = require('../controllers/organizationController')
 
 
-router.post('/organization', createOrganization)
-router.get('/organization/:id', getOrganizationById)
-router.put('/organization/:id', updateOrganization)
-router.delete('/organization/:id', deleteOrganization)
+router.get('/api/organization', getAll)
+router.post('/api/organization', createOrganization)
+router.get('/api/organization/:id', getOrganizationById)
+router.put('/api/organization/:id', updateOrganization)
+router.delete('/api/organization/:id', deleteOrganization)
 
 module.exports = router

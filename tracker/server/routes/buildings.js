@@ -7,9 +7,9 @@ const {
 } = require('../controllers/buildingController')
 
 
-router.post('/building/register', registerBuilding)
-router.get('/building/:id', getBuildingsById)
-router.delete('/building/:id', deleteBuildingById)
+router.post('/api/building/register', registerBuilding)
+router.get('/api/building/:id', getBuildingsById)
+router.delete('/api/building/:id', deleteBuildingById)
 
 
 module.exports = router

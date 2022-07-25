@@ -11,16 +11,11 @@ export const userSlice = createSlice({
     name: 'user',
     initialState: initialState,
     reducers: {
-        login: (state, action) => {
+        login:  (state, action) => {
             state.user = action.payload
             state.logged = true
             localStorage.setItem("logged", true)
             localStorage.setItem("user", JSON.stringify(action.payload))
-            api.preference.fetchPreference(action.payload._id).then((res) => {
-                if (res.activityLog)
-                    api.activity.updateActivity(action.payload._id)
-            })
-            
         },
         logout: (state) => {
             state.user = initialState.user

@@ -37,14 +37,15 @@ const SignInForm = () => {
         api.user
             .login(data)
             .then((data) => {
-                dispatch(login(data))
                 localStorage.setItem("token", data.token)
-                api.preference.fetchPreference(data._id).then((res) => {
+                api.preference.fetchPreference(data._id).then(async (res) => {
+                    if (res.activityLog) await api.activity.updateActivity(data._id)
                     dispatch(userPreference(res))
                 })
                 api.buildings.fetchBuildings(data._id).then((res) => {
                     dispatch(fetchBuildings(res))
                 })
+                dispatch(login(data))
             })
             .catch((err) => {
                 console.log(err)
@@ -73,8 +74,8 @@ const SignInForm = () => {
                     dispatch(userPreference(res))
                     dispatch(login(data))
                     localStorage.setItem("token", data.token)
-
                 })
+                api.activity.updateActivity(data._id)
             })
             .catch((err) => {
                 throw new Error(err.response.data.errors.email);

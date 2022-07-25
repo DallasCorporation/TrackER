@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { GithubOutlined, } from '@ant-design/icons';
-import { Link, Route, Routes, useNavigate } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Dashboard from './Dashboard'
 import Account from '../Account/Account';
@@ -17,18 +17,18 @@ import { LinkHover } from "../Components/CustomComponents";
 
 
 const DashboardRoute = () => {
+    const fetchPreference = async () => {
+        api.preference.fetchPreference(user._id).then(data => dispatch(userPreference(data)))
+    }
     let navigate = useNavigate();
     const user = useSelector((state) => state.user.user)
     const dispatch = useDispatch()
     useEffect(() => {
-        const fetchPreference = async () => {
-            api.preference.fetchPreference(user._id).then(data => dispatch(userPreference(data)))
-        }
+
         fetchPreference()
     }, [user])
-    
-    const userAvatar = useSelector((state) => state.preference.preference.avatar)
 
+    const userAvatar = useSelector((state) => state.preference.preference.avatar)
     let defaultProps = {
         route: {
             path: '/',
@@ -111,7 +111,7 @@ const DashboardRoute = () => {
             navTheme="light"
             menu={{ defaultOpenAll: true }}
             waterMarkProps={{ content: 'TrackER', }}
-            headerRender={() => <Header />}
+            headerRender={() => <Header avatar={userAvatar} />}
             footerRender={() =>
                 <DefaultFooter style={{ backgroundColor: "#f7fafd", }}
                     copyright="2022 by TrackER"
@@ -135,7 +135,7 @@ const DashboardRoute = () => {
                             <Avatar size={40} src={userAvatar} />
                         </Col>
                         {!props.collapsed &&
-                            <Col style={{ alignSelf: "center",  }}>
+                            <Col style={{ alignSelf: "center", }}>
                                 <div>{user.name} {user.surname} <br></br>
                                     <LinkHover to="/Profile/Edit" >View Profile</LinkHover>
                                 </div>
@@ -159,7 +159,7 @@ const DashboardRoute = () => {
             <Routes >
                 <Route path="*" element={<Dashboard user={user} />} />
                 <Route path="/dashboard" element={<Dashboard user={user} />} />
-                <Route path="/buildings" element={<BuildingsTab user={user} />} />
+                <Route path="/buildings" element={<BuildingsTab updateRoute={() => { setPathname("/building/New"); navigate("/building/New") }}  />} />
                 <Route path="/building/New" element={<AddNewBuildings user={user} />} />
                 <Route path="/Profile/Edit" element={<Account avatar={userAvatar} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
                 <Route path="/Profile/Notification" element={<Account avatar={userAvatar} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />

@@ -50,9 +50,10 @@ export const Feature60DataSource = {
     },
     children: [
       {
-        title: { className: 'feature6-title-text', children: 'sadsa' },
+        title: { className: 'feature6-title-text', children: 'TrackER Overview' },
         className: 'feature6-item',
         name: 'block0',
+        key:'block0',
         children: [
           {
             md: 8,
@@ -61,11 +62,10 @@ export const Feature60DataSource = {
             name: 'child0',
             number: {
               className: 'feature6-number',
-              unit: { className: 'feature6-unit', children: '万' },
               toText: true,
-              children: '116',
+              children: '100',
             },
-            children: { className: 'feature6-text', children: 'dasdas' },
+            children: { className: 'feature6-text', children: 'Customers' },
           },
           {
             md: 8,
@@ -74,11 +74,10 @@ export const Feature60DataSource = {
             name: 'child1',
             number: {
               className: 'feature6-number',
-              unit: { className: 'feature6-unit', children: '亿' },
               toText: true,
-              children: '1.17',
+              children: '20',
             },
-            children: { className: 'feature6-text', children: 'dasdas' },
+            children: { className: 'feature6-text', children: 'Energy Vendor' },
           },
           {
             md: 8,
@@ -87,15 +86,15 @@ export const Feature60DataSource = {
             name: 'child2',
             number: {
               className: 'feature6-number',
-              unit: { className: 'feature6-unit', children: '亿' },
               toText: true,
-              children: '2.10',
+              children: '1',
             },
-            children: { className: 'feature6-text', children: 'asdasd' },
+            children: { className: 'feature6-text', children: 'Platform' },
           },
         ],
       },
       {
+        key:'block1',
         title: { className: 'feature6-title-text', children: 'dassa' },
         className: 'feature6-item',
         name: 'block1',
@@ -174,9 +173,9 @@ export const Pricing00DataSource = {
       {
         name: 'button',
         children: {
-          href: '#',
+          href: '/Access',
           type: 'primary',
-          children: 'See the offer',
+          children: 'Join Now',
         },
       },
     ],

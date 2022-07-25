@@ -14,6 +14,7 @@ import { fetchOrganization } from "../reducers/organization";
 import CompleteOrganization from "./CompleteOrganization";
 import Header from "../Consumer/Header/Header";
 import Customers from "./Customers/Customers";
+import EditPlan from "./Edit/EditPlan";
 
 
 const DashboardRoute = () => {
@@ -74,6 +75,12 @@ const DashboardRoute = () => {
                     name: 'Customers',
                     disabled: edited === 0,
                     icon: <span class="anticon iconfont">&#x100e5;</span>
+                },
+                {
+                    path: '/Edit',
+                    name: 'Edit Plan',
+                    disabled: edited === 0,
+                    icon: <span class="anticon iconfont">&#x100e9;</span>
                 },
                 {
                     path: '/Profile',
@@ -174,6 +181,7 @@ const DashboardRoute = () => {
                     <Route path="*" element={<Dashboard user={user} />} />
                     <Route path="/dashboard" element={<Dashboard user={user} />} />
                     <Route path="/Customers" element={<Customers organization={organization} avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                    <Route path="/Edit" element={<EditPlan organization={organization} avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
                     <Route path="/Profile/Edit" element={<Account avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
                     <Route path="/Profile/Notification" element={<Account avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
                     <Route path="/Profile/Activity" element={<Account avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />

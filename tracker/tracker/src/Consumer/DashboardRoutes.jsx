@@ -19,15 +19,15 @@ import { LinkHover } from "../Components/CustomComponents";
 const DashboardRoute = () => {
     let navigate = useNavigate();
     const user = useSelector((state) => state.user.user)
-    const userAvatar = useSelector((state) => state.preference.preference.avatar)
     const dispatch = useDispatch()
     useEffect(() => {
         const fetchPreference = async () => {
             api.preference.fetchPreference(user._id).then(data => dispatch(userPreference(data)))
         }
         fetchPreference()
-    }, [dispatch, user])
-
+    }, [user])
+    
+    const userAvatar = useSelector((state) => state.preference.preference.avatar)
 
     let defaultProps = {
         route: {

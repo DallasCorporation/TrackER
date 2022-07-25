@@ -17,14 +17,11 @@ class Feature6 extends React.PureComponent {
   }
 
   onTitleClick = (_, i) => {
-    const carouselRef = this.carouselRef.current.childRefs.carousel;
-    carouselRef.goTo(i);
+    this.setState({ current: i })
   };
 
   onBeforeChange = (_, newIndex) => {
-    this.setState({
-      current: newIndex,
-    });
+    this.setState({current: newIndex,});
   };
 
   getChildrenToRender = (dataSource) => {
@@ -53,9 +50,7 @@ class Feature6 extends React.PureComponent {
           onClick={(e) => {
             this.onTitleClick(e, ii);
           }}
-          className={
-            ii === current ? `${title.className || ''} active` : title.className
-          }
+          className={ii === current ? `${title.className || ''} active` : title.className}
         >
           {title.children}
         </div>
@@ -65,7 +60,8 @@ class Feature6 extends React.PureComponent {
         const numberChild = number.children.replace(/[^0-9.-]/g, '');
         const { unit, toText, ...numberProps } = number;
         return (
-          <Col {...childProps} key={i.toString()}>
+          ii === this.state.current && 
+          <Col {...childProps} >
             <TweenOne
               {...numberProps}
               animation={{
@@ -74,7 +70,7 @@ class Feature6 extends React.PureComponent {
                   floatLength:
                     parseFloat(numberChild) -
                       Math.floor(parseFloat(numberChild)) >
-                    0
+                      0
                       ? 2
                       : 0,
                   formatMoney: true,
@@ -104,14 +100,6 @@ class Feature6 extends React.PureComponent {
     const width = 100 / childrenToRender.length;
     return (
       <div>
-      {/* <QueueAnim
-        key="queue"
-        leaveReverse
-        type="bottom"
-        delay={[0, 100]}
-        {...wrapper}
-        ref={this.carouselRef}
-      > */}
         <div {...titleWrapperProps} key="title">
           <div {...titleChild}>
             {titleToRender}
@@ -127,14 +115,16 @@ class Feature6 extends React.PureComponent {
           </div>
         </div>
         <AntCarousel
+          autoplay
           {...carouselProps}
           key="carousel"
           infinite={false}
           beforeChange={this.onBeforeChange}
+          afterChange={this.onBeforeChange}
         >
+
           {childrenToRender}
         </AntCarousel>
-      {/* </QueueAnim> */}
       </div>
 
     );

@@ -40,3 +40,13 @@ color: #022cf7;
 cursor: pointer;
 }
 `
+
+export const PlanParagraph = styled.h2`
+font-size:17px;
+font-weight:400;
+`
+
+export const PlanTitle = styled.h2`
+font-size:23px;
+font-weight:500;
+`

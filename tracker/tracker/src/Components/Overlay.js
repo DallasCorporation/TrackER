@@ -39,11 +39,11 @@ const SignInForm = () => {
             .then((data) => {
                 dispatch(login(data))
                 localStorage.setItem("token", data.token)
-                api.buildings.fetchBuildings(data._id).then((res) => {
-                    dispatch(fetchBuildings(res))
-                })
                 api.preference.fetchPreference(data._id).then((res) => {
                     dispatch(userPreference(res))
+                })
+                api.buildings.fetchBuildings(data._id).then((res) => {
+                    dispatch(fetchBuildings(res))
                 })
             })
             .catch((err) => {

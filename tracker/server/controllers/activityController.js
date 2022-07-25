@@ -14,13 +14,12 @@ const createActivity = asyncHandler(async (req, res) => {
     const activityExists = await Activity.findOne({ IPv4: data.IPv4 })
     if (activityExists) {
         const updatedUser = await Activity.findOneAndUpdate(
-            {userId:activityExists.userId},
+            { userId: activityExists.userId },
             { ...data, date: Date.now() }, {
             new: true,
         })
-        if(updatedUser)
-        res.status(200).json({ ...data, date: Date.now() })
-
+        if (updatedUser)
+            res.status(200).json({ ...data, date: Date.now() })
     }
     else {
         const activity = await Activity.create({
@@ -28,12 +27,10 @@ const createActivity = asyncHandler(async (req, res) => {
             userId,
         })
         if (activity) {
-            res.status(201).json({
-                ...data
-            })
+            res.status(201).json({ ...data })
         } else {
             res.status(400)
-            throw new Error('Invalid building data')
+            throw new Error('Invalid data')
         }
     }
 

@@ -2,6 +2,7 @@
 
 # dependencies
 /tracker/node_modules
+/generator/node_modules
 /server/node_modules
 /.pnp
 .pnp.js

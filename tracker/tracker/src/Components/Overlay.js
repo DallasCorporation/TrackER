@@ -39,8 +39,8 @@ const SignInForm = () => {
             .then((data) => {
                 localStorage.setItem("token", data.token)
                 api.preference.fetchPreference(data._id).then(async (res) => {
-                    if (res.activityLog) await api.activity.updateActivity(data._id)
                     dispatch(userPreference(res))
+                    if (res.activityLog) await api.activity.updateActivity(data._id)
                 })
                 api.buildings.fetchBuildings(data._id).then((res) => {
                     dispatch(fetchBuildings(res))

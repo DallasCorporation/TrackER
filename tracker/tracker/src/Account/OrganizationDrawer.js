@@ -1,13 +1,13 @@
 import { InboxOutlined } from "@ant-design/icons";
-import { Avatar, Button, Card, Col, Drawer, message, Row, Tooltip, Upload } from "antd";
+import { Avatar, Button, Card, Col, Drawer, message, Row, Spin, Tooltip, Upload } from "antd";
 import Dragger from "antd/lib/upload/Dragger";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import api from "../api";
-import { AccountSubTitle, AvatarHover } from "../Components/CustomComponents";
+import { AccountSubTitle } from "../Components/CustomComponents";
 import { updatePreference } from "../reducers/preference";
-
-
+import { fetchOrganization } from "../reducers/organization";
+import ImgCrop from 'antd-img-crop';
 
 const props = {
     name: 'file',
@@ -34,36 +34,65 @@ const props = {
 };
 
 const OrganizationDrawer = ({ user, visible, onClose }) => {
+    const uploadImage = async (file) => { // file from <input type="file"> 
+        const data = new FormData();
+        data.append("file", file.file);
+        data.append("upload_preset", "lazkktrh");
+        const res = await fetch(
+            `https://api.cloudinary.com/v1_1/dgfnyulqh/image/upload`,
+            {
+                method: "POST",
+                body: data,
+            }
+        );
+        const img = await res.json();
+        if (img) {
+            file.onSuccess(img);
+            setCurrent(img.secure_url)
+        }
+        else {
+            file.onError(img);
+        }
+    }
+
+
     const userPreference = useSelector((state) => state.preference.preference)
+    const organization = useSelector((state) => state.organization.organization)
     const [current, setCurrent] = useState(userPreference.avatar)
     const dispatch = useDispatch()
     const confirm = async () => {
-        if (userPreference.avatar === current) {
-            message.warning("You cannot select the same Logo")
-            return
-        }
         await api.preference.updatePreference(user._id, { avatar: current }).then(data => dispatch(updatePreference(data)))
+        await api.organization.update(organization._id, { icon: current }).then(data => dispatch(fetchOrganization(data)))
         message.success("Avatar updated correctly")
         onClose()
     }
+
     return (
         <Drawer title="Change Organization Logo" size="large" placement="right" visible={visible} onClose={() => onClose()}>
             <Row justify="center">
                 <Avatar size={200} src={current} />
             </Row>
             <AccountSubTitle style={{ textAlign: "center", marginTop: 10 }}>Organization Logo Preview</AccountSubTitle>
-            <Card style={{ borderRadius: 20, marginTop: 20, boxShadow: "0 2px 2px #022cf7",  }}>
-                <Dragger {...props} style={{minHeight:200, borderColor:"blue"}}>
-                    <p className="ant-upload-drag-icon">
-                        <InboxOutlined />
-                    </p>
-                    <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                    <p className="ant-upload-hint" style={{marginTop:22}}>
-                        Support for a single or bulk upload. Strictly prohibit from uploading company data or other
-                        band files
-                    </p>
-                </Dragger>
-
+            <Card style={{ borderRadius: 20, marginTop: 20, boxShadow: "0 2px 2px #022cf7", }}>
+                <ImgCrop shape="round"
+                    minZoom={0}
+                    rotate
+                    quality={1}
+                    grid>
+                    <Dragger {...props}
+                        iconRender={(data) => data.status === "done" ? null : <Spin />}
+                        style={{ minHeight: 200, borderColor: "blue" }}
+                        customRequest={(data) => uploadImage(data)}>
+                        <p className="ant-upload-drag-icon">
+                            <InboxOutlined />
+                        </p>
+                        <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                        <p className="ant-upload-hint" style={{ marginTop: 22 }}>
+                            Support for a single or bulk upload. Strictly prohibit from uploading company data or other
+                            band files
+                        </p>
+                    </Dragger>
+                </ImgCrop>
             </Card>
             <Row justify="end" style={{ marginTop: 60 }}>
                 <Button type="ghost" onClick={() => onClose()}>Cancel</Button>

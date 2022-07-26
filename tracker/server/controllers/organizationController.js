@@ -65,7 +65,7 @@ const createOrganization = asyncHandler(async (req, res) => {
 // @route   PUT /api/goals/:id
 // @access  Private
 const updateOrganization = asyncHandler(async (req, res) => {
-    const organization = await Organization.findById(req.body._id)
+    const organization = await Organization.findById(req.params.id)
     if (!organization) {
         res.status(400)
         throw new Error('Organization not found')

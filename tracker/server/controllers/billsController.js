@@ -7,6 +7,7 @@ const addData = asyncHandler(async (req, res) => {
   let db_connect = dbo.getDb();
   const exist = await billsModel.findOne({ buildingId: req.params.id })
   if (exist) {
+    console.log(exist)
     billsModel.updateOne(
       { "buildingId": req.params.id },
       {

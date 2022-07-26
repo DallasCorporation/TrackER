@@ -14,21 +14,31 @@ import { Avatar, Col, Row } from "antd";
 import { userPreference } from "../reducers/preference";
 import api from "../api";
 import { LinkHover } from "../Components/CustomComponents";
+import { setAllOrganization } from "../reducers/allOrganization";
+import Organizations from "./Organizations/Organizations";
 
 
 const DashboardRoute = () => {
-    const fetchPreference = async () => {
-        api.preference.fetchPreference(user._id).then(data => dispatch(userPreference(data)))
-    }
-    let navigate = useNavigate();
     const user = useSelector((state) => state.user.user)
+    let navigate = useNavigate();
     const dispatch = useDispatch()
-    useEffect(() => {
 
+    const fetchPreference = async () => {
+        await api.preference.fetchPreference(user._id).then(data => dispatch(userPreference(data)))
+    }
+
+    const fetchOrganization = async () => {
+        await api.organization.fetch().then(res => {
+            dispatch(setAllOrganization(res))
+        })
+    }
+    useEffect(() => {
+        fetchOrganization()
         fetchPreference()
     }, [user])
 
     const userAvatar = useSelector((state) => state.preference.preference.avatar)
+    const allOrganization = useSelector((state) => state.allOrganization.organization)
     let defaultProps = {
         route: {
             path: '/',
@@ -47,6 +57,11 @@ const DashboardRoute = () => {
                     path: '/Building/New',
                     name: 'Add new Building',
                     icon: <span class="anticon iconfont" >&#x100da;</span>
+                },
+                {
+                    path: '/Organizations',
+                    name: 'Organizations',
+                    icon: <span class="anticon iconfont" >&#x100de;</span>
                 },
                 {
                     path: '/Invoices',
@@ -158,9 +173,10 @@ const DashboardRoute = () => {
         >
             <Routes >
                 <Route path="*" element={<Dashboard user={user} />} />
-                <Route path="/dashboard" element={<Dashboard user={user} />} />
-                <Route path="/buildings" element={<BuildingsTab updateRoute={() => { setPathname("/building/New"); navigate("/building/New") }}  />} />
+                <Route path="/dashboard" element={<Dashboard user={user}/>} />
+                <Route path="/buildings" element={<BuildingsTab updateRoute={() => { setPathname("/building/New"); navigate("/building/New") }} />} />
                 <Route path="/building/New" element={<AddNewBuildings user={user} />} />
+                <Route path="/Organizations" element={<Organizations user={user} allOrganization={allOrganization}/>} />
                 <Route path="/Profile/Edit" element={<Account avatar={userAvatar} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
                 <Route path="/Profile/Notification" element={<Account avatar={userAvatar} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
                 <Route path="/Profile/Activity" element={<Account avatar={userAvatar} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />

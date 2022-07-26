@@ -1,6 +1,6 @@
 import { GithubOutlined } from "@ant-design/icons";
 import { DefaultFooter, ProLayout } from "@ant-design/pro-components";
-import { Col, Row } from "antd";
+import { Avatar, Col, Row } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes, useNavigate } from "react-router-dom";
@@ -22,7 +22,7 @@ const DashboardRoute = () => {
     const user = useSelector((state) => state.user.user)
     const organization = useSelector((state) => state.organization.organization)
     const edited = organization.type.length
-    const icon = ""
+    const icon = organization.type.length > 0 ? organization.icon : ""
     const dispatch = useDispatch()
     useEffect(() => {
         const fetchPreference = async () => {
@@ -132,7 +132,7 @@ const DashboardRoute = () => {
             navTheme="light"
             menu={{ defaultOpenAll: edited !== 0 }}
             waterMarkProps={{ content: 'TrackER', }}
-            headerRender={() => <Header />}
+            headerRender={() => <Header avatar={icon} />}
             footerRender={() =>
                 <DefaultFooter style={{ backgroundColor: "#f7fafd", }}
                     copyright="2022 by TrackER"
@@ -152,7 +152,9 @@ const DashboardRoute = () => {
                         style={{ marginBottom: 20 }}
                         gutter={[16, 16]}
                     >
-
+                        <Col style={{ alignSelf: "center" }}>
+                            <Avatar size={40} src={icon} />
+                        </Col>
                         {!props.collapsed &&
                             <Col style={{ alignSelf: "center", }}>
                                 <div>{user.name} {user.surname} <br></br>

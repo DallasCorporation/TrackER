@@ -11,6 +11,14 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.iconfontTag {
+    font-family: "iconfont" !important;
+    font-size: 18px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 .iconfontLarge {
     font-family: "iconfont" !important;
     font-style: normal;

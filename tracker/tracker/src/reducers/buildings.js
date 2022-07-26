@@ -13,7 +13,6 @@ export const buildingsSlice = createSlice({
         fetchBuildings: (state, action) => {
             state.buildings = action.payload
             localStorage.setItem("buildings", JSON.stringify(action.payload))
-            
         },
     },
 })

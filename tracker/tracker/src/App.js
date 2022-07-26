@@ -16,8 +16,6 @@ import DashboardRoutes from './Consumer/DashboardRoutes';
 import { connect } from 'react-redux';
 import VendorRoutes from './Vendor/VendorRoutes';
 
-
-
 let isMobile;
 enquireScreen((b) => {
   isMobile = b;

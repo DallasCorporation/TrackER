@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import api from "../../api";
 import LoadingSpinner from "../../Components/LoadingSpinner";
 import { fetchBuildings } from "../../reducers/buildings";
+import { setAllOrganization } from "../../reducers/allOrganization";
 import { AccountSubTitle } from "../../Components/CustomComponents"
 import { useEffect } from "react";
 
@@ -27,7 +28,10 @@ const AddNewBuildings = ({ user }) => {
 
     useEffect(() => {
         const fetchOrganization = async () => {
-            await api.organization.fetch().then(res => setOrganizations(res))
+            await api.organization.fetch().then(res => {
+                setOrganizations(res)
+                dispatch(setAllOrganization(res))
+            })
         }
         fetchOrganization()
     }, [])

@@ -25,6 +25,7 @@ const images = importAll(component);
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user)
+  const buildings = useSelector((state) => state.buildings.buildings)
   return (
     <Layout
       style={{
@@ -104,7 +105,7 @@ const Dashboard = () => {
             <EarningsCard />
           </Row>
           <Row style={{ marginTop: "32px" }}>
-            <TableCard />
+            <TableCard buildings={buildings}/>
           </Row>
         </Col>
         <Col lg={6} md={24} sx={24}>

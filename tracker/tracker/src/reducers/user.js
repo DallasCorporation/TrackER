@@ -14,8 +14,8 @@ export const userSlice = createSlice({
         login:  (state, action) => {
             state.user = action.payload
             state.logged = true
-            localStorage.setItem("logged", true)
             localStorage.setItem("user", JSON.stringify(action.payload))
+            localStorage.setItem("logged", true)
         },
         logout: (state) => {
             state.user = initialState.user
@@ -24,6 +24,7 @@ export const userSlice = createSlice({
             localStorage.setItem("user", JSON.stringify(initialState.user))
             localStorage.removeItem("preference")
             localStorage.removeItem("buildings")
+            localStorage.removeItem("organization")
         },
         updateUser: (state, action) => {
             state.user = action.payload

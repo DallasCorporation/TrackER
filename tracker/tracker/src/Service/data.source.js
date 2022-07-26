@@ -4,25 +4,25 @@ export const Banner50DataSource = {
   childWrapper: {
     className: 'banner5-title-wrapper',
     children: [
-      { name: 'title', children: 'sdasdas', className: 'banner5-title' },
+      { name: 'title', children: 'TrackER System', className: 'banner5-title' },
       {
         name: 'explain',
         className: 'banner5-explain',
-        children: 'dasd',
+        children: 'Innovative Platform for a New Energy Ecosystem',
       },
       {
         name: 'content',
         className: 'banner5-content',
-        children: 'sdas',
+        children: 'See the power of the TrackER System at work in your industry',
       },
       {
         name: 'button',
         className: 'banner5-button-wrapper',
         children: {
-          href: '#',
+          href: '/Access',
           className: 'banner5-button',
           type: 'primary',
-          children: 'dasd',
+          children: 'Join Now!',
         },
       },
     ],
@@ -53,7 +53,7 @@ export const Feature60DataSource = {
         title: { className: 'feature6-title-text', children: 'TrackER Overview' },
         className: 'feature6-item',
         name: 'block0',
-        key:'block0',
+        key: 'block0',
         children: [
           {
             md: 8,
@@ -94,7 +94,7 @@ export const Feature60DataSource = {
         ],
       },
       {
-        key:'block1',
+        key: 'block1',
         title: { className: 'feature6-title-text', children: 'dassa' },
         className: 'feature6-item',
         name: 'block1',
@@ -160,24 +160,15 @@ export const Pricing00DataSource = {
     children: [
       {
         name: 'title',
-        children: '...',
+        children: 'The power of the TrackER System ',
         className: 'pricing0-title',
       },
       {
         name: 'content',
-        children:
-          'dsadasd<br/>500-5Gbps，10 GB-dasdasd',
+        children: <p>Today, most companies still rely on monthly paper bills when it comes to energy management - an analog approach that cannot provide actionable insights. <br /> <br />The TrackER platform provides a set of sophisticated capabilities to collect, digitize, standardize and analyze smart meter data over different utility service territories. Having 15-minutes interval data at your finger tips is a game changer for a proactive energy management strategy.</p>,
         className: 'pricing0-content',
       },
-      { name: 'pricing', children: '$2,200', className: 'pricing0-pricing' },
-      {
-        name: 'button',
-        children: {
-          href: '/Access',
-          type: 'primary',
-          children: 'Join Now',
-        },
-      },
+      { name: 'pricing', children: '€7M Annual Energy Saving', className: 'pricing0-pricing' },
     ],
   },
 };
@@ -188,12 +179,7 @@ export const Feature80DataSource = {
   titleWrapper: {
     className: 'feature8-title-wrapper',
     children: [
-      { name: 'title', className: 'feature8-title-h1', children: 'dasas' },
-      {
-        name: 'content',
-        className: 'feature8-title-content',
-        children: 'dasasdada',
-      },
+      { name: 'title', className: 'feature8-title-h1', children: 'Customers Review' },
     ],
   },
   childWrapper: {
@@ -202,7 +188,7 @@ export const Feature80DataSource = {
       {
         name: 'button',
         className: 'feature8-button',
-        children: { href: '#', children: 'Click me' },
+        children: { href: '/Access', children: 'Join Now!' },
       },
     ],
   },
@@ -223,7 +209,7 @@ export const Feature80DataSource = {
           gutter: 120,
           title: {
             className: 'feature8-carousel-title-block',
-            children: 'dasdadas',
+            children: 'Building Owners',
           },
           children: [
             {
@@ -248,12 +234,12 @@ export const Feature80DataSource = {
                   {
                     name: 'title',
                     className: 'feature8-block-title',
-                    children: 'dsadsad',
+                    children: <p>John Doe <br></br><b>Osisoft Ceo</b></p>,
                   },
                   {
                     name: 'content',
                     className: 'feature8-block-content',
-                    children: 'dasdasdas',
+                    children: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Orci eu lobortis elementum nibh tellus molestie nunc non.',
                   },
                 ],
               },
@@ -280,13 +266,13 @@ export const Feature80DataSource = {
                   {
                     name: 'title',
                     className: 'feature8-block-title',
-                    children: 'sadsadas',
+                    children: <p>Gavin Hatfield <br></br><b>DERNetSoft Ceo</b></p>,
                   },
                   {
                     name: 'content',
                     className: 'feature8-block-content',
                     children:
-                      'dasdasdasd',
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lacus vel facilisis volutpat est velit egestas dui.',
                   },
                 ],
               },
@@ -313,13 +299,13 @@ export const Feature80DataSource = {
                   {
                     name: 'title',
                     className: 'feature8-block-title',
-                    children: 'dsadadas',
+                    children: <p>Alessandro Ercolano <br></br><b>PVSolar Founder</b></p>
                   },
                   {
                     name: 'content',
                     className: 'feature8-block-content',
                     children:
-                      'adsasdasda',
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ullamcorper morbi tincidunt ornare massa eget.',
                   },
                 ],
               },
@@ -346,13 +332,13 @@ export const Feature80DataSource = {
                   {
                     name: 'title',
                     className: 'feature8-block-title',
-                    children: 'dsaaddasd',
+                    children: <p>John Rogers <br></br><b>TrackER Founder</b></p>,
                   },
                   {
                     name: 'content',
                     className: 'feature8-block-content',
                     children:
-                      'dasdasdasd',
+                      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Morbi leo urna molestie at.',
                   },
                 ],
               },
@@ -364,7 +350,7 @@ export const Feature80DataSource = {
           className: 'feature8-block-row',
           gutter: 120,
           title: {
-            children: 'dsadsdasd',
+            children: 'Energy Vendors',
             className: 'feature8-carousel-title-block',
           },
           children: [

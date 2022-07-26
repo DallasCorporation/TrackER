@@ -89,7 +89,7 @@ class Header extends React.Component {
             animation={{ x: -30, type: 'from', ease: 'easeOutQuad' }}
             {...dataSource.logo}
           >
-            <a  href={dataSource.logo.children.href}>
+            <a href={dataSource.logo.children.href}>
               <img width="100%" src={dataSource.logo.children.logo} alt="img" />
             </a>
           </TweenOne>
@@ -127,7 +127,10 @@ class Header extends React.Component {
           >
             <Menu
               mode={isMobile ? 'inline' : 'horizontal'}
-              defaultSelectedKeys={['sub0']}
+              defaultSelectedKeys={
+                window.location.pathname === "/Home" ? ['item1'] :
+                  window.location.pathname === "/Service" ?
+                    ["item0"] : ["item2"]}
               theme="light"
             >
               {navChildren}

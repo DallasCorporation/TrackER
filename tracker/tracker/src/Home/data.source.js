@@ -13,6 +13,14 @@ export const Nav30DataSource = {
     className: 'header3-menu',
     children: [
       {
+        name: 'item1',
+        className: 'header3-item',
+        children: {
+          href: '/Home',
+          children: [{ children: 'Home', name: 'text' }],
+        },
+      },
+      {
         name: 'item0',
         className: 'header3-item',
         children: {
@@ -21,19 +29,11 @@ export const Nav30DataSource = {
         },
       },
       {
-        name: 'item1',
-        className: 'header3-item',
-        children: {
-          href: '/About',
-          children: [{ children: 'About', name: 'text' }],
-        },
-      },
-      {
         name: 'item2',
         className: 'header3-item',
         children: {
           href: '/Access',
-          children: [{ children: "Join/Access", name: 'text' }],
+          children: [{ children: "Sign In", name: 'text' }],
         },
       },
     ],
@@ -51,7 +51,7 @@ export const Banner01DataSource = {
     className: 'banner0-content',
     children: "We provides commercial and industrial customers with a cross-industry solution to scale green energy adoption and improve operating costs driving corporate sustainability.",
   },
-  button: { className: 'banner0-button', children: 'Learn More',},
+  button: { className: 'banner0-button', children: 'Learn More', },
 };
 export const Content00DataSource = {
   wrapper: { className: 'home-page-wrapper content0-wrapper' },
@@ -148,11 +148,11 @@ export const Feature10DataSource = {
   imgWrapper: { className: 'content1-img', md: 10, xs: 24 },
   img: 'https://zos.alipayobjects.com/rmsportal/nLzbeGQLPyBJoli.png',
   textWrapper: { className: 'content1-text', md: 14, xs: 24 },
-  title: { className: 'content1-title', children: 'Section 2' },
+  title: { className: 'content1-title', children: 'We serve the entire Energy Ecosystem. Start now with no upfront cost.' },
   content: {
     className: 'content1-content',
     children:
-      "Feeling mad hostile, ran the apostle, flowing like Christ when I speak the gospel. I'm no joker! Play me like poker! Be on you like a house on fire! Smoke ya! I leave the mic in body bags, my rap style has, the force to leave you lost, like the tribe of Shabazz.",
+      "Our subscription model allows customers to register sites in a few clicks and scale up or down as needed. No upfront cost makes the TrackER solution unique and easy to adopt. Our professional services, included in the subscription, guarantee a quick return of investment.",
   },
 };
 export const Content30DataSource = {
@@ -164,13 +164,13 @@ export const Content30DataSource = {
     children: [
       {
         name: 'title',
-        children: 'Title',
+        children: 'Advanced Energy Analytics',
         className: 'title-h1',
       },
       {
         name: 'content',
         className: 'title-content',
-        children: 'test test test',
+        children: 'Businesses and residents often deal with complex monthly energy bills',
       },
     ],
   },
@@ -189,11 +189,11 @@ export const Content30DataSource = {
               'https://zos.alipayobjects.com/rmsportal/ScHBSdwpTkAHZkJ.png',
           },
           textWrapper: { className: 'content3-text' },
-          title: { className: 'content3-title', children: 'Slammin a hype verse' },
+          title: { className: 'content3-title', children: 'Meter Data Collection Automation' },
           content: {
             className: 'content3-content',
             children:
-              'Rae got it going on pal, call me the rap assassinator, rhymes rugged and built like Schwarzenegger. ',
+              'automated Time-of-Use energy and demand charge breakdowns are displayed for each billing period on an intuitive user-friendly dashboard, empowering you to optimize building operations intelligently.',
           },
         },
       },
@@ -209,11 +209,11 @@ export const Content30DataSource = {
               'https://zos.alipayobjects.com/rmsportal/NKBELAOuuKbofDD.png',
           },
           textWrapper: { className: 'content3-text' },
-          title: { className: 'content3-title', children: 'Slammin a hype verse' },
+          title: { className: 'content3-title', children: 'Advanced Energy Analytics' },
           content: {
             className: 'content3-content',
             children:
-              'Rae got it going on pal, call me the rap assassinator, rhymes rugged and built like Schwarzenegger. ',
+              'Demand charge management, load forecasting, utility rate comparison, net energy monitoring, setback and retrospective analysis are only a few examples of the TrackER service suite. ',
           },
         },
       },
@@ -229,11 +229,11 @@ export const Content30DataSource = {
               'https://zos.alipayobjects.com/rmsportal/xMSBjgxBhKfyMWX.png',
           },
           textWrapper: { className: 'content3-text' },
-          title: { className: 'content3-title', children: 'Slammin a hype verse' },
+          title: { className: 'content3-title', children: 'Sustainability' },
           content: {
             className: 'content3-content',
             children:
-              'Rae got it going on pal, call me the rap assassinator, rhymes rugged and built like Schwarzenegger. ',
+              'TrackER sustainability service suite provides the toolkit to reduce or eliminate GHG emissions, usually with a focus on Scope 1 and 2 emissions. It enables the digital monitoring of carbon emissions and the tracking of corporate sustainability goals ',
           },
         },
       },
@@ -249,11 +249,11 @@ export const Content30DataSource = {
               'https://zos.alipayobjects.com/rmsportal/MNdlBNhmDBLuzqp.png',
           },
           textWrapper: { className: 'content3-text' },
-          title: { className: 'content3-title', children: 'Slammin a hype verse' },
+          title: { className: 'content3-title', children: 'Customer Engagement' },
           content: {
             className: 'content3-content',
             children:
-              'Rae got it going on pal, call me the rap assassinator, rhymes rugged and built like Schwarzenegger. ',
+              'TrackER platform bridges the gap of today’s DER market inefficiencies. Our service suite includes a customer engagement tool to streamline the DER lead generation process for vendors, energy and service providers.',
           },
         },
       },
@@ -269,11 +269,11 @@ export const Content30DataSource = {
               'https://zos.alipayobjects.com/rmsportal/UsUmoBRyLvkIQeO.png',
           },
           textWrapper: { className: 'content3-text' },
-          title: { className: 'content3-title', children: 'Slammin a hype verse' },
+          title: { className: 'content3-title', children: 'Fleet Management' },
           content: {
             className: 'content3-content',
             children:
-              'Rae got it going on pal, call me the rap assassinator, rhymes rugged and built like Schwarzenegger. ',
+              "With the TrackER fleet manager tool, our customers can easily monitor their portfolio and run all the advanced energy analytics to optimize planning and operations. Scope 1, scope 2 and scope 3 emissions are monitored and reported over the entire portfolio supporting the customer' s sustainability goal tracking. ",
           },
         },
       },
@@ -289,11 +289,11 @@ export const Content30DataSource = {
               'https://zos.alipayobjects.com/rmsportal/ipwaQLBLflRfUrg.png',
           },
           textWrapper: { className: 'content3-text' },
-          title: { className: 'content3-title', children: 'Slammin a hype verse' },
+          title: { className: 'content3-title', children: 'Energy Asset Optimization' },
           content: {
             className: 'content3-content',
             children:
-              'Rae got it going on pal, call me the rap assassinator, rhymes rugged and built like Schwarzenegger. ',
+              'The adoption of Distributed Energy Resources such as Solar PV, Fuel Cell, Energy Storage, Electric Vehicles is growing exponentially and changing the traditional commercial and industrial landscape. ',
           },
         },
       },
@@ -309,13 +309,13 @@ export const Feature40DataSource = {
     children: [
       {
         name: 'title',
-        children: 'Section 3',
+        children: 'Energy Asset Optimization',
         className: 'title-h1',
       },
       {
         name: 'content',
         className: 'title-content',
-        children: "How ya sound B? You're better off a quitter cuz I'm on the mound G, and it's a no-hitter. Murderous material, made by a madman, it's the mic wrecker, Inspector, bad man. ",
+        children: "The adoption of solar PV, fuel cells, energy storage systems, electric Vehicles is changing the traditional commercial and industrial site energy load. TrackER provides an AI-based algorithm to supervise and optimize your distributed energy resources.",
       },
     ],
   },
@@ -334,11 +334,11 @@ export const Feature40DataSource = {
             'https://zos.alipayobjects.com/rmsportal/NKBELAOuuKbofDD.png',
           className: 'content6-icon',
         },
-        title: { className: 'content6-title', children: 'KPI 1' },
+        title: { className: 'content6-title', children: '64MW OF POTENTIAL SOLAR PROJECTS' },
         content: {
           className: 'content6-content',
           children:
-            "Well I'm a sire, I set the microphone on fire, rap styles vary and carry like Mariah.",
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         },
       },
       {
@@ -348,11 +348,11 @@ export const Feature40DataSource = {
           children:
             'https://zos.alipayobjects.com/rmsportal/xMSBjgxBhKfyMWX.png',
         },
-        title: { className: 'content6-title', children: 'KPI 2' },
+        title: { className: 'content6-title', children: '700 MONITORED SITES' },
         content: {
           className: 'content6-content',
           children:
-            "Step through your section with the Force like Luke Skywalker, rhyme author, orchestrate mind torture.",
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem donec massa sapien faucibus et molestie.",
         },
       },
       {
@@ -362,11 +362,11 @@ export const Feature40DataSource = {
           children:
             'https://zos.alipayobjects.com/rmsportal/MNdlBNhmDBLuzqp.png',
         },
-        title: { className: 'content6-title', children: 'KPI 3' },
+        title: { className: 'content6-title', children: '€7M ENERGY SAVINGS' },
         content: {
           className: 'content6-content',
           children:
-            'Lyrically perform armed robbery, flee with the lottery, possibly they spotted me.',
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
         },
       },
     ],
@@ -490,12 +490,12 @@ export const Content110DataSource = {
       {
         name: 'content',
         children:
-          "Shame on you when you stepped through to The Ol Dirty Bastard straight from the Brooklyn Zoo.",
+          <p>Lack of customer data digitization and automation is preventing DER vendors and project developers from scaling their customer engagement and strategies</p>,
         className: 'title-content',
       },
       {
         name: 'content2',
-        children: " My DJ the catcher, he's my man, anyway he's the one who devised the plan.",
+        children: <p>The TrackER platform bridges the gap of today’s DER market inefficiencies.</p>,
         className: 'title-content',
       },
     ],

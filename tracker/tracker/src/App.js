@@ -70,8 +70,8 @@ class App extends Component {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="*" element={<Home />} />
+              <Route path="/Home" element={<Home />} />
               <Route path="/Service" element={<Service />} />
-              <Route path="/About" element={<Home />} />
               <Route path="/Access" element={<Login />} />
             </Routes>
             <Footer

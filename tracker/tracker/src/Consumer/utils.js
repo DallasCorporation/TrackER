@@ -160,3 +160,31 @@ export const stacked = {
         }
     }
 };
+
+export const linear = {
+    options: {
+        chart: {
+            height: 350,
+            type: 'line',
+            zoom: {
+                enabled: false
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            curve: 'straight'
+        },
+        title: {
+            text: 'Consumed Electricity',
+            align: 'center'
+        },
+        grid: {
+            show: false
+        },
+        xaxis: {
+            type: 'datetime'
+          } 
+    }
+};

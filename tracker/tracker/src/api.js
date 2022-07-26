@@ -80,5 +80,16 @@ export default {
         fetch: () =>
             axios.get(`${API_URL}/organization/all`)
                 .then((res) => res.data)
-    }
+    },
+    bills: {
+        fetchBills: (buildingId) =>
+            axios.get(`${API_URL}/bills/${buildingId}`)
+                .then((res) => res.data),
+        addBills: (buildingId, body) =>
+            axios.post(`${API_URL}/bills/${buildingId}`, body)
+                .then((res) => res.data),
+        getBills: () =>
+            axios.get(`${API_URL}/bills`)
+                .then((res) => res.data),
+    },
 };

@@ -49,6 +49,17 @@ const addData = asyncHandler(async (req, res) => {
   }
 })
 
+const getBills = asyncHandler(async (req, res) => {
+  let db_connect = dbo.getDb();
+  db_connect
+      .collection("bills")
+      .find({}).toArray(function (err, result) {
+          if (err) throw err;
+          res.json(result);
+      });
+})
+
 module.exports = {
-  addData
+  addData,
+  getBills
 }

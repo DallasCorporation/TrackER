@@ -1,6 +1,6 @@
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { AutoComplete, Breadcrumb, Button, Card, Col, Empty, Input, Layout, PageHeader, Popconfirm, Radio, Row, Select } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -8,15 +8,20 @@ import api from "../../api";
 import { fetchBuildings } from "../../reducers/buildings";
 import Map from './Map';
 import LoadingSpinner from '../../Components/LoadingSpinner';
+import StatsCard from "../DashboardCards/StatsCard";
+import { linear } from "../utils";
+import ReactApexChart from "react-apexcharts";
 
 const { Option } = Select;
 const { Search } = Input;
 
-const BuildingTab = ({updateRoute}) => {
+const BuildingTab = ({ updateRoute }) => {
     const buildings = useSelector((state) => state.buildings.buildings)
     const user = useSelector((state) => state.user.user)
+    const allOrg = useSelector((state) => state.allOrganization.organization)
     const dispatch = useDispatch()
     const [show, setShow] = useState(false)
+    const [bills, setBills] = useState([])
     const deleteBuilding = async (id) => {
         setShow(true)
         await api.buildings.deleteBuilding(id)
@@ -28,6 +33,49 @@ const BuildingTab = ({updateRoute}) => {
         })
 
     }
+    const getBills = async () => {
+        await api.bills.getBills().then(res => setBills(res))
+    }
+    useEffect(() => {
+        getBills()
+    }, [])
+
+    const getData = (id, type) => {
+        let test = bills.filter(el =>
+            el.buildingId === id
+
+        )
+        let tmp = test[0]
+        if (test[0] === undefined) {
+            return []
+        }
+        let data = []
+        let t = allOrg.filter(el =>
+            el.type.includes(type)
+        )
+        tmp.bills.map(el =>
+            data.push({
+                x: new Date(el.date).toUTCString(),
+                y: el.electric
+            }))
+        let series = [{
+            name: type,
+            data: data
+        }]
+        return series
+    }
+
+    const showBills = (type, orgId) => {
+        allOrg.map(el => {
+            if (el._id === orgId) {
+                return el.type.includes(type)
+            }
+        }
+        )
+
+        return false
+    }
+
     return (
         <Layout
             className="site-layout-background"
@@ -124,29 +172,26 @@ const BuildingTab = ({updateRoute}) => {
                                 </Col>
                             </Row>
                             <Row justify="space-between" style={{ marginBottom: "32px", padding: "32px" }} gutter={[32, 32]}>
-                                <Col span={6}>
-                                    <Card style={{ borderRadius: "10px" }}>
-                                        <h4>Titolo uno</h4>
-                                        <p>Consumo corrente</p>
-                                    </Card>
+                                {showBills("Electric", item.organizationId) && <Col span={8}>
+                                    <StatsCard
+                                        color={"#ebfafa"}
+                                        chart={<ReactApexChart options={linear.options} series={getData(item._id, "Electric")} type="line" height={150} />}
+                                        value={"13,346"}
+                                    />
+                                </Col>}
+                                <Col span={8}>
+                                    <StatsCard
+                                        color={"#ebfafa"}
+                                        chart={<ReactApexChart options={linear.options} series={linear.series} type="line" height={150} />}
+                                        value={"13,346"}
+                                    />
                                 </Col>
-                                <Col span={6}>
-                                    <Card style={{ borderRadius: "10px" }}>
-                                        <h4>Titolo due</h4>
-                                        <p>Consumo corrente</p>
-                                    </Card>
-                                </Col>
-                                <Col span={6}>
-                                    <Card style={{ borderRadius: "10px" }}>
-                                        <h4>Titolo tre</h4>
-                                        <p>Consumo corrente</p>
-                                    </Card>
-                                </Col>
-                                <Col span={6}>
-                                    <Card style={{ borderRadius: "10px" }}>
-                                        <h4>Titolo quattro</h4>
-                                        <p>Consumo corrente</p>
-                                    </Card>
+                                <Col span={8}>
+                                    <StatsCard
+                                        color={"#ebfafa"}
+                                        chart={<ReactApexChart options={linear.options} series={linear.series} type="line" height={150} />}
+                                        value={"13,346"}
+                                    />
                                 </Col>
                             </Row>
                             <Col align="center">

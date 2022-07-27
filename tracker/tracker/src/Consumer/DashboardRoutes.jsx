@@ -36,7 +36,9 @@ const DashboardRoute = () => {
         fetchOrganization()
         fetchPreference()
     }, [user])
-
+    const check = useSelector((state) => state.preference)
+    if (check === null)
+        fetchPreference()
     const userAvatar = useSelector((state) => state.preference.preference.avatar)
     const allOrganization = useSelector((state) => state.allOrganization.organization)
     let defaultProps = {
@@ -173,10 +175,10 @@ const DashboardRoute = () => {
         >
             <Routes >
                 <Route path="*" element={<Dashboard user={user} />} />
-                <Route path="/dashboard" element={<Dashboard user={user}/>} />
+                <Route path="/dashboard" element={<Dashboard user={user} />} />
                 <Route path="/buildings" element={<BuildingsTab updateRoute={() => { setPathname("/building/New"); navigate("/building/New") }} />} />
                 <Route path="/building/New" element={<AddNewBuildings user={user} />} />
-                <Route path="/Organizations" element={<Organizations user={user} allOrganization={allOrganization}/>} />
+                <Route path="/Organizations" element={<Organizations user={user} allOrganization={allOrganization} />} />
                 <Route path="/Profile/Edit" element={<Account avatar={userAvatar} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
                 <Route path="/Profile/Notification" element={<Account avatar={userAvatar} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
                 <Route path="/Profile/Activity" element={<Account avatar={userAvatar} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />

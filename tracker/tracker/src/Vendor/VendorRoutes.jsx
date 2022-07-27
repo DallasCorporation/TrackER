@@ -21,19 +21,26 @@ const DashboardRoute = () => {
     let navigate = useNavigate();
     const user = useSelector((state) => state.user.user)
     const organization = useSelector((state) => state.organization.organization)
-    const edited = organization.type.length
-    const icon = organization.type.length > 0 ? organization.icon : ""
+    const edited = organization !== null ? organization.type.length : 0
+    const icon = organization !== null ? organization.icon : ""
     const dispatch = useDispatch()
+    const fetchPreference = async () => {
+        await api.preference.fetchPreference(user._id).then(data => dispatch(userPreference(data)))
+    }
+    const getOrganization = async () => {
+        await api.organization.getByUserId(user._id).then(data => dispatch(fetchOrganization(data)))
+    }
+
+
     useEffect(() => {
-        const fetchPreference = async () => {
-            await api.preference.fetchPreference(user._id).then(data => dispatch(userPreference(data)))
-        }
-        const getOrganization = async () => {
-            await api.organization.getByUserId(user._id).then(data => dispatch(fetchOrganization(data)))
-        }
         fetchPreference()
         getOrganization()
-    }, [dispatch, user])
+    }, [user])
+
+    if (organization === null) {
+        fetchPreference()
+        getOrganization()
+    }
 
 
     let defaultProps = {
@@ -46,25 +53,25 @@ const DashboardRoute = () => {
                     disabled: edited === 0,
                     icon: <span class="anticon iconfont">&#x100d9;</span>
                 },
-                organization.type.includes("Electric") && {
+                organization !== null && organization.type.includes("Electric") && {
                     path: '/Electric',
                     name: 'Electric Supplier',
                     disabled: edited === 0,
                     icon: <span class="anticon iconfont">&#xe61d;</span>
                 },
-                organization.type.includes("Water") && {
+                organization !== null && organization.type.includes("Water") && {
                     path: '/Water',
                     name: 'Water Supplier',
                     disabled: edited === 0,
                     icon: <span class="anticon iconfont">&#xe730;</span>
                 },
-                organization.type.includes("Gas") && {
+                organization !== null && organization.type.includes("Gas") && {
                     path: '/Gas',
                     name: 'Gas Supplier',
                     disabled: edited === 0,
                     icon: <span class="anticon iconfont">&#xe657;</span>
                 },
-                organization.type.includes("Distributed") && {
+                organization !== null && organization.type.includes("Distributed") && {
                     path: '/Distributed',
                     name: 'Energy Resources',
                     disabled: edited === 0,
@@ -177,7 +184,7 @@ const DashboardRoute = () => {
             )}
             {...settings}
         >
-            {organization.type.length === 0 ? <CompleteOrganization />
+            {organization !== null && organization.type.length === 0 ? <CompleteOrganization />
                 :
                 <Routes >
                     <Route path="*" element={<Dashboard user={user} />} />

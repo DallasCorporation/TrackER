@@ -50,13 +50,10 @@ const BuildingTab = ({ updateRoute }) => {
             return []
         }
         let data = []
-        let t = allOrg.filter(el =>
-            el.type.includes(type)
-        )
         tmp.bills.map(el =>
             data.push({
                 x: new Date(el.date).toUTCString(),
-                y: el.electric
+                y: el[type.toLowerCase()]
             }))
         let series = [{
             name: type,
@@ -66,14 +63,10 @@ const BuildingTab = ({ updateRoute }) => {
     }
 
     const showBills = (type, orgId) => {
-        allOrg.map(el => {
-            if (el._id === orgId) {
-                return el.type.includes(type)
-            }
-        }
-        )
-
-        return false
+        let res = allOrg.map(el => {
+            return (el._id === orgId && el.type.includes(type))
+        })
+        return res
     }
 
     return (
@@ -179,20 +172,20 @@ const BuildingTab = ({ updateRoute }) => {
                                         value={"13,346"}
                                     />
                                 </Col>}
-                                <Col span={8}>
+                                {showBills("Water", item.organizationId) && <Col span={8}>
                                     <StatsCard
                                         color={"#ebfafa"}
-                                        chart={<ReactApexChart options={linear.options} series={linear.series} type="line" height={150} />}
+                                        chart={<ReactApexChart options={linear.options}series={getData(item._id, "Water")} type="line" height={150} />}
                                         value={"13,346"}
                                     />
-                                </Col>
-                                <Col span={8}>
+                                </Col>}
+                                {showBills("Gas", item.organizationId) && <Col span={8}>
                                     <StatsCard
                                         color={"#ebfafa"}
-                                        chart={<ReactApexChart options={linear.options} series={linear.series} type="line" height={150} />}
+                                        chart={<ReactApexChart options={linear.options} series={getData(item._id, "Gas")} type="line" height={150} />}
                                         value={"13,346"}
                                     />
-                                </Col>
+                                </Col>}
                             </Row>
                             <Col align="center">
                                 <Button>Open</Button>

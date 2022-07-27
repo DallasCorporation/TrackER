@@ -63,9 +63,8 @@ const BuildingTab = ({ updateRoute }) => {
     }
 
     const showBills = (type, orgId) => {
-        let res = allOrg.map(el => {
-            return (el._id === orgId && el.type.includes(type))
-        })
+        let res = false
+        allOrg.filter(el => res = (el._id === orgId && el.type.includes(type)))
         return res
     }
 
@@ -175,7 +174,7 @@ const BuildingTab = ({ updateRoute }) => {
                                 {showBills("Water", item.organizationId) && <Col span={8}>
                                     <StatsCard
                                         color={"#ebfafa"}
-                                        chart={<ReactApexChart options={linear.options}series={getData(item._id, "Water")} type="line" height={150} />}
+                                        chart={<ReactApexChart options={linear.options} series={getData(item._id, "Water")} type="line" height={150} />}
                                         value={"13,346"}
                                     />
                                 </Col>}

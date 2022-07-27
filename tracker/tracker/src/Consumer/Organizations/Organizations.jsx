@@ -53,7 +53,7 @@ const Organizations = ({ allOrganization }) => {
 
                             content: {
                                 render: (_, data) => {
-                                    const {energy, water, gas, resources}= data.details
+                                    const { electric, water, gas, resources } = data.details
                                     return (
                                         <Col span={24} >
                                             <Row gutter={[64, 64]} justify="center" align="middle">
@@ -65,27 +65,27 @@ const Organizations = ({ allOrganization }) => {
                                                     </Row>
                                                     <Slider value={data.customers.length} marks={{ 0: 'Small', 25: 'Medium', 70: 'Large', }} />
                                                 </Col>
-                                                {gas &&
-                                                <Col span={12}>
-                                                    <Progress percent={80} />
-                                                </Col>
+                                                {gas.length>0 &&
+                                                    <Col span={12}>
+                                                        <Progress percent={80} />
+                                                    </Col>
                                                 }
 
-                                                <Col span={12}>
-                                                    <div>Customers: {data.customers.length}</div>
-                                                    <Progress percent={80} />
-                                                </Col>
-
-
-                                                <Col span={12}>
-                                                    <div>Customers: {data.customers.length}</div>
-                                                    <Progress percent={80} />
-                                                </Col>
-
-                                                <Col span={12}>
-                                                    <div>Customers: {data.customers.length}</div>
-                                                    <Progress percent={80} />
-                                                </Col>
+                                                {electric.length>0 &&
+                                                    <Col span={12}>
+                                                        <Progress percent={80} />
+                                                    </Col>
+                                                }
+                                                {water.length>0 &&
+                                                    <Col span={12}>
+                                                        <Progress percent={80} />
+                                                    </Col>
+                                                }
+                                                {resources.length>0 &&
+                                                    <Col span={12}>
+                                                        <Progress percent={80} />
+                                                    </Col>
+                                                }
                                             </Row>
                                         </Col>)
                                 }

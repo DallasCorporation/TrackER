@@ -161,7 +161,7 @@ export const stacked = {
     }
 };
 
-export const linear = {
+export const linear = (text) => ({
     options: {
         chart: {
             height: 350,
@@ -177,7 +177,7 @@ export const linear = {
             curve: 'straight'
         },
         title: {
-            text: 'Consumed Electricity',
+            text: text,
             align: 'center'
         },
         grid: {
@@ -187,4 +187,4 @@ export const linear = {
             type: 'datetime'
           } 
     }
-};
+});

@@ -167,21 +167,21 @@ const BuildingTab = ({ updateRoute }) => {
                                 {showBills("Electric", item.organizationId) && <Col span={8}>
                                     <StatsCard
                                         color={"#ebfafa"}
-                                        chart={<ReactApexChart options={linear.options} series={getData(item._id, "Electric")} type="line" height={150} />}
+                                        chart={<ReactApexChart options={linear('Consumed Electricity').options} series={getData(item._id, "Electric")} type="line" height={150} />}
                                         value={"13,346"}
                                     />
                                 </Col>}
                                 {showBills("Water", item.organizationId) && <Col span={8}>
                                     <StatsCard
                                         color={"#ebfafa"}
-                                        chart={<ReactApexChart options={linear.options} series={getData(item._id, "Water")} type="line" height={150} />}
+                                        chart={<ReactApexChart options={linear('Consumed Water').options} series={getData(item._id, "Water")} type="line" height={150} />}
                                         value={"13,346"}
                                     />
                                 </Col>}
                                 {showBills("Gas", item.organizationId) && <Col span={8}>
                                     <StatsCard
                                         color={"#ebfafa"}
-                                        chart={<ReactApexChart options={linear.options} series={getData(item._id, "Gas")} type="line" height={150} />}
+                                        chart={<ReactApexChart options={linear('Consumed Gas').options} series={getData(item._id, "Gas")} type="line" height={150} />}
                                         value={"13,346"}
                                     />
                                 </Col>}

@@ -1,9 +1,8 @@
 import { QuestionCircleOutlined } from "@ant-design/icons";
-import { AutoComplete, Breadcrumb, Button, Card, Col, Empty, Input, Layout, PageHeader, Popconfirm, Radio, Row, Select } from "antd";
-import React, { useEffect } from "react";
+import { AutoComplete, Breadcrumb, Button, Card, Col, Collapse, Empty, Input, Layout, PageHeader, Popconfirm, Radio, Row, Select } from "antd";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import api from "../../api";
 import { fetchBuildings } from "../../reducers/buildings";
 import Map from './Map';
@@ -11,7 +10,7 @@ import LoadingSpinner from '../../Components/LoadingSpinner';
 import StatsCard from "../DashboardCards/StatsCard";
 import { linear } from "../utils";
 import ReactApexChart from "react-apexcharts";
-
+import "./style.css"
 const { Option } = Select;
 const { Search } = Input;
 
@@ -21,7 +20,9 @@ const BuildingTab = ({ updateRoute }) => {
     const allOrg = useSelector((state) => state.allOrganization.organization)
     const dispatch = useDispatch()
     const [show, setShow] = useState(false)
+    const [collapse, setCollapse] = useState(true)
     const [bills, setBills] = useState([])
+
     const deleteBuilding = async (id) => {
         setShow(true)
         await api.buildings.deleteBuilding(id)
@@ -41,16 +42,12 @@ const BuildingTab = ({ updateRoute }) => {
     }, [])
 
     const getData = (id, type) => {
-        let test = bills.filter(el =>
-            el.buildingId === id
-
-        )
-        let tmp = test[0]
-        if (test[0] === undefined) {
+        let test = bills.find(el => el.buildingId === id)
+        if (test === undefined) {
             return []
         }
         let data = []
-        tmp.bills.map(el =>
+        test.bills.map(el =>
             data.push({
                 x: new Date(el.date).toUTCString(),
                 y: el[type.toLowerCase()]
@@ -68,6 +65,21 @@ const BuildingTab = ({ updateRoute }) => {
         return res
     }
 
+    const renderItem = () => {
+        let tmp = []
+        buildings.map(el =>
+            tmp.push(
+                {
+                    value: el.name,
+                    label: el.name,
+                    key: el.id,
+                    props: el.id
+                })
+        )
+
+        return tmp
+    };
+
     return (
         <Layout
             className="site-layout-background"
@@ -84,6 +96,7 @@ const BuildingTab = ({ updateRoute }) => {
                 </Breadcrumb>
             </Row>
             <PageHeader
+                style={{ paddingLeft: 0 }}
                 className="site-page-header"
                 title="Buildings Portfolio"
                 subTitle="Browse and check your buildings"
@@ -99,13 +112,10 @@ const BuildingTab = ({ updateRoute }) => {
                     </Select>
                     <AutoComplete
                         style={{ width: "65%" }}
-                        dataSource={buildings}
-                        defaultActiveFirstOption={false}
+                        dataSource={renderItem()}
+                        onSelect={(d, da) => console.log(da)}
                     >
-                        <Search
-                            placeholder={
-                                "Search by Name"
-                            }
+                        <Search placeholder="Search by Name"
                         />
                     </AutoComplete>
                 </Input.Group>
@@ -125,70 +135,75 @@ const BuildingTab = ({ updateRoute }) => {
                 :
                 buildings.map((item) =>
                     <div style={{ paddingTop: "32px" }}>
-                        <Card bodyStyle={{ padding: "0", marginBottom: "32px", borderRadius: "10px" }} headStyle={{ borderRadius: "10px" }} style={{ borderRadius: "10px" }}>
-                            <Row >
-                                <Col lg={24} md={24} sx={24}>
-                                    <Row justify="space-between" align="middle" style={{ backgroundColor: "#0010f7", height: "50px", padding: "10px" }}>
-                                        <h3 style={{ color: "white" }}>{item.name}</h3>
-                                        <Radio.Group value="default" >
-                                            <Radio.Button type="primary">Edit</Radio.Button>
-                                            <Popconfirm
-                                                icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
-                                                title="Do you wanna delete this building?"
-                                                onConfirm={() => deleteBuilding(item._id)}
-                                                okText="Yes"
-                                                cancelText="No"
-                                            >
-                                                <Radio.Button>Delete</Radio.Button>
-                                            </Popconfirm>
-                                        </Radio.Group>
-                                    </Row>
-                                </Col>
-                            </Row>
-
+                        <Card bodyStyle={{ padding: "0", marginBottom: "32px", borderRadius: "10px" }} headStyle={{ borderTopLeftRadius: "10px", borderTopRightRadius: "10px", backgroundColor: "#0010f7" }} style={{ borderRadius: "10px" }}
+                            title={
+                                <Row >
+                                    <Col span={24}>
+                                        <Row justify="space-between" align="middle">
+                                            <h3 style={{ color: "white" }}>{item.name}</h3>
+                                            <Radio.Group value="default" >
+                                                <Radio.Button type="primary">Edit</Radio.Button>
+                                                <Popconfirm
+                                                    icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+                                                    title="Do you wanna delete this building?"
+                                                    onConfirm={() => deleteBuilding(item._id)}
+                                                    okText="Yes"
+                                                    cancelText="No"
+                                                >
+                                                    <Radio.Button>Delete</Radio.Button>
+                                                </Popconfirm>
+                                            </Radio.Group>
+                                        </Row>
+                                    </Col>
+                                </Row>
+                            }
+                        >
                             <Row justify="space-between" gutter={[32, 0]} style={{ marginBottom: "32px", padding: "16px" }}>
-                                <Col lg={8} md={8} sx={8}>
+                                <Col span={10} >
                                     <Map lat={item.lat} lng={item.long} />
                                 </Col>
-                                <Col lg={8} md={8} sx={8}>
+                                <Col span={12}>
                                     <p>Building Name</p>
                                     <Input value={item.name} readOnly></Input>
-                                    <p style={{ marginTop: "27px" }}>Contact Name</p>
+                                    <p style={{ marginTop: "22px" }}>Contact Name</p>
                                     <Input value={item.contact} readOnly></Input>
-                                </Col>
-                                <Col lg={8} md={8} sx={8}>
-                                    <p>Building Address</p>
+                                    <p style={{ marginTop: "22px" }}>Address</p>
                                     <Input value={item.address} readOnly></Input>
-                                    <p style={{ marginTop: "27px" }}>Building Type</p>
+                                    <p style={{ marginTop: "22px" }}>Building Type</p>
                                     <Input value={item.type} readOnly></Input>
                                 </Col>
                             </Row>
-                            <Row justify="space-between" style={{ marginBottom: "32px", padding: "32px" }} gutter={[32, 32]}>
-                                {showBills("Electric", item.organizationId) && <Col span={8}>
-                                    <StatsCard
-                                        color={"#ebfafa"}
-                                        chart={<ReactApexChart options={linear('Consumed Electricity').options} series={getData(item._id, "Electric")} type="line" height={150} />}
-                                        value={"13,346"}
-                                    />
-                                </Col>}
-                                {showBills("Water", item.organizationId) && <Col span={8}>
-                                    <StatsCard
-                                        color={"#ebfafa"}
-                                        chart={<ReactApexChart options={linear('Consumed Water').options} series={getData(item._id, "Water")} type="line" height={150} />}
-                                        value={"13,346"}
-                                    />
-                                </Col>}
-                                {showBills("Gas", item.organizationId) && <Col span={8}>
-                                    <StatsCard
-                                        color={"#ebfafa"}
-                                        chart={<ReactApexChart options={linear('Consumed Gas').options} series={getData(item._id, "Gas")} type="line" height={150} />}
-                                        value={"13,346"}
-                                    />
-                                </Col>}
-                            </Row>
-                            <Col align="center">
-                                <Button>Open</Button>
-                            </Col>
+
+                            <Collapse style={{ border: 0, }} accordion isActive={collapse} collapsible="header">
+                                <Collapse.Panel isActive={collapse} style={{ border: 0 }} showArrow={false} collapsible="header"
+                                    header={<Button style={{ borderRadius: 10 }} type={collapse ? "default" : "primary"} size="large" onClick={() => setCollapse(!collapse)}> {collapse ? "Close" : "Open"}</Button>}
+                                    key="1">
+                                    <Row justify="space-between" style={{ marginBottom: "32px", padding: "32px" }} gutter={[32, 32]}>
+                                        {showBills("Electric", item.organizationId) &&
+                                            <Col span={24}>
+                                                <StatsCard
+                                                    color={"#ebfafa"}
+                                                    chart={<ReactApexChart options={linear('Consumed Electricity', "watt").options} series={getData(item._id, "Electric")} type="line" height={350} />}
+                                                    value={"13,346"}
+                                                />
+                                            </Col>}
+                                        {showBills("Water", item.organizationId) && <Col span={24}>
+                                            <StatsCard
+                                                color={"#ebfafa"}
+                                                chart={<ReactApexChart options={linear('Consumed Water', "liter").options} series={getData(item._id, "Water")} type="line" height={350} />}
+                                                value={"13,346"}
+                                            />
+                                        </Col>}
+                                        {showBills("Gas", item.organizationId) && <Col span={24}>
+                                            <StatsCard
+                                                color={"#ebfafa"}
+                                                chart={<ReactApexChart options={linear('Consumed Gas', "m³").options} series={getData(item._id, "Gas")} type="line" height={350} />}
+                                                value={"13,346"}
+                                            />
+                                        </Col>}
+                                    </Row>
+                                </Collapse.Panel>
+                            </Collapse>
                         </Card>
                     </div>
                 )

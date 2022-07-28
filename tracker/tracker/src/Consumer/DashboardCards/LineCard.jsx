@@ -20,6 +20,11 @@ const LineCard = () => {
                 align: "right"
             },
             chart: {
+                events: {
+                    mounted: (chart) => {
+                        chart.windowResizeHandler();
+                    }
+                },
                 animations: {
                     enabled: true,
                     easing: 'easein',
@@ -65,7 +70,7 @@ const LineCard = () => {
                     <DatePicker placeholder="Choose" picker="month" locale={locale} />
                 </Col>
             </Row>
-                <ReactApexChart options={state.options} series={state.series} type="area" height={350}  />
+            <ReactApexChart options={state.options} series={state.series} type="area" height={350} />
         </ProCard>
     )
 };

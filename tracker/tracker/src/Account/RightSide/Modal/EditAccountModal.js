@@ -6,7 +6,6 @@ import { updateUser } from "../../../reducers/user"
 
 const EditAccountModal = ({ visible, setVisible, user }) => {
     const dispatch = useDispatch()
-    console.log(user)
     const [name, setName] = useState(user.name)
     const [surname, setSurname] = useState(user.surname)
     const [email, setEmail] = useState(user.email)
@@ -16,7 +15,6 @@ const EditAccountModal = ({ visible, setVisible, user }) => {
             footer={[
                 <Button key="back" onClick={() => setVisible(false)}>Cancel</Button>,
                 <Button key="submit" type="primary" onClick={() => {
-                    console.log(name, surname, email)
                     api.user.update(user._id, { name, surname, email })
                         .then(res => {
                             dispatch(updateUser(res.data))

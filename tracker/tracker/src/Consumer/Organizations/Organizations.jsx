@@ -1,8 +1,8 @@
-import { Breadcrumb, Layout, Row, Button, Progress, Space, Tag, Col, Slider, Avatar } from "antd"
+import { Breadcrumb, Layout, Row, Button, Progress, Space, Tag, Col, Slider, Avatar, Tooltip, Badge } from "antd"
 import { ProList } from '@ant-design/pro-components';
 import { useState } from 'react';
-import { AntDesignOutlined } from "@ant-design/icons";
-const Organizations = ({ allOrganization }) => {
+import TypeCard from "./TypeCard";
+const Organizations = ({ allOrganization, allUser }) => {
     const [expandedRowKeys, setExpandedRowKeys] = useState([]);
     return (
         <Layout
@@ -19,11 +19,24 @@ const Organizations = ({ allOrganization }) => {
                     <Breadcrumb.Item>Organizations</Breadcrumb.Item>
                 </Breadcrumb>
             </Row>
-
             <Row style={{ marginTop: 32 }}>
                 <Col span={24}>
                     <ProList rowKey="title" headerTitle="Registered Organization"
                         expandable={{ expandedRowKeys, onExpandedRowsChange: setExpandedRowKeys }}
+                        onRow={(record, rowIndex) => {
+                            return {
+                                onClick: event => {
+                                    if (expandedRowKeys.includes(rowIndex))
+                                        setExpandedRowKeys([])
+                                    else
+                                        setExpandedRowKeys([rowIndex])
+                                }, // click row
+                                onDoubleClick: event => { }, // double click row
+                                onContextMenu: event => { }, // right button click row
+                                onMouseEnter: event => { }, // mouse enter row
+                                onMouseLeave: event => { }, // mouse leave row
+                            };
+                        }}
                         dataSource={allOrganization}
                         itemLayout="vertical"
                         size="large"
@@ -31,59 +44,64 @@ const Organizations = ({ allOrganization }) => {
                         metas={{
                             title: {
                                 render: (_, data) => (
-                                    <Row align="middle">
-                                        <Col style={{ width: 220 }}>
-                                            {data.name}
-                                        </Col>
-                                        <Col >
-                                            <Space size={0}>
-                                                {data.type.includes("Electric") && <Tag icon={<span class="anticon iconfontTag" >&#xe61d;</span>} color="gold">Electric</Tag>}
-                                                {data.type.includes("Gas") && <Tag icon={<span class="anticon iconfontTag" >&#xe657;</span>} color="#5B90F6">Gas</Tag>}
-                                                {data.type.includes("Water") && <Tag icon={<span class="anticon iconfontTag" >&#xe730;</span>} color="blue">Water</Tag>}
-                                                {data.type.includes("Distributed") && <Tag icon={<span class="anticon iconfontTag" >&#xe927;</span>} color="green">Energy Resources</Tag>}
-                                            </Space>
-                                        </Col>
-                                    </Row>
+                                        <Row align="middle">
+                                            <Col style={{ width: 220 }}>
+                                                {data.name}
+                                            </Col>
+                                            <Col >
+                                                <Space size={0}>
+                                                    {data.type.includes("Electric") && <Tag icon={<span class="anticon iconfontTag" >&#xe61d;</span>} color="gold">Electric</Tag>}
+                                                    {data.type.includes("Gas") && <Tag icon={<span class="anticon iconfontTag" >&#xe657;</span>} color="#5B90F6">Gas</Tag>}
+                                                    {data.type.includes("Water") && <Tag icon={<span class="anticon iconfontTag" >&#xe730;</span>} color="blue">Water</Tag>}
+                                                    {data.type.includes("Distributed") && <Tag icon={<span class="anticon iconfontTag" >&#xe927;</span>} color="green">Energy Resources</Tag>}
+                                                </Space>
+                                            </Col>
+                                        </Row>
+
                                 ),
                             },
                             subTitle: {
                                 dataIndex: 'description'
                             },
-
-
                             content: {
                                 render: (_, data) => {
                                     const { electric, water, gas, resources } = data.details
+                                    let owner = allUser.find(el =>
+                                        el._id === data.userId
+                                    )
                                     return (
-                                        <Col span={24} >
+                                        <Col span={24} style={{ marginBottom: 32 }}>
                                             <Row gutter={[64, 64]} justify="center" align="middle">
-                                                <Avatar size={240} src={data.icon} />
+                                                <Tooltip placement="bottom" title={data.name + " Logo"}>
+                                                    <Avatar size={240} src={data.icon} style={{ boxShadow: "0 19px 38px rgba(0,0,0,0.30), 0 10px 12px rgba(0,0,0,0.22)" }} />
+                                                </Tooltip>
                                                 <Col span={14} style={{ marginLeft: 22 }}>
+                                                    <p style={{ fontSize: 17 }}>Owner: {owner.name + " " + owner.surname} </p>
                                                     <Row>
                                                         <p style={{ fontSize: 17 }}>Created at: {new Date(data.createAt).toLocaleDateString()}</p>
                                                         <p style={{ fontSize: 17, marginLeft: 32 }}>Total Customers: {data.customers.length}</p>
                                                     </Row>
                                                     <Slider value={data.customers.length} marks={{ 0: 'Small', 25: 'Medium', 70: 'Large', }} />
                                                 </Col>
-                                                {gas.length>0 &&
+                                                {electric.length > 0 &&
                                                     <Col span={12}>
-                                                        <Progress percent={80} />
+                                                        <TypeCard title="Electric Plan" data={electric} />
                                                     </Col>
                                                 }
 
-                                                {electric.length>0 &&
+                                                {gas.length > 0 &&
                                                     <Col span={12}>
-                                                        <Progress percent={80} />
+                                                        <TypeCard title="Gas Plan" data={gas} />
                                                     </Col>
                                                 }
-                                                {water.length>0 &&
+                                                {water.length > 0 &&
                                                     <Col span={12}>
-                                                        <Progress percent={80} />
+                                                        <TypeCard title="Water Plan" data={water} />
                                                     </Col>
                                                 }
-                                                {resources.length>0 &&
+                                                {resources.length > 0 &&
                                                     <Col span={12}>
-                                                        <Progress percent={80} />
+                                                        <TypeCard title="Energy Resources Cost" data={water} />
                                                     </Col>
                                                 }
                                             </Row>

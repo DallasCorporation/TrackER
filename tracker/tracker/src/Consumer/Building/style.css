@@ -1,0 +1,35 @@
+.test .ant-select-selector .ant-select-selection-search {
+    height: 54.28px !important;
+}
+
+.test .ant-select-selector {
+    height: 54.28px !important;
+    justify-items: center;
+    align-items: center;
+}
+
+.test .ant-select-selection-search-input {
+    height: 54px !important;
+}
+
+.ant-collapse-header {
+    justify-content: center;
+    background-color: white;
+    border: 0;
+    cursor: default;
+}
+
+.ant-collapse {
+    background-color: white;
+    border: 0;
+    cursor: default;
+}
+
+.ant-collapse-content .ant-collapse-content-active {
+    background-color: white;
+    border: 0;
+}
+
+.ant-collapse>.ant-collapse-item>.ant-collapse-header {
+    cursor: default
+}

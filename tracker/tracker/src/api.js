@@ -32,7 +32,10 @@ export default {
             axios.put(`${API_URL}/user/password/${id}`, data),
         delete: (id) => {
             axios.delete(`${API_URL}/user/${id}`).then(res => res.data)
-        }
+        },
+        fetchAll: () =>
+            axios.get(`${API_URL}/user/all`)
+                .then((res) => res.data),
     },
     activity: {
         fetchActivity: (userId) =>

@@ -28,7 +28,6 @@ const SecondStep = ({ name, setDescription, description = "" }) => {
         },
 
         onDrop(e) {
-            console.log('Dropped files', e.dataTransfer.files);
         },
     };
 

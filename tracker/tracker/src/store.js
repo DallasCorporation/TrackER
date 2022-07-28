@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { allOrganizationSlice } from './reducers/allOrganization'
+import { allUserSlice } from './reducers/allUsers'
 import { buildingsSlice } from './reducers/buildings'
 import { organizationSlice } from './reducers/organization'
 import { preferenceSlice } from './reducers/preference'
@@ -12,6 +13,7 @@ export default configureStore({
     preference: preferenceSlice.reducer,
     buildings: buildingsSlice.reducer,
     organization: organizationSlice.reducer,
-    allOrganization: allOrganizationSlice.reducer
+    allOrganization: allOrganizationSlice.reducer,
+    allUser: allUserSlice.reducer
   },
 })

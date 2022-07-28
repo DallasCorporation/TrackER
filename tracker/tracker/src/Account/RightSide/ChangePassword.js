@@ -8,7 +8,6 @@ import bcrypt from "bcryptjs"
 
 const ChangePassword = ({ user }) => {
     const [old, setOld] = useState()
-    console.log(user)
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
     const dispatch = useDispatch()

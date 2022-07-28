@@ -33,6 +33,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    console.log(this.props)
     enquireScreen((b) => {
       this.setState({ isMobile: !!b });
     });

@@ -51,13 +51,11 @@ const EditCard = ({ data, type }) => {
             )
             setPrices({ ...price, resources: newObj })
         }
-        console.log(price)
     }
 
     const editPlan = () => {
         if (!edit) {
             let data = { ...organization, details: price }
-            console.log(data, price)
             setLoad(true)
             api.organization.update(organization._id, data).then((res) => {
                 dispatch(fetchOrganization(res))

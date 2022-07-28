@@ -21,6 +21,6 @@ export default function Map(props) {
   });
 
   return (
-      <div ref={mapContainer} className="map-container" />
+      <div ref={mapContainer} style={{height:"100%"}} className="map-container" />
   );
 }

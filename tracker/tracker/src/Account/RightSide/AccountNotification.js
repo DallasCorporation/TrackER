@@ -10,7 +10,6 @@ const AccountNotification = ({ user }) => {
         api.preference.updatePreference(user._id, data).then(res => {
             dispatch(updatePreference(res))
             message.success("Update Notifications Preference")
-            console.log(data)
         }).catch(err => message.error("Error on Update Preference"))
     }
     return (

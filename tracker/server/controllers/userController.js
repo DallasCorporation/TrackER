@@ -190,6 +190,16 @@ const deleteUserById = asyncHandler(async (req, res) => {
   res.status(200).json({ id: req.params.id })
 })
 
+const getAll = asyncHandler(async (req, res) => {
+  const goal = await User.find({})
+  if (goal)
+      res.status(200).json(goal)
+  else {
+      res.status(400)
+      throw new Error('Organizations not found')
+  }
+})
+
 
 module.exports = {
   registerUser,
@@ -198,5 +208,6 @@ module.exports = {
   getUserById,
   updateUserById,
   deleteUserById,
-  updateUserPasswordById
+  updateUserPasswordById,
+  getAll
 }

@@ -94,5 +94,8 @@ export default {
         getBills: () =>
             axios.get(`${API_URL}/bills`)
                 .then((res) => res.data),
+        getBillsAggregated: (userId) =>
+            axios.get(`${API_URL}/bills/${userId}`)
+                .then((res) => res.data),
     },
 };

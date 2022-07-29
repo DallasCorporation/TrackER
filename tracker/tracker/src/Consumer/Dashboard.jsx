@@ -1,5 +1,5 @@
 import { Avatar, Col, Image, Layout, Row, } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import BannerCard from "./DashboardCards/BannerCard";
 import ReactApexChart from "react-apexcharts";
 import LineCard from "./DashboardCards/LineCard";
@@ -13,6 +13,8 @@ import RevenueCard from "./DashboardCards/RevenueCard";
 import EarningsCard from "./DashboardCards/EarningsCard";
 import DownloadCard from "./DashboardCards/DowloadCard";
 import { useSelector } from "react-redux";
+import api from "../api";
+import { useState } from "react";
 
 function importAll(r) {
   let images = {};
@@ -24,6 +26,16 @@ const component = require.context('../assets/avatars/', false, /\.svg/)
 const images = importAll(component);
 
 const Dashboard = () => {
+  const [bills, setBills] = useState()
+  
+  const getBillsAggregated = async () => {
+    await api.bills.getBillsAggregated(user._id).then(res => setBills(res))
+  }
+  useEffect(() => {
+    getBillsAggregated(user._id)
+  }, [])
+
+
   const user = useSelector((state) => state.user.user)
   const buildings = useSelector((state) => state.buildings.buildings)
   return (
@@ -41,7 +53,7 @@ const Dashboard = () => {
         <Col lg={18} md={24} sx={24}>
           <Row gutter={[0, 32]}>
             <BannerCard name="Get exclusive discounts for any payment method" />
-            <LineCard />
+            <LineCard data={bills}/>
           </Row>
           <Row justify="center" gutter={[32, 32]} style={{ marginTop: "32px" }}>
             <Col lg={6} md={6} sx={6}>
@@ -86,9 +98,9 @@ const Dashboard = () => {
                     <p>$442.98 Highest income this month</p>
                   </div>
                 </Col>
-                <Col span={8} style={{marginRight:32}}>
+                <Col span={8} style={{ marginRight: 32 }}>
                   <p>Name Organization Customers</p>
-                  <Row justify="space-between" align="middle" gutter={[32,32]}>
+                  <Row justify="space-between" align="middle" gutter={[32, 32]}>
                     <Avatar size={40} src={images['Avatar-1.svg']} />
                     <Avatar size={40} src={images['Avatar-2.svg']} />
                     <Avatar size={40} src={images['Avatar-3.svg']} />
@@ -105,7 +117,7 @@ const Dashboard = () => {
             <EarningsCard />
           </Row>
           <Row style={{ marginTop: "32px" }}>
-            <TableCard buildings={buildings}/>
+            <TableCard buildings={buildings} />
           </Row>
         </Col>
         <Col lg={6} md={24} sx={24}>

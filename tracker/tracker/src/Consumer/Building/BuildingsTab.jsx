@@ -37,6 +37,7 @@ const BuildingTab = ({ updateRoute }) => {
     const getBills = async () => {
         await api.bills.getBills().then(res => setBills(res))
     }
+   
     useEffect(() => {
         getBills()
     }, [])

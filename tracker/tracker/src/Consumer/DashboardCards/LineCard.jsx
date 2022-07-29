@@ -4,7 +4,8 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 import locale from 'antd/es/date-picker/locale/it_IT'
 import { CardTitle } from "../../Components/CustomComponents";
-const LineCard = () => {
+const LineCard = ({data}) => {
+    console.log(data)
     let state = {
         series: [{
             name: 'series1',
@@ -16,15 +17,11 @@ const LineCard = () => {
         options: {
             legend: {
                 position: "top",
-                horizontalAlign: "right",
+                horizontalAlign: "center",
                 align: "right"
             },
             chart: {
-                events: {
-                    mounted: (chart) => {
-                        chart.windowResizeHandler();
-                    }
-                },
+                autoSelected: 'selection' ,
                 animations: {
                     enabled: true,
                     easing: 'easein',
@@ -34,7 +31,7 @@ const LineCard = () => {
                         delay: 150
                     },
                 },
-                toolbar: { show: false },
+                toolbar: { show: true,},
                 height: 350,
                 type: 'area'
 

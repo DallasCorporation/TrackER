@@ -2,6 +2,9 @@ const asyncHandler = require('express-async-handler');
 const { ObjectId } = require('mongodb');
 const dbo = require("../db/conn");
 const billsModel = require('../models/billsModel');
+const Building = require('../models/buildingModel');
+const { aggregate } = require('../models/organizationModel');
+const Organization = require('../models/organizationModel');
 
 const addData = asyncHandler(async (req, res) => {
   let db_connect = dbo.getDb();
@@ -52,14 +55,73 @@ const addData = asyncHandler(async (req, res) => {
 const getBills = asyncHandler(async (req, res) => {
   let db_connect = dbo.getDb();
   db_connect
-      .collection("bills")
-      .find({}).toArray(function (err, result) {
-          if (err) throw err;
-          res.json(result);
-      });
+    .collection("bills")
+    .find({}).toArray(function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+})
+
+const getBillsAggregatedFiltered = asyncHandler(async (req, res) => {
+  let db_connect = dbo.getDb();
+  db_connect
+    .collection("bills")
+    .find({}).toArray(async function (err, result) {
+      if (err) throw err;
+      let data = {}
+      const goal = await Building.find({ userId: ObjectId(req.params.id) })
+      if (goal) {
+        let orgIds = []
+        const aggregated = {}
+        let res = goal.map((el) => {
+          orgIds.push({ id: el._id, organizationId: el.organizationId })
+          return el._id.toString()
+        })
+        const res2 = result.filter(r => res.includes(r.buildingId.toString()))
+        let electric = 0
+        let gas = 0
+        let water = 0
+        await Promise.all(res2.map(async el => {
+          let obj = orgIds.find(o => o.id.toString() === el.buildingId.toString());
+          const goal2 = await Organization.findById((obj.organizationId))
+          if (goal2)
+            el.bills.map(bill => {
+              if (aggregated.hasOwnProperty(bill.date)) {
+                console.log(goal2.type.includes("Electric"))
+                var existing = aggregated[bill.date];
+                aggregated[bill.date] = {
+                  date: existing.date,
+                  ...(goal2.type.includes("Electric")) && { electric: existing.electric + bill.electric },
+                  ...(goal2.type.includes("Gas")) && { gas: existing.gas + bill.gas, },
+                  ...(goal2.type.includes("Water")) && { water: existing.water + bill.water },
+                }
+              } else {
+                aggregated[bill.date] = {
+                  date: bill.date,
+                  ...(goal2.type.includes("Electric")) && { electric: bill.electric, },
+                  ...(goal2.type.includes("Gas")) && { gas: bill.gas, },
+                  ...(goal2.type.includes("Water")) && { water: bill.water },
+                };
+              }
+              electric += bill.electric
+              gas += bill.gas
+              water += bill.water
+            })
+        }))
+        data = {
+          totalElectric: electric,
+          totalGas: gas,
+          totalWater: water,
+          aggregated,
+          all: res2
+        }
+      }
+      res.status(200).json(data)
+    });
 })
 
 module.exports = {
   addData,
-  getBills
+  getBills,
+  getBillsAggregatedFiltered
 }

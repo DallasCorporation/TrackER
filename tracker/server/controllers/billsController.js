@@ -10,7 +10,6 @@ const addData = asyncHandler(async (req, res) => {
   let db_connect = dbo.getDb();
   const exist = await billsModel.findOne({ buildingId: req.params.id })
   if (exist) {
-    console.log(exist)
     billsModel.updateOne(
       { "buildingId": req.params.id },
       {
@@ -87,20 +86,19 @@ const getBillsAggregatedFiltered = asyncHandler(async (req, res) => {
           if (goal2)
             el.bills.map(bill => {
               if (aggregated.hasOwnProperty(bill.date)) {
-                console.log(goal2.type.includes("Electric"))
                 var existing = aggregated[bill.date];
                 aggregated[bill.date] = {
                   date: existing.date,
-                  ...(goal2.type.includes("Electric")) && { electric: existing.electric + bill.electric },
-                  ...(goal2.type.includes("Gas")) && { gas: existing.gas + bill.gas, },
-                  ...(goal2.type.includes("Water")) && { water: existing.water + bill.water },
+                  ...(goal2.type.includes("Electric")) && { electric: parseFloat(existing.electric + bill.electric).toFixed(2) },
+                  ...(goal2.type.includes("Gas")) && { gas: parseFloat(existing.gas + bill.gas).toFixed(2) },
+                  ...(goal2.type.includes("Water")) && { water: parseFloat(existing.water + bill.water).toFixed(2) },
                 }
               } else {
                 aggregated[bill.date] = {
                   date: bill.date,
-                  ...(goal2.type.includes("Electric")) && { electric: bill.electric, },
-                  ...(goal2.type.includes("Gas")) && { gas: bill.gas, },
-                  ...(goal2.type.includes("Water")) && { water: bill.water },
+                  ...(goal2.type.includes("Electric")) && { electric: parseFloat(bill.electric).toFixed(2) },
+                  ...(goal2.type.includes("Gas")) && { gas: parseFloat(bill.gas).toFixed(2) },
+                  ...(goal2.type.includes("Water")) && { water: parseFloat(bill.water).toFixed(2) },
                 };
               }
               electric += bill.electric
@@ -111,7 +109,7 @@ const getBillsAggregatedFiltered = asyncHandler(async (req, res) => {
         data = {
           totalElectric: parseFloat(electric.toFixed(2)),
           totalGas: parseFloat(gas.toFixed(2)),
-          totalWater:parseFloat(water.toFixed(2)),
+          totalWater: parseFloat(water.toFixed(2)),
           aggregated,
           all: res2
         }

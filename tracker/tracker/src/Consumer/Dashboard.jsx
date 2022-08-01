@@ -25,17 +25,63 @@ function importAll(r) {
 const component = require.context('../assets/avatars/', false, /\.svg/)
 const images = importAll(component);
 
+
+
+const getData = (data) => {
+  if (data === undefined) return []
+  if (Object.keys(data).length === 0) return []
+  let series = []
+  let electric = []
+  let gas = []
+  let water = []
+  Object.values(data.aggregated).forEach((el) => {
+    electric.push({
+      x: new Date(el.date).toUTCString(),
+      y: el.electric === undefined ? null : el.electric
+    })
+    gas.push({
+      x: new Date(el.date).toUTCString(),
+      y: el.gas === undefined ? null : el.gas
+    })
+    water.push({
+      x: new Date(el.date).toUTCString(),
+      y: el.water === undefined ? null : el.water
+    })
+  })
+  electric = {
+    type: 'area',
+    name: "Electric",
+    data: electric
+  }
+  gas = {
+    type: 'area',
+    name: "Gas",
+    data: gas
+  }
+  water = {
+    type: 'area',
+    name: "Water",
+    data: water
+  }
+  series = [
+    electric,
+    gas,
+    water
+  ]
+  return series
+}
+
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user)
   const buildings = useSelector((state) => state.buildings.buildings)
   const [bills, setBills] = useState({})
-  if (bills === {})
-    api.bills.getBillsAggregated(user._id).then(res => setBills(res))
+
   const getBillsAggregated = async () => {
     await api.bills.getBillsAggregated(user._id).then(res => setBills(res))
   }
   useEffect(() => {
     getBillsAggregated(user._id)
+    console.log("a")
   }, [user])
 
   return (
@@ -53,7 +99,7 @@ const Dashboard = () => {
         <Col lg={18} md={24} sx={24}>
           <Row gutter={[0, 32]}>
             <BannerCard name="Get exclusive discounts for any payment method" />
-            <LineCard data={bills} />
+            <LineCard data={getData(bills)} />
           </Row>
           <Row justify="center" gutter={[32, 32]} style={{ marginTop: "32px" }}>
             <Col lg={6} md={6} sx={6}>

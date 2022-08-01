@@ -23,12 +23,10 @@ const handleLoadScript = () => {
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <ConfigProvider locale={en_US}>
-      <Provider store={store}>
-        <App handleLoadScript={handleLoadScript}/>
-      </Provider>
-    </ConfigProvider>
-  </React.StrictMode>
+  <ConfigProvider locale={en_US}>
+    <Provider store={store}>
+      <App handleLoadScript={handleLoadScript} />
+    </Provider>
+  </ConfigProvider>
 );
 reportWebVitals();

@@ -1,4 +1,6 @@
 const axios = require("axios")
+const moment = require("moment")
+
 
 const getRandom = function (type, sqft) {
     let date = new Date()
@@ -46,13 +48,14 @@ var myFunc01 = function() {
 
 const postData = async () => {
     await axios.get(`http://127.0.0.1:3000/api/builds`).then((res) => {
-        res.data.forEach(async element => {
+    const date= moment().valueOf()    
+    res.data.forEach(async element => {
             await axios.post(`http://127.0.0.1:3000/api/bills/${element._id}`, {
                 electric: getRandom(element.type, element.sqft),
                 gas: getRandom(element.type, element.sqft),
                 water: getRandom(element.type, element.sqft),
                 resources: [],
-                date: Date.now(),
+                date: date,
             }).then((res) => console.log(res.data)).catch(err => console.log(err))
         });
     });

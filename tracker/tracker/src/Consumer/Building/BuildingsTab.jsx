@@ -1,5 +1,5 @@
 import { QuestionCircleOutlined } from "@ant-design/icons";
-import { AutoComplete, Breadcrumb, Button, Card, Col, Collapse, Empty, Input, Layout, PageHeader, Popconfirm, Radio, Row, Select } from "antd";
+import { AutoComplete, Breadcrumb, Button, Card, Col, Collapse, Empty, Input, Layout, PageHeader, Popconfirm, Radio, Row, Select, Modal } from "antd";
 import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -37,7 +37,7 @@ const BuildingTab = ({ updateRoute }) => {
     const getBills = async () => {
         await api.bills.getBills().then(res => setBills(res))
     }
-   
+
     useEffect(() => {
         getBills()
     }, [])
@@ -81,6 +81,20 @@ const BuildingTab = ({ updateRoute }) => {
         return tmp
     };
 
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const showModal = () => {
+        setIsModalVisible(true);
+    };
+
+    const handleOk = () => {
+        setIsModalVisible(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalVisible(false);
+    };
+
     return (
         <Layout
             className="site-layout-background"
@@ -121,6 +135,16 @@ const BuildingTab = ({ updateRoute }) => {
                     </AutoComplete>
                 </Input.Group>
             </Row>
+            <Modal title="Edit Building" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                <p>Building Name</p>
+                <Input></Input>
+                <p style={{ marginTop: "22px" }}>Contact Name</p>
+                <Input></Input>
+                <p style={{ marginTop: "22px" }}>Address</p>
+                <Input></Input>
+                <p style={{ marginTop: "22px" }}>Building Type</p>
+                <Input></Input>
+            </Modal>
             {buildings === null ?
                 <Card style={{ marginTop: "32px" }}>
                     <Empty
@@ -143,7 +167,7 @@ const BuildingTab = ({ updateRoute }) => {
                                         <Row justify="space-between" align="middle">
                                             <h3 style={{ color: "white" }}>{item.name}</h3>
                                             <Radio.Group value="default" >
-                                                <Radio.Button type="primary">Edit</Radio.Button>
+                                                <Radio.Button type="primary" onClick={() => showModal()}>Edit</Radio.Button>
                                                 <Popconfirm
                                                     icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
                                                     title="Do you wanna delete this building?"

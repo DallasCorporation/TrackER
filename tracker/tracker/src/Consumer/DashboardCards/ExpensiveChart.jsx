@@ -16,8 +16,8 @@ cursor: pointer;
 const ExpensiveChart = ({ bills }) => {
     const state = {
         series: [bills.totalElectric, bills.totalWater, bills.totalGas],
-        labels: ['Electricity', 'Water', 'Gas'],
         options: {
+            labels: ['Electricity Cost', 'Water Cost', 'Gas Cost'],
             legend: {
                 position: "bottom",
                 horizontalAlign: "center",
@@ -28,7 +28,8 @@ const ExpensiveChart = ({ bills }) => {
             },
             dataLabels: {
                 enabled: false
-            }, colors: ['#022cf7', '#55b1f3', '#1be7ff'],
+            },
+            colors: ['#022cf7', '#55b1f3', '#1be7ff'],
             plotOptions: {
                 pie: {
                     expandOnClick: false,
@@ -36,20 +37,37 @@ const ExpensiveChart = ({ bills }) => {
                         size: '90%',
                         labels: {
                             show: true,
-                        },
-                    }
-                },
-                name: {
-                    show: false
+                            total: {
+                                show: true,
+                                label: 'Total Cost',
+                                formatter: (val) =>val.globals.series.reduce((partialSum, a) => partialSum + a, 0)
+                            }
+                        }
+                    },
                 },
                 value: {
                     show: true,
-                    showAlways: true,
+                    fontSize: '16px',
+                    fontFamily: 'Helvetica, Arial, sans-serif',
+                    fontWeight: 400,
+                    color: undefined,
+                    offsetY: 16,
+                    formatter: function (val) {
+                        return val
+                    }
                 },
-                total: {
-                    show: true,
-                    showAlways: true,
-                }
+                // name: {
+                //     show: false
+                // },
+                // value: {
+                //     show: true,
+                //     showAlways: true,
+                // },
+                // total: {
+                //     show: true,
+                //     showAlways: true,
+                // },
+
             },
             yaxis: {
                 labels: {

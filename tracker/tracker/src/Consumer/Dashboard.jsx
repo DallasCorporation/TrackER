@@ -84,6 +84,8 @@ const Dashboard = () => {
     console.log("a")
   }, [user])
 
+  console.log(bills)
+
   return (
     <Layout
       style={{
@@ -105,22 +107,22 @@ const Dashboard = () => {
             <Col lg={6} md={6} sx={6}>
               <StatsCard
                 color={"#ebfafa"}
-                chart={<ReactApexChart options={statebar.options} series={statebar.series} type="bar" height={150} />}
-                value={"13,346"}
-              />
-            </Col>
-            <Col lg={6} md={6} sx={6}>
-              <StatsCard
-                color={"#fff9e9"}
-                chart={<ReactApexChart options={stateradial('#ffcf26').options} series={stateradial('#ffcf26').series} type="radialBar" height={185} />}
-                value={"17,346"}
+                chart={<ReactApexChart options={statebar("Electric").options} series={statebar("Electric").series} type="bar" height={150} />}
+                value={bills.totalElectric}
               />
             </Col>
             <Col lg={6} md={6} sx={6}>
               <StatsCard
                 color={"#ebfafa"}
-                chart={<ReactApexChart options={statebar.options} series={statebar.series} type="bar" height={150} />}
-                value={"1,346"}
+                chart={<ReactApexChart options={statebar("Water").options} series={statebar("Water").series} type="bar" height={150} />}
+                value={bills.totalWater}
+              />
+            </Col>
+            <Col lg={6} md={6} sx={6}>
+              <StatsCard
+                color={"#ebfafa"}
+                chart={<ReactApexChart options={statebar("Gas").options} series={statebar("Gas").series} type="bar" height={150} />}
+                value={bills.totalGas}
               />
             </Col>
             <Col lg={6} md={6} sx={6}>

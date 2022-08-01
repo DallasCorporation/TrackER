@@ -1,6 +1,6 @@
-export const statebar = {
+export const statebar = (name) => ({
     series: [{
-        name: 'Something',
+        name: name,
         data: [2.3, 3.1, 4.0, 2.8],
     }],
     options: {
@@ -55,7 +55,7 @@ export const statebar = {
             }
         },
     },
-};
+});
 
 export const stateradial = (color) => ({
     series: [40],

@@ -4,16 +4,42 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 import locale from 'antd/es/date-picker/locale/it_IT'
 import { CardTitle } from "../../Components/CustomComponents";
-const LineCard = ({data}) => {
-    console.log(data)
+const LineCard = ({ data }) => {
+
+    const getData = () => {
+        if (data === undefined || Object.keys(data).length === 0) return []
+        let series = []
+        let electric = []
+        let gas = []
+        let water = []
+
+        Object.values(data.aggregated).map((el) => {
+            electric.push({
+                x: new Date(el.date).toUTCString(),
+                y: el.electric.toFixed(2)
+            })
+            gas.push({
+                x: new Date(el.date).toUTCString(),
+                y: el.gas.toFixed(2)
+            })
+        })
+        electric = {
+            name: "Electric",
+            data: electric
+        }
+        gas = {
+            name: "Gas",
+            data: gas
+        }
+        series = [
+            electric,
+            gas
+        ]
+        return series
+    }
+
     let state = {
-        series: [{
-            name: 'series1',
-            data: [31, 40, 28, 51, 42, 109, 100]
-        }, {
-            name: 'series2',
-            data: [11, 32, 45, 32, 34, 52, 41]
-        }],
+        series: getData(),
         options: {
             legend: {
                 position: "top",
@@ -21,7 +47,7 @@ const LineCard = ({data}) => {
                 align: "right"
             },
             chart: {
-                autoSelected: 'selection' ,
+                autoSelected: 'selection',
                 animations: {
                     enabled: true,
                     easing: 'easein',
@@ -31,31 +57,36 @@ const LineCard = ({data}) => {
                         delay: 150
                     },
                 },
-                toolbar: { show: true,},
-                height: 350,
-                type: 'area'
+                toolbar: { show: true, },
 
+            },
+            stroke: {
+                curve: 'straight',
             },
             dataLabels: {
                 enabled: false
             },
-            stroke: {
-                curve: 'smooth'
-            },
+
             xaxis: {
                 type: 'datetime',
-                categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
+                tooltip: {
+                    enabled: false
+                }
             },
             tooltip: {
+                enabled: true,
+                followCursor: true,
+                theme: "light",
                 x: {
-                    format: 'dd/MM/yy HH:mm'
+                    show: true,
+                    format: "dd-MM-yyyy HH:mm"
                 },
-            },
+            }
+
         },
     };
 
     return (
-
         <ProCard colSpan={12} bordered style={{ borderRadius: "10px" }}>
             <Row justify="space-between" align="middle" >
                 <Col>

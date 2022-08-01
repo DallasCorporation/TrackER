@@ -1,6 +1,7 @@
 import { ArrowRightOutlined } from "@ant-design/icons"
 import { ProCard } from "@ant-design/pro-components"
 import { Col, Row } from "antd"
+import { useEffect } from "react"
 import ReactApexChart from "react-apexcharts"
 import styled from "styled-components"
 import { CardTitle } from "../../Components/CustomComponents"
@@ -12,9 +13,9 @@ border-radius:10px;
 cursor: pointer;
 }
 `
-const ExpensiveChart = () => {
+const ExpensiveChart = ({ bills }) => {
     const state = {
-        series: [135, 20, 145],
+        series: [bills.totalElectric, bills.totalWater, bills.totalGas],
         labels: ['Electricity', 'Water', 'Gas'],
         options: {
             legend: {
@@ -50,6 +51,25 @@ const ExpensiveChart = () => {
                     showAlways: true,
                 }
             },
+            yaxis: {
+                labels: {
+                    show: true,
+                    align: 'right',
+                    minWidth: 0,
+                    maxWidth: 160,
+                    style: {
+                        colors: [],
+                        fontSize: '12px',
+                        fontFamily: 'Helvetica, Arial, sans-serif',
+                        fontWeight: 400,
+                        cssClass: 'apexcharts-yaxis-label',
+                    },
+                    offsetX: 0,
+                    offsetY: 0,
+                    rotate: 0,
+                    formatter: (val) => { return val.toFixed(2) },
+                },
+            }
         },
     };
 
@@ -81,7 +101,7 @@ const ExpensiveChart = () => {
         <ProCard bordered style={{ borderRadius: "10px" }}>
             <Row justify="space-between" align="middle">
                 <CardTitle >Expensive</CardTitle>
-                <span class="anticon iconfont" style={{color:"blue"}} >&#xe71b;</span>
+                <span class="anticon iconfont" style={{ color: "blue" }} >&#xe71b;</span>
             </Row>
             <Row justify="center">
                 <ReactApexChart options={state.options} series={state.series} type="donut" height={320} />
@@ -90,12 +110,12 @@ const ExpensiveChart = () => {
             {names.map((el) => {
                 return (
                     <RowHover justify="space-evenly" align="middle" style={{ padding: 12 }} className="hover">
-                        <Col span={4} style={{color:"blue"}}> {el.icon}</Col>
+                        <Col span={4} style={{ color: "blue" }}> {el.icon}</Col>
                         <Col span={16} >
                             <CardTitle style={{ lineHeight: 1 }} >{el.name}</CardTitle>
                             <p>{el.desc}</p>
                         </Col>
-                        <Col span={4} style={{ textAlign: "end", color:"blue" }}>
+                        <Col span={4} style={{ textAlign: "end", color: "blue" }}>
                             <ArrowRightOutlined />
                         </Col>
                     </RowHover>

@@ -26,18 +26,18 @@ const component = require.context('../assets/avatars/', false, /\.svg/)
 const images = importAll(component);
 
 const Dashboard = () => {
-  const [bills, setBills] = useState()
-  
+  const user = useSelector((state) => state.user.user)
+  const buildings = useSelector((state) => state.buildings.buildings)
+  const [bills, setBills] = useState({})
+  if (bills === {})
+    api.bills.getBillsAggregated(user._id).then(res => setBills(res))
   const getBillsAggregated = async () => {
     await api.bills.getBillsAggregated(user._id).then(res => setBills(res))
   }
   useEffect(() => {
     getBillsAggregated(user._id)
-  }, [])
+  }, [user])
 
-
-  const user = useSelector((state) => state.user.user)
-  const buildings = useSelector((state) => state.buildings.buildings)
   return (
     <Layout
       style={{
@@ -53,7 +53,7 @@ const Dashboard = () => {
         <Col lg={18} md={24} sx={24}>
           <Row gutter={[0, 32]}>
             <BannerCard name="Get exclusive discounts for any payment method" />
-            <LineCard data={bills}/>
+            <LineCard data={bills} />
           </Row>
           <Row justify="center" gutter={[32, 32]} style={{ marginTop: "32px" }}>
             <Col lg={6} md={6} sx={6}>
@@ -122,7 +122,7 @@ const Dashboard = () => {
         </Col>
         <Col lg={6} md={24} sx={24}>
           <Row gutter={[8, 32]} justify="center" align="middle">
-            <ExpensiveChart />
+            <ExpensiveChart bills={bills} />
             <DownloadCard />
             <RevenueCard />
           </Row>

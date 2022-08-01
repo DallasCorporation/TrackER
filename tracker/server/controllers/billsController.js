@@ -109,9 +109,9 @@ const getBillsAggregatedFiltered = asyncHandler(async (req, res) => {
             })
         }))
         data = {
-          totalElectric: electric,
-          totalGas: gas,
-          totalWater: water,
+          totalElectric: parseFloat(electric.toFixed(2)),
+          totalGas: parseFloat(gas.toFixed(2)),
+          totalWater:parseFloat(water.toFixed(2)),
           aggregated,
           all: res2
         }

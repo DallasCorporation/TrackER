@@ -87,7 +87,6 @@ const getBillsAggregatedFiltered = asyncHandler(async (req, res) => {
             el.bills.map(bill => {
               if (aggregated.hasOwnProperty(bill.date)) {
                 let existing = aggregated[bill.date];
-                console.log(goal2.type.includes("Water"), existing)
                 aggregated[bill.date] = {
                   date: existing.date,
                   ...(goal2.type.includes("Electric")) && { electric: parseFloat(existing.electric + bill.electric).toFixed(2) },

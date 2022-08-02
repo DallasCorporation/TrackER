@@ -4,6 +4,10 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 import locale from 'antd/es/date-picker/locale/it_IT'
 import { CardTitle } from "../../Components/CustomComponents";
+import { useState } from "react";
+import ApexCharts from 'apexcharts';
+import moment from "moment"
+
 
 const options = {
     legend: {
@@ -12,7 +16,7 @@ const options = {
         align: "right"
     },
     chart: {
-        id: "example",
+        id: 'area-datetime',
         type: 'area',
         autoSelected: 'selection',
         animations: {
@@ -53,6 +57,13 @@ const options = {
 }
 const LineCard = ({ data }) => {
 
+    const filterData = (e) => {
+        ApexCharts.exec('area-datetime', 'zoomX',
+            new Date(e[0]).getTime(),
+            new Date(e[1]).getTime(),
+
+        )
+    }
 
     return (
         <ProCard colSpan={12} bordered style={{ borderRadius: "10px" }}>
@@ -63,7 +74,7 @@ const LineCard = ({ data }) => {
                     </CardTitle>
                 </Col>
                 <Col>
-                    <DatePicker.RangePicker placeholder="Choose" locale={locale} />
+                    <DatePicker.RangePicker  placeholder={["Start Date","End Date"]}  locale={locale} onChange={(e) => filterData(e)} />
                 </Col>
             </Row>
             <ReactApexChart options={options} series={data} type="area" height={350} />

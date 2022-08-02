@@ -42,7 +42,6 @@ const getAll = asyncHandler(async (req, res) => {
 // @route   POST /api/goals
 // @access  Private
 const createOrganization = asyncHandler(async (req, res) => {
-    console.log(req.body)
     if (!req.body.userId) {
         res.status(400)
         throw new Error('Please add a text field')

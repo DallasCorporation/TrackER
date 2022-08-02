@@ -67,9 +67,7 @@ const BuildingTab = ({ updateRoute }) => {
     }
 
     const showBills = (type, orgId) => {
-        let res = false
-        allOrg.filter(el => res = (el._id === orgId && el.type.includes(type)))
-        return res
+        return allOrg.find(el => el._id === orgId).type.includes(type)
     }
 
     const renderItem = () => {

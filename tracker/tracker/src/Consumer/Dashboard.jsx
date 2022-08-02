@@ -1,4 +1,4 @@
-import { Avatar, Col, Image, Layout, Row, } from "antd";
+import { Avatar, Button, Col, Image, Layout, Row, } from "antd";
 import React, { useEffect } from "react";
 import BannerCard from "./DashboardCards/BannerCard";
 import ReactApexChart from "react-apexcharts";
@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import api from "../api";
 import { useState } from "react";
 import moment from "moment"
+import { useNavigate } from "react-router-dom";
 
 function importAll(r) {
   let images = {};
@@ -76,7 +77,7 @@ const Dashboard = () => {
   const user = useSelector((state) => state.user.user)
   const buildings = useSelector((state) => state.buildings.buildings)
   const [bills, setBills] = useState({})
-
+  let navigate = useNavigate();
   const getBillsAggregated = async () => {
     await api.bills.getBillsAggregated(user._id).then(res => setBills(res))
   }
@@ -154,7 +155,7 @@ const Dashboard = () => {
                     <Avatar size={40} src={images['Avatar-4.svg']} />
                     <Avatar size={40} src={images['Avatar-5.svg']} />
                     <Avatar size={40} src={images['Avatar-6.svg']} />
-                    <ArrowRightOutlined />
+                    <ArrowRightOutlined onClick={()=>navigate("/Organizations")}/>
                   </Row>
                 </Col>
               </Row>

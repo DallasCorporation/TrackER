@@ -2,7 +2,9 @@ import { Button, Col, Row } from "antd";
 import { ProCard } from "@ant-design/pro-components";
 import React from "react";
 import { CardTitle } from "../../Components/CustomComponents";
+import { useNavigate } from "react-router-dom";
 const DownloadCard = ({ ...props }) => {
+    const navigate = useNavigate()
     return (
         <ProCard bordered style={{
             borderRadius: "10px",
@@ -16,7 +18,7 @@ const DownloadCard = ({ ...props }) => {
                     <CardTitle style={{ color: "white", whiteSpace: "pre-wrap" }}>
                         {"Save and improve your Energy now!\nCheck our Organizations and\nBoost Your Energy"}
                     </CardTitle>
-                    <Button style={{ borderRadius: "6px", marginTop:"22px", marginLeft:"5px" }}>View</Button>
+                    <Button onClick={() => navigate("/Organizations")} type="default" style={{ fontSize: 15, textTransform: "none", borderRadius: "6px", marginTop: "22px", marginLeft: "5px", color: "blue" }}>View</Button>
                 </Col>
                 <img
                     alt=""

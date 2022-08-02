@@ -48,10 +48,6 @@ const TableCard = ({ buildings, chart, value, title }) => {
             dataIndex: 'type',
         },
         {
-            title: 'Last Bill Cost',
-            dataIndex: 'bill',
-        },
-        {
             title: 'Created At',
             dataIndex: 'date',
             render: (_) => <span>{new Date(_).toDateString()}</span>

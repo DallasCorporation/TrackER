@@ -17,6 +17,7 @@ import { LinkHover } from "../Components/CustomComponents";
 import { setAllOrganization } from "../reducers/allOrganization";
 import Organizations from "./Organizations/Organizations";
 import { setAllUser } from "../reducers/allUsers";
+import Invoices from "./Invoices/Invoices";
 
 
 const DashboardRoute = () => {
@@ -76,15 +77,15 @@ const DashboardRoute = () => {
                     icon: <span class="anticon iconfont" >&#x100e6;</span>,
                     routes: [
                         {
-                            path: '/Invoices/week',
+                            path: '/Invoices/Weekly',
                             name: 'Weekly',
                         },
                         {
-                            path: '/Invoices/month',
+                            path: '/Invoices/Monthly',
                             name: 'Monthly',
                         },
                         {
-                            path: '/Invoices/year',
+                            path: '/Invoices/Yearly',
                             name: 'Yearly',
                         },
                     ],
@@ -124,6 +125,12 @@ const DashboardRoute = () => {
     };
     const settings = { fixSiderbar: true, };
     const [pathname, setPathname] = useState('/Dashboard');
+
+    const url = window.location.pathname
+    useEffect(() => {
+        setPathname(url)
+    }, [url])
+
     return (
         <ProLayout
             //logo={<p></p>}
@@ -183,7 +190,10 @@ const DashboardRoute = () => {
                 <Route path="/dashboard" element={<Dashboard user={user} />} />
                 <Route path="/buildings" element={<BuildingsTab updateRoute={() => { setPathname("/building/New"); navigate("/building/New") }} />} />
                 <Route path="/building/New" element={<AddNewBuildings user={user} />} />
-                <Route path="/Organizations" element={<Organizations user={user} allOrganization={allOrganization} allUser={allUser}/>} />
+                <Route path="/Organizations" element={<Organizations user={user} allOrganization={allOrganization} allUser={allUser} />} />
+                <Route path="/Invoices/Weekly" element={<Invoices user={user} allOrganization={allOrganization} allUser={allUser} />} />
+                <Route path="/Invoices/Monthly" element={<Invoices user={user} allOrganization={allOrganization} allUser={allUser} />} />
+                <Route path="/Invoices/Yearly" element={<Invoices user={user} allOrganization={allOrganization} allUser={allUser} />} />
                 <Route path="/Profile/Edit" element={<Account avatar={userAvatar} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
                 <Route path="/Profile/Notification" element={<Account avatar={userAvatar} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
                 <Route path="/Profile/Activity" element={<Account avatar={userAvatar} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />

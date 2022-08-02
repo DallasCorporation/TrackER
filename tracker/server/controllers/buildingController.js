@@ -53,9 +53,24 @@ const registerBuilding = asyncHandler(async (req, res) => {
     }
 })
 
-// @desc    Get goals
-// @route   GET /api/goals
-// @access  Private
+const updateBuilding = asyncHandler(async (req, res) => {
+    const { name, contact, address, type } = req.body
+
+    // Check if building exists
+    const buildingExists = await Building.findOne({ address })
+
+    if (buildingExists) {
+        let db_connect = dbo.getDb();
+        let myQuery = { address: address };
+        db_connect
+        .collection("buildings")
+        .find(myQuery).toArray(function (err, result) {
+            if (err) throw err;
+            res.json(result);
+        });
+    }
+})
+
 const getBuildingsById = asyncHandler(async (req, res) => {
     let db_connect = dbo.getDb();
     let myQuery = { userId: ObjectId(req.params.id) };
@@ -119,5 +134,6 @@ module.exports = {
     getBuildingsById,
     deleteBuildingById,
     getBuilding,
-    getBuildings
+    getBuildings,
+    updateBuilding
 }

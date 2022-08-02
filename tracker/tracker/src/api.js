@@ -63,6 +63,9 @@ export default {
         addBuilding: (body) =>
             axios.post(`${API_URL}/building/register`, body)
                 .then((res) => res.data),
+        updateBuilding: (body) =>
+            axios.post(`${API_URL}/building/update`, body)
+                .then((res) => res.data),
         deleteBuilding: (userId) =>
             axios.delete(`${API_URL}/building/${userId}`)
                 .then((res) => res.data),

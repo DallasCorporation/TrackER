@@ -85,6 +85,7 @@ const Dashboard = () => {
     getBillsAggregated(user._id)
   }, [user])
 
+  //Object.values(bills.aggregated).forEach((el) => {console.log(el)})
 
   return (
     <Layout

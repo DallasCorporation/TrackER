@@ -11,6 +11,7 @@ import StatsCard from "../DashboardCards/StatsCard";
 import { linear } from "../utils";
 import ReactApexChart from "react-apexcharts";
 import "./style.css"
+import moment from "moment";
 const { Option } = Select;
 const { Search } = Input;
 
@@ -20,8 +21,11 @@ const BuildingTab = ({ updateRoute }) => {
     const allOrg = useSelector((state) => state.allOrganization.organization)
     const dispatch = useDispatch()
     const [show, setShow] = useState(false)
-    const [collapse, setCollapse] = useState(true)
+    const [collapse, setCollapse] = useState(false)
     const [bills, setBills] = useState([])
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [filter, setFilter] = useState("Address");
+    const [buildingsFilter, setBuildingsFilter] = useState(buildings);
 
     const deleteBuilding = async (id) => {
         setShow(true)
@@ -35,22 +39,24 @@ const BuildingTab = ({ updateRoute }) => {
 
     }
     const getBills = async () => {
-        await api.bills.getBills().then(res => setBills(res))
+        await api.bills.getBillsAggregated(user._id).then(res => setBills(res))
     }
 
     useEffect(() => {
         getBills()
-    }, [])
+    }, [buildings])
 
     const getData = (id, type) => {
-        let test = bills.find(el => el.buildingId === id)
+        if (bills.all === undefined)
+            return []
+        let test = bills.all.find(el => el.buildingId === id)
         if (test === undefined) {
             return []
         }
         let data = []
         test.bills.map(el =>
             data.push({
-                x: new Date(el.date).toUTCString(),
+                x: moment.utc(el.date).local().format(),
                 y: el[type.toLowerCase()]
             }))
         let series = [{
@@ -71,28 +77,20 @@ const BuildingTab = ({ updateRoute }) => {
         buildings.map(el =>
             tmp.push(
                 {
-                    value: el.name,
-                    label: el.name,
+                    value: filter === "Address" ? el.address : el.name,
+                    label: filter === "Address" ? el.address : el.name,
                     key: el.id,
                     props: el.id
                 })
         )
-
         return tmp
     };
 
-    const [isModalVisible, setIsModalVisible] = useState(false);
-
-    const showModal = () => {
-        setIsModalVisible(true);
-    };
-
-    const handleOk = () => {
-        setIsModalVisible(false);
-    };
-
-    const handleCancel = () => {
-        setIsModalVisible(false);
+    const renderBuildings = (element) => {
+        let res = buildings.find(el =>
+            filter === "Address" ? el.address === element : el.name === element,
+        )
+        setBuildingsFilter([res])
     };
 
     return (
@@ -119,6 +117,7 @@ const BuildingTab = ({ updateRoute }) => {
             <Row style={{ width: "100%" }}>
                 <Input.Group compact>
                     <Select
+                        onChange={(val) => setFilter(val)}
                         defaultValue="Address"
                         style={{ width: "35%" }}
                     >
@@ -126,16 +125,18 @@ const BuildingTab = ({ updateRoute }) => {
                         <Option value="Building">Building</Option>
                     </Select>
                     <AutoComplete
+                        allowClear
+                        onClear={() => setBuildingsFilter(buildings)}
                         style={{ width: "65%" }}
                         dataSource={renderItem()}
-                        onSelect={(d, da) => console.log(da)}
+                        onSelect={(d, da) => renderBuildings(da.value)}
                     >
                         <Search placeholder="Search by Name"
                         />
                     </AutoComplete>
                 </Input.Group>
             </Row>
-            <Modal title="Edit Building" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+            <Modal title="Edit Building" visible={isModalVisible} onOk={() => setIsModalVisible(false)} onCancel={() => setIsModalVisible(false)}>
                 <p>Building Name</p>
                 <Input></Input>
                 <p style={{ marginTop: "22px" }}>Contact Name</p>
@@ -145,95 +146,93 @@ const BuildingTab = ({ updateRoute }) => {
                 <p style={{ marginTop: "22px" }}>Building Type</p>
                 <Input></Input>
             </Modal>
-            {buildings === null ?
-                <Card style={{ marginTop: "32px" }}>
-                    <Empty
-                        description="No Buildings found..."
-                    >
-                        <Button style={{ height: 40, borderRadius: 8 }} type="primary" onClick={() => {
-                            updateRoute("/building/New")
-                        }}>
-                            Add a new Building to your account!
-                        </Button>
-                    </Empty>
-                </Card>
-                :
-                buildings.map((item) =>
-                    <div style={{ paddingTop: "32px" }}>
-                        <Card bodyStyle={{ padding: "0", marginBottom: "32px", borderRadius: "10px" }} headStyle={{ borderTopLeftRadius: "10px", borderTopRightRadius: "10px", backgroundColor: "#0010f7" }} style={{ borderRadius: "10px" }}
-                            title={
-                                <Row >
-                                    <Col span={24}>
-                                        <Row justify="space-between" align="middle">
-                                            <h3 style={{ color: "white" }}>{item.name}</h3>
-                                            <Radio.Group value="default" >
-                                                <Radio.Button type="primary" onClick={() => showModal()}>Edit</Radio.Button>
-                                                <Popconfirm
-                                                    icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
-                                                    title="Do you wanna delete this building?"
-                                                    onConfirm={() => deleteBuilding(item._id)}
-                                                    okText="Yes"
-                                                    cancelText="No"
-                                                >
-                                                    <Radio.Button>Delete</Radio.Button>
-                                                </Popconfirm>
-                                            </Radio.Group>
-                                        </Row>
+            {
+                buildingsFilter === null ?
+                    <Card style={{ marginTop: "32px" }}>
+                        <Empty
+                            description="No Buildings found..."
+                        >
+                            <Button style={{ height: 40, borderRadius: 8 }} type="primary" onClick={() => {
+                                updateRoute("/building/New")
+                            }}>
+                                Add a new Building to your account!
+                            </Button>
+                        </Empty>
+                    </Card>
+                    :
+                    buildingsFilter.map((item) =>
+                        <div style={{ paddingTop: "32px" }} key={item._id}>
+                            <Card bodyStyle={{ padding: "0", marginBottom: "32px", borderRadius: "10px" }} headStyle={{ borderTopLeftRadius: "10px", borderTopRightRadius: "10px", backgroundColor: "#0010f7" }} style={{ borderRadius: "10px" }}
+                                title={
+                                    <Row >
+                                        <Col span={24}>
+                                            <Row justify="space-between" align="middle">
+                                                <h3 style={{ color: "white" }}>{item.name}</h3>
+                                                <Radio.Group value="default" >
+                                                    <Radio.Button type="primary" onClick={() => setIsModalVisible(true)}>Edit</Radio.Button>
+                                                    <Popconfirm
+                                                        icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
+                                                        title="Do you wanna delete this building?"
+                                                        onConfirm={() => deleteBuilding(item._id)}
+                                                        okText="Yes"
+                                                        cancelText="No"
+                                                    >
+                                                        <Radio.Button>Delete</Radio.Button>
+                                                    </Popconfirm>
+                                                </Radio.Group>
+                                            </Row>
+                                        </Col>
+                                    </Row>
+                                }
+                            >
+                                <Row justify="space-between" gutter={[32, 0]} style={{ marginBottom: "32px", padding: "16px" }}>
+                                    <Col span={10} >
+                                        <Map lat={item.lat} lng={item.long} />
+                                    </Col>
+                                    <Col span={12}>
+                                        <p>Building Name</p>
+                                        <Input value={item.name} readOnly></Input>
+                                        <p style={{ marginTop: "22px" }}>Contact Name</p>
+                                        <Input value={item.contact} readOnly></Input>
+                                        <p style={{ marginTop: "22px" }}>Address</p>
+                                        <Input value={item.address} readOnly></Input>
+                                        <p style={{ marginTop: "22px" }}>Building Type</p>
+                                        <Input value={item.type} readOnly></Input>
                                     </Col>
                                 </Row>
-                            }
-                        >
-                            <Row justify="space-between" gutter={[32, 0]} style={{ marginBottom: "32px", padding: "16px" }}>
-                                <Col span={10} >
-                                    <Map lat={item.lat} lng={item.long} />
-                                </Col>
-                                <Col span={12}>
-                                    <p>Building Name</p>
-                                    <Input value={item.name} readOnly></Input>
-                                    <p style={{ marginTop: "22px" }}>Contact Name</p>
-                                    <Input value={item.contact} readOnly></Input>
-                                    <p style={{ marginTop: "22px" }}>Address</p>
-                                    <Input value={item.address} readOnly></Input>
-                                    <p style={{ marginTop: "22px" }}>Building Type</p>
-                                    <Input value={item.type} readOnly></Input>
-                                </Col>
-                            </Row>
 
-                            <Collapse style={{ border: 0, }} accordion isActive={collapse} collapsible="header">
-                                <Collapse.Panel isActive={collapse} style={{ border: 0 }} showArrow={false} collapsible="header"
-                                    header={<Button style={{ borderRadius: 10 }} type={collapse ? "default" : "primary"} size="large" onClick={() => setCollapse(!collapse)}> {collapse ? "Close" : "Open"}</Button>}
-                                    key="1">
-                                    <Row justify="space-between" style={{ marginBottom: "32px", padding: "32px" }} gutter={[32, 32]}>
-                                        {showBills("Electric", item.organizationId) &&
-                                            <Col span={24}>
+                                <Collapse style={{ border: 0, }} accordion isActive={collapse} collapsible="header">
+                                    <Collapse.Panel isActive={collapse} style={{ border: 0 }} showArrow={false} collapsible="header"
+                                        header={<Button style={{ borderRadius: 10 }} type={collapse ? "default" : "primary"} size="large" onClick={() => setCollapse(!collapse)}> {collapse ? "Close" : "Open"}</Button>}
+                                        key="1">
+                                        <Row justify="space-between" style={{ marginBottom: "32px", padding: "32px" }} gutter={[32, 32]}>
+                                            {showBills("Electric", item.organizationId) &&
+                                                <Col span={24}>
+                                                    <StatsCard
+                                                        color={"#ebfafa"}
+                                                        chart={<ReactApexChart options={linear('Consumed Electricity', "watt").options} series={getData(item._id, "Electric")} type="line" height={350} />}
+                                                    />
+                                                </Col>}
+                                            {showBills("Water", item.organizationId) && <Col span={24}>
                                                 <StatsCard
                                                     color={"#ebfafa"}
-                                                    chart={<ReactApexChart options={linear('Consumed Electricity', "watt").options} series={getData(item._id, "Electric")} type="line" height={350} />}
-                                                    value={"13,346"}
+                                                    chart={<ReactApexChart options={linear('Consumed Water', "liter").options} series={getData(item._id, "Water")} type="line" height={350} />}
                                                 />
                                             </Col>}
-                                        {showBills("Water", item.organizationId) && <Col span={24}>
-                                            <StatsCard
-                                                color={"#ebfafa"}
-                                                chart={<ReactApexChart options={linear('Consumed Water', "liter").options} series={getData(item._id, "Water")} type="line" height={350} />}
-                                                value={"13,346"}
-                                            />
-                                        </Col>}
-                                        {showBills("Gas", item.organizationId) && <Col span={24}>
-                                            <StatsCard
-                                                color={"#ebfafa"}
-                                                chart={<ReactApexChart options={linear('Consumed Gas', "m³").options} series={getData(item._id, "Gas")} type="line" height={350} />}
-                                                value={"13,346"}
-                                            />
-                                        </Col>}
-                                    </Row>
-                                </Collapse.Panel>
-                            </Collapse>
-                        </Card>
-                    </div>
-                )
+                                            {showBills("Gas", item.organizationId) && <Col span={24}>
+                                                <StatsCard
+                                                    color={"#ebfafa"}
+                                                    chart={<ReactApexChart options={linear('Consumed Gas', "m³").options} series={getData(item._id, "Gas")} type="line" height={350} />}
+                                                />
+                                            </Col>}
+                                        </Row>
+                                    </Collapse.Panel>
+                                </Collapse>
+                            </Card>
+                        </div>
+                    )
             }
-        </Layout>
+        </Layout >
     );
 }
 export default ({ updateRoute }) => <BuildingTab updateRoute={() => updateRoute()} />

@@ -18,8 +18,7 @@ const organizationSchema = new mongoose.Schema({
         type: Array
     },
     icon: {
-        data: Buffer,
-        contentType: String
+       type:String
     },
     customers: {
         type: Array

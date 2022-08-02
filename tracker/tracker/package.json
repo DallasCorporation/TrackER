@@ -25,6 +25,7 @@
         "less": "^4.1.2",
         "less-loader": "^10.2.0",
         "mapbox-gl": "^2.8.2",
+        "moment": "^2.29.4",
         "rc-banner-anim": "^2.4.5",
         "rc-queue-anim": "^2.0.0",
         "rc-scroll-anim": "^2.7.6",

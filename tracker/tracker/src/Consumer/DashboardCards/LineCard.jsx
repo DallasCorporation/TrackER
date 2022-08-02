@@ -4,9 +4,6 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 import locale from 'antd/es/date-picker/locale/it_IT'
 import { CardTitle } from "../../Components/CustomComponents";
-import { useState } from "react";
-import ApexCharts from 'apexcharts';
-
 
 const options = {
     legend: {
@@ -56,17 +53,17 @@ const options = {
 }
 const LineCard = ({ data }) => {
 
-   
+
     return (
         <ProCard colSpan={12} bordered style={{ borderRadius: "10px" }}>
             <Row justify="space-between" align="middle" >
                 <Col>
                     <CardTitle>
-                        Visit
+                        Consumption Chart
                     </CardTitle>
                 </Col>
                 <Col>
-                    <DatePicker placeholder="Choose" picker="month" locale={locale} />
+                    <DatePicker.RangePicker placeholder="Choose" locale={locale} />
                 </Col>
             </Row>
             <ReactApexChart options={options} series={data} type="area" height={350} />

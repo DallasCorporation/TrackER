@@ -86,19 +86,21 @@ const getBillsAggregatedFiltered = asyncHandler(async (req, res) => {
           if (goal2)
             el.bills.map(bill => {
               if (aggregated.hasOwnProperty(bill.date)) {
-                var existing = aggregated[bill.date];
+                let existing = aggregated[bill.date];
+                console.log(goal2.type.includes("Water"), existing)
                 aggregated[bill.date] = {
                   date: existing.date,
                   ...(goal2.type.includes("Electric")) && { electric: parseFloat(existing.electric + bill.electric).toFixed(2) },
                   ...(goal2.type.includes("Gas")) && { gas: parseFloat(existing.gas + bill.gas).toFixed(2) },
-                  ...(goal2.type.includes("Water")) && { water: parseFloat(existing.water + bill.water).toFixed(2) },
+                  ...(goal2.type.includes("Water")) && { water: parseFloat(isNaN(existing.water)? 0 + bill.water: existing.water+bill.water).toFixed(2) },
                 }
               } else {
+
                 aggregated[bill.date] = {
                   date: bill.date,
                   ...(goal2.type.includes("Electric")) && { electric: parseFloat(bill.electric).toFixed(2) },
                   ...(goal2.type.includes("Gas")) && { gas: parseFloat(bill.gas).toFixed(2) },
-                  ...(goal2.type.includes("Water")) && { water: parseFloat(bill.water).toFixed(2) },
+                  ...(goal2.type.includes("Water")) && { water: isNaN(bill.water)? 0: parseFloat(bill.water).toFixed(2) },
                 };
               }
               electric += bill.electric

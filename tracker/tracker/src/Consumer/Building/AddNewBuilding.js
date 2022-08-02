@@ -66,7 +66,7 @@ const AddNewBuildings = ({ user }) => {
             .catch(error => console.log('error', error));
     }
 
-    const addBuilding = () => {
+    const addBuilding = async () => {
         let data = {
             name,
             contact,
@@ -78,29 +78,28 @@ const AddNewBuildings = ({ user }) => {
             long,
             organizationId: organizationId
         }
-        let orgCopy = allOrganizations.filter(el => el._id === organizationId)
-        let customers = orgCopy[0].customers
+        console.log(data)
+        let orgCopy = allOrganizations.find(el => el._id === organizationId)
+        let customers = orgCopy.customers
         setShow(true)
-        api.buildings.addBuilding(data).then(res => {
-            customers.push({ user: user._id, building: res._id })
-            orgCopy[0].customers = customers
-
-            api.buildings.fetchBuildings(user._id).then((res) => {
-                api.organization.update(organizationId, ...orgCopy).then((data1) => {
+        await api.buildings.addBuilding(data).then(async res => {
+            await api.organization.update(organizationId, { customers: { ...customers, user: user._id, building: res._id } })
+                .then((data1) => {
+                    setTimeout(() => {
+                        setShow(false)
+                        message.success("Building created!")
+                    }, 1000);
                 })
-                dispatch(fetchBuildings(res))
-                setTimeout(() => {
-                    setShow(false)
-                    message.success("Building created!")
-                }, 1000);
-            })
         }).catch(err => {
+            console.log(err)
             setTimeout(() => {
                 setShow(false)
                 message.error("Building not created!")
             }, 1000);
         })
-
+        await api.buildings.fetchBuildings(user._id).then((res) => {
+            dispatch(fetchBuildings(res))
+        })
     }
 
     return (
@@ -164,7 +163,7 @@ const AddNewBuildings = ({ user }) => {
                                 name="Address"
                                 rules={[{ required: true, message: 'Please input the building name' }]}
                             >
-                                
+
                                 <AutoComplete
                                     className="test"
                                     style={{ height: 52.28 }}

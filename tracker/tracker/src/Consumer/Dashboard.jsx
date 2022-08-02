@@ -15,6 +15,7 @@ import DownloadCard from "./DashboardCards/DowloadCard";
 import { useSelector } from "react-redux";
 import api from "../api";
 import { useState } from "react";
+import moment from "moment"
 
 function importAll(r) {
   let images = {};
@@ -36,15 +37,15 @@ const getData = (data) => {
   let water = []
   Object.values(data.aggregated).forEach((el) => {
     electric.push({
-      x: new Date(el.date).toUTCString(),
+      x: moment.utc(el.date).local().format(),
       y: el.electric === undefined ? null : el.electric
     })
     gas.push({
-      x: new Date(el.date).toUTCString(),
+      x: moment.utc(el.date).local().format(),
       y: el.gas === undefined ? null : el.gas
     })
     water.push({
-      x: new Date(el.date).toUTCString(),
+      x: moment.utc(el.date).local().format(),
       y: el.water === undefined ? null : el.water
     })
   })
@@ -66,7 +67,7 @@ const getData = (data) => {
   series = [
     electric,
     gas,
-    water
+    water,
   ]
   return series
 }
@@ -81,10 +82,8 @@ const Dashboard = () => {
   }
   useEffect(() => {
     getBillsAggregated(user._id)
-    console.log("a")
   }, [user])
 
-  console.log(bills)
 
   return (
     <Layout
@@ -104,7 +103,7 @@ const Dashboard = () => {
             <LineCard data={getData(bills)} />
           </Row>
           <Row justify="center" gutter={[32, 32]} style={{ marginTop: "32px" }}>
-            <Col lg={6} md={6} sx={6}>
+            <Col lg={6} md={6} sx={6} >
               <StatsCard
                 color={"#ebfafa"}
                 chart={<ReactApexChart options={statebar("Electric").options} series={statebar("Electric").series} type="bar" height={150} />}

@@ -3,10 +3,10 @@ const moment = require("moment")
 
 
 const getRandom = function (type, sqft) {
-    let date = new Date()
+    let date = moment()
     let value = 0
     if (type === "Home")
-        if (!(date.getHours() > 21 && date.getHours() <= 6) || (date.getHours() > 10 && date.getHours() < 12) || (date.getHours() >= 14 && date.getHours() < 19)) {
+        if (!(date.hours() > 21 && date.hours() <= 6) || (date.hours() > 10 && date.hours() < 12) || (date.hours() >= 14 && date.hours() < 19)) {
             let rand = Math.random() * sqft / 100;
             let power = Math.pow(10, 2);
             value = Math.floor(rand / 100) / power;
@@ -17,7 +17,7 @@ const getRandom = function (type, sqft) {
             value = Math.floor(rand / 100) / power;
         }
     if (type === "School")
-        if (!(date.getHours() > 17 && date.getHours() <= 8)) {
+        if (!(date.hours() > 17 && date.hours() <= 8)) {
             let rand = Math.random() * sqft / 100;
             let power = Math.pow(10, 2);
             value = Math.floor(rand) / power;
@@ -29,9 +29,6 @@ const getRandom = function (type, sqft) {
         }
 
     return value
-}
-const sleep = (milliseconds) => {
-    return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
 
 var myFunc01 = function() {

@@ -1,8 +1,9 @@
 import { ArrowRightOutlined } from "@ant-design/icons"
 import { ProCard } from "@ant-design/pro-components"
-import { Col, Row } from "antd"
-import { useEffect } from "react"
+import { Col, Drawer, Modal, Row } from "antd"
+import { useEffect, useState } from "react"
 import ReactApexChart from "react-apexcharts"
+import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import { CardTitle } from "../../Components/CustomComponents"
 
@@ -40,7 +41,7 @@ const ExpensiveChart = ({ bills }) => {
                             total: {
                                 show: true,
                                 label: 'Total Cost',
-                                formatter: (val) =>val.globals.series.reduce((partialSum, a) => partialSum + a, 0)
+                                formatter: (val) => val.globals.series.reduce((partialSum, a) => partialSum + a, 0).toFixed(2)
                             }
                         }
                     },
@@ -56,18 +57,6 @@ const ExpensiveChart = ({ bills }) => {
                         return val
                     }
                 },
-                // name: {
-                //     show: false
-                // },
-                // value: {
-                //     show: true,
-                //     showAlways: true,
-                // },
-                // total: {
-                //     show: true,
-                //     showAlways: true,
-                // },
-
             },
             yaxis: {
                 labels: {
@@ -90,28 +79,28 @@ const ExpensiveChart = ({ bills }) => {
             }
         },
     };
-
+    const [showModal, setModal] = useState()
+    const [showDrawer, setDrawer] = useState()
+    const navigate = useNavigate()
     const names = [
         {
             name: "Company Expenses",
-            desc: "Employee expenses",
+            desc: "Total cost",
             icon: <span class="anticon iconfont" >&#xe715;</span>,
-        },
-        {
-            name: "Total Invoices",
-            desc: "Gas, Water and Electric invoices",
-            icon: <span class="anticon iconfont" >&#xe657;</span>,
+            action: () => navigate("/Invoices/Yearly")
         },
         {
             name: "Total Consumption",
             desc: "Gas, Water and Electric data consumption",
             icon: <span class="anticon iconfont" >&#xe730;</span>,
+            action: () => setDrawer(true)
 
         },
         {
             name: "Energy Production",
             desc: "Check your production",
             icon: <span style={{ fontSize: "80px !important" }} class="anticon iconfont" >&#xe61d;</span>,
+            action: () => setModal(true)
         },
     ]
 
@@ -127,7 +116,7 @@ const ExpensiveChart = ({ bills }) => {
             <CardTitle style={{ marginTop: "32px" }}>By Category</CardTitle>
             {names.map((el) => {
                 return (
-                    <RowHover justify="space-evenly" align="middle" style={{ padding: 12 }} className="hover">
+                    <RowHover justify="space-evenly" align="middle" style={{ padding: 12 }} className="hover" onClick={() => el.action()}>
                         <Col span={4} style={{ color: "blue" }}> {el.icon}</Col>
                         <Col span={16} >
                             <CardTitle style={{ lineHeight: 1 }} >{el.name}</CardTitle>
@@ -139,6 +128,8 @@ const ExpensiveChart = ({ bills }) => {
                     </RowHover>
                 )
             })}
+            <Drawer visible={showDrawer} onClose={()=> setDrawer(false)}></Drawer>
+            <Modal visible={showModal} onCancel={()=>setModal(false)}></Modal>
         </ProCard>
     )
 }

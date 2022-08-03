@@ -12,6 +12,8 @@ import { linear } from "../utils";
 import ReactApexChart from "react-apexcharts";
 import "./style.css"
 import moment from "moment";
+import EditBuildingModal from "./EditBuildingModal";
+import { useNavigate } from "react-router-dom";
 const { Option } = Select;
 const { Search } = Input;
 
@@ -29,6 +31,8 @@ const BuildingTab = ({ updateRoute }) => {
     const [name, setName] = useState("")
     const [contact, setContact] = useState("")
     const [address, setAddress] = useState("")
+    const [buildingId, setBuildingId] = useState("")
+    const navigate = useNavigate()
     const [type, setType] = useState("")
 
     const deleteBuilding = async (id) => {
@@ -95,14 +99,24 @@ const BuildingTab = ({ updateRoute }) => {
         setBuildingsFilter([res])
     };
 
-    const updateBuilding = async () => {
+    const updateBuilding = async (buildingId) => {
         let data = {
             name,
             contact,
             address,
             type,
         }
-        await api.buildings.updateBuilding(data).then(async res => {console.log(res)} )
+        setShow(true)
+        await api.buildings.updateBuilding(buildingId, data).then(res => {
+        }).catch(err => { setShow(false); message.error("Error...") })
+        await api.buildings.fetchBuildings(user._id).then((res) => {
+            dispatch(fetchBuildings(res))
+            setBuildingsFilter(res)
+            setTimeout(() => {
+                setShow(false)
+                message.success("Updated successfully") 
+            }, 1000);
+        })
     }
 
     return (
@@ -125,6 +139,7 @@ const BuildingTab = ({ updateRoute }) => {
                 className="site-page-header"
                 title="Buildings Portfolio"
                 subTitle="Browse and check your buildings"
+                onBack={() => navigate("/Dashboard")}
             />
             <Row style={{ width: "100%" }}>
                 <Input.Group compact>
@@ -148,16 +163,6 @@ const BuildingTab = ({ updateRoute }) => {
                     </AutoComplete>
                 </Input.Group>
             </Row>
-            <Modal title="Edit Building" visible={isModalVisible} onOk={() => {setIsModalVisible(false); updateBuilding()}} onCancel={() => setIsModalVisible(false)}>
-                <p>Building Name</p>
-                <Input value={name}></Input>
-                <p style={{ marginTop: "22px" }}>Contact Name</p>
-                <Input value={contact}></Input>
-                <p style={{ marginTop: "22px" }}>Address</p>
-                <Input value={address}></Input>
-                <p style={{ marginTop: "22px" }}>Building Type</p>
-                <Input value={type}></Input>
-            </Modal>
             {
                 buildingsFilter === null ?
                     <Card style={{ marginTop: "32px" }}>
@@ -181,14 +186,14 @@ const BuildingTab = ({ updateRoute }) => {
                                             <Row justify="space-between" align="middle">
                                                 <h3 style={{ color: "white" }}>{item.name}</h3>
                                                 <Radio.Group value="default" >
-                                                
-                                                    <Radio.Button type="primary" onClick={ () => { 
+                                                    <Radio.Button type="primary" onClick={() => {
                                                         setIsModalVisible(true);
                                                         setName(item.name);
                                                         setContact(item.contact);
                                                         setAddress(item.address);
                                                         setType(item.type);
-                                                        }}>Edit</Radio.Button>
+                                                        setBuildingId(item._id)
+                                                    }}>Edit</Radio.Button>
                                                     <Popconfirm
                                                         icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
                                                         title="Do you wanna delete this building?"
@@ -251,6 +256,9 @@ const BuildingTab = ({ updateRoute }) => {
                         </div>
                     )
             }
+            <EditBuildingModal setName={(val) => setName(val)} setContact={(val) => setContact(val)} setType={(val) => setType(val)}
+                buildingId={buildingId} name={name} contact={contact} address={address} type={type} visible={isModalVisible} setVisible={() => setIsModalVisible(false)} updateBuilding={() => updateBuilding(buildingId)} />
+
         </Layout >
     );
 }

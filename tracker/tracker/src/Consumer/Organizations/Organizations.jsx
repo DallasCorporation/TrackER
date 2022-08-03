@@ -1,9 +1,11 @@
-import { Breadcrumb, Layout, Row, Button, Progress, Space, Tag, Col, Slider, Avatar, Tooltip, Badge } from "antd"
+import { Breadcrumb, Layout, Row, Button, Progress, Space, Tag, Col, Slider, Avatar, Tooltip, Badge, PageHeader } from "antd"
 import { ProList } from '@ant-design/pro-components';
 import { useState } from 'react';
 import TypeCard from "./TypeCard";
+import { useNavigate } from "react-router-dom";
 const Organizations = ({ allOrganization, allUser }) => {
     const [expandedRowKeys, setExpandedRowKeys] = useState([]);
+    const navigate= useNavigate()
     return (
         <Layout
             className="site-layout-background"
@@ -19,7 +21,14 @@ const Organizations = ({ allOrganization, allUser }) => {
                     <Breadcrumb.Item>Organizations</Breadcrumb.Item>
                 </Breadcrumb>
             </Row>
-            <Row style={{ marginTop: 32 }}>
+            <PageHeader
+                style={{ paddingLeft: 0 }}
+                className="site-page-header"
+                title="Organizations"
+                subTitle="Check all registered organization of our platform"
+                onBack={() => navigate("/Dashboard")}
+            />
+            <Row style={{ marginTop: 12 }}>
                 <Col span={24}>
                     <ProList rowKey="title" headerTitle="Registered Organization"
                         expandable={{ expandedRowKeys, onExpandedRowsChange: setExpandedRowKeys }}
@@ -44,19 +53,19 @@ const Organizations = ({ allOrganization, allUser }) => {
                         metas={{
                             title: {
                                 render: (_, data) => (
-                                        <Row align="middle">
-                                            <Col style={{ width: 220 }}>
-                                                {data.name}
-                                            </Col>
-                                            <Col >
-                                                <Space size={0}>
-                                                    {data.type.includes("Electric") && <Tag icon={<span class="anticon iconfontTag" >&#xe61d;</span>} color="gold">Electric</Tag>}
-                                                    {data.type.includes("Gas") && <Tag icon={<span class="anticon iconfontTag" >&#xe657;</span>} color="#5B90F6">Gas</Tag>}
-                                                    {data.type.includes("Water") && <Tag icon={<span class="anticon iconfontTag" >&#xe730;</span>} color="blue">Water</Tag>}
-                                                    {data.type.includes("Distributed") && <Tag icon={<span class="anticon iconfontTag" >&#xe927;</span>} color="green">Energy Resources</Tag>}
-                                                </Space>
-                                            </Col>
-                                        </Row>
+                                    <Row align="middle">
+                                        <Col style={{ width: 220 }}>
+                                            {data.name}
+                                        </Col>
+                                        <Col >
+                                            <Space size={0}>
+                                                {data.type.includes("Electric") && <Tag icon={<span class="anticon iconfontTag" >&#xe61d;</span>} color="gold">Electric</Tag>}
+                                                {data.type.includes("Gas") && <Tag icon={<span class="anticon iconfontTag" >&#xe657;</span>} color="#5B90F6">Gas</Tag>}
+                                                {data.type.includes("Water") && <Tag icon={<span class="anticon iconfontTag" >&#xe730;</span>} color="blue">Water</Tag>}
+                                                {data.type.includes("Distributed") && <Tag icon={<span class="anticon iconfontTag" >&#xe927;</span>} color="green">Energy Resources</Tag>}
+                                            </Space>
+                                        </Col>
+                                    </Row>
 
                                 ),
                             },

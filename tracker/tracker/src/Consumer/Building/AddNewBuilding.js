@@ -1,4 +1,4 @@
-import { AutoComplete, Avatar, Breadcrumb, Button, Card, Form, Layout, message, Row, Select } from "antd"
+import { AutoComplete, Avatar, Breadcrumb, Button, Card, Form, Layout, message, PageHeader, Row, Select } from "antd"
 import Col from "antd/es/grid/col";
 import Input from "antd/lib/input/Input";
 import { Option } from "antd/lib/mentions";
@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import BuildingOptions from "./BuildingOptions";
 import { ExpandAltOutlined } from '@ant-design/icons';
 import "./style.css"
+import { useNavigate } from "react-router-dom";
 
 const AddNewBuildings = ({ user }) => {
     const dispatch = useDispatch()
@@ -27,6 +28,7 @@ const AddNewBuildings = ({ user }) => {
     const [allOrganizations, setOrganizations] = useState([])
     const [organizationId, setOrganization] = useState([])
     const [show, setShow] = useState(false)
+    const navigate= useNavigate()
 
     useEffect(() => {
         const fetchOrganization = async () => {
@@ -120,7 +122,14 @@ const AddNewBuildings = ({ user }) => {
                     <Breadcrumb.Item>Create Building</Breadcrumb.Item>
                 </Breadcrumb>
             </Row>
-            <Card style={{ borderRadius: 20, marginTop: "32px", boxShadow: "0 2px 2px rgba(0,0,0,0.2)" }}>
+            <PageHeader
+                style={{ paddingLeft: 0 }}
+                className="site-page-header"
+                title="Create Building"
+                subTitle="Add a new Building to your account"
+                onBack={() => navigate("/Dashboard")}
+            />
+            <Card style={{ borderRadius: 20, marginTop: "12px", boxShadow: "0 2px 2px rgba(0,0,0,0.2)" }}>
                 <AccountSubTitle style={{ marginLeft: 15 }}>Add a new building to your account</AccountSubTitle>
                 <Row gutter={[32, 0]} style={{ marginTop: "32px", }}>
                     <Col lg={12} sm={24}>

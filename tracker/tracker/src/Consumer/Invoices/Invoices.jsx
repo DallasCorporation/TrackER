@@ -1,5 +1,5 @@
-import { Breadcrumb, Button, Card, Col, Layout, Row, Space, Tag } from "antd";
-import { useLocation } from "react-router-dom";
+import { Breadcrumb, Button, Card, Col, Layout, PageHeader, Row, Segmented, Space, Tag } from "antd";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ProList } from "@ant-design/pro-components";
 import { useEffect, useState } from "react";
@@ -11,11 +11,11 @@ const Invoices = () => {
     const filter = useLocation().pathname.split("/")[2]
     const buildings = useSelector(state => state.buildings.buildings)
     const organizations = useSelector(state => state.allOrganization.organization)
-    const [expandedRowKeys, setExpandedRowKeys] = useState([]);
     const user = useSelector((state) => state.user.user)
     const [bills, setBills] = useState({})
     const [data, setData] = useState({})
     const [visible, setVisible] = useState(false)
+    const navigate = useNavigate()
 
     const getBillsAggregated = async () => {
         await api.bills.getBillsAggregated(user._id).then(res => setBills(res.all))
@@ -40,12 +40,22 @@ const Invoices = () => {
                     <Breadcrumb.Item>{filter}</Breadcrumb.Item>
                 </Breadcrumb>
             </Row>
+            <PageHeader
+                style={{ paddingLeft: 0 }}
+                className="site-page-header"
+                title="Buildings Invoices"
+                subTitle="Browse and check your invoices"
+                onBack={() => navigate("/Dashboard")}
+            />
+            <Row justify="center">
+                <Segmented size="large" value={filter} options={['Weekly', 'Monthly', 'Yearly']} onChange={(el) => navigate("/Invoices/" + el)} />
+            </Row>
             <Row style={{ marginTop: "22px" }} gutter={[16, 16]}>
                 <Col span={24}>
                     <Row style={{ marginTop: "22px" }} gutter={[32, 32]}>
                         {buildings.map(el =>
                             <Col span={8}>
-                                <Card style={{ borderRadius: 20, boxShadow: "0 2px 2px rgba(0,0,0,0.2)" }} gutter={[0, 8]}>
+                                <Card style={{ borderRadius: 20, boxShadow: "0 2px 2px rgba(0,0,0,0.2)" }} >
                                     <Row justify="space-between" align="middle">
                                         <p style={{ fontWeight: 500, fontSize: 22, margin: 0 }}>{el.name}</p>
                                         <InfoCircleOutlined />
@@ -72,7 +82,7 @@ const Invoices = () => {
                                                 setVisible(true)
                                                 setData(el)
                                             }}
-                                            size="small" type="primary" style={{ borderRadius: 10 }}>See {filter} Bills Details</Button>
+                                            size="middle" type="primary" style={{ borderRadius: 10 }}>{filter} Bills Details</Button>
                                     </Row>
                                 </Card>
                             </Col>

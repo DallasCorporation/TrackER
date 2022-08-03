@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
-import mapboxgl from '!mapbox-gl'; // eslint-disable-line import/no-webpack-loader-syntax
+import mapboxgl from 'mapbox-gl';
+import "mapbox-gl/dist/mapbox-gl.css";
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZG9uZGFsbGFzIiwiYSI6ImNsMnVkMzIzdTAwdmYza21wdHd2YzR0c2kifQ.DT00_FPsSokLQ8r4FELa2A';
 
@@ -17,10 +18,23 @@ export default function Map(props) {
       center: [lng, lat],
       zoom: 13,
       interactive: false
-    });
+    })
+    map.current.addControl(new mapboxgl.NavigationControl({
+      visualizePitch: true
+    }), 'top-left');
+    map.current.addControl(new mapboxgl.FullscreenControl());
+    new mapboxgl.Marker(<div
+      style={{
+        width: '5rem',
+        height: '5rem',
+        borderRadius: '50%',
+        cursor: 'pointer',
+      }} />)
+      .setLngLat([lng, lat])
+      .addTo(map.current);
   });
 
   return (
-      <div ref={mapContainer} style={{height:"100%"}} className="map-container" />
+    <div ref={mapContainer} style={{ height: "100%" }} className="map-container" />
   );
 }

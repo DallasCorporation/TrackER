@@ -1,13 +1,12 @@
 import { Row, Select } from "antd"
 import { Option } from "antd/lib/mentions"
 
-const BuildingOptions = ({ setType }) => {
+const BuildingOptions = ({ setType, placeholder="Building Type"}) => {
     return (
         <Select
             filterSort={(optionA, optionB) => optionA.value.toLowerCase().localeCompare(optionB.value.toLowerCase())}
             showSearch
-            placeholder={<Row align="middle"> Building Type</Row>
-            } size="large" onChange={(val) => setType(val)}>
+            placeholder={<Row align="middle">{placeholder}</Row>} size="large" onChange={(val) => setType(val)}>
             <Option value="Residential">
                 <Row align="middle"><svg class="iconSvg" aria-hidden="true"><use xlinkHref="#i--house" /></svg>Residential</Row>
             </Option>

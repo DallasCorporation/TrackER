@@ -54,21 +54,23 @@ const registerBuilding = asyncHandler(async (req, res) => {
 })
 
 const updateBuilding = asyncHandler(async (req, res) => {
-    const { name, contact, address, type } = req.body
+    const building = await Building.findById(req.params.id)
 
-    // Check if building exists
-    const buildingExists = await Building.findOne({ address })
-
-    if (buildingExists) {
-        let db_connect = dbo.getDb();
-        let myQuery = { address: address };
-        db_connect
-        .collection("buildings")
-        .find(myQuery).toArray(function (err, result) {
-            if (err) throw err;
-            res.json(result);
-        });
+    if (!building) {
+        res.status(400)
+        throw new Error('User not found')
     }
+
+    // Make sure the logged in user matches the goal user
+    if (building._id.toString() !== req.params.id) {
+        res.status(401)
+        throw new Error('User not authorized')
+    }
+
+    const updateBuilding = await Building.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+    })
+    res.status(200).json(updateBuilding)
 })
 
 const getBuildingsById = asyncHandler(async (req, res) => {

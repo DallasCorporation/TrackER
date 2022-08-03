@@ -15,7 +15,7 @@ router.get('/api/building/:id', getBuildingsById)
 router.get('/api/build/:id', getBuilding)
 router.get('/api/builds', getBuildings)
 router.delete('/api/building/:id', deleteBuildingById)
-router.post('/api/building/update', updateBuilding)
+router.put('/api/building/:id', updateBuilding)
 
 
 module.exports = router

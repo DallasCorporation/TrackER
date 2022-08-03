@@ -5,7 +5,7 @@ import TypeCard from "./TypeCard";
 import { useNavigate } from "react-router-dom";
 const Organizations = ({ allOrganization, allUser }) => {
     const [expandedRowKeys, setExpandedRowKeys] = useState([]);
-    const navigate= useNavigate()
+    const navigate = useNavigate()
     return (
         <Layout
             className="site-layout-background"
@@ -30,7 +30,7 @@ const Organizations = ({ allOrganization, allUser }) => {
             />
             <Row style={{ marginTop: 12 }}>
                 <Col span={24}>
-                    <ProList rowKey="title" headerTitle="Registered Organization"
+                    <ProList rowKey="title" headerTitle="Registered Organization" cardProps={{ style: { borderRadius: 20, boxShadow: "0 2px 10px rgba(0,0,0,0.2)" } }} cardBordered tableStyle={{ borderRadius: 20 }} style={{ borderRadius: 20 }}
                         expandable={{ expandedRowKeys, onExpandedRowsChange: setExpandedRowKeys }}
                         onRow={(record, rowIndex) => {
                             return {

@@ -6,14 +6,14 @@ import { fetchBuildings } from "../reducers/buildings";
 import api from "../api";
 import { useDispatch } from "react-redux";
 import { Alert, Divider, Form, Input, message, Row, Tabs } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components"
 import { userPreference } from "../reducers/preference";
 
 
 const { TabPane } = Tabs;
 const SignInForm = () => {
-
+    const navigate = useNavigate()
     const [swapPanel, setSwapPanel] = useState(false);
     const [name, setName] = useState(null)
     const [company, setCompany] = useState(null)
@@ -46,6 +46,8 @@ const SignInForm = () => {
                     dispatch(fetchBuildings(res))
                 })
                 dispatch(login(data))
+                navigate("/Dashboard")
+
             })
             .catch((err) => {
                 console.log(err)

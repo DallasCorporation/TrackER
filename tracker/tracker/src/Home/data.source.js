@@ -81,7 +81,7 @@ export const Content00DataSource = {
             {
               name: 'title',
               className: 'content0-block-title',
-              children: 'KPI 1',
+              children: 'Simple',
             },
             { name: 'content', children: "Our subscription model allows customers to register sites in a few clicks and scale up or down as needed. Our professional services, included in the subscription, guarantee a quick return of investment." },
           ],
@@ -104,7 +104,7 @@ export const Content00DataSource = {
             {
               name: 'title',
               className: 'content0-block-title',
-              children: 'KPI 2',
+              children: 'Automated',
             },
             {
               name: 'content',
@@ -130,7 +130,7 @@ export const Content00DataSource = {
             {
               name: 'title',
               className: 'content0-block-title',
-              children: 'KPI 3',
+              children: 'Full-Service',
             },
             {
               name: 'content',
@@ -486,7 +486,7 @@ export const Content110DataSource = {
           'https://gw.alipayobjects.com/zos/rmsportal/PiqyziYmvbgAudYfhuBr.svg',
         className: 'title-image',
       },
-      { name: 'title', children: 'People', className: 'title-h1' },
+      { name: 'title', children: 'For Our People And Earth', className: 'title-h1' },
       {
         name: 'content',
         children:

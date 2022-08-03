@@ -93,53 +93,7 @@ export const Feature60DataSource = {
           },
         ],
       },
-      {
-        key: 'block1',
-        title: { className: 'feature6-title-text', children: 'dassa' },
-        className: 'feature6-item',
-        name: 'block1',
-        children: [
-          {
-            md: 8,
-            xs: 24,
-            name: 'child0',
-            className: 'feature6-number-wrapper',
-            number: {
-              className: 'feature6-number',
-              unit: { className: 'feature6-unit', children: '万' },
-              toText: true,
-              children: '116',
-            },
-            children: { className: 'feature6-text', children: 'asdasda' },
-          },
-          {
-            md: 8,
-            xs: 24,
-            name: 'child1',
-            className: 'feature6-number-wrapper',
-            number: {
-              className: 'feature6-number',
-              unit: { className: 'feature6-unit', children: '亿' },
-              toText: true,
-              children: '1.17',
-            },
-            children: { className: 'feature6-text', children: 'dsadsad' },
-          },
-          {
-            md: 8,
-            xs: 24,
-            name: 'child2',
-            className: 'feature6-number-wrapper',
-            number: {
-              className: 'feature6-number',
-              unit: { className: 'feature6-unit', children: '亿' },
-              toText: true,
-              children: '2.10',
-            },
-            children: { className: 'feature6-text', children: 'dasdasda' },
-          },
-        ],
-      },
+      
     ],
   },
 };

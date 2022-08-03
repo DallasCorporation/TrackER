@@ -41,7 +41,7 @@ const AvatarDrawer = ({ user, visible, onClose }) => {
                             style={
                                 current === "https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png"
                                     ? {} :
-                                    { boxShadow: "0 2px 2px #000000" }}
+                                    { boxShadow: "0 2px 4px #000000" }}
                             size={60} src={"https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png"} onClick={() => setCurrent("https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png")} />
                     </Tooltip>
 
@@ -51,14 +51,14 @@ const AvatarDrawer = ({ user, visible, onClose }) => {
                                 style={
                                     current === images['Avatar-' + (i + 1) + '.svg']
                                         ? {} :
-                                        { boxShadow: "0 2px 2px #000000" }}
+                                        { boxShadow: "0 2px 4px #000000" }}
                                 size={60} src={images['Avatar-' + (i + 1) + '.svg']} onClick={() => setCurrent(images['Avatar-' + (i + 1) + '.svg'])} />
                         </Tooltip>
                     )}
                     <Tooltip title="No Avatar">
                         <AvatarHover
                             style={
-                                current === "" ? {} : { boxShadow: "0 2px 2px #000000" }}
+                                current === "" ? {} : { boxShadow: "0 2px 4px #000000" }}
                             size={60} src={""} onClick={() => setCurrent("")} />
                     </Tooltip>
                 </Row>

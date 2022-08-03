@@ -53,7 +53,7 @@ const SecondStep = ({ name, setDescription, description = "" }) => {
         }
     }
     return (
-        <Card style={{ borderRadius: 20, boxShadow: "0 2px 2px rgba(0,0,0,0.2)", textAlign: "center", justifyContent: "center" }}>
+        <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", textAlign: "center", justifyContent: "center" }}>
             <p style={{ fontSize: 18, textAlign: "center" }}>Organization Name: <b>{name}</b></p>
             <Row justify="center" style={{ textAlign: "center" }} align="middle">
                 <Col span={18} style={{ textAlign: "center" }}>

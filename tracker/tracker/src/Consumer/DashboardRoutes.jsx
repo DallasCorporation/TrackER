@@ -44,7 +44,9 @@ const DashboardRoute = () => {
     const check = useSelector((state) => state.preference)
     if (check === null)
         fetchPreference()
-    const userAvatar = useSelector((state) => state.preference.preference.avatar)
+    const preference = useSelector((state) => state.preference.preference)
+    const userAvatar = preference !== null ? preference.avatar : ""
+
     const allOrganization = useSelector((state) => state.allOrganization.organization)
     const allUser = useSelector((state) => state.allUser.user)
     let defaultProps = {

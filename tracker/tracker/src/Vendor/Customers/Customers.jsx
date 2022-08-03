@@ -71,7 +71,7 @@ const Customers = ({ organization }) => {
                     <ProTable
                         columns={columns} dataSource={data}
                         cardBordered
-                        cardProps={{ style: { borderRadius: "20px", boxShadow: "0 2px 2px rgba(0,0,0,0.2)" } }}
+                        cardProps={{ style: { borderRadius: "20px", boxShadow: "0 2px 4px rgba(0,0,0,0.2)" } }}
                         options={{
                             search: true,
                         }}

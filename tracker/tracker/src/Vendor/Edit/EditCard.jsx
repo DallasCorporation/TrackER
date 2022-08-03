@@ -72,7 +72,7 @@ const EditCard = ({ data, type }) => {
     return (
         data.length > 0 && <Col span={24} style={{ marginTop: 22 }}>
             {load && <LoadingSpinner message="Updating Organization" />}
-            <Card style={{ borderRadius: 20, boxShadow: "0 2px 2px rgba(0,0,0,0.2)" }} gutter={[0, 8]}>
+            <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }} gutter={[0, 8]}>
                 <Row align="middle" justify="space-between">
                     {type === "g" && <PlanTitle>Organization Gas Plan</PlanTitle>}
                     {type === "e" && <PlanTitle>Organization Energy Plan</PlanTitle>}

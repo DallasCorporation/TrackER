@@ -4,14 +4,10 @@ import { ProTable } from '@ant-design/pro-components';
 import React from 'react';
 
 const TableCard = ({ buildings, chart, value, title }) => {
-    const valueEnum = {
-        0: 'close',
-        1: 'running',
-        2: 'online',
-        3: 'error',
-    };
     const tableListDataSource = [];
 
+    if (buildings === null)
+        return <></>
     buildings.map((el, i) =>
         tableListDataSource.push({
             key: el._id,

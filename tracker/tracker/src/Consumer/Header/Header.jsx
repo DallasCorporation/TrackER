@@ -4,8 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { AvatarHover, LinkHover } from "../../Components/CustomComponents";
 import { logout } from "../../reducers/user";
 
-const Header = ({avatar}) => {
+const Header = ({ avatar }) => {
     const dispatch = useDispatch()
+    const user = useSelector((state) => state.user.user)
+    const type = user.type
     const menu = (
         <Menu
             style={{ borderRadius: 10 }}
@@ -19,38 +21,56 @@ const Header = ({avatar}) => {
                             label: (
                                 <LinkHover to="/Profile/Edit">View Profile</LinkHover>
                             ),
+                        },
+                        {
+                            key: '1-2',
+                            label: (
+                                <LinkHover to="/Profile/Security">Settings</LinkHover>
+                            ),
                         },],
                     label: <h3>Profile Settings</h3>
                 },
-                {
+                type === "Buildings" && {
                     type: "divider",
                 },
-                {
+                type === "Buildings" && {
                     key: '2',
-                    label: (
-                        <div>Explore 1</div>
-                    ),
+                    type: 'group',
+                    children: [
+                        {
+                            key: '2-1',
+                            label: (
+                                <LinkHover to="/Building">View Building</LinkHover>
+                            ),
+                        },
+                        {
+                            key: '2-2',
+                            label: (
+                                <LinkHover to="/Organizations">View Organizations</LinkHover>
+                            ),
+                        },
+                        {
+                            key: '2-3',
+                            label: (
+                                <LinkHover to="/Invoices/Yearly">View Invoices</LinkHover>
+                            ),
+                        }],
+                    label: <h3>Profile Actions</h3>
+                },
+                {
+                    type: "divider",
                 },
                 {
                     key: '3',
-                    label: (
-                            <LinkHover to="/Profile/Security">Settings</LinkHover>
-                    ),
-                },
-                {
-                    key: '4',
-                    label: (
-                        <div>Help</div>
-                    ),
-                },
-                {
-                    type: "divider",
-                },
-                {
-                    key: '5',
-                    label: (
-                        <div onClick={() => dispatch(logout())}>Logout</div>
-                    ),
+                    type: 'group',
+                    children: [
+                        {
+                            key: '3-1',
+                            label: (
+                                <div onClick={() => dispatch(logout())}>Logout</div>
+                            ),
+                        }],
+                    label: <h3 >Exit Profile</h3>,
                 },
             ]}
         />
@@ -71,7 +91,10 @@ const Header = ({avatar}) => {
                 </Row>
                 <Space>
                     <Dropdown overlay={menu} placement="bottomRight" overlayStyle={{ borderRadius: 10 }}>
-                        <AvatarHover size={"default"} src={avatar} />
+                        <Row justify="space-between" align="middle" >
+                            <p style={{ color: "blue", margin: 0, marginRight: 6 }}>{user.name} {user.surname}</p>
+                            <AvatarHover size={"default"} src={avatar} />
+                        </Row>
                     </Dropdown>
                 </Space>
             </Row>

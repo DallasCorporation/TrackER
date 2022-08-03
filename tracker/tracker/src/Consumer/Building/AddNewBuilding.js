@@ -129,7 +129,7 @@ const AddNewBuildings = ({ user }) => {
                 subTitle="Add a new Building to your account"
                 onBack={() => navigate("/Dashboard")}
             />
-            <Card style={{ borderRadius: 20, marginTop: "12px", boxShadow: "0 2px 2px rgba(0,0,0,0.2)" }}>
+            <Card style={{ borderRadius: 20, marginTop: "12px", boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }}>
                 <AccountSubTitle style={{ marginLeft: 15 }}>Add a new building to your account</AccountSubTitle>
                 <Row gutter={[32, 0]} style={{ marginTop: "32px", }}>
                     <Col lg={12} sm={24}>

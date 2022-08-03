@@ -57,7 +57,7 @@ const ThirdStep = ({ name, owner, icon, createdAt, type, description, prices = [
     }
 
     return (
-        <Card style={{ borderRadius: 20, boxShadow: "0 2px 2px rgba(0,0,0,0.2)" }}>
+        <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }}>
             <Descriptions title="Organization Info" bordered>
                 <Descriptions.Item label="Name">{name}</Descriptions.Item>
                 <Descriptions.Item label="Organization Owner">{owner}</Descriptions.Item>

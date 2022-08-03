@@ -55,7 +55,7 @@ const Invoices = () => {
                     <Row style={{ marginTop: "22px" }} gutter={[32, 32]}>
                         {buildings.map(el =>
                             <Col span={8}>
-                                <Card style={{ borderRadius: 20, boxShadow: "0 2px 2px rgba(0,0,0,0.2)" }} >
+                                <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }} >
                                     <Row justify="space-between" align="middle">
                                         <p style={{ fontWeight: 500, fontSize: 22, margin: 0 }}>{el.name}</p>
                                         <InfoCircleOutlined />

@@ -69,7 +69,7 @@ const Account = ({ updateRoute, user, avatar }) => {
                 subTitle="Check your profile and customize your preferences"
                 onBack={() => navigate("/Dashboard")}
             />
-            <ProCard style={{ borderRadius: "10px" }}>
+            <ProCard style={{ borderRadius: "20px" , boxShadow: "0 2px 10px rgba(0,0,0,0.2)" }}>
                 <Row>
                     <Col span={5}>
                         <Row justify="end">

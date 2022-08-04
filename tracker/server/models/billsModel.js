@@ -5,6 +5,9 @@ const billsSchema = new mongoose.Schema({
     buildingId: {
         type: ObjectId,
     },
+    organizationId: {
+        type: ObjectId,
+    },
     bills: {
         type: Array,
     },

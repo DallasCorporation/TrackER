@@ -118,8 +118,20 @@ const getBillsAggregatedFiltered = asyncHandler(async (req, res) => {
     });
 })
 
+
+const getBillsByOrganizationId = asyncHandler(async (req, res) => {
+  let db_connect = dbo.getDb();
+  db_connect
+    .collection("bills")
+    .find({ organizationId: ObjectId(req.params.id) }).toArray(function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+})
+
 module.exports = {
   addData,
   getBills,
-  getBillsAggregatedFiltered
+  getBillsAggregatedFiltered,
+  getBillsByOrganizationId
 }

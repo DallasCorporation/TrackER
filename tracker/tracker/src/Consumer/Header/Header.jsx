@@ -86,7 +86,7 @@ const Header = ({ avatar }) => {
                         <p style={{ height: "32px" }}> Do you know the latest update of our 2022? 🎉  </p>
                     </Col>
                     <Col>
-                        <p style={{ color: "#fea5b1", height: "32px", marginLeft: 5 }}>Our roadmap is alive for future updates.</p>
+                        <p style={{ color: "#fea5b1", height: "32px", marginLeft: 5 }}>Check our program for 2022.</p>
                     </Col>
                 </Row>
                 <Space>

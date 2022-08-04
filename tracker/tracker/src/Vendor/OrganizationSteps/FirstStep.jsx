@@ -6,7 +6,6 @@ import { ProForm, ProFormDigit, ProFormMoney, ProFormSlider, ProFormText } from 
 import { useEffect } from "react";
 
 const FirstStep = ({ gas, setGas, electric, setElectric, water, setWater, distributed, setDistributed, setPrices, prices = [] }) => {
-
     const [solar, setSolar] = useState(false)
     const [hydro, setHydro] = useState(false)
     const [windy, setWindy] = useState(false)
@@ -32,7 +31,6 @@ const FirstStep = ({ gas, setGas, electric, setElectric, water, setWater, distri
             setPrices(updatedList);
     }, [name, prices, value])
 
-
     const setObj = (name, value) => {
         setName(name)
         setValue(value)
@@ -47,7 +45,7 @@ const FirstStep = ({ gas, setGas, electric, setElectric, water, setWater, distri
                     </div>
                     <Divider />
                     <div style={!gas ? { pointerEvents: "none", opacity: "0.4", transition: "1.5s" } : { transition: "1.5s" }}>
-                        <Card style={{ textAlign: "center", justifyContent: "center", borderRadius: "10px", border: "2px solid #1196db" }} >
+                        <Card style={{ textAlign: "center", justifyContent: "center", borderRadius: "10px", border: "2px solid #1196db", }} >
                             <Row justify="space-between" gutter={[32, 8]}>
                                 <Col span={12}>
                                     <ProFormMoney colSize={12} label="Cost at m³" locale="it-IT" placeholder={"€ 0"} min={0} onChange={(value) => setObj("Gas Cost at m³", value)} />
@@ -59,7 +57,7 @@ const FirstStep = ({ gas, setGas, electric, setElectric, water, setWater, distri
                                     <ProFormMoney label="Delivery Cost" locale="it-IT" placeholder={"€ 0"} min={0} onChange={(value) => setObj("Gas Delivery Cost", value)} />
                                 </Col>
                                 <Col span={12}>
-                                    <ProFormDigit label="Tax Percentage" locale="it-IT" placeholder={"% 0"} min={0} max={99} onChange={(value) => setObj("Gas Tax Percentage", value)} />
+                                    <ProFormMoney label="Tax Percentage" customSymbol="%" locale="it-IT" placeholder={"% 0"} min={0} max={99} onChange={(value) => setObj("Gas Tax Percentage", value)} />
                                 </Col>
                             </Row>
                         </Card>
@@ -107,7 +105,7 @@ const FirstStep = ({ gas, setGas, electric, setElectric, water, setWater, distri
                                     <ProFormMoney label="Delivery Cost" locale="it-IT" placeholder={"€ 0"} min={0} onChange={(value) => setObj("Water Delivery Cost", value)} />
                                 </Col>
                                 <Col span={12}>
-                                    <ProFormDigit label="Tax Percentage" locale="it-IT" placeholder={"% 0"} min={0} max={99} onChange={(value) => setObj("Water Tax Percentage", value)} />
+                                    <ProFormMoney label="Tax Percentage"  customSymbol="%" locale="it-IT" placeholder={"% 0"} min={0} max={99} onChange={(value) => setObj("Water Tax Percentage", value)} />
                                 </Col>
                             </Row>
                         </Card>

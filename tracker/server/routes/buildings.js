@@ -6,7 +6,8 @@ const {
     deleteBuildingById,
     getBuilding,
     getBuildings,
-    updateBuilding
+    updateBuilding,
+    getBuildingsByOrganizationId
 } = require('../controllers/buildingController')
 
 
@@ -16,6 +17,7 @@ router.get('/api/build/:id', getBuilding)
 router.get('/api/builds', getBuildings)
 router.delete('/api/building/:id', deleteBuildingById)
 router.put('/api/building/:id', updateBuilding)
+router.get('/api/building/organization/:id', getBuildingsByOrganizationId)
 
 
 module.exports = router

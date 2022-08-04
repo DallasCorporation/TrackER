@@ -85,14 +85,18 @@ const getBuildingsById = asyncHandler(async (req, res) => {
 })
 
 const getBuilding = asyncHandler(async (req, res) => {
-    let db_connect = dbo.getDb();
-    let myQuery = { _id: ObjectId(req.params.id) };
-    db_connect
-        .collection("buildings")
-        .find(myQuery).toArray(function (err, result) {
-            if (err) throw err;
-            res.json(result);
-        });
+    const building = await Building.findById(ObjectId(req.params.id))
+    if (!building) {
+        res.status(400)
+        throw new Error('Goal not found')
+    }
+    // Check for user
+    if (!building._id) {
+        res.status(401)
+        throw new Error('User not found')
+    }
+
+    res.status(200).json(building)
 })
 
 const getBuildings = asyncHandler(async (req, res) => {
@@ -103,6 +107,19 @@ const getBuildings = asyncHandler(async (req, res) => {
             if (err) throw err;
             res.json(result);
         });
+})
+
+const getBuildingsByOrganizationId = asyncHandler(async (req, res) => {
+    const building = await Building.find({ organizationId: ObjectId(req.params.id) })
+    if (!building) {
+        res.status(400)
+        throw new Error('Goal not found')
+    }
+    if (building.length===0) {
+        res.status(401)
+        throw new Error('Building not found')
+    }
+    res.status(200).json(building)
 })
 
 const deleteBuildingById = asyncHandler(async (req, res) => {
@@ -137,5 +154,6 @@ module.exports = {
     deleteBuildingById,
     getBuilding,
     getBuildings,
-    updateBuilding
+    updateBuilding,
+    getBuildingsByOrganizationId
 }

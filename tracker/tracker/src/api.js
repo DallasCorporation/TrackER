@@ -71,7 +71,10 @@ export default {
                 .then((res) => res.data),
         getBuilding: (id) =>
             axios.get(`${API_URL}/build/${id}`)
-                .then((res) => res.data[0]),
+                .then((res) => res.data),
+        getBuildingsByOrganizationId: (organizationId) =>
+            axios.get(`${API_URL}/building/organization/${organizationId}`)
+                .then((res) => res.data),
     },
     organization: {
         create: (body) =>
@@ -99,6 +102,9 @@ export default {
                 .then((res) => res.data),
         getBillsAggregated: (userId) =>
             axios.get(`${API_URL}/bills/${userId}`)
+                .then((res) => res.data),
+        getBillsByOrganizationId: (organizationId) =>
+            axios.get(`${API_URL}/bills/organization/${organizationId}`)
                 .then((res) => res.data),
     },
 };

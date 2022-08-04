@@ -32,7 +32,9 @@ const options = {
 
     },
     stroke: {
-        curve: 'straight',
+        curve: 'smooth',
+        width: 2,
+        lineCap: 'butt',
     },
     dataLabels: {
         enabled: false

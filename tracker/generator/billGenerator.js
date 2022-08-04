@@ -12,12 +12,12 @@ const getRandom = function (type, sqft) {
                 if (!(date.hours() > 21 && date.hours() <= 6) || (date.hours() > 10 && date.hours() < 12) || (date.hours() >= 14 && date.hours() < 19)) {
                     let rand = Math.random() * sqft / 100;
                     let power = Math.pow(10, 2);
-                    return Math.floor(rand/100) / power;
+                    return Math.floor(rand / 100) / power;
                 }
                 else {
                     let rand = Math.random() * (sqft * 1.1 - sqft) + sqft;
                     let power = Math.pow(10, 2);
-                    return Math.floor(rand/100) / power;
+                    return Math.floor(rand / 100) / power;
                 }
             }
         case "Airport":
@@ -26,12 +26,12 @@ const getRandom = function (type, sqft) {
                 if (!(date.hours() > 17 && date.hours() <= 8)) {
                     let rand = Math.random() * sqft / 100;
                     let power = Math.pow(10, 2);
-                    return Math.floor(rand/100) / power;
+                    return Math.floor(rand / 100) / power;
                 }
                 else {
                     let rand = Math.random() * (sqft * 1.1 - sqft) + sqft;
                     let power = Math.pow(10, 2);
-                    return Math.floor(rand/100) / power;
+                    return Math.floor(rand / 100) / power;
                 }
             }
         case "Shopping Mall":
@@ -42,12 +42,12 @@ const getRandom = function (type, sqft) {
                 if (!(date.hours() > 18 && date.hours() <= 10)) {
                     let rand = Math.random() * sqft / 100;
                     let power = Math.pow(10, 2);
-                    return Math.floor(rand/100) / power;
+                    return Math.floor(rand / 100) / power;
                 }
                 else {
                     let rand = Math.random() * (sqft * 1.1 - sqft) + sqft;
                     let power = Math.pow(10, 2);
-                    return Math.floor(rand/100) / power;
+                    return Math.floor(rand / 100) / power;
                 }
             }
         case "Skyscraper":
@@ -55,13 +55,13 @@ const getRandom = function (type, sqft) {
             {
                 let rand = Math.random() * (sqft * 2 - sqft) + sqft;
                 let power = Math.pow(10, 2);
-                return Math.floor(rand/100) / power;
+                return Math.floor(rand / 100) / power;
             }
         default:
             {
                 let rand = Math.random() * (sqft * 1.3 - sqft) + sqft;
                 let power = Math.pow(10, 2);
-                return Math.floor(rand/100) / power;
+                return Math.floor(rand / 100) / power;
             }
     }
 
@@ -89,6 +89,7 @@ const postData = async () => {
                 water: getRandom(element.type, element.sqft),
                 resources: [],
                 date: date,
+                organizationId: element.organizationId
             }).then((res) => console.log(res.data)).catch(err => console.log(err))
         });
     });

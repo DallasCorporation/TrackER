@@ -248,3 +248,7 @@
     .ant-divider-inner-text {
         color: white;
     }
+    
+    .ant-tabs-nav-operations {
+        visibility: hidden;
+    }

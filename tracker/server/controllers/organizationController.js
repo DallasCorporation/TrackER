@@ -49,7 +49,7 @@ const createOrganization = asyncHandler(async (req, res) => {
 
     const preference = await Organization.create({
         name: req.body.name,
-        icon: {},
+        icon: "",
         userId: req.body.userId,
         type: [],
         customers: [],

@@ -15,6 +15,11 @@ import CompleteOrganization from "./CompleteOrganization";
 import Header from "../Consumer/Header/Header";
 import Customers from "./Customers/Customers";
 import EditPlan from "./Edit/EditPlan";
+import Electric from "./Pages/Electric";
+import Gas from "./Pages/Gas";
+import Water from "./Pages/Water";
+import Resources from "./Pages/Resources";
+import { setAllBuildings } from "../reducers/allOrganization";
 
 
 const DashboardRoute = () => {
@@ -23,6 +28,8 @@ const DashboardRoute = () => {
     const organization = useSelector((state) => state.organization.organization)
     const edited = organization !== null ? organization.type.length : 0
     const icon = organization !== null ? organization.icon : ""
+    const [bills, setBills] = useState([])
+
     const dispatch = useDispatch()
     const fetchPreference = async () => {
         await api.preference.fetchPreference(user._id).then(data => dispatch(userPreference(data)))
@@ -30,18 +37,33 @@ const DashboardRoute = () => {
     const getOrganization = async () => {
         await api.organization.getByUserId(user._id).then(data => dispatch(fetchOrganization(data)))
     }
+    const getBills = async () => {
+        await api.bills.getBillsByOrganizationId(organization._id).then(res => setBills(res))
+    }
 
+    const getBuildings = async () => {
+        await api.buildings.getBuildingsByOrganizationId(organization._id).then((res)=>dispatch(setAllBuildings(res)))
+    }
 
     useEffect(() => {
         fetchPreference()
         getOrganization()
+        getBills()
+        getBuildings()
     }, [user])
+
+
+
+
+    const url = window.location.pathname
+    useEffect(() => {
+        setPathname(url)
+    }, [url])
 
     if (organization === null) {
         fetchPreference()
         getOrganization()
     }
-
 
     let defaultProps = {
         route: {
@@ -72,7 +94,7 @@ const DashboardRoute = () => {
                     icon: <span class="anticon iconfont">&#xe657;</span>
                 },
                 organization !== null && organization.type.includes("Distributed") && {
-                    path: '/Distributed',
+                    path: '/Resources',
                     name: 'Energy Resources',
                     disabled: edited === 0,
                     icon: <span class="anticon iconfont">&#xe927;</span>
@@ -188,7 +210,11 @@ const DashboardRoute = () => {
                 :
                 <Routes >
                     <Route path="*" element={<Dashboard user={user} />} />
-                    <Route path="/dashboard" element={<Dashboard user={user} />} />
+                    <Route path="/Dashboard" element={<Dashboard user={user} />} />
+                    <Route path="/Electric" element={<Electric user={user} />} />
+                    <Route path="/Gas" element={<Gas user={user} />} />
+                    <Route path="/Water" element={<Water user={user} bills={bills} />} />
+                    <Route path="/Resources" element={<Resources user={user} />} />
                     <Route path="/Customers" element={<Customers organization={organization} avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
                     <Route path="/Edit" element={<EditPlan organization={organization} avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
                     <Route path="/Profile/Edit" element={<Account avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />

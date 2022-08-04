@@ -7,11 +7,9 @@ import api from "../api";
 import { useDispatch } from "react-redux";
 import { Alert, Divider, Form, Input, message, Row, Tabs } from "antd";
 import { Link, useNavigate } from "react-router-dom";
-import styled from "styled-components"
 import { userPreference } from "../reducers/preference";
 
 
-const { TabPane } = Tabs;
 const SignInForm = () => {
     const navigate = useNavigate()
     const [swapPanel, setSwapPanel] = useState(false);
@@ -93,8 +91,8 @@ const SignInForm = () => {
                 <div className="form-container sign-up-container">
                     <Form action="#" onSubmit={handleSignUpSubmit}>
                         <h1>Create Account</h1>
-                        <Tabs defaultActiveKey="Building" type="card" size="large" style={{ padding: 20 }} animated centered tabBarGutter={20} onChange={(e) => { setType(e); setError(null) }}>
-                            <TabPane tab="Building Owner" key="Building">
+                        <Tabs className="..." defaultActiveKey="Building" type="card" size="large" style={{ padding: 20 }} animated centered tabBarGutter={20} onChange={(e) => { setType(e); setError(null) }}>
+                            <Tabs.TabPane tab="Building Owner" key="Building">
                                 {error != null &&
                                     error.map(el => (
                                         <Form.Item>
@@ -117,8 +115,8 @@ const SignInForm = () => {
                                 <Form.Item name="passwordConf" rules={[{ required: true, message: 'Confirm your password!' }]}>
                                     <Input.Password size="large" placeholder="Confirm Password" onChange={e => setPasswordConf(e.target.value)} />
                                 </Form.Item>
-                            </TabPane>
-                            <TabPane tab="Vendor Profile" key="Vendor">
+                            </Tabs.TabPane>
+                            <Tabs.TabPane tab="Vendor Profile" key="Vendor">
                                 {error != null &&
                                     error.map(el => (
                                         <Form.Item>
@@ -133,7 +131,7 @@ const SignInForm = () => {
                                     <Input size="large" placeholder="Owner Name" onChange={e => setName(e.target.value)} />
                                 </Form.Item>
                                 <Form.Item name="surname" rules={[{ required: true, message: 'Please input Owner surname!' }]}>
-                                    <Input size="large" placeholder="Owner Name" onChange={e => setSurname(e.target.value)} />
+                                    <Input size="large" placeholder="Owner Surname" onChange={e => setSurname(e.target.value)} />
                                 </Form.Item>
                                 <Form.Item name="email" rules={[{ required: true, message: 'Please input your email!' }]}>
                                     <Input size="large" placeholder="Company Email" onChange={e => setEmail(e.target.value)} />
@@ -144,7 +142,7 @@ const SignInForm = () => {
                                 <Form.Item name="passwordConf" rules={[{ required: true, message: 'Confirm your password!' }]}>
                                     <Input.Password size="large" placeholder="Confirm Password" onChange={e => setPasswordConf(e.target.value)} />
                                 </Form.Item>
-                            </TabPane>
+                            </Tabs.TabPane>
                         </Tabs>
                         <button onClick={handleSignUpSubmit}>Sign Up</button>
                     </Form>

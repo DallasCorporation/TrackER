@@ -58,7 +58,9 @@ const ThirdStep = ({ name, owner, icon, createdAt, type, description, prices = [
 
     return (
         <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }}>
-            <Descriptions title="Organization Info" bordered>
+            <Descriptions title="Organization Info" bordered
+                column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
+            >
                 <Descriptions.Item label="Name">{name}</Descriptions.Item>
                 <Descriptions.Item label="Organization Owner">{owner}</Descriptions.Item>
                 <Descriptions.Item label="Automatic Renewal">YES</Descriptions.Item>
@@ -69,7 +71,7 @@ const ThirdStep = ({ name, owner, icon, createdAt, type, description, prices = [
                 </Descriptions.Item>
                 {renderPrices.map(element => (element.name !== "" && checkName(element.name)) && <Descriptions.Item key={element.name} label={element.name}>{element.price}€</Descriptions.Item>)}
                 {renderPrices.map(element => (element.name !== "" && !checkName(element.name)) && <Descriptions.Item column={2} key={element.name} label={element.name}>{getIcon(element.name)}</Descriptions.Item>)}
-                <Descriptions.Item span={3} style={{ maxWidth: 100 }} label="Organization Description">{description}</Descriptions.Item>
+                <Descriptions.Item span={6} style={{ maxWidth: 100 }} label="Organization Description">{description}</Descriptions.Item>
             </Descriptions>
         </Card>
     )

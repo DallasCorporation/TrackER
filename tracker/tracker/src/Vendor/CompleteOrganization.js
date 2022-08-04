@@ -25,6 +25,7 @@ const CompleteOrganization = () => {
     const [distributed, setDistributed] = useState(false);
     const [error, setError] = useState(false);
     const [description, setDescription] = useState("");
+    const [icon, setIcon] = useState("");
     const [prices, setPrices] = useState([]);
     const [show, setShow] = useState(false);
     const [body, setData] = useState({});
@@ -65,7 +66,7 @@ const CompleteOrganization = () => {
         if (water) arr.push("Water")
 
         let data = {
-            icon: {},
+            icon: icon,
             type: arr,
             description: description,
             details: body
@@ -100,8 +101,8 @@ const CompleteOrganization = () => {
             </Steps>
             <p></p>
             {current === 0 && <FirstStep distributed={distributed} electric={electric} gas={gas} water={water} setDistributed={setDistributed} setElectric={setElectric} setGas={setGas} setWater={setWater} setPrices={setPrices} prices={prices} />}
-            {current === 1 && <SecondStep name={organization.name} setDescription={setDescription} description={description} />}
-            {current === 2 && <ThirdStep setData={setData} name={organization.name} owner={user.name + " " + user.surname} createdAt={organization.createdAt} prices={prices} description={description}
+            {current === 1 && <SecondStep setIcon={setIcon} name={organization.name} setDescription={setDescription} description={description} />}
+            {current === 2 && <ThirdStep icon={icon} setData={setData} name={organization.name} owner={user.name + " " + user.surname} createdAt={organization.createdAt} prices={prices} description={description}
                 type={[distributed === true && "-Distributed Energy Resources ", gas === true && "-Gas Supplier ", electric === true && "-Electric Supplier ", water === true && "-Water Supplier "]} />}
 
 

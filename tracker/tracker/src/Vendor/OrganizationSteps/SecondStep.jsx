@@ -6,7 +6,7 @@ import Dragger from "antd/lib/upload/Dragger"
 import { useState } from "react"
 import { useCallback } from "react"
 
-const SecondStep = ({ name, setDescription, description = "" }) => {
+const SecondStep = ({ name, setDescription, setIcon, description = "" }) => {
 
     const props = {
         name: 'file',
@@ -31,7 +31,6 @@ const SecondStep = ({ name, setDescription, description = "" }) => {
         },
     };
 
-    const [image, setImage] = useState()
     const uploadImage = async (file) => { // file from <input type="file"> 
         const data = new FormData();
         data.append("file", file.file);
@@ -46,7 +45,7 @@ const SecondStep = ({ name, setDescription, description = "" }) => {
         const img = await res.json();
         if (img) {
             file.onSuccess(img);
-            setImage(img.secure_url)
+            setIcon(img.secure_url)
         }
         else {
             file.onError(img);

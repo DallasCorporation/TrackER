@@ -86,7 +86,6 @@ const Dashboard = () => {
   }, [user])
 
   //Object.values(bills.aggregated).forEach((el) => {console.log(el)})
-
   return (
     <Layout
       style={{
@@ -156,7 +155,7 @@ const Dashboard = () => {
                     <Avatar size={40} src={images['Avatar-4.svg']} />
                     <Avatar size={40} src={images['Avatar-5.svg']} />
                     <Avatar size={40} src={images['Avatar-6.svg']} />
-                    <ArrowRightOutlined onClick={()=>navigate("/Organizations")}/>
+                    <ArrowRightOutlined onClick={() => navigate("/Organizations")} />
                   </Row>
                 </Col>
               </Row>

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ProList } from "@ant-design/pro-components";
 import { useEffect, useState } from "react";
 import api from "../../api";
-import { InfoCircleOutlined } from '@ant-design/icons';
+import { ConsoleSqlOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import InvoicesModal from "./InvoicesModal";
 
 const Invoices = () => {
@@ -14,6 +14,7 @@ const Invoices = () => {
     const user = useSelector((state) => state.user.user)
     const [bills, setBills] = useState({})
     const [data, setData] = useState({})
+    const [timespan, setTimespan] = useState("")
     const [visible, setVisible] = useState(false)
     const navigate = useNavigate()
 
@@ -22,7 +23,6 @@ const Invoices = () => {
     }
     useEffect(() => {
         getBillsAggregated(user._id)
-        console.log(bills.all)
     }, [])
 
     return (
@@ -80,7 +80,12 @@ const Invoices = () => {
                                         <Button
                                             onClick={() => {
                                                 setVisible(true)
-                                                setData(el)
+                                                {bills.forEach(build => {
+                                                    if (build.buildingId === el._id){
+                                                        setData(build)
+                                                    }
+                                                });}
+                                                setTimespan(filter)
                                             }}
                                             size="middle" type="primary" style={{ borderRadius: 10 }}>{filter} Bills Details</Button>
                                     </Row>
@@ -90,7 +95,7 @@ const Invoices = () => {
                     </Row>
                 </Col>
             </Row>
-            <InvoicesModal visible={visible} setVisible={setVisible} data={data} />
+            <InvoicesModal visible={visible} setVisible={setVisible} data={data} timespan={timespan} />
         </Layout>
     )
 }

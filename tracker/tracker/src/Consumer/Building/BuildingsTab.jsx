@@ -34,8 +34,10 @@ const BuildingTab = ({ updateRoute }) => {
     const [buildingId, setBuildingId] = useState("")
     const navigate = useNavigate()
     const [type, setType] = useState("")
+    const [message, setMessage] = useState("")
 
     const deleteBuilding = async (id) => {
+        setMessage("Deleting...")
         setShow(true)
         await api.buildings.deleteBuilding(id)
         await api.buildings.fetchBuildings(user._id).then((res) => {
@@ -106,6 +108,7 @@ const BuildingTab = ({ updateRoute }) => {
             address,
             type,
         }
+        setMessage("Updating...")
         setShow(true)
         await api.buildings.updateBuilding(buildingId, data).then(res => {
         }).catch(err => { setShow(false); message.error("Error...") })
@@ -127,7 +130,7 @@ const BuildingTab = ({ updateRoute }) => {
                 minHeight: 280,
             }}
         >
-            {show && <LoadingSpinner message={"Deleting..."}></LoadingSpinner>}
+            {show && <LoadingSpinner message={message}></LoadingSpinner>}
             <Row gutter={[16, 16]} >
                 <Breadcrumb>
                     <Breadcrumb.Item>Home</Breadcrumb.Item>

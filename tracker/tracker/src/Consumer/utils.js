@@ -210,17 +210,8 @@ export const linear = (text, unit) => ({
 });
 
 export const invoices = {
-    series: [{
-        name: "Desktops",
-        data: [10, 41, 35, 51, 49, 62, 69, 91, 148]
-    },
-    {
-        name: "test",
-        data: [1, 4, 5, 1, 4, 2, 6, 9, 48]
-    }],
     options: {
         chart: {
-            height: 350,
             type: 'line',
             zoom: {
                 enabled: false
@@ -230,7 +221,8 @@ export const invoices = {
             enabled: false
         },
         stroke: {
-            curve: 'straight'
+            curve: 'smooth',
+            width: 3
         },
         title: {
             text: 'Product Trends by Month',
@@ -243,7 +235,8 @@ export const invoices = {
             },
         },
         xaxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+
+            categories: [],
         }
     }
 };

@@ -28,7 +28,7 @@ const AddNewBuildings = ({ user }) => {
     const [allOrganizations, setOrganizations] = useState([])
     const [organizationId, setOrganization] = useState([])
     const [show, setShow] = useState(false)
-    const navigate= useNavigate()
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchOrganization = async () => {
@@ -85,13 +85,13 @@ const AddNewBuildings = ({ user }) => {
         let customers = orgCopy.customers
         setShow(true)
         await api.buildings.addBuilding(data).then(async res => {
-            await api.organization.update(organizationId, { customers: { ...customers, user: user._id, building: res._id } })
-                .then((data1) => {
-                    setTimeout(() => {
-                        setShow(false)
-                        message.success("Building created!")
-                    }, 1000);
-                })
+            // await api.organization.update(organizationId, { customers: { ...customers, user: user._id, building: res._id } })
+            //     .then((data1) => {
+            setTimeout(() => {
+                setShow(false)
+                message.success("Building created!")
+            }, 1000);
+            // })
         }).catch(err => {
             console.log(err)
             setTimeout(() => {

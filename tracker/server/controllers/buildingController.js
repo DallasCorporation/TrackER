@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler')
 const Building = require('../models/buildingModel')
 const Organization = require('../models/organizationModel')
 const dbo = require("../db/conn");
+const organizationModel = require('../models/organizationModel');
 const ObjectId = require("mongodb").ObjectId;
 
 const registerBuilding = asyncHandler(async (req, res) => {
@@ -19,8 +20,6 @@ const registerBuilding = asyncHandler(async (req, res) => {
         res.status(400)
         throw new Error('Building already exists')
     }
-
-
     // Create building
     const building = await Building.create({
         name,
@@ -35,18 +34,31 @@ const registerBuilding = asyncHandler(async (req, res) => {
     })
 
     if (building) {
-        res.status(201).json({
-            _id: building.id,
-            name: building.name,
-            contact: building.contact,
-            userId: building.userId,
-            organizationId: building.organizationId,
-            sqft: building.sqft,
-            address: building.address,
-            type: building.type,
-            lat: building.lat,
-            long: building.long,
+        const org = await Organization.findByIdAndUpdate({ _id: ObjectId(organizationId) }, {
+            "$push": {
+                "customers": {
+                    building: building.id,
+                    user: userId,
+                }
+            }
         })
+        if (org)
+            res.status(201).json({
+                _id: building.id,
+                name: building.name,
+                contact: building.contact,
+                userId: building.userId,
+                organizationId: building.organizationId,
+                sqft: building.sqft,
+                address: building.address,
+                type: building.type,
+                lat: building.lat,
+                long: building.long,
+            })
+        else {
+            res.status(400)
+            throw new Error('Not Created')
+        }
     } else {
         res.status(400)
         throw new Error('Invalid building data')
@@ -112,11 +124,11 @@ const getBuildings = asyncHandler(async (req, res) => {
 const getBuildingsByOrganizationId = asyncHandler(async (req, res) => {
     const building = await Building.find({ organizationId: ObjectId(req.params.id) })
     if (!building) {
-        res.status(400)
+        res.status(400).json([])
         throw new Error('Goal not found')
     }
-    if (building.length===0) {
-        res.status(401)
+    if (building.length === 0) {
+        res.status(404).json([])
         throw new Error('Building not found')
     }
     res.status(200).json(building)

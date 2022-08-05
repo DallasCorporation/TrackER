@@ -6,6 +6,13 @@ const Building = require('../models/buildingModel');
 const { aggregate } = require('../models/organizationModel');
 const Organization = require('../models/organizationModel');
 
+const hasCountedDay = function (allDay, date) {
+  if (allDay.includes(new Date(date).getDate()))
+    return false
+  allDay.push(new Date(date).getDate())
+  return true
+};
+
 const addData = asyncHandler(async (req, res) => {
   let db_connect = dbo.getDb();
   const exist = await billsModel.findOne({ buildingId: req.params.id })
@@ -30,6 +37,7 @@ const addData = asyncHandler(async (req, res) => {
   else {
     const bills = await billsModel.create({
       buildingId: ObjectId(req.params.id),
+      organizationId:  ObjectId(req.body.organizationId),
       bills: [
         {
           electric: req.body.electric,
@@ -63,12 +71,18 @@ const getBills = asyncHandler(async (req, res) => {
 
 const getBillsAggregatedFiltered = asyncHandler(async (req, res) => {
   let db_connect = dbo.getDb();
+  let days = 0
+
   db_connect
     .collection("bills")
     .find({}).toArray(async function (err, result) {
       if (err) throw err;
       let data = {}
       const goal = await Building.find({ userId: ObjectId(req.params.id) })
+      let electric = 0
+      let gas = 0
+      let water = 0
+      let allDay = []
       if (goal) {
         let orgIds = []
         const aggregated = {}
@@ -77,14 +91,13 @@ const getBillsAggregatedFiltered = asyncHandler(async (req, res) => {
           return el._id.toString()
         })
         const res2 = result.filter(r => res.includes(r.buildingId.toString()))
-        let electric = 0
-        let gas = 0
-        let water = 0
         await Promise.all(res2.map(async el => {
           let obj = orgIds.find(o => o.id.toString() === el.buildingId.toString());
           const goal2 = await Organization.findById((obj.organizationId))
           if (goal2)
             el.bills.map(bill => {
+              if (hasCountedDay(allDay, bill.date))
+                days++
               if (aggregated.hasOwnProperty(bill.date)) {
                 let existing = aggregated[bill.date];
                 aggregated[bill.date] = {
@@ -111,7 +124,8 @@ const getBillsAggregatedFiltered = asyncHandler(async (req, res) => {
           totalGas: parseFloat(gas.toFixed(2)),
           totalWater: parseFloat(water.toFixed(2)),
           aggregated,
-          all: res2
+          all: res2,
+          invoicesDays: days
         }
       }
       res.status(200).json(data)

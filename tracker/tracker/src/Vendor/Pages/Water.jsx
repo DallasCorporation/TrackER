@@ -11,7 +11,6 @@ const Water = ({ bills, user }) => {
     const [waterSum, setWaterSum] = useState(0)
     const [allWater, setAllWater] = useState([])
     const [labels, setLabels] = useState([])
-    const series = allWater
     const options = {
         chart: {
             height: 390,
@@ -70,10 +69,10 @@ const Water = ({ bills, user }) => {
     }
 
     useEffect(() => {
-        let sum = 0
         bills.forEach(bill => {
+            let sum = 0
             bill.bills.forEach(singleBill => {
-                sum += singleBill.water
+                sum += singleBill.gas
             })
             setLabels((old) => [...old, allBuildings.find(el => el._id === bill.buildingId).name])
             setAllWater((old) => [...old, sum])
@@ -106,7 +105,7 @@ const Water = ({ bills, user }) => {
                 onBack={() => navigate("/Dashboard")}
             />
             <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
-                <ReactApexChart options={options} series={series} type="radialBar" height={390} />
+                <ReactApexChart options={options} series={allWater} type="radialBar" height={390} />
             </Card>
 
         </Layout>

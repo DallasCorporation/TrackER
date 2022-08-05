@@ -1,0 +1,111 @@
+import { ArrowRightOutlined } from "@ant-design/icons"
+import { Avatar, Col, Row, Skeleton } from "antd"
+import { useEffect, useState } from "react"
+import { useSelector } from "react-redux"
+import api from "../../api"
+
+const UsersCard = () => {
+    const organization = useSelector((state) => state.organization.organization)
+    const allUser = useSelector((state) => state.allUser.user)
+    const [users, setUsers] = useState([])
+    const [bills, setBills] = useState([])
+    const [avatars, setAvatars] = useState([])
+    const [loading, setLoading] = useState(true)
+    const [invoices, setInvoices] = useState(0)
+
+
+    const getUserBills = async (id) => {
+        await api.bills.getBillsAggregated(id).then(res => {
+            let total = 0
+            let water = 0
+            let gas = 0
+            let electric = 0
+            if (organization.type.includes("Electric")) {
+                organization.details.electric.forEach(el => {
+                    if (el.name === "Electricity Cost at m³")
+                        electric += res.totalElectric * 0.0833333 / 1000 * el.price
+                    if (el.name === "Electricity Supplier Cost" || el.name === "Electricity Delivery Cost")
+                        electric += el.price
+                    if (el.name === "Electricity Tax Percentage")
+                        electric += (total * el.price / 100)
+                });
+            }
+            if (organization.type.includes("Gas")) {
+                organization.details.gas.forEach(el => {
+                    if (el.name === "Gas Cost at m³")
+                        gas += res.totalGas * 0.0454249414 / 1000 * el.price
+                    if (el.name === "Gas Supplier Cost" || el.name === "Gas Delivery Cost")
+                        gas += el.price
+                    if (el.name === "Gas Tax Percentage")
+                        gas += (gas * el.price / 100)
+                });
+            }
+            if (organization.type.includes("Water")) {
+                organization.details.water.forEach(el => {
+                    if (el.name === "Water Cost at m³")
+                        water += res.totalWater * 0.0001666667 * el.price
+                    if (el.name === "Water Supplier Cost" || el.name === "Water Delivery Cost")
+                        water += el.price
+                    if (el.name === "Water Tax Percentage")
+                        water += (total * el.price / 100)
+                });
+            }
+
+            total = gas + water + electric
+            console.log(res)
+
+            setInvoices(res.invoicesDays)
+            setBills((bills) => [...bills, Number(total).toFixed(2)])
+            return Number(total).toFixed(2)
+        })
+    }
+
+    const getUserAvatar = async (id) => {
+        await api.preference.getAvatar(id).then(res => setAvatars((avatars) => [...avatars, res]))
+    }
+
+    useEffect(() => {
+        let tmp = users
+        if (organization === null)
+            return
+        organization.customers.forEach(async element => {
+            let res = allUser.find(el => el._id === element.user)
+            if (!tmp.includes(res) && res !== undefined) {
+                tmp.push(res)
+                await Promise.all([
+                    getUserBills(element.user),
+                    getUserAvatar(element.user)
+                ]).then(() => setLoading(false))
+            }
+        });
+        setUsers(tmp.slice(0, 4))
+    }, [organization, allUser, users])
+
+
+    return (
+
+        <Row justify="space-between" style={{ marginTop: 32 }} align="middle">
+            {users.length === 0 ? <div>ss</div> :
+                users.map((el, index) =>
+                    <Col span={5} style={{ textAlign: "center" }} key={index}>
+                        {loading ? <Skeleton active /> :
+                            <Row>
+                                <Col span={24}>
+                                    <Avatar src={avatars[index]} size={120} shape="square" />
+                                </Col>
+                                <Col span={24}>
+                                    <p style={{ fontWeight: "lighter", color: "blue", margin: 5 }}>{el.name} {el.surname}</p>
+                                    <p style={{ fontSize: 22, fontWeight: "bold", margin: 0 }}>{(bills[index] !== undefined ? bills[index] : 0)}€</p>
+                                    <p>{invoices} Invoices Days</p>
+                                </Col>
+                            </Row>}
+                    </Col>
+                )}
+            {users.length !== 0 &&
+                <Col span={1}>
+                    <ArrowRightOutlined style={{ fontSize: 30 }} />
+                </Col>}
+        </Row>
+    )
+}
+export default UsersCard

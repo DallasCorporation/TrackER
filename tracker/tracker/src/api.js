@@ -49,6 +49,9 @@ export default {
         fetchPreference: (userId) =>
             axios.get(`${API_URL}/preference/${userId}`)
                 .then((res) => res.data),
+        getAvatar: (userId) =>
+            axios.get(`${API_URL}/preference/avatar/${userId}`)
+                .then((res) => res.data),
         updatePreference: (userId, body) =>
             axios.put(`${API_URL}/preference/${userId}`, body)
                 .then((res) => res.data),

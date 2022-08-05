@@ -34,19 +34,20 @@ const BuildingTab = ({ updateRoute }) => {
     const [buildingId, setBuildingId] = useState("")
     const navigate = useNavigate()
     const [type, setType] = useState("")
-    const [message, setMessage] = useState("")
+    const [myMessage, setMessage] = useState("")
 
     const deleteBuilding = async (id) => {
         setMessage("Deleting...")
         setShow(true)
         await api.buildings.deleteBuilding(id)
         await api.buildings.fetchBuildings(user._id).then((res) => {
-            dispatch(fetchBuildings(res))
             setTimeout(() => {
                 setShow(false)
             }, 1000);
+            message.success("Building deleted correctly")
+            setBuildingsFilter(res)
+            dispatch(fetchBuildings(res))
         })
-
     }
     const getBills = async () => {
         await api.bills.getBillsAggregated(user._id).then(res => setBills(res))
@@ -54,7 +55,7 @@ const BuildingTab = ({ updateRoute }) => {
 
     useEffect(() => {
         getBills()
-    }, [buildings])
+    }, [buildings, show])
 
     const getData = (id, type) => {
         if (bills.all === undefined)
@@ -82,6 +83,8 @@ const BuildingTab = ({ updateRoute }) => {
 
     const renderItem = () => {
         let tmp = []
+        if (buildings === null)
+            return []
         buildings.map(el =>
             tmp.push(
                 {
@@ -117,7 +120,7 @@ const BuildingTab = ({ updateRoute }) => {
             setBuildingsFilter(res)
             setTimeout(() => {
                 setShow(false)
-                message.success("Updated successfully") 
+                message.success("Updated successfully")
             }, 1000);
         })
     }
@@ -130,7 +133,7 @@ const BuildingTab = ({ updateRoute }) => {
                 minHeight: 280,
             }}
         >
-            {show && <LoadingSpinner message={message}></LoadingSpinner>}
+            {show && <LoadingSpinner message={myMessage}></LoadingSpinner>}
             <Row gutter={[16, 16]} >
                 <Breadcrumb>
                     <Breadcrumb.Item>Home</Breadcrumb.Item>
@@ -167,7 +170,7 @@ const BuildingTab = ({ updateRoute }) => {
                 </Input.Group>
             </Row>
             {
-                buildingsFilter === null ?
+                buildingsFilter === null || buildingsFilter.length === 0 ?
                     <Card style={{ marginTop: "32px" }}>
                         <Empty
                             description="No Buildings found..."

@@ -88,7 +88,7 @@ const Organizations = ({ allOrganization, allUser }) => {
                                                     <p style={{ fontSize: 17 }}>Owner: {owner.name + " " + owner.surname} </p>
                                                     <Row>
                                                         <p style={{ fontSize: 17 }}>Created at: {new Date(data.createAt).toLocaleDateString()}</p>
-                                                        <p style={{ fontSize: 17, marginLeft: 32 }}>Total Customers: {data.customers.length}</p>
+                                                        <p style={{ fontSize: 17, marginLeft: 32 }}>Total Registered Buildings: {data.customers.length}</p>
                                                     </Row>
                                                     <Slider value={data.customers.length} marks={{ 0: 'Small', 25: 'Medium', 70: 'Large', }} />
                                                 </Col>

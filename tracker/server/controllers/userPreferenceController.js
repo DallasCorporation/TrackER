@@ -15,7 +15,7 @@ const getPreferenceById = asyncHandler(async (req, res) => {
         avatar: goal.avatar,
         _id: goal._id,
         notification: goal.notification,
-        news: goal.news
+        news: goal.news,
     })
 })
 
@@ -27,7 +27,6 @@ const createPreference = asyncHandler(async (req, res) => {
         res.status(400)
         throw new Error('Please add a text field')
     }
-
     const preference = await Preference.create({
         activityLog: true,
         avatar: "https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png",
@@ -60,10 +59,23 @@ const updatePreference = asyncHandler(async (req, res) => {
     res.status(200).json(update)
 })
 
+const getAvatarById = asyncHandler(async (req, res) => {
+    const goal = await Preference.findOne({ userId: ObjectId(req.params.id) })
+    if (!goal) {
+        res.status(400)
+        throw new Error('Preference not found')
+    }
+    if (!req.params.id) {
+        res.status(401)
+        throw new Error('User not found')
+    }
 
+    res.status(200).json(goal.avatar)
+})
 
 module.exports = {
     getPreferenceById,
     createPreference,
     updatePreference,
+    getAvatarById
 }

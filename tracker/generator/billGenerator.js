@@ -4,8 +4,6 @@ const moment = require("moment")
 
 const getRandom = function (type, sqft) {
     let date = moment()
-    let value = 0
-
     switch (type) {
         case "Residential":
             {

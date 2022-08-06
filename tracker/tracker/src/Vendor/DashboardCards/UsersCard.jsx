@@ -3,6 +3,8 @@ import { Avatar, Col, Row, Skeleton } from "antd"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import api from "../../api"
+import { AvatarHover } from "../../Components/CustomComponents";
+
 
 const UsersCard = () => {
     const organization = useSelector((state) => state.organization.organization)
@@ -27,17 +29,17 @@ const UsersCard = () => {
                     if (el.name === "Electricity Supplier Cost" || el.name === "Electricity Delivery Cost")
                         electric += el.price
                     if (el.name === "Electricity Tax Percentage")
-                        electric += (total * el.price / 100)
+                        electric += (res.totalElectric * el.price / 100)
                 });
             }
             if (organization.type.includes("Gas")) {
                 organization.details.gas.forEach(el => {
                     if (el.name === "Gas Cost at m³")
                         gas += res.totalGas * 0.0454249414 / 1000 * el.price
-                    if (el.name === "Gas Supplier Cost" || el.name === "Gas Delivery Cost")
+                    if (el.name === "Supplier Gas Cost" || el.name === "Gas Delivery Cost")
                         gas += el.price
                     if (el.name === "Gas Tax Percentage")
-                        gas += (gas * el.price / 100)
+                        gas += (res.totalGas * el.price / 100)
                 });
             }
             if (organization.type.includes("Water")) {
@@ -47,21 +49,17 @@ const UsersCard = () => {
                     if (el.name === "Water Supplier Cost" || el.name === "Water Delivery Cost")
                         water += el.price
                     if (el.name === "Water Tax Percentage")
-                        water += (total * el.price / 100)
+                        water += (res.totalWater * el.price / 100)
                 });
             }
-
             total = gas + water + electric
-            console.log(res)
-
             setInvoices(res.invoicesDays)
-            setBills((bills) => [...bills, Number(total).toFixed(2)])
-            return Number(total).toFixed(2)
+            setBills((bills) => [...bills, { value: Number(total).toFixed(2), id: id }])
         })
     }
 
     const getUserAvatar = async (id) => {
-        await api.preference.getAvatar(id).then(res => setAvatars((avatars) => [...avatars, res]))
+        await api.preference.getAvatar(id).then(res => setAvatars((avatars) => [...avatars, { id: id, avatar: res }]))
     }
 
     useEffect(() => {
@@ -85,17 +83,17 @@ const UsersCard = () => {
     return (
 
         <Row justify="space-between" style={{ marginTop: 32 }} align="middle">
-            {users.length === 0 ? <div>ss</div> :
+            {users.length === 0 ? <div></div> :
                 users.map((el, index) =>
                     <Col span={5} style={{ textAlign: "center" }} key={index}>
                         {loading ? <Skeleton active /> :
                             <Row>
                                 <Col span={24}>
-                                    <Avatar src={avatars[index]} size={120} shape="square" />
+                                    <AvatarHover src={Object.values(avatars).find(ele => ele.id === el._id)?.avatar} size={120} shape="square" />
                                 </Col>
                                 <Col span={24}>
                                     <p style={{ fontWeight: "lighter", color: "blue", margin: 5 }}>{el.name} {el.surname}</p>
-                                    <p style={{ fontSize: 22, fontWeight: "bold", margin: 0 }}>{(bills[index] !== undefined ? bills[index] : 0)}€</p>
+                                    <p style={{ fontSize: 22, fontWeight: "bold", margin: 0 }}>{bills.length > 0 ? Object.values(bills).find(ele => ele.id === el._id)?.value : 0}€</p>
                                     <p>{invoices} Invoices Days</p>
                                 </Col>
                             </Row>}

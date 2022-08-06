@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import api from "../../api";
 import { fetchBuildings } from "../../reducers/buildings";
-import Map from './Map';
+import MapboxMap from './MapboxMap';
 import LoadingSpinner from '../../Components/LoadingSpinner';
 import StatsCard from "../DashboardCards/StatsCard";
 import { linear } from "../utils";
@@ -217,7 +217,7 @@ const BuildingTab = ({ updateRoute }) => {
                             >
                                 <Row justify="space-between" gutter={[32, 0]} style={{ marginBottom: "32px", padding: "16px" }}>
                                     <Col span={10} >
-                                        <Map lat={item.lat} lng={item.long} />
+                                        <MapboxMap lat={item.lat} lng={item.long} />
                                     </Col>
                                     <Col span={12}>
                                         <p>Building Name</p>

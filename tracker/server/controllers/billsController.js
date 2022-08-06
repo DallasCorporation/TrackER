@@ -37,7 +37,7 @@ const addData = asyncHandler(async (req, res) => {
   else {
     const bills = await billsModel.create({
       buildingId: ObjectId(req.params.id),
-      organizationId:  ObjectId(req.body.organizationId),
+      organizationId: ObjectId(req.body.organizationId),
       bills: [
         {
           electric: req.body.electric,
@@ -67,6 +67,15 @@ const getBills = asyncHandler(async (req, res) => {
       if (err) throw err;
       res.json(result);
     });
+})
+
+const getBuildingBills = asyncHandler(async (req, res) => {
+  const goal = await billsModel.findOne({ buildingId: ObjectId(req.params.id) })
+  if (!goal) {
+    res.status(400).json([])
+    throw new Error('Bill Not found')
+  }
+  res.json(goal);
 })
 
 const getBillsAggregatedFiltered = asyncHandler(async (req, res) => {
@@ -143,9 +152,52 @@ const getBillsByOrganizationId = asyncHandler(async (req, res) => {
     });
 })
 
+
+const getBillsByOrganizationIdAggregated = asyncHandler(async (req, res) => {
+  let db_connect = dbo.getDb();
+  const organization = await Organization.findById(ObjectId(req.params.id))
+  db_connect
+    .collection("bills")
+    .find({ organizationId: ObjectId(req.params.id) }).toArray(function (err, result) {
+      if (err) throw err;
+      let totalElectric = 0
+      let totalGas = 0
+      let totalWater = 0
+      let aggregated = {}
+      result.map(obj => {
+        obj.bills.map(bill => {
+          if (aggregated.hasOwnProperty(bill.date)) {
+            let existing = aggregated[bill.date];
+            aggregated[bill.date] = {
+              date: existing.date,
+              ...(organization.type.includes("Electric")) && { electric: parseFloat(existing.electric + bill.electric).toFixed(2) },
+              ...(organization.type.includes("Gas")) && { gas: parseFloat(existing.gas + bill.gas).toFixed(2) },
+              ...(organization.type.includes("Water")) && { water: parseFloat(isNaN(existing.water) ? 0 + bill.water : existing.water + bill.water).toFixed(2) },
+            }
+          } else {
+            aggregated[bill.date] = {
+              date: bill.date,
+              ...(organization.type.includes("Electric")) && { electric: parseFloat(bill.electric).toFixed(2) },
+              ...(organization.type.includes("Gas")) && { gas: parseFloat(bill.gas).toFixed(2) },
+              ...(organization.type.includes("Water")) && { water: isNaN(bill.water) ? 0 : parseFloat(bill.water).toFixed(2) },
+            };
+          }
+          totalElectric += organization.type.includes("Electric") ? bill.electric : 0
+          totalGas += organization.type.includes("Gas") ? bill.gas : 0
+          totalWater += organization.type.includes("Water") ? bill.water : 0
+        })
+      })
+      res.json({ result, totalWater, totalGas, totalElectric, aggregated });
+    });
+})
+
+
+
 module.exports = {
   addData,
   getBills,
   getBillsAggregatedFiltered,
-  getBillsByOrganizationId
+  getBillsByOrganizationId,
+  getBillsByOrganizationIdAggregated,
+  getBuildingBills
 }

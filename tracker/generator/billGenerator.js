@@ -8,12 +8,12 @@ const getRandom = function (type, sqft) {
         case "Residential":
             {
                 if (!(date.hours() > 21 && date.hours() <= 6) || (date.hours() > 10 && date.hours() < 12) || (date.hours() >= 14 && date.hours() < 19)) {
-                    let rand = Math.random() * sqft / 100;
+                    let rand = Math.random() * (sqft * 1.1) + 2 * sqft;
                     let power = Math.pow(10, 2);
                     return Math.floor(rand / 100) / power;
                 }
                 else {
-                    let rand = Math.random() * (sqft * 1.1 - sqft) + sqft;
+                    let rand = Math.random() * sqft + sqft / 100;
                     let power = Math.pow(10, 2);
                     return Math.floor(rand / 100) / power;
                 }
@@ -22,12 +22,12 @@ const getRandom = function (type, sqft) {
         case "University":
             {
                 if (!(date.hours() > 17 && date.hours() <= 8)) {
-                    let rand = Math.random() * sqft / 100;
+                    let rand = Math.random() * sqft + sqft / 100;
                     let power = Math.pow(10, 2);
                     return Math.floor(rand / 100) / power;
                 }
                 else {
-                    let rand = Math.random() * (sqft * 1.1 - sqft) + sqft;
+                    let rand = Math.random() * (sqft * 1.1) + 2 * sqft;
                     let power = Math.pow(10, 2);
                     return Math.floor(rand / 100) / power;
                 }
@@ -38,7 +38,7 @@ const getRandom = function (type, sqft) {
         case "Factory":
             {
                 if (!(date.hours() > 18 && date.hours() <= 10)) {
-                    let rand = Math.random() * sqft / 100;
+                    let rand = Math.random() * sqft + sqft / 100;
                     let power = Math.pow(10, 2);
                     return Math.floor(rand / 100) / power;
                 }

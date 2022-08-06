@@ -95,7 +95,7 @@ export default {
     },
     bills: {
         fetchBills: (buildingId) =>
-            axios.get(`${API_URL}/bills/${buildingId}`)
+            axios.get(`${API_URL}/bills/buildings/${buildingId}`)
                 .then((res) => res.data),
         addBills: (buildingId, body) =>
             axios.post(`${API_URL}/bills/${buildingId}`, body)
@@ -108,6 +108,9 @@ export default {
                 .then((res) => res.data),
         getBillsByOrganizationId: (organizationId) =>
             axios.get(`${API_URL}/bills/organization/${organizationId}`)
+                .then((res) => res.data),
+        getBillsByOrganizationIdAggregated: (organizationId) =>
+            axios.get(`${API_URL}/bills/organization/aggregated/${organizationId}`)
                 .then((res) => res.data),
     },
 };

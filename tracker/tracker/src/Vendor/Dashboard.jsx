@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import api from "../api"
 import UsersCard from "./DashboardCards/UsersCard";
 import CarouselKpi from "./DashboardCards/CarouselKpi";
+import ConsumeCard from "./DashboardCards/ConsumeCard";
 
 
 const Dashboard = () => {
@@ -24,11 +25,11 @@ const Dashboard = () => {
 
 
     const getKpi = async (id) => {
+        let kWh = 0
+        let gas = 0
+        let water = 0
+        let tmpCost = {}
         await api.bills.getBillsAggregated(id).then(res => {
-            let kWh = 0
-            let gas = 0
-            let water = 0
-            let tmpCost = {}
             if (organization.type.includes("Electric")) {
                 organization.details.electric.forEach(el => {
                     if (el.name === "Electricity Cost at m³")
@@ -38,7 +39,7 @@ const Dashboard = () => {
                         tmpCost[el.name] = el.price
                     }
                     if (el.name === "Electricity Tax Percentage")
-                        kWh += (kWh * el.price / 100)
+                        kWh += (res.totalElectric * el.price / 100)
                 });
                 setkWh((old) => old + res.totalElectric)
                 setkWhCost((old) => old + Number(kWh))
@@ -52,7 +53,7 @@ const Dashboard = () => {
                         tmpCost[el.name] = el.price
                     }
                     if (el.name === "Gas Tax Percentage")
-                        gas += (gas * el.price / 100)
+                        gas += (res.totalGas * el.price / 100)
                 });
                 setGas((old) => old + res.totalGas)
                 setGasCost((old) => old + Number(gas))
@@ -66,7 +67,7 @@ const Dashboard = () => {
                         tmpCost[el.name] = el.price
                     }
                     if (el.name === "Water Tax Percentage")
-                        water += (water * el.price / 100)
+                        water += (res.totalWater * el.price / 100)
                 });
                 setWater((old) => old + res.totalWater)
                 setWaterCost((old) => old + Number(water))
@@ -83,14 +84,14 @@ const Dashboard = () => {
             let res = allUser.find(el => el._id === element.user)
             if (!tmp.includes(res) && res !== undefined) {
                 tmp.push(res)
-                await Promise.all([getKpi(element.user),]).then(() => setLoading(false))
+                await getKpi(element.user).then(() => setLoading(false))
             }
         });
         if (organization.customers.length === 0)
             setLoading(false)
 
         setUsers(tmp)
-    }, [])
+    }, [organization])
 
     return (
         <Layout
@@ -115,21 +116,28 @@ const Dashboard = () => {
                         <UsersCard />
                     </Card>
                 </Col>
-                <Col span={12}>
+                <Col span={16}>
                     <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
-                        <p style={{ fontSize: 18, fontWeight: 500 }}>Other Kpi Earning</p>
-
-                        <Row justify="center">
-                            <Button onClick={() => navigate("/Electric")} type="primary" size="middle" style={{ borderRadius: 10 }}>See details</Button>
+                        <Row justify="space-between" align="middle">
+                            <p style={{ fontSize: 18, fontWeight: 500 }}>Organization Overview </p>
+                            <span class="anticon iconfont" style={{ color: "blue" }}>&#xe7a7;</span>
                         </Row>
+                        <ConsumeCard />
                     </Card>
                 </Col>
-                <Col span={12}>
+                <Col span={8}>
                     <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
-                        <p style={{ fontSize: 18, fontWeight: 500 }}>Organization Total Cost</p>
-                        {Object.keys(cost).map(el =>
-                            <Statistic title={el} value={cost[el] * users.length} suffix="€" precision={2} />
-                        )}
+                        <Row justify="space-between" align="middle">
+                            <p style={{ fontSize: 18, fontWeight: 500 }}>Organization Total Cost</p>
+                            <span class="anticon iconfont" style={{ color: "blue" }}>&#xe71b;</span>
+                        </Row>
+                        <Row>
+                            {Object.keys(cost).map(el =>
+                                <Col span={12}>
+                                    <Statistic title={el} value={cost[el] * users.length} suffix="€" precision={2} />
+                                </Col>
+                            )}
+                        </Row>
                     </Card>
                 </Col>
             </Row>

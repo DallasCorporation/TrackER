@@ -4,14 +4,14 @@ import "mapbox-gl/dist/mapbox-gl.css";
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZG9uZGFsbGFzIiwiYSI6ImNsMnVkMzIzdTAwdmYza21wdHd2YzR0c2kifQ.DT00_FPsSokLQ8r4FELa2A';
 
-export default function Map(props) {
+const MapboxMap = (props) => {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [lat, setLat] = useState(props.lat);
   const [lng, setLng] = useState(props.lng);
 
   useEffect(() => {
-    if (map.current) return; // initialize map only once
+    if (map.current) return;
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/streets-v11',
@@ -32,9 +32,9 @@ export default function Map(props) {
       }} />)
       .setLngLat([lng, lat])
       .addTo(map.current);
-  });
+  }, [props]);
 
-  return (
-    <div ref={mapContainer} style={{ height: "100%" }} className="map-container" />
-  );
+  return <div ref={mapContainer} style={{ height: "100%" }} className="map-container" />
+
 }
+export default MapboxMap

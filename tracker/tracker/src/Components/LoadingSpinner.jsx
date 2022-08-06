@@ -14,10 +14,10 @@ const LoadingSpinner = ({ message, size = "large" }) => {
             right: 0,
             width: "100%",
             height: "100%",
-            zIndex: 20,
+            zIndex: 120,
             alignItems: "center",
             justifyContent: "center",
-            verticalAlign: "middle"
+            verticalAlign: "middle",
         }}>
             <Spin size={size} style={{ position: "absolute", top: "50%" }} tip={message} />
         </div>

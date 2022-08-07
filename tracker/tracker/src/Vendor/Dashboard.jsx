@@ -7,6 +7,7 @@ import UsersCard from "./DashboardCards/UsersCard";
 import CarouselKpi from "./DashboardCards/CarouselKpi";
 import ConsumeCard from "./DashboardCards/ConsumeCard";
 import styled from "styled-components";
+import CustomerModal from "./CustomerModal";
 
 const CarouselWrapper = styled(Carousel)`
   > .slick-dots li button {
@@ -20,7 +21,7 @@ const CarouselWrapper = styled(Carousel)`
     width: 7px;
     height: 7px;
     border-radius: 100%;
-    background: blue;
+    background: #1196db;
   }
 `;
 
@@ -30,6 +31,8 @@ const Dashboard = () => {
     const organization = useSelector((state) => state.organization.organization)
     const allUser = useSelector((state) => state.allUser.user)
     const [loading, setLoading] = useState(true)
+    const [visible, setVisible] = useState(false)
+    const [userPassed, setUser] = useState({})
     const [kWhSum, setkWh] = useState(0)
     const [kWhCost, setkWhCost] = useState(0)
     const [gasSum, setGas] = useState(0)
@@ -129,14 +132,17 @@ const Dashboard = () => {
                         />
                         <Divider />
                         <p style={{ fontSize: 18, fontWeight: 500 }}>Customers List</p>
-                        <UsersCard />
+                        <UsersCard openModal={(user) => {
+                            setUser(user)
+                            setVisible(true)
+                        }} />
                     </Card>
                 </Col>
                 <Col span={16}>
                     <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
                         <Row justify="space-between" align="middle">
                             <p style={{ fontSize: 18, fontWeight: 500 }}>Organization Overview </p>
-                            <span class="anticon iconfont" style={{ color: "blue" }}>&#xe7a7;</span>
+                            <span class="anticon iconfont" style={{ color: "#1196db" }}>&#xe7a7;</span>
                         </Row>
                         <ConsumeCard />
                     </Card>
@@ -145,7 +151,7 @@ const Dashboard = () => {
                     <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
                         <Row justify="space-between" align="middle">
                             <p style={{ fontSize: 18, fontWeight: 500 }}>Organization Total Cost</p>
-                            <span class="anticon iconfont" style={{ color: "blue" }}>&#xe71b;</span>
+                            <span class="anticon iconfont" style={{ color: "#1196db" }}>&#xe71b;</span>
                         </Row>
                         <Row>
                             {Object.keys(cost).map(el =>
@@ -158,34 +164,34 @@ const Dashboard = () => {
                     <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", marginTop: 32 }}>
                         <Row justify="space-between" align="middle">
                             <p style={{ fontSize: 18, fontWeight: 500, margin: 0 }}>Organization Total Production</p>
-                            <span class="anticon iconfont" style={{ color: "blue", }}>&#xe64f;</span>
+                            <span class="anticon iconfont" style={{ color: "#1196db", }}>&#xe64f;</span>
                         </Row>
                         <CarouselWrapper style={{ justifyContent: "center" }} autoplay>
                             <Row justify="space-between" align="middle">
                                 <Col span={24} style={{ height: "200px", textAlign: "center", marginTop: 12 }}>
-                                    <p style={{ fontWeight: "300", fontSize: 17, color:"blue" }}>Total Solar Production</p>
-                                    <span class="anticon iconfontMedium3" style={{ color: "blue" }}>&#xe65f;</span>
+                                    <p style={{ fontWeight: "300", fontSize: 17, color: "#1196db" }}>Total Solar Production</p>
+                                    <span class="anticon iconfontMedium3" style={{ color: "#1196db" }}>&#xe65f;</span>
                                     <Statistic value="0" suffix="Kw" precision={2} />
                                 </Col>
                             </Row>
                             <Row justify="space-between" align="middle">
                                 <Col span={24} style={{ height: "200px", textAlign: "center", marginTop: 12 }}>
-                                    <p style={{ fontWeight: "300", fontSize: 17, color:"blue" }}>Total Hydro Production</p>
-                                    <span class="anticon iconfontMedium3" style={{ color: "blue" }}>&#xe650;</span>
+                                    <p style={{ fontWeight: "300", fontSize: 17, color: "#1196db" }}>Total Hydro Production</p>
+                                    <span class="anticon iconfontMedium3" style={{ color: "#1196db" }}>&#xe650;</span>
                                     <Statistic value="0" suffix="Kw" precision={2} />
                                 </Col>
                             </Row>
                             <Row justify="space-between" align="middle">
                                 <Col span={24} style={{ height: "200px", textAlign: "center", marginTop: 12 }}>
-                                    <p style={{ fontWeight: "300", fontSize: 17, color:"blue" }}>Total Windy Production</p>
-                                    <span class="anticon iconfontMedium3" style={{ color: "blue" }}>&#xe661;</span>
+                                    <p style={{ fontWeight: "300", fontSize: 17, color: "#1196db" }}>Total Windy Production</p>
+                                    <span class="anticon iconfontMedium3" style={{ color: "#1196db" }}>&#xe661;</span>
                                     <Statistic value="0" suffix="Kw" precision={2} />
                                 </Col>
                             </Row>
                             <Row justify="space-between" align="middle">
                                 <Col span={24} style={{ height: "200px", textAlign: "center", marginTop: 12 }}>
-                                    <p style={{ fontWeight: "300", fontSize: 17, color:"blue" }}>Total Geothermic Production</p>
-                                    <span class="anticon iconfontMedium3" style={{ color: "blue" }}>&#xe64b;</span>
+                                    <p style={{ fontWeight: "300", fontSize: 17, color: "#1196db" }}>Total Geothermic Production</p>
+                                    <span class="anticon iconfontMedium3" style={{ color: "#1196db" }}>&#xe64b;</span>
                                     <Statistic value="0" suffix="Kw" precision={2} />
                                 </Col>
                             </Row>
@@ -194,7 +200,7 @@ const Dashboard = () => {
 
                 </Col>
             </Row>
-
+            <CustomerModal visible={visible} setVisible={setVisible} user={userPassed} />
         </Layout>
     );
 }

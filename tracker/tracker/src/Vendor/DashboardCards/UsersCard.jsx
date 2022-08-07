@@ -1,12 +1,18 @@
 import { ArrowRightOutlined } from "@ant-design/icons"
-import { Avatar, Col, Row, Skeleton } from "antd"
+import { Avatar, Col, Row, Skeleton, Tooltip } from "antd"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
 import api from "../../api"
 import { AvatarHover } from "../../Components/CustomComponents";
+import TweenOne from "rc-tween-one"
+import QueueAnim from 'rc-queue-anim';
+import Animate from 'rc-animate';
 
 
-const UsersCard = () => {
+
+const UsersCard = ({ openModal }) => {
+    const navigate = useNavigate()
     const organization = useSelector((state) => state.organization.organization)
     const allUser = useSelector((state) => state.allUser.user)
     const [users, setUsers] = useState([])
@@ -83,9 +89,14 @@ const UsersCard = () => {
     return (
 
         <Row justify="space-between" style={{ marginTop: 32 }} align="middle">
+            {/* <QueueAnim delay={600} className="queue-simple"  animConfig={[
+            { opacity: [1, 0], translateY: [0, 50] },
+            { opacity: [1, 0], translateY: [0, -50] }
+          ]}> */}
             {users.length === 0 ? <div></div> :
                 users.map((el, index) =>
-                    <Col span={5} style={{ textAlign: "center" }} key={index}>
+
+                    <Col span={5} style={{ textAlign: "center" }} key={index} onClick={() => openModal(el)}>
                         {loading ? <Skeleton active /> :
                             <Row>
                                 <Col span={24}>
@@ -96,12 +107,27 @@ const UsersCard = () => {
                                     <p style={{ fontSize: 22, fontWeight: "bold", margin: 0 }}>{bills.length > 0 ? Object.values(bills).find(ele => ele.id === el._id)?.value : 0}€</p>
                                     <p>{invoices} Invoices Days</p>
                                 </Col>
-                            </Row>}
+                            </Row>
+                        }
                     </Col>
                 )}
+            {/* </QueueAnim> */}
+
             {users.length !== 0 &&
-                <Col span={1}>
-                    <ArrowRightOutlined style={{ fontSize: 30 }} />
+                <Col span={1} onClick={() => navigate("/Customers")}>
+                    <TweenOne
+                        animation={{
+                            x: 0,
+                            yoyo: true,
+                            repeat: -1,
+                            duration: 1000
+                        }}
+                        style={{ transform: 'translateX(-20px)' }}
+                    >
+                        <Tooltip title="See all">
+                            <ArrowRightOutlined style={{ fontSize: 30, color:"blue" }} />
+                        </Tooltip>
+                    </TweenOne>
                 </Col>}
         </Row>
     )

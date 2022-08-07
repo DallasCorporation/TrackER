@@ -9,7 +9,7 @@ const ObjectId = require("mongodb").ObjectId;
 // @route   GET /api/goals
 // @access  Private
 const getPreferenceById = asyncHandler(async (req, res) => {
-    const goal = await Preference.findOne({ userId: req.params.id })
+    const goal = await Preference.findOne({ userId: ObjectId(req.params.id) })
     res.status(200).json({
         activityLog: goal.activityLog,
         avatar: goal.avatar,
@@ -42,7 +42,7 @@ const createPreference = asyncHandler(async (req, res) => {
 // @route   PUT /api/goals/:id
 // @access  Private
 const updatePreference = asyncHandler(async (req, res) => {
-    const preference = await Preference.find({ userId: req.params.id })
+    const preference = await Preference.find({ userId: ObjectId(req.params.id) })
     if (!preference) {
         res.status(400)
         throw new Error('Preference not found')

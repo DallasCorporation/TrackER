@@ -3,7 +3,6 @@ const { ObjectId } = require('mongodb');
 const dbo = require("../db/conn");
 const billsModel = require('../models/billsModel');
 const Building = require('../models/buildingModel');
-const { aggregate } = require('../models/organizationModel');
 const Organization = require('../models/organizationModel');
 
 const hasCountedDay = function (allDay, date) {

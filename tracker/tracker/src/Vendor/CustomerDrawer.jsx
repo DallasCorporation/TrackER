@@ -121,7 +121,7 @@ let radialOption = {
 
 
 
-const CustomerModal = ({ visible, buildingId, setVisible }) => {
+const CustomerDrawer = ({ visible, buildingId, setVisible }) => {
     const [bills, setBills] = useState({})
     const [pieBills, setPieBills] = useState([{}])
     const [data, setData] = useState([])
@@ -215,4 +215,4 @@ const CustomerModal = ({ visible, buildingId, setVisible }) => {
         </Drawer>
     )
 }
-export default CustomerModal
+export default CustomerDrawer

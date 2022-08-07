@@ -4,8 +4,9 @@ import locale from 'antd/es/date-picker/locale/it_IT'
 import { Breadcrumb, Col, Layout, PageHeader, Row } from 'antd';
 import api from '../../api';
 import { Link, useNavigate } from 'react-router-dom';
-import CustomerModal from '../CutomerModal';
+import CustomerDrawer from '../CustomerDrawer';
 import LoadingSpinner from '../../Components/LoadingSpinner';
+import CustomersBuildingTable from '../CustomersBuildingTable';
 
 const Customers = ({ organization }) => {
     const columns = [
@@ -99,18 +100,9 @@ const Customers = ({ organization }) => {
                 onBack={() => navigate("/Dashboard")}
             />
             <Col span={24} style={{ borderRadius: 20 }}>
-                <ProTable
-                    columns={columns} dataSource={data}
-                    cardBordered
-                    cardProps={{ style: { borderRadius: "20px", boxShadow: "0 2px 4px rgba(0,0,0,0.2)" } }}
-                    options={{
-                        search: false,
-                    }}
-                    rowKey="key"
-                    locale={locale}
-                    search={false} dateFormatter="string" />
+                <CustomersBuildingTable data={data} columns={columns}/>
             </Col>
-            <CustomerModal visible={visible} buildingId={buildingId} setVisible={setVisible} />
+            <CustomerDrawer visible={visible} buildingId={buildingId} setVisible={setVisible} />
         </Layout>
     );
 }

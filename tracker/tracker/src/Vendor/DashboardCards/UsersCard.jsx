@@ -24,7 +24,7 @@ const UsersCard = () => {
             let electric = 0
             if (organization.type.includes("Electric")) {
                 organization.details.electric.forEach(el => {
-                    if (el.name === "Electricity Cost at m³")
+                    if (el.name === "Electricity Cost at kWh")
                         electric += res.totalElectric * 0.0833333 / 1000 * el.price
                     if (el.name === "Electricity Supplier Cost" || el.name === "Electricity Delivery Cost")
                         electric += el.price

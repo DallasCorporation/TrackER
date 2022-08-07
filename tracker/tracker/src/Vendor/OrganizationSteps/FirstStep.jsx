@@ -72,7 +72,7 @@ const FirstStep = ({ gas, setGas, electric, setElectric, water, setWater, distri
                         <Card style={{ textAlign: "center", justifyContent: "center", borderRadius: "10px", border: "2px solid #1196db" }} >
                             <Row justify="space-evenly" gutter={[32, 8]}>
                                 <Col span={12}>
-                                    <ProFormMoney fieldProps={{ precision: 2 }} label="Cost at kWh" locale="it-IT" placeholder={"€ 0"} min={0} onChange={(value) => setObj("Electricity Cost at m³", value)} />
+                                    <ProFormMoney fieldProps={{ precision: 2 }} label="Cost at kWh" locale="it-IT" placeholder={"€ 0"} min={0} onChange={(value) => setObj("Electricity Cost at kWh", value)} />
                                 </Col>
                                 <Col span={12}>
                                     <ProFormMoney fieldProps={{ precision: 2 }} label="Supplier Cost" locale="it-IT" placeholder={"€ 0"} min={0} onChange={(value) => setObj("Electricity Supplier Cost", value)} />

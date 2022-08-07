@@ -1,10 +1,8 @@
-import { DotChartOutlined } from "@ant-design/icons"
 import { Button, Col, Drawer, Modal, Row, Skeleton, Space } from "antd"
 import { useState } from "react"
 import { useEffect } from "react"
 import api from "../api"
 import MapboxMap from "../Consumer/Building/MapboxMap"
-import StreetMap from "../Maps/StreetMap"
 import "./skeleton.css"
 import ProSkeleton from '@ant-design/pro-skeleton';
 import ReactApexChart from "react-apexcharts"
@@ -29,11 +27,20 @@ let options = {
             }
         }
     },
-    dataLabels: {
-        enabled: false
+    plotOptions: {
+        bar: {
+            horizontal: false,
+            columnWidth: '90%',
+            endingShape: 'rounded'
+        },
     },
     stroke: {
-        width: 2,
+        show: true,
+        width: 1,
+        colors: ['transparent']
+    },
+    dataLabels: {
+        enabled: false
     },
     xaxis: {
         type: 'datetime',
@@ -47,7 +54,6 @@ let options = {
                 year: 'yyyy',
                 month: "MMM 'yy",
                 day: 'dd MMM',
-                hour: 'HH:mm',
             },
         },
     },
@@ -57,15 +63,67 @@ let options = {
         theme: "light",
         x: {
             show: true,
-            format: "dd-MM-yyyy HH:mm"
+            format: "dd-MM-yyyy"
+        },
+    },
+}
+
+let radialOption = {
+    labels: ['Water Total Production', 'Gas Total Production', 'Electricity Total Production',],
+    legend: {
+        position: "bottom",
+        horizontalAlign: "center",
+        align: "center"
+    },
+    chart: {
+        type: 'donut',
+    },
+    dataLabels: {
+        enabled: false
+    },
+    plotOptions: {
+        pie: {
+            expandOnClick: false,
+            donut: {
+                size: '80%',
+                labels: {
+                    show: true,
+                }
+            },
+        },
+        value: {
+            show: true,
+            formatter: function (val) { return val.toFixed(2) }
+        },
+    },
+    yaxis: {
+        labels: {
+            show: true,
+            align: 'right',
+            minWidth: 0,
+            maxWidth: 160,
+            style: {
+                colors: [],
+                fontSize: '12px',
+                fontFamily: 'Helvetica, Arial, sans-serif',
+                fontWeight: 400,
+                cssClass: 'apexcharts-yaxis-label',
+            },
+            offsetX: 0,
+            offsetY: 0,
+            rotate: 0,
+            formatter: (val) => { return val.toFixed(2) },
+
         },
     }
-}
+};
+
 
 
 
 const CustomerModal = ({ visible, buildingId, setVisible }) => {
     const [bills, setBills] = useState({})
+    const [pieBills, setPieBills] = useState([{}])
     const [data, setData] = useState([])
     const [building, setBuilding] = useState({})
     const [load, setLoad] = useState(true)
@@ -74,12 +132,34 @@ const CustomerModal = ({ visible, buildingId, setVisible }) => {
         let water = []
         let gas = []
         let electric = []
+        let oldMoment = moment('01/23/17', 'MM/D/YYYY')
         await api.bills.fetchBills(buildingId).then(res => {
+            let sumWater = 0
+            let sumElectric = 0
+            let sumGas = 0
+            let totalElectric = 0
+            let totalGas = 0
+            let totalWater = 0
             res.bills.map(el => {
-                water.push({ x: moment.utc(el.date).local().format(), y: el.water })
-                electric.push({ x: moment.utc(el.date).local().format(), y: el.electric })
-                gas.push({ x: moment.utc(el.date).local().format(), y: el.gas })
+                totalElectric += el.electric
+                totalGas += el.gas
+                totalWater += el.water
+                if (moment(el.date).isSame(oldMoment, 'day')) {
+                    sumWater += el.water
+                    sumElectric += el.electric
+                    sumGas += el.gas
+                    oldMoment = el.date
+                } else {
+                    water.push({ x: el.date, y: parseFloat(sumWater.toFixed(2)) })
+                    electric.push({ x: el.date, y: parseFloat(sumElectric.toFixed(2)) })
+                    gas.push({ x: el.date, y: parseFloat(sumGas.toFixed(2)) })
+                    sumWater = el.water
+                    sumElectric = el.electric
+                    sumGas = el.gas
+                    oldMoment = el.date
+                }
             })
+            setPieBills([parseFloat(totalWater.toFixed(2)), parseFloat(totalGas.toFixed(2)), parseFloat(totalElectric.toFixed(2))])
             setData([{ name: "Water", data: water }, { name: "Gas", data: gas }, { name: "Electric", data: electric }])
             setBills(res)
         })
@@ -124,7 +204,7 @@ const CustomerModal = ({ visible, buildingId, setVisible }) => {
                             </Col>
 
                             <Col span={12}>
-
+                                <ReactApexChart options={radialOption} series={pieBills} type="donut" />
                             </Col>
 
                         </Row>

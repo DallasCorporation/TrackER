@@ -89,10 +89,6 @@ const UsersCard = ({ openModal }) => {
     return (
 
         <Row justify="space-between" style={{ marginTop: 32 }} align="middle">
-            {/* <QueueAnim delay={600} className="queue-simple"  animConfig={[
-            { opacity: [1, 0], translateY: [0, 50] },
-            { opacity: [1, 0], translateY: [0, -50] }
-          ]}> */}
             {users.length === 0 ? <div></div> :
                 users.map((el, index) =>
 
@@ -111,8 +107,6 @@ const UsersCard = ({ openModal }) => {
                         }
                     </Col>
                 )}
-            {/* </QueueAnim> */}
-
             {users.length !== 0 &&
                 <Col span={1} onClick={() => navigate("/Customers")}>
                     <TweenOne

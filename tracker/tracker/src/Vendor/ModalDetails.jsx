@@ -115,6 +115,7 @@ let radialOption = {
 };
 
 const ModalDetails = ({ visible = false, setVisible, building, bills, }) => {
+    console.log(bills)
     const [pieBills, setPieBills] = useState([{}])
     const [data, setData] = useState([])
 
@@ -124,7 +125,7 @@ const ModalDetails = ({ visible = false, setVisible, building, bills, }) => {
         let electric = []
         let oldMoment = moment('01/23/17', 'MM/D/YYYY')
 
-        if (bills && Object.keys(bills).length === 0 && Object.getPrototypeOf(bills) === Object.prototype) { }
+        if ((bills && Object.keys(bills).length === 0 && Object.getPrototypeOf(bills) === Object.prototype) || bills === undefined) { }
         else
             bills.map(res => {
                 if (res.buildingId !== buildingId) return
@@ -169,15 +170,25 @@ const ModalDetails = ({ visible = false, setVisible, building, bills, }) => {
             <div>
                 <Col span={24}>
                     <div style={{ height: 300 }}>
-                        <MapboxMap lat={building.lat} lng={building.long} />
+                        {building.lat !== undefined && <MapboxMap lat={building.lat} lng={building.long} />}
                     </div>
                     <Row style={{ marginTop: 22 }} gutter={[16, 16]} justify="space-between" align="middle">
                         <Col span={24}>
                             <p style={{ fontSize: "15px", fontWeight: 500 }}>Building Name: <b>{building.address}</b></p>
-                            <p style={{ fontSize: "15px", fontWeight: 500 }}>Building Contact Name: <b>{building.contact}</b></p>
-                            <p style={{ fontSize: "15px", fontWeight: 500 }}>Building Type: <b>{building.type}</b></p>
-                            <p style={{ fontSize: "15px", fontWeight: 500 }}>Building Size: <b>{building.sqft} sqmt</b></p>
-                            <p style={{ fontSize: "15px", fontWeight: 500 }}>Created At: <b>{new Date(building.date).toLocaleString()}</b></p>
+                            <Row >
+                                <Col span={12}>
+                                    <p style={{ fontSize: "15px", fontWeight: 500 }}>Building Contact Name: <b>{building.contact}</b></p>
+                                </Col>
+                                <Col span={12}>
+                                    <p style={{ fontSize: "15px", fontWeight: 500 }}>Building Type: <b>{building.type}</b></p>
+                                </Col>
+                                <Col span={12}>
+                                    <p style={{ fontSize: "15px", fontWeight: 500 }}>Building Size: <b>{building.sqft} sqmt</b></p>
+                                </Col>
+                                <Col span={12}>
+                                    <p style={{ fontSize: "15px", fontWeight: 500 }}>Created At: <b>{new Date(building.date).toLocaleString()}</b></p>
+                                </Col>
+                            </Row>
                         </Col>
                         <Col span={24}>
                             <ReactApexChart options={options} series={data} type="bar" height={350} />
@@ -186,9 +197,7 @@ const ModalDetails = ({ visible = false, setVisible, building, bills, }) => {
                         <Col span={12}>
                             <ReactApexChart options={radialOption} series={pieBills} type="donut" />
                         </Col>
-
                     </Row>
-
                 </Col>
             </div>
         </Modal>

@@ -1,16 +1,27 @@
-import { Breadcrumb, Card, Layout, PageHeader, Row } from "antd"
+import { SwapOutlined } from "@ant-design/icons"
+import { Breadcrumb, Card, Col, Layout, PageHeader, Radio, Row, Statistic, Switch } from "antd"
 import { useEffect, useState } from "react"
 import ReactApexChart from "react-apexcharts"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import CustomerDrawer from "../CustomerDrawer"
+import CustomersBuildingTable from "../CustomersBuildingTable"
+import ModalDetails from "../ModalDetails"
 
-const Electric = ({ bills }) => {
-
+const Electric = ({ bills, cost }) => {
     let navigate = useNavigate()
     const allBuildings = useSelector(state => state.allOrganization.allBuildings)
+    const [metricCubic, setMetric] = useState(true)
+    const [buildingId, setBuildingId] = useState({})
+    const [visible, setVisible] = useState(false)
     const [electricSum, setElectricSum] = useState(0)
     const [allElectric, setAllElectric] = useState([])
     const [labels, setLabels] = useState([])
+    const [totalTaxCost, setTotalTax] = useState(0)
+    const [totalEarning, setTotalEarning] = useState(0)
+    const [supplier, setSupplier] = useState(0)
+    const [delivery, setDelivery] = useState(0)
+
     const options = {
         chart: {
             height: 390,
@@ -22,33 +33,39 @@ const Electric = ({ bills }) => {
                 startAngle: 0,
                 endAngle: 270,
                 hollow: {
-                    margin: 5,
-                    size: '30%',
+                    margin: 10,
+                    size: '40%',
                     background: 'transparent',
                 },
                 dataLabels: {
                     name: {
                         fontSize: '14px',
                         show: true,
+
                     },
-                    value: {
-                        show: true,
-                        fontSize: '14px',
-                        formatter: function (value) {
-                            return value + " m³"
-                        },
-                    }
                 }
             }
         },
         labels: labels,
+        colors: ["#1984f5", "#00c2f6", "#00cbc8",],
+        value: {
+            formatter: function (value) {
+                return metricCubic ? (value * 0.0833333 / 1000).toFixed(2) + " kWh" : value + " w"
+            },
+        },
+        tooltip: {
+            enabled: true,
+            y: {
+                formatter: function (value) {
+                    return metricCubic ? (value * 0.0833333 / 1000).toFixed(2) + " kWh" : value + " w"
+                },
+            },
+
+        },
         legend: {
             show: true,
-            floating: true,
-            fontSize: '13px',
+            fontSize: '16px',
             position: 'left',
-            offsetX: 140,
-            offsetY: 15,
             labels: {
                 useSeriesColors: true,
             },
@@ -56,7 +73,8 @@ const Electric = ({ bills }) => {
                 size: 0
             },
             formatter: function (seriesName, opts) {
-                return seriesName + ": " + opts.w.globals.series[opts.seriesIndex] + " m³"
+                let res = metricCubic ? (opts.w.globals.series[opts.seriesIndex] * 0.0833333 / 1000).toFixed(2) + " kWh" : opts.w.globals.series[opts.seriesIndex] + " w"
+                return seriesName + " " + res
             },
             itemMargin: {
                 vertical: 3
@@ -75,18 +93,79 @@ const Electric = ({ bills }) => {
     useEffect(() => {
         setLabels([])
         setAllElectric([])
-        setElectricSum([])
-        bills.forEach(bill => {
+        setElectricSum(0)
+        if (bills.length === 0)
+            return
+        setElectricSum(Number(bills.totalElectric).toFixed(2))
+        cost.forEach(el => {
+            if (el.name === "Electricity Cost at kWh")
+                setTotalEarning(bills.totalElectric * 0.0833333 / 1000 * el.price)
+            if (el.name === "Electricity Supplier Cost")
+                setSupplier(el.price)
+            if (el.name === "Electricity Delivery Cost")
+                setDelivery(bills.result.length * el.price)
+            if (el.name === "Electricity Tax Percentage")
+                setTotalTax(bills.totalElectric * 0.0833333 / 1000* el.price / 100)
+        });
+        bills.result.forEach(bill => {
             let sum = 0
             bill.bills.forEach(singleBill => {
                 sum += singleBill.electric
             })
             setLabels((old) => [...old, allBuildings.find(el => el._id === bill.buildingId).name])
-            setAllElectric((old) => [...old, sum.toFixed(2)])
-            setElectricSum(sum)
-        });
-    }, [bills])
-    
+            setAllElectric((old) => [...old, parseFloat(Number(sum).toFixed(4))])
+        })
+    }, [bills, metricCubic])
+
+    const columns = [
+        {
+            title: "#",
+            dataIndex: 'index',
+            valueType: 'index',
+            key: 'index',
+            width: 10,
+        },
+        {
+            title: 'Name',
+            dataIndex: 'name',
+            initialValue: 'all',
+            filters: true,
+            onFilter: true,
+            valueType: 'select',
+        },
+        {
+            title: 'Address',
+            dataIndex: 'address',
+            initialValue: 'all',
+            filters: true,
+            onFilter: true,
+            valueType: 'select',
+            width: 300,
+        },
+        {
+            title: 'Type',
+            dataIndex: 'type',
+        },
+        {
+            title: 'Action',
+            key: 'option',
+            valueType: 'option',
+            render: (_, data) =>
+                <a onClick={() => {
+                    setVisible(true)
+                    setBuildingId(data._id)
+                }} key="1" >
+                    See Details
+                </a>
+        },
+    ];
+
+    const getData = (data) => {
+        if (data === undefined)
+            return []
+        let res = data.map(build => allBuildings.find(el => el._id === build.buildingId))
+        return res
+    }
     return (
         <Layout
             className="site-layout-background"
@@ -104,13 +183,45 @@ const Electric = ({ bills }) => {
             <PageHeader
                 style={{ paddingLeft: 0 }}
                 className="site-page-header"
-                title="Electric"
+                title="Electric Supplier Details"
                 subTitle="Check your supplier earnings and productions"
                 onBack={() => navigate("/Dashboard")}
             />
             <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
-                <ReactApexChart options={options} series={allElectric} type="polarArea" height={400} />
+                <Row align="middle" gutter={[32, 32]}>
+                    <Col span={7}>
+                        <Statistic title="Total Electric Usage" value={metricCubic ? electricSum * 0.0833333 / 1000 : electricSum} suffix={metricCubic ? " in Kilowatt Hours (kWh)" : " in Watt"} precision={3} />
+                        <Row align="middle">
+                            <span onClick={() => setMetric(!metricCubic)} style={{ color: "blue", marginRight: 6 }} class="anticon iconfont">&#xe615;</span>
+                            <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricCubic ? "Kilowatt Hours (kWh)" : "Watt"}</p>
+                        </Row>
+                    </Col>
+                    <Col span={5} style={{ height: 90 }} >
+                        <Statistic title="Total Energy Earning" value={totalEarning} suffix={"Euro (€)"} precision={2} />
+                    </Col>
+                    <Col span={5} style={{ height: 90 }} >
+                        <Statistic title="Total Delivery Cost" value={delivery} suffix={"Euro (€)"} precision={2} />
+                    </Col>
+                    <Col span={5} style={{ height: 90 }} >
+                        <Statistic title="Total Tax Cost" value={totalTaxCost} suffix={"Euro (€)"} precision={2} />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col span={12}>
+                        <p style={{ fontSize: 18, fontWeight: 500 }}>Organization Total Electric Usage</p>
+                        <ReactApexChart options={options} series={allElectric} type="polarArea" height={400} />
+                    </Col>
+                    <Col span={12}>
+                        <p style={{ fontSize: 18, fontWeight: 500 }}>Organization Estimate Energy Production</p>
+                        <ReactApexChart options={options} series={allElectric} type="polarArea" height={400} />
+                    </Col>
+                    <Col span={24}>
+                        <CustomersBuildingTable headerTitle="Organization Building Electric Overview" columns={columns} data={getData(bills.result)} />
+                    </Col>
+                </Row>
+
             </Card>
+            <CustomerDrawer showGas={false} showWater={false} visible={visible} setVisible={setVisible} width={900} buildingId={buildingId} bills={bills.result} />
         </Layout>
     )
 }

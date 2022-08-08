@@ -38,7 +38,7 @@ const DashboardRoute = () => {
         await api.organization.getByUserId(user._id).then(data => dispatch(fetchOrganization(data)))
     }
     const getBills = async () => {
-        await api.bills.getBillsByOrganizationId(organization._id).then(res => setBills(res))
+        await api.bills.getBillsByOrganizationIdAggregated(organization._id).then(res => setBills(res))
     }
 
     const getBuildings = async () => {
@@ -213,7 +213,7 @@ const DashboardRoute = () => {
                 <Routes >
                     <Route path="*" element={<Dashboard user={user} />} />
                     <Route path="/Dashboard" element={<Dashboard user={user} />} />
-                    <Route path="/Electric" element={<Electric user={user} bills={bills} />} />
+                    <Route path="/Electric" element={<Electric user={user} bills={bills} cost={organization.details.electric}/>} />
                     <Route path="/Gas" element={<Gas user={user} bills={bills} />} />
                     <Route path="/Water" element={<Water user={user} bills={bills} />} />
                     <Route path="/Resources" element={<Resources user={user} bills={bills} />} />

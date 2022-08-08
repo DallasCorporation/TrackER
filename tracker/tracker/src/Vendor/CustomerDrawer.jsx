@@ -68,60 +68,65 @@ let options = {
     },
 }
 
-let radialOption = {
-    labels: ['Water Total Production', 'Gas Total Production', 'Electricity Total Production',],
-    legend: {
-        position: "bottom",
-        horizontalAlign: "center",
-        align: "center"
-    },
-    chart: {
-        type: 'donut',
-    },
-    dataLabels: {
-        enabled: false
-    },
-    plotOptions: {
-        pie: {
-            expandOnClick: false,
-            donut: {
-                size: '80%',
-                labels: {
-                    show: true,
-                }
+const CustomerDrawer = ({ visible, buildingId, setVisible, showWater = true, showElectric = true, showGas = true }) => {
+    let labels = []
+    showWater && labels.push('Water Total Production')
+    showGas && labels.push('Gas Total Production')
+    showElectric && labels.push('Electricity Total Production')
+
+    let radialOption = {
+        labels: labels,
+        legend: {
+            position: "bottom",
+            horizontalAlign: "center",
+            align: "center"
+        },
+        chart: {
+            type: 'donut',
+        },
+        dataLabels: {
+            enabled: false
+        },
+        plotOptions: {
+            pie: {
+                expandOnClick: false,
+                donut: {
+                    size: '80%',
+                    labels: {
+                        show: true,
+                    }
+                },
+            },
+            value: {
+                show: true,
+                formatter: function (val) { return val.toFixed(2) }
             },
         },
-        value: {
-            show: true,
-            formatter: function (val) { return val.toFixed(2) }
-        },
-    },
-    yaxis: {
-        labels: {
-            show: true,
-            align: 'right',
-            minWidth: 0,
-            maxWidth: 160,
-            style: {
-                colors: [],
-                fontSize: '12px',
-                fontFamily: 'Helvetica, Arial, sans-serif',
-                fontWeight: 400,
-                cssClass: 'apexcharts-yaxis-label',
+        yaxis: {
+            labels: {
+                show: true,
+                align: 'right',
+                minWidth: 0,
+                maxWidth: 160,
+                style: {
+                    colors: [],
+                    fontSize: '12px',
+                    fontFamily: 'Helvetica, Arial, sans-serif',
+                    fontWeight: 400,
+                    cssClass: 'apexcharts-yaxis-label',
+                },
+                offsetX: 0,
+                offsetY: 0,
+                rotate: 0,
+                formatter: (val) => { return val.toFixed(2) },
+
             },
-            offsetX: 0,
-            offsetY: 0,
-            rotate: 0,
-            formatter: (val) => { return val.toFixed(2) },
-
-        },
-    }
-};
+        }
+    };
 
 
 
 
-const CustomerDrawer = ({ visible, buildingId, setVisible }) => {
     const [bills, setBills] = useState({})
     const [pieBills, setPieBills] = useState([{}])
     const [data, setData] = useState([])
@@ -159,8 +164,17 @@ const CustomerDrawer = ({ visible, buildingId, setVisible }) => {
                     oldMoment = el.date
                 }
             })
-            setPieBills([parseFloat(totalWater.toFixed(2)), parseFloat(totalGas.toFixed(2)), parseFloat(totalElectric.toFixed(2))])
-            setData([{ name: "Water", data: water }, { name: "Gas", data: gas }, { name: "Electric", data: electric }])
+            let out = []
+            showWater && out.push(parseFloat(totalWater.toFixed(2)))
+            showGas && out.push(parseFloat(totalGas.toFixed(2)))
+            showElectric && out.push(parseFloat(totalElectric.toFixed(2)))
+            setPieBills(out)
+            out = []
+            showWater && out.push({ name: "Water", data: water })
+            showGas && out.push({ name: "Gas", data: gas })
+            showElectric && out.push({ name: "Electric", data: electric })
+
+            setData(out)
             setBills(res)
         })
         await api.buildings.getBuilding(buildingId).then(res => {
@@ -194,19 +208,27 @@ const CustomerDrawer = ({ visible, buildingId, setVisible }) => {
                         <Row style={{ marginTop: 22 }} gutter={[16, 16]} justify="space-between" align="middle">
                             <Col span={24}>
                                 <p style={{ fontSize: "15px", fontWeight: 500 }}>Building Name: <b>{building.address}</b></p>
-                                <p style={{ fontSize: "15px", fontWeight: 500 }}>Building Contact Name: <b>{building.contact}</b></p>
-                                <p style={{ fontSize: "15px", fontWeight: 500 }}>Building Type: <b>{building.type}</b></p>
-                                <p style={{ fontSize: "15px", fontWeight: 500 }}>Building Size: <b>{building.sqft} sqmt</b></p>
-                                <p style={{ fontSize: "15px", fontWeight: 500 }}>Created At: <b>{new Date(building.date).toLocaleString()}</b></p>
+                                <Row >
+                                    <Col span={12}>
+                                        <p style={{ fontSize: "15px", fontWeight: 500 }}>Building Contact Name: <b>{building.contact}</b></p>
+                                    </Col>
+                                    <Col span={12}>
+                                        <p style={{ fontSize: "15px", fontWeight: 500 }}>Building Type: <b>{building.type}</b></p>
+                                    </Col>
+                                    <Col span={12}>
+                                        <p style={{ fontSize: "15px", fontWeight: 500 }}>Building Size: <b>{building.sqft} sqmt</b></p>
+                                    </Col>
+                                    <Col span={12}>
+                                        <p style={{ fontSize: "15px", fontWeight: 500 }}>Created At: <b>{new Date(building.date).toLocaleString()}</b></p>
+                                    </Col>
+                                </Row>
                             </Col>
                             <Col span={24}>
                                 <ReactApexChart options={options} series={data} type="bar" height={350} />
                             </Col>
-
-                            <Col span={12}>
+                            <Col span={24}>
                                 <ReactApexChart options={radialOption} series={pieBills} type="donut" />
                             </Col>
-
                         </Row>
 
                     </Col>

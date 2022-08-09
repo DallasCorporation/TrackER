@@ -1,4 +1,4 @@
-import { InboxOutlined } from "@ant-design/icons"
+import { FileImageOutlined, InboxOutlined } from "@ant-design/icons"
 import { Card, Col, Divider, message, Row, Spin, Upload } from "antd"
 import ImgCrop from "antd-img-crop"
 import TextArea from "antd/lib/input/TextArea"
@@ -57,9 +57,9 @@ const SecondStep = ({ name, setDescription, setIcon, description = "" }) => {
             <Row justify="center" style={{ textAlign: "center" }} align="middle">
                 <Col span={18} style={{ textAlign: "center" }}>
                     <Col span={24} style={{ textAlign: "center" }}>
-                        <Row justify="space-between">
+                        <Row justify="space-between" align="middle">
                             <p>Upload Organization Logo</p>
-                            <p>Info Icon</p>
+                            <span className="iconfont anticon" style={{marginBottom:14}}>&#xe679;</span>
                         </Row>
                         <ImgCrop shape="round"
                             minZoom={0}
@@ -84,11 +84,11 @@ const SecondStep = ({ name, setDescription, setIcon, description = "" }) => {
                     </Col>
                     <Divider />
                     <Col span={24} style={{ marginTop: 22 }}>
-                        <Row justify="space-between">
+                        <Row justify="space-between" align="middle">
                             <p>Organization Description</p>
-                            <p>Info Icon</p>
+                            <span className="iconfont anticon" style={{marginBottom:14}}>&#x100de;</span>
                         </Row>
-                        <TextArea showCount maxLength={1000} title="Description" rows={4} defaultValue={description} onChange={(val) => setDescription(val.target.value)} />
+                        <TextArea style={{height:220}} showCount maxLength={1000} title="Description" rows={4} defaultValue={description} onChange={(val) => setDescription(val.target.value)} />
                     </Col>
                 </Col>
             </Row>

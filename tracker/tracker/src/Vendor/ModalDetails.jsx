@@ -115,7 +115,6 @@ let radialOption = {
 };
 
 const ModalDetails = ({ visible = false, setVisible, building, bills, }) => {
-    console.log(bills)
     const [pieBills, setPieBills] = useState([{}])
     const [data, setData] = useState([])
 

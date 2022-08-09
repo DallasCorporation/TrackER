@@ -1,16 +1,15 @@
-import { Card, Checkbox, Col, Divider, InputNumber, Row, Slider, Tooltip } from "antd"
+import { Card, Col, Divider, Row, Tooltip } from "antd"
 import OrganizationCard from "../Organization/OrganizationCard"
 import "../Organization/Organization.css"
 import { useState } from "react"
-import { ProForm, ProFormDigit, ProFormMoney, ProFormSlider, ProFormText } from '@ant-design/pro-components';
+import { ProFormMoney } from '@ant-design/pro-components';
 import { useEffect } from "react";
 
 const FirstStep = ({ gas, setGas, electric, setElectric, water, setWater, distributed, setDistributed, setPrices, prices = [] }) => {
-    const [solar, setSolar] = useState(false)
-    const [hydro, setHydro] = useState(false)
-    const [windy, setWindy] = useState(false)
-    const [bio, setBio] = useState(false)
-    const [geo, setGeo] = useState(false)
+    const [solar, setSolar] = useState(Object.values(prices).find(el =>el.name === "Solar"? el.price : false))
+    const [hydro, setHydro] = useState(Object.values(prices).find(el =>el.name === "Hydro"? el.price : false))
+    const [windy, setWindy] = useState(Object.values(prices).find(el =>el.name === "Wind"? el.price : false))
+    const [geo, setGeo] = useState(Object.values(prices).find(el =>el.name === "Geo"? el.price : false))
     const [pricesTmp, setPricesTmp] = useState(prices)
     const [name, setName] = useState("")
     const [value, setValue] = useState(0)
@@ -29,7 +28,7 @@ const FirstStep = ({ gas, setGas, electric, setElectric, water, setWater, distri
             setPrices((old) => [...old, { name: name, price: value }])
         else
             setPrices(updatedList);
-    }, [name, prices, value])
+    }, [name, value])
 
     const setObj = (name, value) => {
         setName(name)
@@ -105,7 +104,7 @@ const FirstStep = ({ gas, setGas, electric, setElectric, water, setWater, distri
                                     <ProFormMoney label="Delivery Cost" locale="it-IT" placeholder={"€ 0"} min={0} onChange={(value) => setObj("Water Delivery Cost", value)} />
                                 </Col>
                                 <Col span={12}>
-                                    <ProFormMoney label="Tax Percentage"  customSymbol="%" locale="it-IT" placeholder={"% 0"} min={0} max={99} onChange={(value) => setObj("Water Tax Percentage", value)} />
+                                    <ProFormMoney label="Tax Percentage" customSymbol="%" locale="it-IT" placeholder={"% 0"} min={0} max={99} onChange={(value) => setObj("Water Tax Percentage", value)} />
                                 </Col>
                             </Row>
                         </Card>
@@ -120,9 +119,9 @@ const FirstStep = ({ gas, setGas, electric, setElectric, water, setWater, distri
                     <Divider />
                     <div style={!distributed ? { pointerEvents: "none", opacity: "0.4", transition: "1.5s" } : { transition: "1.5s" }}>
                         <Card style={{ textAlign: "center", justifyContent: "center", borderRadius: "10px", border: "2px solid #1196db" }} >
-                            <p style={{ fontSize: "16px", fontWeight: 500 }}>Cool title on devices:</p>
+                            <p style={{ fontSize: "16px", fontWeight: 500 }}>Energy Resources Type:</p>
                             <Row justify="space-evenly" style={{ marginTop: "32px" }}>
-                                <Col span={8} style={{ height: "90px" }} onClick={() => {
+                                <Col span={12} style={{ height: "90px" }} onClick={() => {
                                     setObj("Solar", !solar)
                                     setSolar(!solar)
                                 }}>
@@ -130,7 +129,7 @@ const FirstStep = ({ gas, setGas, electric, setElectric, water, setWater, distri
                                         <span className={solar ? "anticon iconfontMediumSelected" : "anticon iconfontMedium"} style={{ color: solar ? "#1196db" : "black", }}>&#xe65f;</span>
                                     </Tooltip>
                                 </Col>
-                                <Col span={8} style={{ height: "90px" }} onClick={() => {
+                                <Col span={12} style={{ height: "90px" }} onClick={() => {
                                     setObj("Hydro", !hydro)
                                     setHydro(!hydro)
                                 }}>
@@ -138,7 +137,7 @@ const FirstStep = ({ gas, setGas, electric, setElectric, water, setWater, distri
                                         <span className={hydro ? "anticon iconfontMediumSelected" : "anticon iconfontMedium"} style={{ color: hydro ? "#1196db" : "black", }}>&#xe650;</span>
                                     </Tooltip>
                                 </Col>
-                                <Col span={8} style={{ height: "90px" }} onClick={() => {
+                                <Col span={12} style={{ height: "90px" }} onClick={() => {
                                     setObj("Wind", !hydro)
                                     setWindy(!windy)
                                 }}>
@@ -146,16 +145,10 @@ const FirstStep = ({ gas, setGas, electric, setElectric, water, setWater, distri
                                         <span className={windy ? "anticon iconfontMediumSelected" : "anticon iconfontMedium"} style={{ color: windy ? "#1196db" : "black", }}>&#xe661;</span>
                                     </Tooltip>
                                 </Col>
-                                <Col span={8} style={{ height: "90px" }} onClick={() => { 
-                                    setObj("Bio", !bio)
-                                    setBio(!bio) }}>
-                                    <Tooltip title="Biomass Energy" color="#2db7f5">
-                                        <span className={bio ? "anticon iconfontMediumSelected" : "anticon iconfontMedium"} style={{ color: bio ? "#1196db" : "black", }}>&#xe645;</span>
-                                    </Tooltip>
-                                </Col>
-                                <Col span={8} style={{ height: "90px" }} onClick={() => { 
+                                <Col span={12} style={{ height: "90px" }} onClick={() => {
                                     setObj("Geo", !geo)
-                                    setGeo(!geo) }}>
+                                    setGeo(!geo)
+                                }}>
                                     <Tooltip title="Geothermic Energy" color="#2db7f5">
                                         <span className={geo ? "anticon iconfontMediumSelected" : "anticon iconfontMedium"} style={{ color: geo ? "#1196db" : "black", }}>&#xe64b;</span>
                                     </Tooltip>

@@ -27,7 +27,6 @@ let optionsBar = {
             },
             title: {
                 formatter: (seriesName, props) => {
-                    console.log(props.dataPointIndex)
                     return ["Earnings", "Cost"][props.dataPointIndex]
                 },
             },
@@ -210,8 +209,8 @@ const Electric = ({ bills, cost }) => {
                 earning += bills.totalElectric * 0.0833333 / 1000 * el.price
             }
             if (el.name === "Electricity Supplier Cost") {
-                setSupplier(el.price)
-                earning += el.price
+                setSupplier(bills.result.length * el.price)
+                earning += bills.result.length * el.price
             }
             if (el.name === "Electricity Delivery Cost") {
                 setDelivery(bills.result.length * el.price)

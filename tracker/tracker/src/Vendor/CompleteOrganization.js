@@ -29,15 +29,36 @@ const CompleteOrganization = () => {
     const [prices, setPrices] = useState([]);
     const [show, setShow] = useState(false);
     const [body, setData] = useState({});
-    const dispatch= useDispatch()
+    const dispatch = useDispatch()
     const onChange = (value) => {
         if (checkValue())
             setCurrent(value);
     };
+    const checkPrices = (price, name) => {
+        return price.reduce(function (acc, cur) {
+            if (cur.name.includes(name)) acc += 1
+            return acc;
+        }, 0)< 4;
+    }
 
     const checkValue = () => {
+        let checkPrice = prices.filter((value, index, self) => value.name !== "" && index === self.findIndex((t) => (t.price === value.price && t.name === value.name)))
         setError(false)
         if (!gas && !electric && !water && !distributed) {
+            setError(true)
+            return false
+        }
+        if (gas && checkPrices(checkPrice, "Gas")) {
+            setError(true)
+            return false
+        }
+
+        if (electric && checkPrices(checkPrice, "Electric")) {
+            setError(true)
+            return false
+        }
+
+        if (water && checkPrices(checkPrice, "Water")) {
             setError(true)
             return false
         }
@@ -56,7 +77,7 @@ const CompleteOrganization = () => {
             setCurrent(current - 1)
     }
 
-    const submit = () => {
+    const submit = async () => {
         setShow(true)
         let arr = []
 
@@ -71,7 +92,7 @@ const CompleteOrganization = () => {
             description: description,
             details: body
         }
-        api.organization.update(organization._id, data).then((data) => {
+        await api.organization.update(organization._id, data).then((data) => {
             dispatch(fetchOrganization(data))
             setTimeout(() => {
                 setShow(false)
@@ -89,7 +110,7 @@ const CompleteOrganization = () => {
             {error && <Alert style={{ marginTop: "22px" }}
                 message="Error! Cannot continue..."
                 showIcon
-                description="Select the organization type to continue the organization submission"
+                description="Select the organization type and fill all the form to continue with the submission"
                 type="error"
                 closable
                 onClose={() => setError(false)}
@@ -112,7 +133,7 @@ const CompleteOrganization = () => {
                     {current !== 0 && <Button style={{ borderRadius: 10, }} onClick={() => previous()}><LeftCircleOutlined />Previous</Button>}
                 </Col>
                 <Col>
-                    <Button style={{ borderRadius: 10, justifySelf: "end" }} onClick={() => next()}> {current === 2 ? "Submit" : "Next"}
+                    <Button type={current === 2 ? "primary" : "default"} style={{ borderRadius: 10, justifySelf: "end" }} onClick={() => next()}> {current === 2 ? "Submit" : "Next"}
                         <RightCircleOutlined />
                     </Button>
                 </Col>

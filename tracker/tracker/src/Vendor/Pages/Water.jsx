@@ -28,7 +28,6 @@ let optionsBar = {
             },
             title: {
                 formatter: (seriesName, props) => {
-                    console.log(props.dataPointIndex)
                     return ["Earnings", "Cost"][props.dataPointIndex]
                 },
             },
@@ -212,8 +211,8 @@ const Water = ({ bills, cost }) => {
                 earning += bills.totalWater * 0.0001666667 * el.price
             }
             if (el.name === "Water Supplier Cost") {
-                setSupplier(el.price)
-                earning += el.price
+                setSupplier(bills.result.length * el.price)
+                earning += bills.result.length * el.price
             }
             if (el.name === "Water Delivery Cost") {
                 setDelivery(bills.result.length * el.price)

@@ -22,7 +22,7 @@ const ThirdStep = ({ name, owner, icon, createdAt, type, description, prices = [
                 electric.push(el)
             if (el.name.includes("Water"))
                 water.push(el)
-            if (el.name.includes("Solar") || el.name.includes("Hydro") || el.name.includes("Wind") || el.name.includes("Bio") || el.name.includes("Geo"))
+            if (el.price===true&& (el.name.includes("Solar") || el.name.includes("Hydro") || el.name.includes("Wind") || el.name.includes("Bio") || el.name.includes("Geo") ))
                 resources.push(el)
         })
         setData({
@@ -63,15 +63,14 @@ const ThirdStep = ({ name, owner, icon, createdAt, type, description, prices = [
             >
                 <Descriptions.Item label="Name">{name}</Descriptions.Item>
                 <Descriptions.Item label="Organization Owner">{owner}</Descriptions.Item>
-                <Descriptions.Item label="Automatic Renewal">YES</Descriptions.Item>
                 <Descriptions.Item label="Created at">{new Date(createdAt).toDateString()}</Descriptions.Item>
                 <Descriptions.Item label="Organization Type" span={2}>{type} </Descriptions.Item>
-                <Descriptions.Item label="Organization logo" span={3}>
+                <Descriptions.Item label="Organization logo" span={24}>
                     <Avatar size={250} src={icon} />
                 </Descriptions.Item>
+                <Descriptions.Item span={24} style={{ maxWidth: 100 }} label="Organization Description">{description}</Descriptions.Item>
                 {renderPrices.map(element => (element.name !== "" && checkName(element.name)) && <Descriptions.Item key={element.name} label={element.name}>{element.price}€</Descriptions.Item>)}
-                {renderPrices.map(element => (element.name !== "" && !checkName(element.name)) && <Descriptions.Item column={2} key={element.name} label={element.name}>{getIcon(element.name)}</Descriptions.Item>)}
-                <Descriptions.Item span={6} style={{ maxWidth: 100 }} label="Organization Description">{description}</Descriptions.Item>
+                {renderPrices.map(element => (element.name !== "" && !checkName(element.name) && element.price) && <Descriptions.Item column={2} key={element.name} label={element.name}>{getIcon(element.name)}</Descriptions.Item>)}
             </Descriptions>
         </Card>
     )

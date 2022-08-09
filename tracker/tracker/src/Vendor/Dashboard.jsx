@@ -97,7 +97,7 @@ const Dashboard = () => {
 
     useEffect(() => {
         let tmp = users
-        if (organization === null)
+        if (organization === null || organization===undefined)
             return
         organization.customers.forEach(async element => {
             let res = allUser.find(el => el._id === element.user)
@@ -140,8 +140,8 @@ const Dashboard = () => {
                 </Col>
                 <Col span={16}>
                     <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
-                        <Row justify="space-between" align="middle">
-                            <p style={{ fontSize: 18, fontWeight: 500 }}>Organization Overview </p>
+                        <Row justify="space-between" align="middle" style={{marginBottom:32}}>
+                            <p style={{ fontSize: 18, fontWeight: 500, margin:0 }}>Organization Overview </p>
                             <span class="anticon iconfont" style={{ color: "#1196db" }}>&#xe7a7;</span>
                         </Row>
                         <ConsumeCard />
@@ -149,8 +149,8 @@ const Dashboard = () => {
                 </Col>
                 <Col span={8}>
                     <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
-                        <Row justify="space-between" align="middle">
-                            <p style={{ fontSize: 18, fontWeight: 500 }}>Organization Total Cost</p>
+                    <Row justify="space-between" align="middle" style={{marginBottom:32}}>
+                            <p style={{ fontSize: 18, fontWeight: 500,margin:0 }}>Organization Total Cost</p>
                             <span class="anticon iconfont" style={{ color: "#1196db" }}>&#xe71b;</span>
                         </Row>
                         <Row>

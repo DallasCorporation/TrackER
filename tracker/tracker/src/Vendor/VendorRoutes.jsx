@@ -214,8 +214,8 @@ const DashboardRoute = () => {
                     <Route path="*" element={<Dashboard user={user} />} />
                     <Route path="/Dashboard" element={<Dashboard user={user} />} />
                     <Route path="/Electric" element={<Electric user={user} bills={bills} cost={organization.details.electric}/>} />
-                    <Route path="/Gas" element={<Gas user={user} bills={bills} />} />
-                    <Route path="/Water" element={<Water user={user} bills={bills} />} />
+                    <Route path="/Gas" element={<Gas user={user} bills={bills}  cost={organization.details.gas} />} />
+                    <Route path="/Water" element={<Water user={user} bills={bills}  cost={organization.details.water}/>} />
                     <Route path="/Resources" element={<Resources user={user} bills={bills} />} />
                     <Route path="/Customers" element={<Customers organization={organization} avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
                     <Route path="/Edit" element={<EditPlan organization={organization} avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />

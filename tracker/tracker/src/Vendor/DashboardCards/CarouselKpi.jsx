@@ -5,7 +5,7 @@ const CarouselKpi = ({ loading, gasSum, kWhSum, waterSum, gasCost, kWhCost, wate
     return (
         loading ?
             <Spin tip="Loading..." >
-                <Carousel autoplay autoplaySpeed={3500}>
+                <Carousel autoplay autoplaySpeed={3500} dots={false}>
                     <div>
                         <Row justify="space-between" gutter={[0, 16]}>
                             <Statistic title="Total Gas Usage" value={gasSum} suffix="m³" precision={2} />

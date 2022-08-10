@@ -35,7 +35,6 @@ const EditPlan = () => {
             <EditCard data={gas} type="g" />
             <EditCard data={electric} type="e" />
             <EditCard data={water} type="w" />
-            <EditCard data={resources} type="r" />
         </Layout>
     )
 }

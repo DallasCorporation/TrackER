@@ -70,14 +70,15 @@ const EditCard = ({ data, type }) => {
     }
 
     return (
-        data.length > 0 && <Col span={24} style={{ marginTop: 22 }}>
+        data.length > 0 &&
+        <Col span={24} style={{ marginTop: 22 }}>
             {load && <LoadingSpinner message="Updating Organization" />}
             <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }} gutter={[0, 8]}>
                 <Row align="middle" justify="space-between">
                     {type === "g" && <PlanTitle>Organization Gas Plan</PlanTitle>}
                     {type === "e" && <PlanTitle>Organization Energy Plan</PlanTitle>}
                     {type === "w" && <PlanTitle>Organization Water Plan</PlanTitle>}
-                    {type === "r" && <PlanTitle>Organization Energy Resources Plan</PlanTitle>}
+                    {/* {type === "r" && <PlanTitle>Organization Energy Resources Plan</PlanTitle>} */}
                     <Tooltip title="Edit your Plan">
                         <div>
                             <span class="anticon iconfont" style={{ cursor: "pointer" }} >&#x100e9;</span>
@@ -89,7 +90,7 @@ const EditCard = ({ data, type }) => {
                         {type === "g" && <span class="anticon iconfontLarge" >&#xe657;</span>}
                         {type === "e" && <span class="anticon iconfontLarge" >&#xe61d;</span>}
                         {type === "w" && <span class="anticon iconfontLarge" >&#xe730;</span>}
-                        {type === "r" && <span class="anticon iconfontLarge" >&#xe927;</span>}
+                        {/* {type === "r" && <span class="anticon iconfontLarge" >&#xe927;</span>} */}
                     </Col>
                     <Col span={21}>
                         <Row gutter={[16, 16]}>

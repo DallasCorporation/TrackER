@@ -1,8 +1,30 @@
-import { Breadcrumb, Card, Layout, PageHeader, Row } from "antd"
+import { Breadcrumb, Card, Col, Layout, PageHeader, Row } from "antd"
+import { useState } from "react"
+import { useEffect } from "react"
+import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import ResourcesCard from "./ResourcesCard"
+import ResourcesModal from "./ResourcesModal"
 
 const Resources = () => {
     let navigate = useNavigate()
+    const organization = useSelector(state => state.organization.organization)
+    const [resources, setResources] = useState([])
+    const [visible, setVisible] = useState(false)
+    const [data, setData] = useState({})
+
+    useEffect(() => {
+        console.log(organization)
+        if (organization === null)
+            return
+        setResources(organization.details.resources)
+    }, [organization])
+
+    const setProps=(data)=>{
+        setData(data)
+        setVisible(true)
+    }
+
     return (
         <Layout
             className="site-layout-background"
@@ -24,7 +46,18 @@ const Resources = () => {
                 subTitle="Check your energy resources sales"
                 onBack={() => navigate("/Dashboard")}
             />
-              <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}></Card>
+            <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
+                <p style={{ fontSize: 18, fontWeight: 500 }}>Create and check your energy resources offer</p>
+                <Row justify="center" gutter={[32, 32]}>
+                    {resources.map(el =>
+                        <Col span={12}>
+                            <ResourcesCard element={el} onClick={()=>setProps(el)} />
+                        </Col>
+                    )}
+                </Row>
+
+            </Card>
+            <ResourcesModal visible={visible} setVisible={setVisible} data={data}/>
         </Layout>
     )
 }

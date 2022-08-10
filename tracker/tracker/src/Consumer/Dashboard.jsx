@@ -77,13 +77,58 @@ const Dashboard = () => {
   const user = useSelector((state) => state.user.user)
   const buildings = useSelector((state) => state.buildings.buildings)
   const [bills, setBills] = useState({})
+  const [gas, setGas] = useState({})
+  const [water, setWater] = useState({})
+  const [electric, setElectric] = useState({})
+  const day = moment().subtract(3, 'days');
+
   let navigate = useNavigate();
   const getBillsAggregated = async () => {
-    await api.bills.getBillsAggregated(user._id).then(res => setBills(res))
+    await api.bills.getBillsAggregated(user._id).then(res => {
+      setBills(res)
+      setElectric(Object.values(res.aggregated).map(el => el.electric))
+
+      let oldMoment = moment("01/01/17", "MM/D/YYYY")
+      let billDates = Object.values(res.aggregated).filter(el => moment(el.date).isBetween(day, undefined))
+
+      let water = []
+      let gas = []
+      let electric = []
+
+      let sumGas = 0
+      let sumWater = 0
+      let sumElectric = 0
+      billDates.map(el => {
+        if (moment(el.date).isSame(oldMoment, "day")) {
+          sumWater = +sumWater + +el.water
+          sumElectric = +sumElectric + +el.electric
+          sumGas = +sumGas + +el.gas
+          oldMoment = el.date
+        } else {
+          water.push(Number(sumWater).toFixed(2))
+          electric.push(Number(sumElectric).toFixed(2))
+          gas.push(Number(sumGas).toFixed(2))
+          sumWater = Number(el.water)
+          sumElectric = Number(el.electric)
+          sumGas = Number(el.gas)
+          oldMoment = el.date
+        }
+      })
+      electric.shift()
+      gas.shift()
+      water.shift()
+
+      setWater({name:"Water", data:water})
+      setGas({name:"gas", data:gas})
+      setElectric({name:"Electric", data:electric})
+    })
   }
   useEffect(() => {
     getBillsAggregated(user._id)
   }, [user])
+
+
+
 
   return (
     <Layout
@@ -106,21 +151,21 @@ const Dashboard = () => {
             <Col lg={6} md={6} sx={6} >
               <StatsCard
                 color={"#ebfafa"}
-                chart={<ReactApexChart options={statebar("Electric").options} series={statebar("Electric").series} type="bar" height={150} />}
+                chart={<ReactApexChart options={statebar.options} series={[electric]} type="bar" height={150} />}
                 value={bills.totalElectric}
               />
             </Col>
             <Col lg={6} md={6} sx={6}>
               <StatsCard
                 color={"#ebfafa"}
-                chart={<ReactApexChart options={statebar("Water").options} series={statebar("Water").series} type="bar" height={150} />}
+                chart={<ReactApexChart options={statebar.options} series={[water]} type="bar" height={150} />}
                 value={bills.totalWater}
               />
             </Col>
             <Col lg={6} md={6} sx={6}>
               <StatsCard
                 color={"#ebfafa"}
-                chart={<ReactApexChart options={statebar("Gas").options} series={statebar("Gas").series} type="bar" height={150} />}
+                chart={<ReactApexChart options={statebar.options} series={[gas]} type="bar" height={150} />}
                 value={bills.totalGas}
               />
             </Col>

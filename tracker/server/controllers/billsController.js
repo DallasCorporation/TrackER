@@ -86,6 +86,8 @@ const getBillsAggregatedFiltered = asyncHandler(async (req, res) => {
     .find({}).toArray(async function (err, result) {
       if (err) throw err;
       let data = {}
+      if (req.params.id === "undefined") return res.status(400).json(data);
+      
       const goal = await Building.find({ userId: ObjectId(req.params.id) })
       let electric = 0
       let gas = 0

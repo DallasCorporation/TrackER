@@ -1,8 +1,4 @@
-export const statebar = (name) => ({
-    series: [{
-        name: name,
-        data: [2.3, 3.1, 4.0, 2.8],
-    }],
+export const statebar = {
     options: {
         colors: ['#26f8c9'],
         grid: { show: false },
@@ -55,7 +51,7 @@ export const statebar = (name) => ({
             }
         },
     },
-});
+};
 
 export const stateradial = (color) => ({
     series: [40],

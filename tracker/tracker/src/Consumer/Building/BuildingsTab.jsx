@@ -14,6 +14,7 @@ import "./style.css"
 import moment from "moment";
 import EditBuildingModal from "./EditBuildingModal";
 import { useNavigate } from "react-router-dom";
+import BuildingCard from "./BuildingCard";
 const { Option } = Select;
 const { Search } = Input;
 
@@ -23,7 +24,6 @@ const BuildingTab = ({ updateRoute }) => {
     const allOrg = useSelector((state) => state.allOrganization.organization)
     const dispatch = useDispatch()
     const [show, setShow] = useState(false)
-    const [collapse, setCollapse] = useState(false)
     const [bills, setBills] = useState([])
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [filter, setFilter] = useState("Address");
@@ -183,84 +183,7 @@ const BuildingTab = ({ updateRoute }) => {
                         </Empty>
                     </Card>
                     :
-                    buildingsFilter.map((item) =>
-                        <div style={{ paddingTop: "32px" }} key={item._id}>
-                            <Card bodyStyle={{ padding: "0", marginBottom: "32px", borderRadius: "10px" }} headStyle={{ borderTopLeftRadius: "10px", borderTopRightRadius: "10px", backgroundColor: "#0010f7" }} style={{ borderRadius: "10px" }}
-                                title={
-                                    <Row >
-                                        <Col span={24}>
-                                            <Row justify="space-between" align="middle">
-                                                <h3 style={{ color: "white" }}>{item.name}</h3>
-                                                <Radio.Group value="default" >
-                                                    <Radio.Button type="primary" onClick={() => {
-                                                        setIsModalVisible(true);
-                                                        setName(item.name);
-                                                        setContact(item.contact);
-                                                        setAddress(item.address);
-                                                        setType(item.type);
-                                                        setBuildingId(item._id)
-                                                    }}>Edit</Radio.Button>
-                                                    <Popconfirm
-                                                        icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
-                                                        title="Do you wanna delete this building?"
-                                                        onConfirm={() => deleteBuilding(item._id)}
-                                                        okText="Yes"
-                                                        cancelText="No"
-                                                    >
-                                                        <Radio.Button>Delete</Radio.Button>
-                                                    </Popconfirm>
-                                                </Radio.Group>
-                                            </Row>
-                                        </Col>
-                                    </Row>
-                                }
-                            >
-                                <Row justify="space-between" gutter={[32, 0]} style={{ marginBottom: "32px", padding: "16px" }}>
-                                    <Col span={10} >
-                                        <MapboxMap lat={item.lat} lng={item.long} />
-                                    </Col>
-                                    <Col span={12}>
-                                        <p>Building Name</p>
-                                        <Input value={item.name} readOnly></Input>
-                                        <p style={{ marginTop: "22px" }}>Contact Name</p>
-                                        <Input value={item.contact} readOnly></Input>
-                                        <p style={{ marginTop: "22px" }}>Address</p>
-                                        <Input value={item.address} readOnly></Input>
-                                        <p style={{ marginTop: "22px" }}>Building Type</p>
-                                        <Input value={item.type} readOnly></Input>
-                                    </Col>
-                                </Row>
-
-                                <Collapse style={{ border: 0, }} accordion isActive={collapse} collapsible="header">
-                                    <Collapse.Panel isActive={collapse} style={{ border: 0 }} showArrow={false} collapsible="header"
-                                        header={<Button style={{ borderRadius: 10 }} type={collapse ? "default" : "primary"} size="large" onClick={() => setCollapse(!collapse)}> {collapse ? "Close" : "Open"}</Button>}
-                                        key="1">
-                                        <Row justify="space-between" style={{ marginBottom: "32px", padding: "32px" }} gutter={[32, 32]}>
-                                            {showBills("Electric", item.organizationId) &&
-                                                <Col span={24}>
-                                                    <StatsCard
-                                                        color={"#ebfafa"}
-                                                        chart={<ReactApexChart options={linear('Consumed Electricity', "watt").options} series={getData(item._id, "Electric")} type="line" height={350} />}
-                                                    />
-                                                </Col>}
-                                            {showBills("Water", item.organizationId) && <Col span={24}>
-                                                <StatsCard
-                                                    color={"#ebfafa"}
-                                                    chart={<ReactApexChart options={linear('Consumed Water', "liter").options} series={getData(item._id, "Water")} type="line" height={350} />}
-                                                />
-                                            </Col>}
-                                            {showBills("Gas", item.organizationId) && <Col span={24}>
-                                                <StatsCard
-                                                    color={"#ebfafa"}
-                                                    chart={<ReactApexChart options={linear('Consumed Gas', "m³").options} series={getData(item._id, "Gas")} type="line" height={350} />}
-                                                />
-                                            </Col>}
-                                        </Row>
-                                    </Collapse.Panel>
-                                </Collapse>
-                            </Card>
-                        </div>
-                    )
+                    buildingsFilter.map((item) => <BuildingCard deleteBuilding={deleteBuilding} getData={getData} setAddress={setAddress} setBuildingId={setBuildingId} setContact={setContact} item={item} setIsModalVisible={setIsModalVisible} setName={setName} setType={setType} showBills={showBills}/>)
             }
             <EditBuildingModal setName={(val) => setName(val)} setContact={(val) => setContact(val)} setType={(val) => setType(val)}
                 buildingId={buildingId} name={name} contact={contact} address={address} type={type} visible={isModalVisible} setVisible={() => setIsModalVisible(false)} updateBuilding={() => updateBuilding(buildingId)} />

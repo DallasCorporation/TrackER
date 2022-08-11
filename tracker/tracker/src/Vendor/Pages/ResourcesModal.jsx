@@ -132,8 +132,7 @@ const ResourcesModal = ({ visible, setVisible, data, options, }) => {
                             <ProFormSelect label="Type" placeholder="Device Type" colProps={{ span: 12 }} options={options} onChange={(value) => setType(value)} />
                             <ProFormMoney label="Installation Price" placeholder="Device Installation Price" colProps={{ span: 8 }} customSymbol="€" min={0} onChange={(value) => setPrice(value)} />
                             <ProFormMoney label="Saving at KWh" placeholder="Device Customer Earning at kWh" colProps={{ span: 8 }} customSymbol="€" min={0} onChange={(value) => setEarning(value)} />
-                            <ProFormMoney label="Organization percentage earning at KWh" placeholder="Device Organization Percentage at kWh" colProps={{ span: 8 }} customSymbol="€" min={0} onChange={(value) => setOrganization(value)} />
-
+                            <ProFormMoney label="Organization percentage earning at KWh" placeholder="Device Organization Percentage at kWh" colProps={{ span: 8 }} customSymbol="%" min={0} onChange={(value) => setOrganization(value)} />
                         </ProForm>
                     </Row>
                     <Row justify="end">

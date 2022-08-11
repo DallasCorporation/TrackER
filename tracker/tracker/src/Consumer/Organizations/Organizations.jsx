@@ -3,6 +3,7 @@ import { ProList } from '@ant-design/pro-components';
 import { useState } from 'react';
 import TypeCard from "./TypeCard";
 import { useNavigate } from "react-router-dom";
+import RenewableCard from "./RenewableCard";
 const Organizations = ({ allOrganization, allUser }) => {
     const [expandedRowKeys, setExpandedRowKeys] = useState([]);
     const navigate = useNavigate()
@@ -109,8 +110,8 @@ const Organizations = ({ allOrganization, allUser }) => {
                                                     </Col>
                                                 }
                                                 {resources.length > 0 &&
-                                                    <Col span={12}>
-                                                        <TypeCard title="Energy Resources Cost" data={water} />
+                                                    <Col span={24}>
+                                                        <RenewableCard title="Renewable Installation Cost and Earnings" organizationId={data._id}/>
                                                     </Col>
                                                 }
                                             </Row>

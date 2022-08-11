@@ -13,7 +13,6 @@ const BuildingCard = ({ item, setIsModalVisible, setContact, setName, setAddress
     const [avatar, setAvatar] = useState("")
     const [organization, setOrganization] = useState("")
     const allOrganization = useSelector(state => state.allOrganization.organization)
-    console.log(item.organizationId)
     useEffect(() => {
         if (allOrganization === undefined)
             return

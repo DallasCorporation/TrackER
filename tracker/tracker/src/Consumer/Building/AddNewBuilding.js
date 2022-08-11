@@ -80,7 +80,6 @@ const AddNewBuildings = ({ user }) => {
             long,
             organizationId: organizationId
         }
-        console.log(data)
         let orgCopy = allOrganizations.find(el => el._id === organizationId)
         let customers = orgCopy.customers
         setShow(true)

@@ -15,6 +15,7 @@ app.use(require("./routes/activity"));
 app.use(require("./routes/userPreference"));
 app.use(require("./routes/mailer"));
 app.use(require("./routes/organization"));
+app.use(require("./routes/renewable"))
 app.use(require("./routes/bills.js"))
 
 // get driver connection

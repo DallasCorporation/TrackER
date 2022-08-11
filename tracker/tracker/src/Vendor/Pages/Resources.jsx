@@ -5,6 +5,7 @@ import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import ResourcesCard from "./ResourcesCard"
 import ResourcesModal from "./ResourcesModal"
+import { electricOptions, geoOptions, waterOptions, windOptions } from "./utilis"
 
 const Resources = () => {
     let navigate = useNavigate()
@@ -12,17 +13,25 @@ const Resources = () => {
     const [resources, setResources] = useState([])
     const [visible, setVisible] = useState(false)
     const [data, setData] = useState({})
+    const [options, setOptions] = useState([])
 
     useEffect(() => {
-        console.log(organization)
         if (organization === null)
             return
         setResources(organization.details.resources)
     }, [organization])
 
-    const setProps=(data)=>{
+    const setProps = (data) => {
         setData(data)
         setVisible(true)
+        if (data.name.includes("Solar"))
+            setOptions(electricOptions)
+        if (data.name.includes("Geo"))
+            setOptions(geoOptions)
+        if (data.name.includes("Wind"))
+            setOptions(windOptions)
+        if (data.name.includes("Hydro"))
+            setOptions(waterOptions)
     }
 
     return (
@@ -51,13 +60,13 @@ const Resources = () => {
                 <Row justify="center" gutter={[32, 32]}>
                     {resources.map(el =>
                         <Col span={12}>
-                            <ResourcesCard element={el} onClick={()=>setProps(el)} />
+                            <ResourcesCard element={el} onClick={() => setProps(el)} />
                         </Col>
                     )}
                 </Row>
 
             </Card>
-            <ResourcesModal visible={visible} setVisible={setVisible} data={data}/>
+            <ResourcesModal visible={visible} setVisible={setVisible} data={data} options={options} />
         </Layout>
     )
 }

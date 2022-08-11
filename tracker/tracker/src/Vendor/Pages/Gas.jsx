@@ -114,7 +114,7 @@ const Gas = ({ bills, cost }) => {
     let navigate = useNavigate()
     const allBuildings = useSelector(state => state.allOrganization.allBuildings)
     const [metricCubic, setMetric] = useState(true)
-    const [buildingId, setBuildingId] = useState({})
+    const [buildingId, setBuildingId] = useState("")
     const [visible, setVisible] = useState(false)
     const [gasSum, setGasSum] = useState(0)
     const [allGas, setAllGas] = useState([])

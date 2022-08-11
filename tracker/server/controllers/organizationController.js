@@ -1,5 +1,6 @@
 
 const asyncHandler = require('express-async-handler')
+const { ObjectId } = require('mongodb')
 const Organization = require('../models/organizationModel')
 
 
@@ -7,7 +8,27 @@ const Organization = require('../models/organizationModel')
 // @route   GET /api/goals
 // @access  Private
 const getOrganizationById = asyncHandler(async (req, res) => {
-    const goal = await Organization.findOne({ userId: req.params.id })
+    const goal = await Organization.findOne({ _id: ObjectId(req.params.id) })
+    if (goal)
+        res.status(200).json({
+            name: goal.name,
+            icon: goal.icon,
+            userId: goal.userId,
+            customers: goal.customers,
+            type: goal.type,
+            _id: goal._id,
+            details: goal.details,
+            description: goal.description,
+            createdAt: goal.createAt
+        })
+    else {
+        res.status(400)
+        throw new Error('organization not found')
+    }
+})
+
+const getOrganizationByUserId = asyncHandler(async (req, res) => {
+    const goal = await Organization.findOne({ userId: ObjectId(req.params.id) })
     if (goal)
         res.status(200).json({
             name: goal.name,
@@ -81,6 +102,24 @@ const updateOrganization = asyncHandler(async (req, res) => {
     res.status(200).json(update)
 })
 
+const updateOrganizationResources = asyncHandler(async (req, res) => {
+    const organization = await Organization.findById(req.params.id)
+    if (!organization) {
+        res.status(400)
+        throw new Error('Organization not found')
+    }
+    if (!req.params.id) {
+        res.status(401)
+        throw new Error('User not found')
+    }
+
+    const update = await Organization.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+    })
+
+    res.status(200).json(update)
+})
+
 const deleteOrganization = asyncHandler(async (req, res) => {
     const preference = await Organization.find({ _id: req.params.id })
     if (!preference) {
@@ -97,9 +136,11 @@ const deleteOrganization = asyncHandler(async (req, res) => {
 })
 
 module.exports = {
-    getOrganizationById,
+    getOrganizationByUserId,
     createOrganization,
     updateOrganization,
     deleteOrganization,
-    getAll
+    getAll,
+    getOrganizationById,
+    updateOrganizationResources
 }

@@ -1,7 +1,9 @@
-import { Button, Card, Col, Descriptions, Modal, Row } from "antd"
+import { Button, Card, Col, Descriptions, message, Modal, Popconfirm, Row, Tooltip } from "antd"
 import { ProForm, ProFormMoney, ProFormSelect, ProFormText, ProTable } from "@ant-design/pro-components"
-
-const ResourcesModal = ({ visible, setVisible, data }) => {
+import api from "../../api"
+import { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+const ResourcesModal = ({ visible, setVisible, data, options, }) => {
 
     const columns = [
         {
@@ -32,7 +34,7 @@ const ResourcesModal = ({ visible, setVisible, data }) => {
             dataIndex: 'price',
         },
         {
-            title: 'Earnings at KWh',
+            title: 'Saving at KWh',
             dataIndex: 'earning',
         },
         {
@@ -43,44 +45,99 @@ const ResourcesModal = ({ visible, setVisible, data }) => {
             title: 'Action',
             key: 'option',
             valueType: 'option',
+            width: 100,
             render: (_, data) =>
-                <a onClick={() => {
-                    // setVisible(true)
-                    // setBuildingId(data.buildingId)
-                }} key="1" >
-                    See Details
-                </a>
+                <Row justify="space-around" gutter={[16, 16]}>
+                    <Tooltip title="See Building List">
+                        <div style={{ cursor: "pointer" }}><span class="anticon iconfont" style={{ color: "blue" }}>&#xe7c6;</span></div>
+                    </Tooltip>
+                    <Popconfirm title="Are you sure to delete this Device " onConfirm={() => deleteResources(data._id)}>
+                        <Tooltip title="Delete Device">
+                            <div style={{ cursor: "pointer" }}><span class="anticon iconfont" style={{ color: "red" }} >&#x100dd;</span></div>
+                        </Tooltip>
+                    </Popconfirm>
+                </Row>
         },
     ];
+
+    const [price, setPrice] = useState(0)
+    const [earning, setEarning] = useState(0)
+    const [organization, setOrganization] = useState(0)
+    const [name, setName] = useState("")
+    const [type, setType] = useState("")
+    const [dataTable, setDataTable] = useState([])
+    const organizationId = useSelector((state) => state.organization.organization._id)
+
+    const ref = useRef();
+
+
+    const getResourcesList = async () => {
+        await api.renewable.fetchResourcesByOrganizationId(organizationId).then(res => {
+            let table = []
+            res.forEach(element => {
+                if (element.resourcesType === data.name)
+                    table.push(element)
+            });
+            setDataTable(table)
+        })
+    }
+
+    const deleteResources = async (id) => {
+        await api.renewable.deleteResources(id).then(res => {
+            message.success("Resources Deleted")
+            ref.current.reloadAndRest();
+        }).catch(err => message.error("Error... "))
+    }
+
+    const createResources = async (data) => {
+        await api.renewable.createResources(data).then(res => {
+            setDataTable((old) => [...old, data])
+            ref.current.reloadAndRest();
+        })
+    }
+
+    useEffect(() => {
+        if (organizationId !== null)
+            getResourcesList(organizationId)
+    }, [organization])
+
+
+    const submit = (resourcesType) => {
+        let data = {
+            price,
+            name,
+            type,
+            organization,
+            earning,
+            organizationId,
+            resourcesType: resourcesType
+        }
+        createResources(data)
+    }
+
     return (
-        <Modal title={data.name + " resources configuration"} width={1000} visible={visible} onCancel={() => setVisible(false)} onOk={() => setVisible(false)}>
+        <Modal destroyOnClose title={data.name + " resources configuration"} width={1000} visible={visible} onCancel={() => setVisible(false)} onOk={() => setVisible(false)}>
             <ProTable headerTitle={data.name + " Resources List"}
-                dataSource={[]}
+                dataSource={dataTable}
+                request={() => getResourcesList()}
                 columns={columns} search={false} dateFormatter="string"
-                tableExtraRender={(_, data) =>
+                actionRef={ref}
+                tableExtraRender={() =>
                 (<Card>
                     <Row justify="space-between" align="middle">
                         <ProForm grid layout="vertical" rowProps={{ gutter: [32, 32], }} submitter={{
                             submitButtonProps: { style: { display: 'none', }, }, resetButtonProps: { style: { display: 'none', }, },
                         }}>
-                            <ProFormText label="Name" colProps={{ span: 12 }} />
-                            <ProFormSelect
-                                label="Type"
-                                colProps={{ span: 12 }}
-                                options={[
-                                    { value: "Photovoltaic Solar Power", label: "Photovoltaic Solar Power", },
-                                    { value: "Concentrating Solar Power", label: "Concentrating Solar Power", },
-                                    { value: "chapter2", label: "Effective when stamped2", },
-                                ]}
-                            />
-                            <ProFormMoney label="Installation Price" colProps={{ span: 8 }} customSymbol="€" min={0} />
-                            <ProFormMoney label="Earnings at KWh" colProps={{ span: 8 }} customSymbol="€" min={0} />
-                            <ProFormMoney label=" Organization percentage earning at KWh" colProps={{ span: 8 }} customSymbol="€" min={0} />
+                            <ProFormText label="Name" placeholder="Device Name" colProps={{ span: 12 }} onChange={(value) => setName(value.target.value)} />
+                            <ProFormSelect label="Type" placeholder="Device Type" colProps={{ span: 12 }} options={options} onChange={(value) => setType(value)} />
+                            <ProFormMoney label="Installation Price" placeholder="Device Installation Price" colProps={{ span: 8 }} customSymbol="€" min={0} onChange={(value) => setPrice(value)} />
+                            <ProFormMoney label="Saving at KWh" placeholder="Device Customer Earning at kWh" colProps={{ span: 8 }} customSymbol="€" min={0} onChange={(value) => setEarning(value)} />
+                            <ProFormMoney label="Organization percentage earning at KWh" placeholder="Device Organization Percentage at kWh" colProps={{ span: 8 }} customSymbol="€" min={0} onChange={(value) => setOrganization(value)} />
 
                         </ProForm>
                     </Row>
                     <Row justify="end">
-                        <Button type="primary" style={{ borderRadius: 20, marginTop:22 }}>Add Resources</Button>
+                        <Button type="primary" style={{ borderRadius: 20, marginTop: 22 }} onClick={() => submit(data.name)}>Add Resources</Button>
                     </Row>
                 </Card>)} />
         </Modal >

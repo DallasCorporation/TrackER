@@ -84,7 +84,7 @@ export default {
             axios.post(`${API_URL}/organization`, body)
                 .then((res) => res.data),
         getByUserId: (userId) =>
-            axios.get(`${API_URL}/organization/${userId}`)
+            axios.get(`${API_URL}/organization/user/${userId}`)
                 .then((res) => res.data),
         update: (id, body) =>
             axios.put(`${API_URL}/organization/${id}`, body)
@@ -111,6 +111,23 @@ export default {
                 .then((res) => res.data),
         getBillsByOrganizationIdAggregated: (organizationId) =>
             axios.get(`${API_URL}/bills/organization/aggregated/${organizationId}`)
+                .then((res) => res.data),
+    },
+    renewable: {
+        fetchResources: (id) =>
+            axios.get(`${API_URL}/renewable/${id}`)
+                .then((res) => res.data),
+        fetchResourcesByOrganizationId: (organizationId) =>
+            axios.get(`${API_URL}/renewable/organization/${organizationId}`)
+                .then((res) => res.data),
+        updateResources: (organizationId, body) =>
+            axios.put(`${API_URL}/renewable/${organizationId}`, body)
+                .then((res) => res.data),
+        deleteResources: (id) =>
+            axios.delete(`${API_URL}/renewable/${id}`)
+                .then((res) => res.data),
+        createResources: (body) =>
+            axios.post(`${API_URL}/renewable`, body)
                 .then((res) => res.data),
     },
 };

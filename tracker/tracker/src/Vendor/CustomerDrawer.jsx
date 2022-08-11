@@ -68,7 +68,7 @@ let options = {
     },
 }
 
-const CustomerDrawer = ({ visible, buildingId, setVisible, showWater = true, showElectric = true, showGas = true }) => {
+const CustomerDrawer = ({ visible, buildingId = "", setVisible, showWater = true, showElectric = true, showGas = true }) => {
     let labels = []
     showWater && labels.push('Water Total Production')
     showGas && labels.push('Gas Total Production')
@@ -138,6 +138,9 @@ const CustomerDrawer = ({ visible, buildingId, setVisible, showWater = true, sho
         let gas = []
         let electric = []
         let oldMoment = moment('01/23/17', 'MM/D/YYYY')
+        console.log(buildingId)
+        if (buildingId === "")
+            return
         await api.bills.fetchBills(buildingId).then(res => {
             let sumWater = 0
             let sumElectric = 0

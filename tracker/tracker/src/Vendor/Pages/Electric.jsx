@@ -228,7 +228,7 @@ const Electric = ({ bills, cost }) => {
                     x: 'Organization Earnings',
                     y: earning.toFixed(2),
                     fillColor: '#00E396'
-                    
+
                 }, {
                     x: 'Organization Cost',
                     y: costTot.toFixed(2),
@@ -249,6 +249,7 @@ const Electric = ({ bills, cost }) => {
             setLabels((old) => [...old, allBuildings.find(el => el._id === bill.buildingId).name])
             setAllElectric((old) => [...old, parseFloat(Number(sum).toFixed(4))])
         })
+
     }, [bills, metricCubic])
 
     const columns = [
@@ -343,7 +344,7 @@ const Electric = ({ bills, cost }) => {
                         </Carousel>
                     </Col>
                 </Row>
-                <Divider/>
+                <Divider />
 
                 <Row style={{ marginTop: 32 }} justify="center" align="middle">
                     <Col span={24}>
@@ -351,7 +352,7 @@ const Electric = ({ bills, cost }) => {
                         <ReactApexChart options={optionsLine} series={allElectricLine} type="line" height={320} />
                     </Col>
                 </Row>
-                <Divider/>
+                <Divider />
                 <Row style={{ marginTop: 32 }} justify="space-between" align="middle">
                     <Col span={10}>
                         <p style={{ fontSize: 18, fontWeight: 500 }}> Profit</p>
@@ -361,7 +362,7 @@ const Electric = ({ bills, cost }) => {
                         <p style={{ fontSize: 18, fontWeight: 500 }}>Buildings Electric Usage</p>
                         <ReactApexChart options={options} series={allElectric} type="polarArea" />
                     </Col>
-                    <Col span={24} style={{marginTop:32}}>
+                    <Col span={24} style={{ marginTop: 32 }}>
                         <CustomersBuildingTable headerTitle="Organization Building Electric Overview" columns={columns} data={getData(bills.result)} />
                     </Col>
                 </Row>

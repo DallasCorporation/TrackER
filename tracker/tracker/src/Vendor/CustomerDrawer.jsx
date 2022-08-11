@@ -138,7 +138,6 @@ const CustomerDrawer = ({ visible, buildingId = "", setVisible, showWater = true
         let gas = []
         let electric = []
         let oldMoment = moment('01/23/17', 'MM/D/YYYY')
-        console.log(buildingId)
         if (buildingId === "")
             return
         await api.bills.fetchBills(buildingId).then(res => {

@@ -76,6 +76,7 @@ const getData = (data) => {
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user)
   const buildings = useSelector((state) => state.buildings.buildings)
+  const organization = useSelector((state) => state.organization.organization)
   const [bills, setBills] = useState({})
   const [gas, setGas] = useState({})
   const [water, setWater] = useState({})
@@ -119,16 +120,13 @@ const Dashboard = () => {
       water.shift()
 
       setWater({name:"Water", data:water})
-      setGas({name:"gas", data:gas})
+      setGas({name:"Gas", data:gas})
       setElectric({name:"Electric", data:electric})
     })
   }
   useEffect(() => {
     getBillsAggregated(user._id)
   }, [user])
-
-
-
 
   return (
     <Layout

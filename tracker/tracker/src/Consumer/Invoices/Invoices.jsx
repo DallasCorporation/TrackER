@@ -17,6 +17,7 @@ const Invoices = () => {
     const [timespan, setTimespan] = useState("")
     const [visible, setVisible] = useState(false)
     const navigate = useNavigate()
+    const [building, setBuilding] = useState({})
 
     const getBillsAggregated = async () => {
         await api.bills.getBillsAggregated(user._id).then(res => setBills(res.all))
@@ -24,7 +25,7 @@ const Invoices = () => {
     useEffect(() => {
         getBillsAggregated(user._id)
     }, [])
-
+    
     return (
         <Layout
             className="site-layout-background"
@@ -80,9 +81,10 @@ const Invoices = () => {
                                         <Button
                                             onClick={() => {
                                                 setVisible(true)
-                                                {bills.forEach(build => {
-                                                    if (build.buildingId === el._id){
-                                                        setData(build)
+                                                {bills.forEach(bill => {
+                                                    if (bill.buildingId === el._id){
+                                                        setData(bill)
+                                                        setBuilding(el)
                                                     }
                                                 });}
                                                 setTimespan(filter)
@@ -95,7 +97,7 @@ const Invoices = () => {
                     </Row>
                 </Col>
             </Row>
-            <InvoicesModal visible={visible} setVisible={setVisible} data={data} timespan={timespan} />
+            <InvoicesModal visible={visible} setVisible={setVisible} data={data} timespan={timespan} building={building} />
         </Layout>
     )
 }

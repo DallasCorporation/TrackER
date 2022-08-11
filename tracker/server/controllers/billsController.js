@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const { ObjectId } = require('mongodb');
+const { connectToServer } = require('../db/conn');
 const dbo = require("../db/conn");
 const billsModel = require('../models/billsModel');
 const Building = require('../models/buildingModel');
@@ -70,6 +71,7 @@ const getBills = asyncHandler(async (req, res) => {
 
 const getBuildingBills = asyncHandler(async (req, res) => {
   const goal = await billsModel.findOne({ buildingId: ObjectId(req.params.id) })
+  
   if (!goal) {
     res.status(400).json([])
     throw new Error('Bill Not found')

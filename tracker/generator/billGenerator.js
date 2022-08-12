@@ -77,6 +77,25 @@ var myFunc01 = function () {
     }
 };
 
+const getResources = () => {
+    let date = moment()
+    if ((date.hours() > 18 && date.hours() <= 10)) {
+        return [
+            { Solar: 0 },
+            { Wind: Math.random() * 980000 },
+            { Geo: Math.random() * 12500 },
+            { Hydro: Math.random() * 3400 }
+        ];
+    }
+    else
+        return [
+            { Solar: Math.random() * 316800 },
+            { Wind: Math.random() * 1080000 },
+            { Geo: Math.random() * 12500 },
+            { Hydro: Math.random() * 3400 }
+        ]
+}
+
 const postData = async () => {
     await axios.get(`http://127.0.0.1:3000/api/builds`).then((res) => {
         const date = moment().valueOf()
@@ -85,7 +104,7 @@ const postData = async () => {
                 electric: getRandom(element.type, element.sqft),
                 gas: getRandom(element.type, element.sqft),
                 water: getRandom(element.type, element.sqft),
-                resources: [],
+                resources: getResources(),
                 date: date,
                 organizationId: element.organizationId
             }).then((res) => console.log(res.data)).catch(err => console.log(err))

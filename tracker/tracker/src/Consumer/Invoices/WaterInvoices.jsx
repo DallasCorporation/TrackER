@@ -126,76 +126,6 @@ const WaterInvoices = ({ bills, cost }) => {
     const [series, setSeries] = useState([])
     const [allWaterLine, setAllWaterLine] = useState([])
 
-
-
-    const options = {
-        chart: {
-            height: 390,
-            type: 'polarArea',
-        },
-        plotOptions: {
-            polarArea: {
-                offsetY: 0,
-                startAngle: 0,
-                endAngle: 270,
-                hollow: {
-                    margin: 10,
-                    size: '40%',
-                    background: 'transparent',
-                },
-                dataLabels: {
-                    name: {
-                        fontSize: '14px',
-                        show: true,
-
-                    },
-                }
-            }
-        },
-        labels: labels,
-        colors: ["#1984f5", "#00c2f6", "#00cbc8",],
-        value: {
-            formatter: function (value) {
-                return metricCubic ? (value * 0.0001666667).toFixed(2) + " kWh" : value + " w"
-            },
-        },
-        tooltip: {
-            enabled: true,
-            y: {
-                formatter: function (value) {
-                    return metricCubic ? (value * 0.0001666667).toFixed(2) + " kWh" : value + " w"
-                },
-            },
-
-        },
-        legend: {
-            show: true,
-            fontSize: '16px',
-            position: 'left',
-            labels: {
-                useSeriesColors: true,
-            },
-            markers: {
-                size: 0
-            },
-            formatter: function (seriesName, opts) {
-                let res = metricCubic ? (opts.w.globals.series[opts.seriesIndex] * 0.0001666667).toFixed(2) + " kWh" : opts.w.globals.series[opts.seriesIndex] + " w"
-                return seriesName + " " + res
-            },
-            itemMargin: {
-                vertical: 3
-            }
-        },
-        responsive: [{
-            breakpoint: 480,
-            options: {
-                legend: {
-                    show: false
-                }
-            }
-        }]
-    }
-
     useEffect(() => {
         setLabels([])
         setAllWater([])
@@ -230,21 +160,6 @@ const WaterInvoices = ({ bills, cost }) => {
             });
         }
 
-
-        setSeries({
-            data: [
-                {
-                    x: 'Organization Earnings',
-                    y: earning.toFixed(2),
-                    fillColor: '#00E396'
-
-                }, {
-                    x: 'Organization Cost',
-                    y: costTot.toFixed(2),
-                    fillColor: "#d40000"
-                }
-            ]
-        })
         let tmp = []
         Object.values(bills.bills).map(el => {
             tmp.push([el.date, el.water])
@@ -260,54 +175,13 @@ const WaterInvoices = ({ bills, cost }) => {
         setAllWater((old) => [...old, parseFloat(Number(sum).toFixed(4))])
     }, [bills, metricCubic])
 
-    const columns = [
-        {
-            title: "#",
-            dataIndex: 'index',
-            valueType: 'index',
-            key: 'index',
-            width: 10,
-        },
-        {
-            title: 'Name',
-            dataIndex: 'name',
-            initialValue: 'all',
-            filters: true,
-            onFilter: true,
-            valueType: 'select',
-        },
-        {
-            title: 'Address',
-            dataIndex: 'address',
-            initialValue: 'all',
-            filters: true,
-            onFilter: true,
-            valueType: 'select',
-            width: 300,
-        },
-        {
-            title: 'Type',
-            dataIndex: 'type',
-        },
-        {
-            title: 'Action',
-            key: 'option',
-            valueType: 'option',
-            render: (_, data) =>
-                <a onClick={() => {
-                    setVisible(true)
-                    setBuildingId(bills.buildingId)
-                }} key="1" >
-                    See Details
-                </a>
-        },
-    ];
     return (
         <Layout
             className="site-layout-background"
             style={{
                 paddingLeft: 24,
                 paddingRight: 24,
+                height:"85vh"
             }}
         >
             <Row gutter={[16, 16]} style={{ marginTop: "32px" }}>
@@ -321,7 +195,6 @@ const WaterInvoices = ({ bills, cost }) => {
                 className="site-page-header"
                 title="Water Supplier Details"
                 subTitle="Check your supplier earnings and productions"
-                onBack={() => navigate("/Dashboard")}
             />
             <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
                 <Row align="middle" gutter={[32, 32]}>
@@ -353,23 +226,7 @@ const WaterInvoices = ({ bills, cost }) => {
                         <ReactApexChart options={optionsLine} series={allWaterLine} type="line" height={320} />
                     </Col>
                 </Row>
-                <Divider />
-                <Row style={{ marginTop: 32 }} justify="space-between" align="middle">
-                    {/* <Col span={10}>
-                        <p style={{ fontSize: 18, fontWeight: 500 }}> Profit</p>
-                        <ReactApexChart options={optionsBar} series={[series]} type="bar" height={250} />
-                    </Col>
-                    <Col span={12}>
-                        <p style={{ fontSize: 18, fontWeight: 500 }}>Buildings Water Usage</p>
-                        <ReactApexChart options={options} series={allWater} type="polarArea" />
-                    </Col>
-                    <Col span={24} style={{ marginTop: 32 }}>
-                        <CustomersBuildingTable headerTitle="Organization Building Water Overview" columns={columns} data={getData(bills.buildingId)} />
-                    </Col> */}
-                </Row>
-
             </Card>
-            <CustomerDrawer showGas={false} showWater={false} visible={visible} setVisible={setVisible} width={900} buildingId={bills.buildingId} bills={bills.bills} />
         </Layout>
     )
 }

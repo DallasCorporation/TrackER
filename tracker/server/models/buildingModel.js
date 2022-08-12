@@ -35,6 +35,9 @@ const buildingSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please add the LONG of the building'],
     },
+    resources: {
+        type: Array,
+    },
     date: {
         type: Date,
         default: Date.now

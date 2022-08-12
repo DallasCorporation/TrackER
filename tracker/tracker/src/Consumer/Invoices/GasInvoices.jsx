@@ -306,6 +306,7 @@ const GasInvoices = ({ bills, cost }) => {
             style={{
                 paddingLeft: 24,
                 paddingRight: 24,
+                height:"85vh"
             }}
         >
             <Row gutter={[16, 16]} style={{ marginTop: "32px" }}>
@@ -319,7 +320,6 @@ const GasInvoices = ({ bills, cost }) => {
                 className="site-page-header"
                 title="Gas Supplier Details"
                 subTitle="Check your supplier earnings and productions"
-                onBack={() => navigate("/Dashboard")}
             />
             <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
                 <Row align="middle" gutter={[32, 32]} >
@@ -352,23 +352,7 @@ const GasInvoices = ({ bills, cost }) => {
                         <ReactApexChart options={optionsLine} series={allGasLine} type="line" height={320} />
                     </Col>
                 </Row>
-                <Divider />
-                <Row style={{ marginTop: 32 }} justify="space-between" align="middle">
-                    {/* <Col span={10}>
-                        <p style={{ fontSize: 18, fontWeight: 500 }}> Profit</p>
-                        <ReactApexChart options={optionsBar} series={[series]} type="bar" height={250} />
-                    </Col>
-                    <Col span={12}>
-                        <p style={{ fontSize: 18, fontWeight: 500 }}>Buildings Gas Usage</p>
-                        <ReactApexChart options={options} series={allGas} type="polarArea" />
-                    </Col>
-                    <Col span={24} style={{ marginTop: 32 }}>
-                        <CustomersBuildingTable headerTitle="Organization Building Gas Overview" columns={columns} data={getData(bills.buildingId)} />
-                    </Col> */}
-                </Row>
-
             </Card>
-            <CustomerDrawer showElectric={false} showWater={false} visible={visible} setVisible={setVisible} width={900} buildingId={bills.buildingId} bills={bills.bills} />
         </Layout>
     )
 }

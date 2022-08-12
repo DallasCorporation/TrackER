@@ -25,7 +25,7 @@ const getRenewableByOrganizationId = asyncHandler(async (req, res) => {
 
 
 const getAll = asyncHandler(async (req, res) => {
-    const goal = await Renewable.find({})
+    const goal = await Renewable.find()
     if (goal) res.status(200).json(goal)
     else {
         res.status(400)

@@ -157,30 +157,24 @@ export const stacked = {
     }
 };
 
-export const linear = (text, unit) => ({
+
+export const linear = (text, unit, color) => ({
     options: {
         chart: {
-            type: 'line',
-            zoom: {
-                enabled: true
-            }
+            id: text,
+            group: 'social',
         },
+        colors: [color],
         dataLabels: {
             enabled: false
         },
         stroke: {
             curve: 'smooth',
-            width: 2
+            width: 1
         },
         title: {
             text: text,
             align: 'center'
-        },
-        grid: {
-            row: {
-                colors: ['#f3f3f3', 'transparent'],
-                opacity: 0.5
-            },
         },
         xaxis: {
             type: 'datetime',
@@ -191,7 +185,6 @@ export const linear = (text, unit) => ({
         },
         tooltip: {
             enabled: true,
-            followCursor: true,
             theme: "light",
             x: {
                 show: true,
@@ -200,8 +193,7 @@ export const linear = (text, unit) => ({
             y: {
                 formatter: (val) => val + " " + unit
             }
-        }
-
+        },
     }
 });
 

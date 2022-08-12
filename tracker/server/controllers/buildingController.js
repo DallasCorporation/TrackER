@@ -31,6 +31,7 @@ const registerBuilding = asyncHandler(async (req, res) => {
         type,
         lat,
         long,
+        resources: []
     })
 
     if (building) {
@@ -54,6 +55,7 @@ const registerBuilding = asyncHandler(async (req, res) => {
                 type: building.type,
                 lat: building.lat,
                 long: building.long,
+                resources: []
             })
         else {
             res.status(400)

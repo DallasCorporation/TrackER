@@ -117,6 +117,9 @@ export default {
         fetchResources: (id) =>
             axios.get(`${API_URL}/renewable/${id}`)
                 .then((res) => res.data),
+        fetchAll: () =>
+            axios.get(`${API_URL}/all/renewable`)
+                .then((res) => res.data),
         fetchResourcesByOrganizationId: (organizationId) =>
             axios.get(`${API_URL}/renewable/organization/${organizationId}`)
                 .then((res) => res.data),

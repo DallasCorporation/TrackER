@@ -48,6 +48,7 @@ const BuildingTab = ({ updateRoute }) => {
             setBuildingsFilter(res)
             dispatch(fetchBuildings(res))
         })
+        window.scroll(0, 0)
     }
     const getBills = async () => {
         await api.bills.getBillsAggregated(user._id).then(res => setBills(res))
@@ -55,6 +56,7 @@ const BuildingTab = ({ updateRoute }) => {
 
     useEffect(() => {
         getBills()
+        window.scroll(0, 0)
     }, [buildings, show])
 
     const getData = (id, type) => {
@@ -159,7 +161,10 @@ const BuildingTab = ({ updateRoute }) => {
                     </Select>
                     <AutoComplete
                         allowClear
-                        onClear={() => setBuildingsFilter(buildings)}
+                        onClear={() => {
+                            setBuildingsFilter(buildings)
+                            window.scroll(0, 0)
+                        }}
                         style={{ width: "65%" }}
                         dataSource={renderItem()}
                         onSelect={(d, da) => renderBuildings(da.value)}
@@ -183,7 +188,7 @@ const BuildingTab = ({ updateRoute }) => {
                         </Empty>
                     </Card>
                     :
-                    buildingsFilter.map((item) => <BuildingCard deleteBuilding={deleteBuilding} getData={getData} setAddress={setAddress} setBuildingId={setBuildingId} setContact={setContact} item={item} setIsModalVisible={setIsModalVisible} setName={setName} setType={setType} showBills={showBills}/>)
+                    buildingsFilter.map((item) => <BuildingCard deleteBuilding={deleteBuilding} getData={getData} setAddress={setAddress} setBuildingId={setBuildingId} setContact={setContact} item={item} setIsModalVisible={setIsModalVisible} setName={setName} setType={setType} showBills={showBills} />)
             }
             <EditBuildingModal setName={(val) => setName(val)} setContact={(val) => setContact(val)} setType={(val) => setType(val)}
                 buildingId={buildingId} name={name} contact={contact} address={address} type={type} visible={isModalVisible} setVisible={() => setIsModalVisible(false)} updateBuilding={() => updateBuilding(buildingId)} />

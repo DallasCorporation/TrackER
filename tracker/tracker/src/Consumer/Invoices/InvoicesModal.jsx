@@ -122,7 +122,7 @@ const InvoicesModal = ({ data, visible, setVisible, timespan, building }) => {
     }
     if (Object.values(electricDetail).length !== 0 && Object.values(gasDetail).length !== 0 && Object.values(waterDetail).length !== 0) {
         return (
-            <Modal visible={visible} width={1000} onOk={() => setVisible(!visible)} onCancel={() => setVisible(!visible)}>
+            <Modal visible={visible} width={1200} onOk={() => setVisible(!visible)} onCancel={() => setVisible(!visible)}>
                 <Tabs defaultActiveKey="1" centered>
                     <TabPane tab="Electric" key="1">
                         <ElectricInvoices bills={data} cost={electricDetail}></ElectricInvoices>

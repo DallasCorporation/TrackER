@@ -1,22 +1,24 @@
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { ProForm, ProFormText } from "@ant-design/pro-components";
-import { Avatar, Button, Card, Col, Collapse, Input, Popconfirm, Radio, Row, Tooltip } from "antd";
+import { Avatar, Button, Card, Col, Collapse, Input, Modal, Popconfirm, Radio, Row, Tabs, Tooltip } from "antd";
 import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { useSelector } from "react-redux";
 import StatsCard from "../DashboardCards/StatsCard";
 import { linear } from "../utils";
 import MapboxMap from "./MapboxMap";
+import ResourcesModal from "./Resources/ResourcesModal";
 
 const BuildingCard = ({ item, setIsModalVisible, setContact, setName, setAddress, setType, setBuildingId, deleteBuilding, showBills, getData }) => {
     const [collapse, setCollapse] = useState(false)
+    const [visible, setVisible] = useState(false)
     const [avatar, setAvatar] = useState("")
     const [organization, setOrganization] = useState("")
     const allOrganization = useSelector(state => state.allOrganization.organization)
     useEffect(() => {
         if (allOrganization === undefined)
             return
-        let res= Object.values(allOrganization).find(el=> el._id===item.organizationId)
+        let res = Object.values(allOrganization).find(el => el._id === item.organizationId)
         setAvatar(res.icon)
         setOrganization(res.name)
     }, [item])
@@ -68,41 +70,40 @@ const BuildingCard = ({ item, setIsModalVisible, setContact, setName, setAddress
                             <ProFormText allowClear={false} value={item.sqft} label="Building Dimension in Sqmt" placeholder="Building Type" colProps={{ span: 12 }} />
                             <ProFormText allowClear={false} value={item.address} label="Building Address" placeholder="Building Address" colProps={{ span: 24 }} />
                             <ProFormText allowClear={false} value={organization} label="Building Organization" placeholder="Building Organization" colProps={{ span: 12 }} />
-                            <Tooltip title={organization +" organization logo"}>
-                            <Avatar size={100} src={avatar} style={{ marginLeft: 100, boxShadow:"2px 4px 12px #000000"}} />
+                            <Tooltip title={organization + " organization logo"}>
+                                <Avatar size={100} src={avatar} style={{ marginLeft: 100, boxShadow: "2px 4px 12px #000000" }} />
                             </Tooltip>
                         </ProForm>
                     </Col>
                 </Row>
-
-                <Collapse style={{ border: 0, }} accordion isActive={collapse} collapsible="header">
+                <Collapse style={{ border: 0, }} accordion isActive={collapse} collapsible="header" >
                     <Collapse.Panel isActive={collapse} style={{ border: 0 }} showArrow={false} collapsible="header"
                         header={<Button style={{ borderRadius: 10 }} type={collapse ? "default" : "primary"} size="large" onClick={() => setCollapse(!collapse)}> {collapse ? "Close" : "Open"}</Button>}
                         key="1">
                         <Row justify="space-between" style={{ marginBottom: "32px", padding: "32px" }} gutter={[32, 32]}>
                             {showBills("Electric", item.organizationId) &&
                                 <Col span={24}>
-                                    <StatsCard
-                                        color={"#ebfafa"}
-                                        chart={<ReactApexChart options={linear('Consumed Electricity', "watt").options} series={getData(item._id, "Electric")} type="line" height={350} />}
-                                    />
+                                    <StatsCard chart={<ReactApexChart options={linear('Consumed Electricity', "watt", "#1984f5").options} series={getData(item._id, "Electric")} type="area" height={350} />} />
                                 </Col>}
                             {showBills("Water", item.organizationId) && <Col span={24}>
-                                <StatsCard
-                                    color={"#ebfafa"}
-                                    chart={<ReactApexChart options={linear('Consumed Water', "liter").options} series={getData(item._id, "Water")} type="line" height={350} />}
-                                />
+                                <StatsCard chart={<ReactApexChart options={linear('Consumed Water', "liter", "#00c2f6").options} series={getData(item._id, "Water")} type="area" height={350} />} />
                             </Col>}
                             {showBills("Gas", item.organizationId) && <Col span={24}>
-                                <StatsCard
-                                    color={"#ebfafa"}
-                                    chart={<ReactApexChart options={linear('Consumed Gas', "m³").options} series={getData(item._id, "Gas")} type="line" height={350} />}
-                                />
+                                <StatsCard chart={<ReactApexChart options={linear('Consumed Gas', "m³", "#00cbc8").options} series={getData(item._id, "Gas")} type="area" height={350} />} />
                             </Col>}
+                            <Col span={24} style={{ marginTop: 22 }}>
+                                {item.resources.length > 0 ?
+                                    <div>das</div> :
+                                    <Row justify="center" >
+                                        <Button onClick={() => setVisible(true)} type="primary" size="large" style={{ borderRadius: 20 }}>Install Renewable Resources</Button>
+                                    </Row>
+                                }
+                            </Col>
                         </Row>
                     </Collapse.Panel>
                 </Collapse>
             </Card>
+            <ResourcesModal building={item} visible={visible} setVisible={setVisible} data={item.resources} />
         </div>
     )
 }

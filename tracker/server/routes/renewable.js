@@ -8,7 +8,7 @@ const {
 router.put('/api/renewable/:id', updateRenewable)
 router.get('/api/renewable/:id', getRenewableById)
 router.get('/api/renewable/organization/:id', getRenewableByOrganizationId)
-router.get('/api/renewable/all', getAll)
+router.get('/api/all/renewable', getAll)
 router.post('/api/renewable', create)
 router.delete('/api/renewable/:id', deleteRenewable)
 

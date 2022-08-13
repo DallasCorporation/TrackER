@@ -192,7 +192,6 @@ const BuildingTab = ({ updateRoute }) => {
             }
             <EditBuildingModal setName={(val) => setName(val)} setContact={(val) => setContact(val)} setType={(val) => setType(val)}
                 buildingId={buildingId} name={name} contact={contact} address={address} type={type} visible={isModalVisible} setVisible={() => setIsModalVisible(false)} updateBuilding={() => updateBuilding(buildingId)} />
-
         </Layout >
     );
 }

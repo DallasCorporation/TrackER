@@ -1,12 +1,13 @@
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { ProForm, ProFormText } from "@ant-design/pro-components";
-import { Avatar, Button, Card, Col, Collapse, Input, Modal, Popconfirm, Radio, Row, Tabs, Tooltip } from "antd";
+import { Avatar, Button, Card, Col, Collapse, Input, Modal, Popconfirm, Radio, Row, Statistic, Tabs, Tooltip } from "antd";
 import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { useSelector } from "react-redux";
 import StatsCard from "../DashboardCards/StatsCard";
 import { linear } from "../utils";
 import MapboxMap from "./MapboxMap";
+import RenewableCards from "./RenewableCards";
 import ResourcesModal from "./Resources/ResourcesModal";
 
 const BuildingCard = ({ item, setIsModalVisible, setContact, setName, setAddress, setType, setBuildingId, deleteBuilding, showBills, getData }) => {
@@ -93,9 +94,13 @@ const BuildingCard = ({ item, setIsModalVisible, setContact, setName, setAddress
                             </Col>}
                             <Col span={24} style={{ marginTop: 22 }}>
                                 {item.resources.length > 0 ?
-                                    <div>das</div> :
                                     <Row justify="center" >
+                                        <RenewableCards resources={item.resources} getData={getData(item._id, "resources")} />
                                         <Button onClick={() => setVisible(true)} type="primary" size="large" style={{ borderRadius: 20 }}>Install Renewable Resources</Button>
+                                    </Row>
+                                    :
+                                    <Row justify="center" >
+                                        <Button onClick={() => setVisible(true)} type="primary" size="large" style={{ borderRadius: 20 }}>Install Your First Renewable Resources</Button>
                                     </Row>
                                 }
                             </Col>

@@ -82,15 +82,15 @@ const getResources = () => {
     if ((date.hours() > 18 && date.hours() <= 10)) {
         return [
             { Solar: 0 },
-            { Wind: Math.random() * 980000 },
+            { Wind: Math.random() * 98000 },
             { Geo: Math.random() * 12500 },
             { Hydro: Math.random() * 3400 }
         ];
     }
     else
         return [
-            { Solar: Math.random() * 316800 },
-            { Wind: Math.random() * 1080000 },
+            { Solar: Math.random() * 31680 },
+            { Wind: Math.random() * 108000 },
             { Geo: Math.random() * 12500 },
             { Hydro: Math.random() * 3400 }
         ]

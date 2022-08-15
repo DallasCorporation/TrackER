@@ -188,7 +188,7 @@ const BuildingTab = ({ updateRoute }) => {
                         </Empty>
                     </Card>
                     :
-                    buildingsFilter.map((item) => <BuildingCard deleteBuilding={deleteBuilding} getData={getData} setAddress={setAddress} setBuildingId={setBuildingId} setContact={setContact} item={item} setIsModalVisible={setIsModalVisible} setName={setName} setType={setType} showBills={showBills} />)
+                    buildingsFilter.map((item) => <BuildingCard bills={bills} deleteBuilding={deleteBuilding} getData={getData} setAddress={setAddress} setBuildingId={setBuildingId} setContact={setContact} item={item} setIsModalVisible={setIsModalVisible} setName={setName} setType={setType} showBills={showBills} />)
             }
             <EditBuildingModal setName={(val) => setName(val)} setContact={(val) => setContact(val)} setType={(val) => setType(val)}
                 buildingId={buildingId} name={name} contact={contact} address={address} type={type} visible={isModalVisible} setVisible={() => setIsModalVisible(false)} updateBuilding={() => updateBuilding(buildingId)} />

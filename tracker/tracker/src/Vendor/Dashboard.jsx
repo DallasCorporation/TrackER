@@ -29,8 +29,10 @@ const Dashboard = () => {
     let navigate = useNavigate()
     const user = useSelector((state) => state.user.user)
     const organization = useSelector((state) => state.organization.organization)
+    const buildings = useSelector((state) => state.allOrganization.allBuildings)
     const allUser = useSelector((state) => state.allUser.user)
     const [loading, setLoading] = useState(true)
+    const [loadingRenew, setLoadingRenew] = useState(true)
     const [visible, setVisible] = useState(false)
     const [userPassed, setUser] = useState({})
     const [kWhSum, setkWh] = useState(0)
@@ -39,6 +41,11 @@ const Dashboard = () => {
     const [gasCost, setGasCost] = useState(0)
     const [waterSum, setWater] = useState(0)
     const [waterCost, setWaterCost] = useState(0)
+    const [sold, setSold] = useState(0)
+    const [totalGeo, setTotalGeo] = useState(0)
+    const [totalWind, setTotalWind] = useState(0)
+    const [totalSolar, setTotalSolar] = useState(0)
+    const [totalHydro, setTotalHydro] = useState(0)
     const [cost, setCost] = useState({})
     const [users, setUsers] = useState([])
 
@@ -93,11 +100,57 @@ const Dashboard = () => {
             }
             setCost(tmpCost)
         })
+        await api.renewable.fetchResourcesByOrganizationId(organization._id).then(res => {
+            let sum = 0
+            res.map(el => {
+                sum += el.buildings.length
+            })
+            setSold(sum)
+        })
+
+
+        await api.bills.getBillsByOrganizationIdAggregated(organization._id).then(res => {
+            let sum = 0
+            let solar = 0
+            let geo = 0
+            let wind = 0
+            let hydro = 0
+            setLoadingRenew(true)
+            res.result.map(el => {
+                let filter = buildings.find(build => build._id === el.buildingId)
+                filter.resources.map(element => {
+                    el.bills.map(bill => {
+                        bill.resources.map(resource => {
+                            if (Object.keys(resource)[0].includes("Solar") && Object.keys(element)[0].includes("Solar")) {
+                                solar += Number(Object.values(resource))
+                            }
+                            if (Object.keys(resource)[0].includes("Wind") && Object.keys(element)[0].includes("Wind")) {
+                                wind += Number(Object.values(resource))
+                            }
+                            if (Object.keys(resource)[0].includes("Hydro") && Object.keys(element)[0].includes("Hydro")) {
+                                hydro += Number(Object.values(resource))
+                            }
+                            if (Object.keys(resource)[0].includes("Geo") && Object.keys(element)[0].includes("Geo")) {
+                                geo += Number(Object.values(resource))
+                            }
+                        })
+                    })
+                    setTotalGeo(geo / 1000)
+                    setTotalHydro(hydro / 1000)
+                    setTotalWind(wind / 1000)
+                    setTotalSolar(solar / 1000)
+                })
+            })
+            setSold(sum)
+            setTimeout(() => {
+                setLoadingRenew(false)
+            }, 1000);
+        })
     }
 
     useEffect(() => {
         let tmp = users
-        if (organization === null || organization===undefined)
+        if (organization === null || organization === undefined)
             return
         organization.customers.forEach(async element => {
             let res = allUser.find(el => el._id === element.user)
@@ -128,7 +181,7 @@ const Dashboard = () => {
                     <Card style={{ borderRadius: 20 }}>
                         <CarouselKpi loading={loading}
                             waterCost={waterCost} gasCost={gasCost} kWhCost={kWhCost}
-                            waterSum={waterSum} gasSum={gasSum} kWhSum={kWhSum}
+                            waterSum={waterSum} gasSum={gasSum} kWhSum={kWhSum} sold={sold}
                         />
                         <Divider />
                         <p style={{ fontSize: 18, fontWeight: 500 }}>Customers List</p>
@@ -140,8 +193,8 @@ const Dashboard = () => {
                 </Col>
                 <Col span={16}>
                     <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
-                        <Row justify="space-between" align="middle" style={{marginBottom:32}}>
-                            <p style={{ fontSize: 18, fontWeight: 500, margin:0 }}>Organization Overview </p>
+                        <Row justify="space-between" align="middle" style={{ marginBottom: 32 }}>
+                            <p style={{ fontSize: 18, fontWeight: 500, margin: 0 }}>Organization Overview </p>
                             <span class="anticon iconfont" style={{ color: "#1196db" }}>&#xe7a7;</span>
                         </Row>
                         <ConsumeCard />
@@ -149,8 +202,8 @@ const Dashboard = () => {
                 </Col>
                 <Col span={8}>
                     <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
-                    <Row justify="space-between" align="middle" style={{marginBottom:32}}>
-                            <p style={{ fontSize: 18, fontWeight: 500,margin:0 }}>Organization Total Cost</p>
+                        <Row justify="space-between" align="middle" style={{ marginBottom: 32 }}>
+                            <p style={{ fontSize: 18, fontWeight: 500, margin: 0 }}>Organization Total Cost</p>
                             <span class="anticon iconfont" style={{ color: "#1196db" }}>&#xe71b;</span>
                         </Row>
                         <Row>
@@ -166,33 +219,33 @@ const Dashboard = () => {
                             <p style={{ fontSize: 18, fontWeight: 500, margin: 0 }}>Organization Total Production</p>
                             <span class="anticon iconfont" style={{ color: "#1196db", }}>&#xe64f;</span>
                         </Row>
-                        <CarouselWrapper style={{ justifyContent: "center" }} autoplay>
+                        <CarouselWrapper style={{ justifyContent: "center" }} autoplay={!loadingRenew}>
                             <Row justify="space-between" align="middle">
                                 <Col span={24} style={{ height: "200px", textAlign: "center", marginTop: 12 }}>
                                     <p style={{ fontWeight: "300", fontSize: 17, color: "#1196db" }}>Total Solar Production</p>
                                     <span class="anticon iconfontMedium3" style={{ color: "#1196db" }}>&#xe65f;</span>
-                                    <Statistic value="0" suffix="Kw" precision={2} />
+                                    <Statistic loading={loadingRenew} value={totalSolar} suffix="Kw" precision={2} />
                                 </Col>
                             </Row>
                             <Row justify="space-between" align="middle">
                                 <Col span={24} style={{ height: "200px", textAlign: "center", marginTop: 12 }}>
                                     <p style={{ fontWeight: "300", fontSize: 17, color: "#1196db" }}>Total Hydro Production</p>
                                     <span class="anticon iconfontMedium3" style={{ color: "#1196db" }}>&#xe650;</span>
-                                    <Statistic value="0" suffix="Kw" precision={2} />
+                                    <Statistic loading={loadingRenew} value={totalHydro} suffix="Kw" precision={2} />
                                 </Col>
                             </Row>
                             <Row justify="space-between" align="middle">
                                 <Col span={24} style={{ height: "200px", textAlign: "center", marginTop: 12 }}>
                                     <p style={{ fontWeight: "300", fontSize: 17, color: "#1196db" }}>Total Windy Production</p>
                                     <span class="anticon iconfontMedium3" style={{ color: "#1196db" }}>&#xe661;</span>
-                                    <Statistic value="0" suffix="Kw" precision={2} />
+                                    <Statistic loading={loadingRenew} value={totalWind} suffix="Kw" precision={2} />
                                 </Col>
                             </Row>
                             <Row justify="space-between" align="middle">
                                 <Col span={24} style={{ height: "200px", textAlign: "center", marginTop: 12 }}>
                                     <p style={{ fontWeight: "300", fontSize: 17, color: "#1196db" }}>Total Geothermic Production</p>
                                     <span class="anticon iconfontMedium3" style={{ color: "#1196db" }}>&#xe64b;</span>
-                                    <Statistic value="0" suffix="Kw" precision={2} />
+                                    <Statistic loading={loadingRenew} value={totalGeo} suffix="Kw" precision={2} />
                                 </Col>
                             </Row>
                         </CarouselWrapper>

@@ -10,7 +10,7 @@ import MapboxMap from "./MapboxMap";
 import RenewableCards from "./RenewableCards";
 import ResourcesModal from "./Resources/ResourcesModal";
 
-const BuildingCard = ({ item, setIsModalVisible, setContact, setName, setAddress, setType, setBuildingId, deleteBuilding, showBills, getData }) => {
+const BuildingCard = ({bills, item, setIsModalVisible, setContact, setName, setAddress, setType, setBuildingId, deleteBuilding, showBills, getData }) => {
     const [collapse, setCollapse] = useState(false)
     const [visible, setVisible] = useState(false)
     const [avatar, setAvatar] = useState("")
@@ -95,12 +95,12 @@ const BuildingCard = ({ item, setIsModalVisible, setContact, setName, setAddress
                             <Col span={24} style={{ marginTop: 22 }}>
                                 {item.resources.length > 0 ?
                                     <Row justify="center" >
-                                        <RenewableCards resources={item.resources} getData={getData(item._id, "resources")} />
-                                        <Button onClick={() => setVisible(true)} type="primary" size="large" style={{ borderRadius: 20 }}>Install Renewable Resources</Button>
+                                        <RenewableCards bills={bills} item={item} resources={item.resources}/>
+                                        <Button onClick={() => setVisible(true)} type="primary" size="large" style={{ borderRadius: 20, marginTop:16 }}>Install Renewable Device</Button>
                                     </Row>
                                     :
                                     <Row justify="center" >
-                                        <Button onClick={() => setVisible(true)} type="primary" size="large" style={{ borderRadius: 20 }}>Install Your First Renewable Resources</Button>
+                                        <Button onClick={() => setVisible(true)} type="primary" size="large" style={{ borderRadius: 20 }}>Install Your First Renewable Device</Button>
                                     </Row>
                                 }
                             </Col>

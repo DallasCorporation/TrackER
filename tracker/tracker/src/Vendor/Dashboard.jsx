@@ -46,6 +46,7 @@ const Dashboard = () => {
     const [totalWind, setTotalWind] = useState(0)
     const [totalSolar, setTotalSolar] = useState(0)
     const [totalHydro, setTotalHydro] = useState(0)
+    const [totalRenew, setTotalRenew] = useState(0)
     const [cost, setCost] = useState({})
     const [users, setUsers] = useState([])
 
@@ -102,15 +103,11 @@ const Dashboard = () => {
         })
         await api.renewable.fetchResourcesByOrganizationId(organization._id).then(res => {
             let sum = 0
-            res.map(el => {
-                sum += el.buildings.length
-            })
+            res.map(el => sum += el.buildings.length)
             setSold(sum)
         })
 
-
         await api.bills.getBillsByOrganizationIdAggregated(organization._id).then(res => {
-            let sum = 0
             let solar = 0
             let geo = 0
             let wind = 0
@@ -139,9 +136,9 @@ const Dashboard = () => {
                     setTotalHydro(hydro / 1000)
                     setTotalWind(wind / 1000)
                     setTotalSolar(solar / 1000)
+                    setTotalRenew((geo + hydro + solar + wind) / 1000)
                 })
             })
-            setSold(sum)
             setTimeout(() => {
                 setLoadingRenew(false)
             }, 1000);
@@ -181,7 +178,7 @@ const Dashboard = () => {
                     <Card style={{ borderRadius: 20 }}>
                         <CarouselKpi loading={loading}
                             waterCost={waterCost} gasCost={gasCost} kWhCost={kWhCost}
-                            waterSum={waterSum} gasSum={gasSum} kWhSum={kWhSum} sold={sold}
+                            waterSum={waterSum} gasSum={gasSum} kWhSum={kWhSum} sold={sold} renewable={totalRenew}
                         />
                         <Divider />
                         <p style={{ fontSize: 18, fontWeight: 500 }}>Customers List</p>

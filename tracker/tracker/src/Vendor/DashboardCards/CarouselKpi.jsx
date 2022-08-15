@@ -1,6 +1,6 @@
 import { Carousel, Row, Spin, Statistic } from "antd"
 
-const CarouselKpi = ({ loading, gasSum, kWhSum, waterSum, gasCost, kWhCost, waterCost, sold }) => {
+const CarouselKpi = ({ loading, gasSum, kWhSum, waterSum, gasCost, kWhCost, waterCost, sold, renewable }) => {
 
     return (
         loading ?
@@ -39,7 +39,7 @@ const CarouselKpi = ({ loading, gasSum, kWhSum, waterSum, gasCost, kWhCost, wate
                         <Statistic title="Total Gas Earnings" value={gasCost} suffix="€" precision={2} />
                         <Statistic title="Total Electric Earnings" value={kWhCost} suffix="€" precision={2} />
                         <Statistic title="Total Water Earnings" value={waterCost} suffix="€" precision={2} />
-                        <Statistic title="Energy Resources Production" value={4} precision={0} />
+                        <Statistic title="Energy Resources Production" value={renewable} suffix="kW" precision={2} />
                     </Row>
                 </div>
             </Carousel>

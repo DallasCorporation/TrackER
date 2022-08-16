@@ -110,7 +110,7 @@ let optionsLine = {
 
 }
 
-const WaterInvoices = ({ bills, cost }) => {
+const WaterInvoices = ({ bills, cost, aggregated }) => {
     let navigate = useNavigate()
     const allBuildings = useSelector(state => state.allOrganization.allBuildings)
     const [metricCubic, setMetric] = useState(true)
@@ -131,11 +131,18 @@ const WaterInvoices = ({ bills, cost }) => {
         setAllWater([])
         setWaterSum(0)
         let totalWater = 0
-        bills.bills.map(el => {
-            totalWater = +totalWater + +el.water
-        })
-        if (bills.bills.length === 0)
-            return
+        if (aggregated === undefined) {
+            bills.bills.map(el => {
+                totalWater = +totalWater + +el.water
+            })
+            if (bills.bills.length === 0)
+                return
+        } else {
+            Object.values(aggregated).map(el => {
+                totalWater = +totalWater + +el.water
+            })
+        }
+
         setWaterSum(Number(totalWater).toFixed(2))
         let earning = 0
         let costTot = 0
@@ -161,18 +168,30 @@ const WaterInvoices = ({ bills, cost }) => {
         }
 
         let tmp = []
-        Object.values(bills.bills).map(el => {
-            tmp.push([el.date, el.water])
-        })
-        setAllWaterLine([{ data: tmp }])
-
-        let sum = 0
-        bills.bills.forEach(singleBill => {
-            sum += singleBill.water
-        })
+        if (aggregated === undefined){
+            Object.values(bills.bills).map(el => {
+                tmp.push([el.date, el.water])
+            })
+            setAllWaterLine([{ data: tmp }])
+    
+            let sum = 0
+            bills.bills.forEach(singleBill => {
+                sum += singleBill.water
+            })
+    
+            setLabels((old) => [...old, allBuildings.find(el => el._id === bills.buildingId).name])
+            setAllWater((old) => [...old, parseFloat(Number(sum).toFixed(4))])
+        }else{
+            let sum = 0
+            Object.values(aggregated).map(el => {
+                tmp.push([el.date, el.water])
+                sum += el.water
+            })
+            setAllWaterLine([{ data: tmp }])
+            //setLabels((old) => [...old, allBuildings.find(el => el._id === bills.buildingId).name])
+            setAllWater((old) => [...old, parseFloat(Number(sum).toFixed(4))])
+        }
         
-        setLabels((old) => [...old, allBuildings.find(el => el._id === bills.buildingId).name])
-        setAllWater((old) => [...old, parseFloat(Number(sum).toFixed(4))])
     }, [bills, metricCubic])
 
     return (
@@ -181,7 +200,7 @@ const WaterInvoices = ({ bills, cost }) => {
             style={{
                 paddingLeft: 24,
                 paddingRight: 24,
-                height:"85vh"
+                height: "85vh"
             }}
         >
             <Row gutter={[16, 16]} style={{ marginTop: "32px" }}>
@@ -199,7 +218,7 @@ const WaterInvoices = ({ bills, cost }) => {
             <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
                 <Row align="middle" gutter={[32, 32]}>
                     <Col span={7} >
-                        <Statistic title="Total Water Usage" value={metricCubic ? waterSum * 0.0001666667 : waterSum} suffix={metricCubic ? "Liter/Hours (l/h)" : "Liter"} precision={3} />
+                        <Statistic title="Total Water Usage" value={metricCubic ? waterSum * 0.0001666667 : waterSum} suffix={metricCubic ? "Liter/Hours (l/h)" : "Liter"} precision={4} />
                         <Row align="middle">
                             <span onClick={() => setMetric(!metricCubic)} style={{ color: "blue", marginRight: 6 }} class="anticon iconfont">&#xe615;</span>
                             <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricCubic ? "Literr/Hours (l/h)" : "Liter"}</p>

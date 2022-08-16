@@ -1,4 +1,4 @@
-export const statebar = {
+export const statebar = (type) => ( {
     options: {
         colors: ['#26f8c9'],
         grid: { show: false },
@@ -27,7 +27,7 @@ export const statebar = {
             labels: {
                 show: false
             },
-            categories: [],
+            categories: [type,type,type],
             position: 'top',
             axisBorder: {
                 show: false
@@ -51,7 +51,7 @@ export const statebar = {
             }
         },
     },
-};
+});
 
 export const stateradial = (color) => ({
     series: [40],

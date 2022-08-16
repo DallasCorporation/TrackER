@@ -110,7 +110,7 @@ let optionsLine = {
 }
 
 
-const ElectricInvoices = ({ bills, cost }) => {
+const ElectricInvoices = ({ bills, cost, aggregated }) => {
     let navigate = useNavigate()
     const allBuildings = useSelector(state => state.allOrganization.allBuildings)
     const [metricCubic, setMetric] = useState(true)
@@ -199,11 +199,18 @@ const ElectricInvoices = ({ bills, cost }) => {
         setAllElectric([])
         setElectricSum(0)
         let totalElectric = 0
-        bills.bills.map(el => {
-            totalElectric = +totalElectric + +el.electric
-        })
-        if (bills.bills.length === 0)
-            return
+        if (aggregated === undefined) {
+            bills.bills.map(el => {
+                totalElectric = +totalElectric + +el.electric
+            })
+
+            if (bills.bills.length === 0)
+                return
+        } else {
+            Object.values(aggregated).map(el => {
+                totalElectric = +totalElectric + +el.electric
+            })
+        }
         setElectricSum(Number(totalElectric).toFixed(2))
         let earning = 0
         let costTot = 0
@@ -244,19 +251,32 @@ const ElectricInvoices = ({ bills, cost }) => {
             ]
         })
         let tmp = []
-        Object.values(bills.bills).map(el => {
-            tmp.push([el.date, el.electric])
-        })
-        setAllElectricLine([{ data: tmp }])
+        if (aggregated === undefined) {
+            Object.values(bills.bills).map(el => {
+                tmp.push([el.date, el.electric])
+            })
+            setAllElectricLine([{ data: tmp }])
 
-        let sum = 0
-        bills.bills.forEach(singleBill => {
-            sum += singleBill.electric
-        })
+            let sum = 0
+            bills.bills.forEach(singleBill => {
+                sum += singleBill.electric
+            })
+            setLabels((old) => [...old, allBuildings.find(el => el._id === bills.buildingId).name])
+            setAllElectric((old) => [...old, parseFloat(Number(sum).toFixed(4))])
 
-        setLabels((old) => [...old, allBuildings.find(el => el._id === bills.buildingId).name])
-        setAllElectric((old) => [...old, parseFloat(Number(sum).toFixed(4))])
-    }, [bills, metricCubic])
+        } else {
+            let sum = 0
+            Object.values(aggregated).map(el => {
+                tmp.push([el.date, el.electric])
+                sum += el.electric
+            })
+            setAllElectricLine([{ data: tmp }])
+            //setLabels((old) => [...old, allBuildings.find(el => el._id === bills.buildingId).name])
+            setAllElectric((old) => [...old, parseFloat(Number(sum).toFixed(4))])
+        }
+
+
+    }, [bills, metricCubic, aggregated])
 
     const columns = [
         {
@@ -294,7 +314,9 @@ const ElectricInvoices = ({ bills, cost }) => {
             render: (_, data) =>
                 <a onClick={() => {
                     setVisible(true)
-                    setBuildingId(bills.buildingId)
+                    if (aggregated === undefined){
+                        setBuildingId(bills.buildingId)
+                    }
                 }} key="1" >
                     See Details
                 </a>
@@ -306,7 +328,7 @@ const ElectricInvoices = ({ bills, cost }) => {
             style={{
                 paddingLeft: 24,
                 paddingRight: 24,
-                height:"85vh"
+                height: "85vh"
             }}
         >
             <Row gutter={[16, 16]} style={{ marginTop: "32px" }}>

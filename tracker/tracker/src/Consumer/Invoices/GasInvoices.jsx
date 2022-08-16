@@ -110,7 +110,7 @@ let optionsLine = {
 }
 
 
-const GasInvoices = ({ bills, cost }) => {
+const GasInvoices = ({ bills, cost, aggregated }) => {
     let navigate = useNavigate()
     const allBuildings = useSelector(state => state.allOrganization.allBuildings)
     const [metricCubic, setMetric] = useState(true)
@@ -201,11 +201,18 @@ const GasInvoices = ({ bills, cost }) => {
         let totalElectric = 0
         let totalGas = 0
         let totalWater = 0
-        bills.bills.map(el => {
-            totalGas = +totalGas + +el.gas
-        })
-        if (bills.bills.length === 0)
-            return
+        if (aggregated === undefined) {
+            bills.bills.map(el => {
+                totalGas = +totalGas + +el.gas
+            })
+            if (bills.bills.length === 0)
+                return
+        }else{
+            Object.values(aggregated).map(el => {
+                totalGas = +totalGas + +el.gas
+            })
+        }
+        
         setGasSum(Number(totalGas).toFixed(2))
         let earning = 0
         let costTot = 0
@@ -246,16 +253,28 @@ const GasInvoices = ({ bills, cost }) => {
             ]
         })
         let tmp = []
-        Object.values(bills.bills).map(el => {
-            tmp.push([el.date, el.gas])
-        })
-        setAllGasLine([{ data: tmp }])
-        let sum = 0
-        bills.bills.forEach(singleBill => {
-            sum += singleBill.gas
-        })
-        setLabels((old) => [...old, allBuildings.find(el => el._id === bills.buildingId).name])
-        setAllGas((old) => [...old, parseFloat(Number(sum).toFixed(4))])
+        if (aggregated === undefined){
+            Object.values(bills.bills).map(el => {
+                tmp.push([el.date, el.gas])
+            })
+            setAllGasLine([{ data: tmp }])
+            let sum = 0
+            bills.bills.forEach(singleBill => {
+                sum += singleBill.gas
+            })
+            setLabels((old) => [...old, allBuildings.find(el => el._id === bills.buildingId).name])
+            setAllGas((old) => [...old, parseFloat(Number(sum).toFixed(4))])
+        }else{
+            let sum = 0
+            Object.values(aggregated).map(el => {
+                tmp.push([el.date, el.gas])
+                sum += el.gas
+            })
+            setAllGasLine([{ data: tmp }])
+            //setLabels((old) => [...old, allBuildings.find(el => el._id === bills.buildingId).name])
+            setAllGas((old) => [...old, parseFloat(Number(sum).toFixed(4))])
+        }
+       
     }, [bills, metricCubic])
 
     const columns = [
@@ -294,7 +313,9 @@ const GasInvoices = ({ bills, cost }) => {
             render: (_, data) =>
                 <a onClick={() => {
                     setVisible(true)
-                    setBuildingId(bills.buildingId)
+                    if (aggregated === undefined){
+                        setBuildingId(bills.buildingId)
+                    }
                 }} key="1" >
                     See Details
                 </a>
@@ -325,7 +346,7 @@ const GasInvoices = ({ bills, cost }) => {
                 <Row align="middle" gutter={[32, 32]} >
 
                     <Col span={7}>
-                        <Statistic title="Total Gas Usage" value={metricCubic ? gasSum * 0.0454249414 / 1000 : gasSum} suffix={metricCubic ? "Gas/m³" : "Gallon"} precision={2} />
+                        <Statistic title="Total Gas Usage" value={metricCubic ? gasSum * 0.0454249414 / 1000 : gasSum} suffix={metricCubic ? "Gas/m³" : "Gallon"} precision={4} />
                         <Row align="middle">
                             <span onClick={() => setMetric(!metricCubic)} style={{ color: "blue", marginRight: 6 }} class="anticon iconfont">&#xe615;</span>
                             <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricCubic ? "Gas/m³" : "Gallon"}</p>

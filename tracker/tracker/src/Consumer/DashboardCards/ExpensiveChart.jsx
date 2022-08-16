@@ -1,11 +1,16 @@
 import { ArrowRightOutlined } from "@ant-design/icons"
 import { ProCard } from "@ant-design/pro-components"
-import { Col, Drawer, Modal, Row } from "antd"
+import { Col, Drawer, Modal, Row, Tabs } from "antd"
 import { useEffect, useState } from "react"
 import ReactApexChart from "react-apexcharts"
+import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import { CardTitle } from "../../Components/CustomComponents"
+import ElectricInvoices from "./../Invoices/ElectricInvoices";
+import GasInvoices from "./../Invoices/GasInvoices";
+import WaterInvoices from "./../Invoices/WaterInvoices";
+const { TabPane } = Tabs;
 
 const RowHover = styled(Row)`
 &:hover {
@@ -82,6 +87,23 @@ const ExpensiveChart = ({ bills }) => {
     const [showModal, setModal] = useState()
     const [showDrawer, setDrawer] = useState()
     const navigate = useNavigate()
+    const allOrganization = useSelector((state) => state.allOrganization.organization)
+    const [gasDetail, setGas] = useState({})
+    const [waterDetail, setWater] = useState({})
+    const [electricDetail, setElectric] = useState({})
+
+    useEffect(() => {
+        if (Object.values(bills).length !== 0) {
+            let organizationDetail = Object.values(allOrganization).find(el => el._id === bills.all[0].organizationId)
+            if (organizationDetail !== undefined) {
+                setGas(organizationDetail.details.gas)
+                setWater(organizationDetail.details.water)
+                setElectric(organizationDetail.details.electric)
+            }
+        }
+
+    }, [allOrganization, bills])
+
     const names = [
         {
             name: "Company Expenses",
@@ -104,33 +126,48 @@ const ExpensiveChart = ({ bills }) => {
         },
     ]
 
-    return (
-        <ProCard bordered style={{ borderRadius: "10px" }}>
-            <Row justify="space-between" align="middle">
-                <CardTitle >Expensive</CardTitle>
-                <span class="anticon iconfont" style={{ color: "blue" }} >&#xe71b;</span>
-            </Row>
-            <Row justify="center">
-                <ReactApexChart options={state.options} series={state.series} type="donut" height={320} />
-            </Row>
-            <CardTitle style={{ marginTop: "32px" }}>By Category</CardTitle>
-            {names.map((el) => {
-                return (
-                    <RowHover justify="space-evenly" align="middle" style={{ padding: 12 }} className="hover" onClick={() => el.action()}>
-                        <Col span={4} style={{ color: "blue" }}> {el.icon}</Col>
-                        <Col span={16} >
-                            <CardTitle style={{ lineHeight: 1 }} >{el.name}</CardTitle>
-                            <p>{el.desc}</p>
-                        </Col>
-                        <Col span={4} style={{ textAlign: "end", color: "blue" }}>
-                            <ArrowRightOutlined />
-                        </Col>
-                    </RowHover>
-                )
-            })}
-            <Drawer visible={showDrawer} onClose={()=> setDrawer(false)}></Drawer>
-            <Modal visible={showModal} onCancel={()=>setModal(false)}></Modal>
-        </ProCard>
-    )
+    if (Object.values(bills).length !== 0) {
+        return (
+            <ProCard bordered style={{ borderRadius: "10px" }}>
+                <Row justify="space-between" align="middle">
+                    <CardTitle >Expensive</CardTitle>
+                    <span class="anticon iconfont" style={{ color: "blue" }} >&#xe71b;</span>
+                </Row>
+                <Row justify="center">
+                    <ReactApexChart options={state.options} series={state.series} type="donut" height={320} />
+                </Row>
+                <CardTitle style={{ marginTop: "32px" }}>By Category</CardTitle>
+                {names.map((el) => {
+                    return (
+                        <RowHover justify="space-evenly" align="middle" style={{ padding: 12 }} className="hover" onClick={() => el.action()}>
+                            <Col span={4} style={{ color: "blue" }}> {el.icon}</Col>
+                            <Col span={16} >
+                                <CardTitle style={{ lineHeight: 1 }} >{el.name}</CardTitle>
+                                <p>{el.desc}</p>
+                            </Col>
+                            <Col span={4} style={{ textAlign: "end", color: "blue" }}>
+                                <ArrowRightOutlined />
+                            </Col>
+                        </RowHover>
+                    )
+                })}
+                <Drawer visible={showDrawer} onClose={() => setDrawer(false)}>
+                    <Tabs defaultActiveKey="1" centered>
+                        <TabPane tab="Electric" key="1">
+                            <ElectricInvoices cost={electricDetail} aggregated={bills.aggregated}></ElectricInvoices>
+                        </TabPane>
+                        <TabPane tab="Gas" key="2">
+                            <GasInvoices bills={bills.all[0]} cost={gasDetail} aggregated={bills.aggregated}></GasInvoices>
+                        </TabPane>
+                        <TabPane tab="Water" key="3">
+                            <WaterInvoices bills={bills.all[0]} cost={waterDetail} aggregated={bills.aggregated}></WaterInvoices>
+                        </TabPane>
+                    </Tabs>
+                </Drawer>
+                <Modal visible={showModal} onCancel={() => setModal(false)}></Modal>
+            </ProCard>
+        )
+    }
+
 }
 export default ExpensiveChart

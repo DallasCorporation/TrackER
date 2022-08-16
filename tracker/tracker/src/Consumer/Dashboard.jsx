@@ -81,7 +81,7 @@ const Dashboard = () => {
   const [gas, setGas] = useState({})
   const [water, setWater] = useState({})
   const [electric, setElectric] = useState({})
-  const day = moment().subtract(3, 'days');
+  const day = moment().subtract(31, 'days');
 
   let navigate = useNavigate();
   const getBillsAggregated = async () => {
@@ -106,9 +106,9 @@ const Dashboard = () => {
           sumGas = +sumGas + +el.gas
           oldMoment = el.date
         } else {
-          water.push(Number(sumWater).toFixed(2))
-          electric.push(Number(sumElectric).toFixed(2))
-          gas.push(Number(sumGas).toFixed(2))
+          water.push(Number(sumWater).toFixed(3))
+          electric.push(Number(sumElectric).toFixed(3))
+          gas.push(Number(sumGas).toFixed(3))
           sumWater = Number(el.water)
           sumElectric = Number(el.electric)
           sumGas = Number(el.gas)
@@ -118,7 +118,10 @@ const Dashboard = () => {
       electric.shift()
       gas.shift()
       water.shift()
-
+      electric = electric.slice(-3)
+      gas = gas.slice(-3)
+      water = water.slice(-3)
+      
       setWater({name:"Water", data:water})
       setGas({name:"Gas", data:gas})
       setElectric({name:"Electric", data:electric})
@@ -146,32 +149,25 @@ const Dashboard = () => {
             <LineCard data={getData(bills)} />
           </Row>
           <Row justify="center" gutter={[32, 32]} style={{ marginTop: "32px" }}>
-            <Col lg={6} md={6} sx={6} >
+            <Col lg={8} md={8} sx={8} >
               <StatsCard
                 color={"#ebfafa"}
-                chart={<ReactApexChart options={statebar.options} series={[electric]} type="bar" height={150} />}
+                chart={<ReactApexChart options={statebar("Electric").options} series={[electric]} type="bar" height={150} />}
                 value={bills.totalElectric}
               />
             </Col>
-            <Col lg={6} md={6} sx={6}>
+            <Col lg={8} md={8} sx={8}>
               <StatsCard
                 color={"#ebfafa"}
-                chart={<ReactApexChart options={statebar.options} series={[water]} type="bar" height={150} />}
+                chart={<ReactApexChart options={statebar("Water").options} series={[water]} type="bar" height={150} />}
                 value={bills.totalWater}
               />
             </Col>
-            <Col lg={6} md={6} sx={6}>
+            <Col lg={8} md={8} sx={8}>
               <StatsCard
                 color={"#ebfafa"}
-                chart={<ReactApexChart options={statebar.options} series={[gas]} type="bar" height={150} />}
+                chart={<ReactApexChart options={statebar("Gas").options} series={[gas]} type="bar" height={150} />}
                 value={bills.totalGas}
-              />
-            </Col>
-            <Col lg={6} md={6} sx={6}>
-              <StatsCard
-                color={"#fdeffc"}
-                chart={<ReactApexChart options={stateradial("#fe9ca9").options} series={stateradial('#fe9ca9').series} type="radialBar" height={185} />}
-                value={"2,345"}
               />
             </Col>
           </Row>

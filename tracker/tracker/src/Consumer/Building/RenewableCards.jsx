@@ -1,40 +1,132 @@
-import { Card, Col, Modal, Row, Statistic } from "antd"
+import { Card, Col, Divider, Modal, PageHeader, Row, Statistic } from "antd"
 import moment from "moment"
 import { useEffect, useState } from "react"
+import ReactApexChart from "react-apexcharts"
+import api from "../../api"
+let optionsBar = {
+    chart: {
+        type: 'bar',
+        toolbar: { show: false, },
+    },
+    plotOptions: {
+        bar: {
+            borderRadius: 4,
+            horizontal: true,
+        },
+    },
+    tooltip: {
+        enabled: true,
+
+        y: {
+            formatter: function (val) {
+                return val + "€"
+            },
+            title: {
+                formatter: (seriesName, props) => {
+                    return ["Total Earnings", "Installation Cost"][props.dataPointIndex]
+                },
+            },
+        }
+    },
+    dataLabels: {
+        enabled: false
+    },
+    xaxis: {
+        categories: ["Total Earnings", "Installation Cost"],
+    }
+}
+
+let optionsLine = {
+    legend: {
+        position: "top",
+        horizontalAlign: "center",
+        align: "right"
+    },
+    chart: {
+        id: 'area-datetime',
+        type: 'area',
+        autoSelected: 'selection',
+        animations: {
+            enabled: true,
+            easing: 'easein',
+            speed: 800,
+            animateGradually: {
+                enabled: true,
+                delay: 150
+            },
+        },
+        toolbar: { show: true, },
+    },
+    colors: ['#00E396'],
+    stroke: {
+        curve: 'smooth',
+        width: 2,
+        lineCap: 'butt',
+    },
+    dataLabels: {
+        enabled: false
+    },
+    yaxis: {
+        labels: {
+            formatter: function (val) {
+                return (val / 1000).toFixed(2) + " KW"
+            },
+        }
+    },
+    xaxis: {
+        type: 'datetime',
+        tooltip: {
+            enabled: false
+        },
+        labels: {
+            show: true,
+            datetimeUTC: false,
+            datetimeFormatter: {
+                year: 'yyyy',
+                month: "MMM 'yy",
+                day: 'dd MMM',
+                hour: 'HH:mm',
+            },
+        },
+    },
+    tooltip: {
+        enabled: true,
+        followCursor: true,
+        theme: "light",
+        x: {
+            show: true,
+            format: "dd-MM-yyyy HH:mm"
+        },
+        y: {
+            formatter: function (val) {
+                return (val / 1000).toFixed(2) + "kW"
+            },
+            title: {
+                formatter: () => {
+                    return "Electric Usage"
+                },
+            },
+        }
+    }
+
+}
+
+
 
 const RenewableCards = ({ item, bills, resources }) => {
 
-    const getData = (filter) => {
-        let resArray = resources.map(el => Object.keys(el)[0])
-        let data = []
-        if (bills.all === undefined)
-            return []
-        let test = bills.all.find(el => el.buildingId === item._id)
-        if (test === undefined) {
-            return []
-        }
-        test.bills.map(el => {
-            el["resources"].forEach(element => {
-                if (resArray.includes(Object.keys(element)[0]) && Object.keys(element)[0] === filter) {
-                    data.push({
-                        x: moment.utc(el.date).local().format(),
-                        y: Number(Object.values(element)).toFixed(2)
-                    })
-                }
-            })
-        })
-        let series = [{
-            name: filter,
-            data: data
-        }]
-        return series
-    }
-
-    const getAllData = () => {
+    const getAllData = async () => {
+        setHydroSum(0)
+        setSolarSum(0)
+        setWindSum(0)
+        setGeoSum(0)
+        setTotalSum(0)
+        setAllBills([])
         let resArray = resources.map(el => Object.keys(el)[0])
         if (bills.all === undefined)
             return []
         let test = bills.all.find(el => el.buildingId === item._id)
+        await api.renewable.fetchResourcesByBuildingId(test.buildingId).then(res => setDevice(res))
         if (test === undefined) return []
         test.bills.map(el => {
             el["resources"].forEach(element => {
@@ -42,19 +134,23 @@ const RenewableCards = ({ item, bills, resources }) => {
                     switch (Object.keys(element)[0]) {
                         case "Solar":
                             setSolarSum((old) => old + Number(Object.values(element)))
-                            setTotalSum((old) => old + + Number(Object.values(element)))
+                            setTotalSum((old) => old + Number(Object.values(element)))
+                            setAllBills((old) => [...old, [el.date, Number(Object.values(element)).toFixed(2)]])
                             break;
                         case "Hydro":
                             setHydroSum((old) => old + Number(Object.values(element)))
-                            setTotalSum((old) => old + + Number(Object.values(element)))
+                            setTotalSum((old) => old + Number(Object.values(element)))
+                            setAllBills((old) => [...old, [el.date, Number(Object.values(element)).toFixed(2)]])
                             break;
                         case "Geo":
                             setGeoSum((old) => old + Number(Object.values(element)))
-                            setTotalSum((old) => old + + Number(Object.values(element)))
+                            setTotalSum((old) => old + Number(Object.values(element)))
+                            setAllBills((old) => [...old, [el.date, Number(Object.values(element)).toFixed(2)]])
                             break;
                         case "Wind":
                             setWindSum((old) => old + Number(Object.values(element)))
-                            setTotalSum((old) => old + + Number(Object.values(element)))
+                            setTotalSum((old) => old + Number(Object.values(element)))
+                            setAllBills((old) => [...old, [el.date, Number(Object.values(element)).toFixed(2)]])
                             break;
                         default:
                             break;
@@ -71,18 +167,74 @@ const RenewableCards = ({ item, bills, resources }) => {
     const [windSum, setWindSum] = useState(0)
     const [solarSum, setSolarSum] = useState(0)
     const [totalSum, setTotalSum] = useState(0)
+    const [allBills, setAllBills] = useState([])
+    const [device, setDevice] = useState({})
     const [metric, setMetric] = useState(true)
 
     useEffect(() => {
+        setAllBills([])
         getAllData()
-    }, [])
+    }, [filter])
 
 
-    const renderData = (filter) => {
-        console.log(getData(filter))
+    const getSeries = () => {
+        return [
+            {
+                data: [
+                    {
+                        x: 'Organization Earnings',
+                        y: (device.earning * totalSum / 1000).toFixed(2),
+                        fillColor: '#00E396'
 
+                    }, {
+                        x: 'Organization Cost',
+                        y: Number(device.price).toFixed(2),
+                        fillColor: "#d40000"
+                    }
+                ]
+            }
+        ]
     }
 
+    const renderData = (filter) =>
+        <>
+            <PageHeader
+                style={{ paddingLeft: 0 }}
+                className="site-page-header"
+                title={filter + " Devices Production"}
+                subTitle="Check your devices earnings and productions"
+            />
+            <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
+                <Row align="top" gutter={[32, 32]} >
+                    <Col span={12}>
+                        <Statistic title={`Total ${filter} Usage`} value={metric ? totalSum / 1000 : totalSum} suffix={metric ? "Kilowatt Hours (kWh)" : "Watt"} precision={2} />
+                        <Row align="middle">
+                            <span onClick={() => setMetric(!metric)} style={{ color: "blue", marginRight: 6 }} class="anticon iconfont">&#xe615;</span>
+                            <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metric ? "Kilowatt Hours (kWh)" : "Watt"}</p>
+                        </Row>
+                    </Col>
+                    <Col span={12}>
+                        <Statistic title="Total Earnings" value={(device.earning * totalSum / 1000).toFixed(2)} suffix={"Euro €"} precision={2} />
+                    </Col>
+                </Row>
+                <Divider />
+
+                <Row style={{ marginTop: 32 }} justify="center" align="middle">
+                    <Col span={24}>
+                        <p style={{ fontSize: 18, fontWeight: 500 }}> {filter} Usage</p>
+                        <ReactApexChart options={optionsLine} series={[{ data: allBills }]} type="line" height={320} />
+                    </Col>
+                </Row>
+                <Divider />
+                <Row style={{ marginTop: 32 }} justify="space-between" align="middle">
+                    <Col span={24}>
+                        <p style={{ fontSize: 18, fontWeight: 500 }}> Total Profit</p>
+                        <ReactApexChart options={optionsBar} series={getSeries()} type="bar" height={250} />
+                    </Col>
+                </Row>
+
+            </Card>
+        </>
 
     return (
         <Row justify="center" gutter={[32, 32]}>
@@ -133,7 +285,7 @@ const RenewableCards = ({ item, bills, resources }) => {
                     <Statistic value={!metric ? geoSum : geoSum / 1000} suffix={metric ? "kW" : "W"} precision={2} />
                 </Card>
             </Col>
-            <Modal visible={visible} onCancel={() => setVisible(false)} width={800} title={"Total " + filter + " Production"}>
+            <Modal destroyOnClose visible={visible} onCancel={() => setVisible(false)} width={800} title={"Total " + filter + " Production"}>
                 {renderData(filter)}
             </Modal>
         </Row >

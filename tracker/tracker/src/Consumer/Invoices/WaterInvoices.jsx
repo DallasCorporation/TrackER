@@ -168,20 +168,20 @@ const WaterInvoices = ({ bills, cost, aggregated }) => {
         }
 
         let tmp = []
-        if (aggregated === undefined){
+        if (aggregated === undefined) {
             Object.values(bills.bills).map(el => {
                 tmp.push([el.date, el.water])
             })
             setAllWaterLine([{ data: tmp }])
-    
+
             let sum = 0
             bills.bills.forEach(singleBill => {
                 sum += singleBill.water
             })
-    
+
             setLabels((old) => [...old, allBuildings.find(el => el._id === bills.buildingId).name])
             setAllWater((old) => [...old, parseFloat(Number(sum).toFixed(4))])
-        }else{
+        } else {
             let sum = 0
             Object.values(aggregated).map(el => {
                 tmp.push([el.date, el.water])
@@ -191,7 +191,7 @@ const WaterInvoices = ({ bills, cost, aggregated }) => {
             //setLabels((old) => [...old, allBuildings.find(el => el._id === bills.buildingId).name])
             setAllWater((old) => [...old, parseFloat(Number(sum).toFixed(4))])
         }
-        
+
     }, [bills, metricCubic])
 
     return (
@@ -200,7 +200,7 @@ const WaterInvoices = ({ bills, cost, aggregated }) => {
             style={{
                 paddingLeft: 24,
                 paddingRight: 24,
-                height: "85vh"
+                height: "105vh"
             }}
         >
             <Row gutter={[16, 16]} style={{ marginTop: "32px" }}>

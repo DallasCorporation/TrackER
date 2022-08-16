@@ -112,10 +112,16 @@ export default {
         getBillsByOrganizationIdAggregated: (organizationId) =>
             axios.get(`${API_URL}/bills/organization/aggregated/${organizationId}`)
                 .then((res) => res.data),
+        getBillsRenewable: (buildingId) =>
+            axios.get(`${API_URL}/bills/renewable/${buildingId}`)
+                .then((res) => res.data),
     },
     renewable: {
         fetchResources: (id) =>
             axios.get(`${API_URL}/renewable/${id}`)
+                .then((res) => res.data),
+        fetchResourcesByBuildingId: (id) =>
+            axios.get(`${API_URL}/renewable/building/${id}`)
                 .then((res) => res.data),
         fetchAll: () =>
             axios.get(`${API_URL}/all/renewable`)

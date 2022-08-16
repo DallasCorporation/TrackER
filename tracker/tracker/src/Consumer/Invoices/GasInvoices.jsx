@@ -327,7 +327,7 @@ const GasInvoices = ({ bills, cost, aggregated }) => {
             style={{
                 paddingLeft: 24,
                 paddingRight: 24,
-                height:"85vh"
+                height:"105vh"
             }}
         >
             <Row gutter={[16, 16]} style={{ marginTop: "32px" }}>

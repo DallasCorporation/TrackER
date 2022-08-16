@@ -71,7 +71,7 @@ const getBills = asyncHandler(async (req, res) => {
 
 const getBuildingBills = asyncHandler(async (req, res) => {
   const goal = await billsModel.findOne({ buildingId: ObjectId(req.params.id) })
-  
+
   if (!goal) {
     res.status(400).json([])
     throw new Error('Bill Not found')
@@ -89,7 +89,7 @@ const getBillsAggregatedFiltered = asyncHandler(async (req, res) => {
       if (err) throw err;
       let data = {}
       if (req.params.id === "undefined") return res.status(400).json(data);
-      
+
       const goal = await Building.find({ userId: ObjectId(req.params.id) })
       let electric = 0
       let gas = 0
@@ -194,6 +194,33 @@ const getBillsByOrganizationIdAggregated = asyncHandler(async (req, res) => {
     });
 })
 
+const getBillsRenewableOnly = asyncHandler(async (req, res) => {
+  const bills = await billsModel.findOne({ buildingId: (req.params.id) })
+  let totalSolar = 0, totalWind = 0, totalGeo = 0, totalHydro = 0
+  if (!bills) {
+    res.status(400)
+    throw new Error('User not found')
+  }
+
+  let renewable = Object.values(bills.bills).map(el => {
+    if (el.resources.length > 0) {
+      el.resources.map(ele => {
+        totalSolar += Object.keys(ele).includes("Solar") ? parseFloat(Object.values(ele)) : 0
+        totalGeo += Object.keys(ele).includes("Geo") ? parseFloat(Object.values(ele)) : 0
+        totalWind += Object.keys(ele).includes("Wind") ? parseFloat(Object.values(ele)) : 0
+        totalHydro += Object.keys(ele).includes("Hydro") ? parseFloat(Object.values(ele)) : 0
+      })
+      return { date: el.date, resources: el.resources }
+    }
+  }).filter(el => el !== undefined)
+
+  totalSolar = Number(totalSolar.toFixed(2))
+  totalWind = Number(totalWind.toFixed(2))
+  totalGeo = Number(totalGeo.toFixed(2))
+  totalHydro = Number(totalHydro.toFixed(2))
+
+  res.status(200).json({ renewable, totalSolar, totalWind, totalGeo, totalHydro })
+})
 
 
 module.exports = {
@@ -202,5 +229,6 @@ module.exports = {
   getBillsAggregatedFiltered,
   getBillsByOrganizationId,
   getBillsByOrganizationIdAggregated,
-  getBuildingBills
+  getBuildingBills,
+  getBillsRenewableOnly
 }

@@ -314,7 +314,7 @@ const ElectricInvoices = ({ bills, cost, aggregated }) => {
             render: (_, data) =>
                 <a onClick={() => {
                     setVisible(true)
-                    if (aggregated === undefined){
+                    if (aggregated === undefined) {
                         setBuildingId(bills.buildingId)
                     }
                 }} key="1" >
@@ -328,7 +328,7 @@ const ElectricInvoices = ({ bills, cost, aggregated }) => {
             style={{
                 paddingLeft: 24,
                 paddingRight: 24,
-                height: "85vh"
+                height: "105vh"
             }}
         >
             <Row gutter={[16, 16]} style={{ marginTop: "32px" }}>

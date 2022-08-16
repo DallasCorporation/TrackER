@@ -24,6 +24,17 @@ const getRenewableByOrganizationId = asyncHandler(async (req, res) => {
 })
 
 
+const getRenewableByBuildingId = asyncHandler(async (req, res) => {
+    const goal = await Renewable.findOne({ buildings: ObjectId(req.params.id) })
+    if (goal)
+        res.status(200).json(goal)
+    else {
+        res.status(400).json({})
+        throw new Error('Renewable not found')
+    }
+})
+
+
 const getAll = asyncHandler(async (req, res) => {
     const goal = await Renewable.find()
     if (goal) res.status(200).json(goal)
@@ -88,5 +99,6 @@ module.exports = {
     getAll,
     getRenewableById,
     create,
-    getRenewableByOrganizationId
+    getRenewableByOrganizationId,
+    getRenewableByBuildingId
 }

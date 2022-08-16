@@ -1,8 +1,9 @@
-import { Button, Card, Col, Descriptions, message, Modal, Popconfirm, Row, Tooltip } from "antd"
+import { Button, Card, Col, message, Modal, Popconfirm, Row, Tooltip } from "antd"
 import { ProForm, ProFormMoney, ProFormSelect, ProFormText, ProTable } from "@ant-design/pro-components"
 import api from "../../api"
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import RenewableDetailsModal from "./RenewableDetailsModal";
 const ResourcesModal = ({ visible, setVisible, data, options, }) => {
 
     const columns = [
@@ -49,9 +50,14 @@ const ResourcesModal = ({ visible, setVisible, data, options, }) => {
             render: (_, data) =>
                 <Row justify="space-around" gutter={[16, 16]}>
                     <Tooltip title="See Building List">
-                        <div style={{ cursor: "pointer" }}><span class="anticon iconfont" style={{ color: "blue" }}>&#xe7c6;</span></div>
+                        <div style={{ cursor: "pointer" }} onClick={() => {
+                            setShow(true)
+                            setShowData(data)
+                        }}>
+                            <span class="anticon iconfont" style={{ color: "blue" }}>&#xe7c6;</span>
+                        </div>
                     </Tooltip>
-                    <Popconfirm title="Are you sure to delete this Device " onConfirm={() => deleteResources(data._id)}>
+                    <Popconfirm title="Are you sure to delete this Device" onConfirm={() => deleteResources(data._id)}>
                         <Tooltip title="Delete Device">
                             <div style={{ cursor: "pointer" }}><span class="anticon iconfont" style={{ color: "red" }} >&#x100dd;</span></div>
                         </Tooltip>
@@ -67,6 +73,8 @@ const ResourcesModal = ({ visible, setVisible, data, options, }) => {
     const [type, setType] = useState("")
     const [dataTable, setDataTable] = useState([])
     const organizationId = useSelector((state) => state.organization.organization._id)
+    const [show, setShow] = useState(false)
+    const [showData, setShowData] = useState({})
 
     const ref = useRef();
 
@@ -139,6 +147,7 @@ const ResourcesModal = ({ visible, setVisible, data, options, }) => {
                         <Button type="primary" style={{ borderRadius: 20, marginTop: 22 }} onClick={() => submit(data.name)}>Add Resources</Button>
                     </Row>
                 </Card>)} />
+            <RenewableDetailsModal filter={data.name} data={showData} visible={show} setVisible={setShow} />
         </Modal >
     )
 }

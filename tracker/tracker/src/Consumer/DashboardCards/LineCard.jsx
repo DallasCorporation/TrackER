@@ -10,6 +10,7 @@ import moment from "moment"
 
 
 const options = {
+    colors: [ "#ffcf45", "#19e396","#008ffb"],
     legend: {
         position: "top",
         horizontalAlign: "center",
@@ -86,7 +87,7 @@ const LineCard = ({ data }) => {
                     </CardTitle>
                 </Col>
                 <Col>
-                    <DatePicker.RangePicker  placeholder={["Start Date","End Date"]}  locale={locale} onChange={(e) => filterData(e)} />
+                    <DatePicker.RangePicker placeholder={["Start Date", "End Date"]} locale={locale} onChange={(e) => filterData(e)} />
                 </Col>
             </Row>
             <ReactApexChart options={options} series={data} type="area" height={350} />

@@ -1,6 +1,6 @@
-export const statebar = (type) => ( {
+export const statebar = (type, color) => ( {
     options: {
-        colors: ['#26f8c9'],
+        colors: [color],
         grid: { show: false },
         chart: {
             animations: {

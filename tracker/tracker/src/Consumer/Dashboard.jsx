@@ -121,10 +121,10 @@ const Dashboard = () => {
       electric = electric.slice(-3)
       gas = gas.slice(-3)
       water = water.slice(-3)
-      
-      setWater({name:"Water", data:water})
-      setGas({name:"Gas", data:gas})
-      setElectric({name:"Electric", data:electric})
+
+      setWater({ name: "Water", data: water })
+      setGas({ name: "Gas", data: gas })
+      setElectric({ name: "Electric", data: electric })
     })
   }
   useEffect(() => {
@@ -152,21 +152,21 @@ const Dashboard = () => {
             <Col lg={8} md={8} sx={8} >
               <StatsCard
                 color={"#ebfafa"}
-                chart={<ReactApexChart options={statebar("Electric").options} series={[electric]} type="bar" height={150} />}
+                chart={<ReactApexChart options={statebar("Water", "#008ffb").options} series={[water]} type="bar" height={150} />}
                 value={bills.totalElectric}
               />
             </Col>
             <Col lg={8} md={8} sx={8}>
               <StatsCard
-                color={"#ebfafa"}
-                chart={<ReactApexChart options={statebar("Water").options} series={[water]} type="bar" height={150} />}
+                color={"#fff9e9"}
+                chart={<ReactApexChart options={statebar("Electric", "#ffcf45").options} series={[electric]} type="bar" height={150} />}
                 value={bills.totalWater}
               />
             </Col>
             <Col lg={8} md={8} sx={8}>
               <StatsCard
                 color={"#ebfafa"}
-                chart={<ReactApexChart options={statebar("Gas").options} series={[gas]} type="bar" height={150} />}
+                chart={<ReactApexChart options={statebar("Gas", "#19e396").options} series={[gas]} type="bar" height={150} />}
                 value={bills.totalGas}
               />
             </Col>

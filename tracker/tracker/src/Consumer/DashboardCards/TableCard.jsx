@@ -1,5 +1,4 @@
 import { Card, Col, Row } from "antd";
-import { ProCard } from "@ant-design/pro-components";
 import { ProTable } from '@ant-design/pro-components';
 import React from 'react';
 

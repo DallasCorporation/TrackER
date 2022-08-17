@@ -1,16 +1,14 @@
-import { Breadcrumb, Button, Card, Col, Layout, PageHeader, Row, Segmented, Space, Tag } from "antd";
+import { Breadcrumb, Button, Card, Col, Layout, PageHeader, Row, Segmented } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { ProList } from "@ant-design/pro-components";
+import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import api from "../../api";
-import { ConsoleSqlOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { InfoCircleOutlined } from '@ant-design/icons';
 import InvoicesModal from "./InvoicesModal";
 
 const Invoices = () => {
     const filter = useLocation().pathname.split("/")[2]
     const buildings = useSelector(state => state.buildings.buildings)
-    const organizations = useSelector(state => state.allOrganization.organization)
     const user = useSelector((state) => state.user.user)
     const [bills, setBills] = useState({})
     const [data, setData] = useState({})

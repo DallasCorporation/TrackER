@@ -1,6 +1,6 @@
 import { Col, Row } from "antd";
 import React, { useEffect } from "react";
-const StatsCard = ({ chart, refresh, value, title, color = "#FFFFFF" }) => {
+const StatsCard = ({ chart, refresh, color = "#FFFFFF" }) => {
     useEffect(() => {
     }, [chart, refresh])
     return (

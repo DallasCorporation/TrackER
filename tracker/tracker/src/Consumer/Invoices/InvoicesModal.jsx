@@ -61,8 +61,6 @@ const InvoicesModal = ({ data, visible, setVisible, timespan, building }) => {
 
     })
 
-    console.log(data, electricDetail)
-
     if (Object.values(electricDetail).length !== 0 && Object.values(gasDetail).length !== 0 && Object.values(waterDetail).length !== 0) {
         return (
             <Modal visible={visible} width={1200} onOk={() => setVisible(!visible)} onCancel={() => setVisible(!visible)}>

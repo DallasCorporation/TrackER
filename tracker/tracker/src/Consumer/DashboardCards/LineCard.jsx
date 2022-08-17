@@ -1,12 +1,10 @@
 import { Col, DatePicker, Row } from "antd";
-import { ProCard, useDeepCompareEffect } from "@ant-design/pro-components";
+import { ProCard } from "@ant-design/pro-components";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 import locale from 'antd/es/date-picker/locale/it_IT'
 import { CardTitle } from "../../Components/CustomComponents";
-import { useState } from "react";
 import ApexCharts from 'apexcharts';
-import moment from "moment"
 
 
 const options = {

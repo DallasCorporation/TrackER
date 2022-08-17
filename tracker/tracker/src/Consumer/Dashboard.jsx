@@ -1,10 +1,10 @@
-import { Avatar, Button, Col, Image, Layout, Row, } from "antd";
+import { Avatar, Col, Layout, Row, } from "antd";
 import React, { useEffect } from "react";
 import BannerCard from "./DashboardCards/BannerCard";
 import ReactApexChart from "react-apexcharts";
 import LineCard from "./DashboardCards/LineCard";
 import StatsCard from "./DashboardCards/StatsCard";
-import { statebar, stateradial } from "./utils";
+import { statebar } from "./utils";
 import ExpensiveChart from "./DashboardCards/ExpensiveChart";
 import { ProCard } from "@ant-design/pro-components";
 import { ArrowRightOutlined } from "@ant-design/icons";
@@ -153,21 +153,18 @@ const Dashboard = () => {
               <StatsCard
                 color={"#ebfafa"}
                 chart={<ReactApexChart options={statebar("Water", "#008ffb").options} series={[water]} type="bar" height={150} />}
-                value={bills.totalElectric}
               />
             </Col>
             <Col lg={8} md={8} sx={8}>
               <StatsCard
                 color={"#fff9e9"}
                 chart={<ReactApexChart options={statebar("Electric", "#ffcf45").options} series={[electric]} type="bar" height={150} />}
-                value={bills.totalWater}
               />
             </Col>
             <Col lg={8} md={8} sx={8}>
               <StatsCard
                 color={"#ebfafa"}
                 chart={<ReactApexChart options={statebar("Gas", "#19e396").options} series={[gas]} type="bar" height={150} />}
-                value={bills.totalGas}
               />
             </Col>
           </Row>

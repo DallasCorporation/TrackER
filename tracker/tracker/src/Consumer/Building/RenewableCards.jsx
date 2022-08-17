@@ -1,8 +1,9 @@
-import { Card, Col, Divider, Modal, PageHeader, Row, Statistic } from "antd"
+import { Button, Card, Col, Divider, Empty, Modal, PageHeader, Row, Statistic } from "antd"
 import moment from "moment"
 import { useEffect, useState } from "react"
 import ReactApexChart from "react-apexcharts"
 import api from "../../api"
+import ResourcesModal from "./Resources/ResourcesModal"
 let optionsBar = {
     chart: {
         type: 'bar',
@@ -134,23 +135,31 @@ const RenewableCards = ({ item, bills, resources }) => {
                     switch (Object.keys(element)[0]) {
                         case "Solar":
                             setSolarSum((old) => old + Number(Object.values(element)))
-                            setTotalSum((old) => old + Number(Object.values(element)))
-                            setAllBills((old) => [...old, [el.date, Number(Object.values(element)).toFixed(2)]])
+                            if (device.resourcesType === "Solar" && filter === "Solar") {
+                                setTotalSum((old) => old + Number(Object.values(element)))
+                                setAllBills((old) => [...old, [el.date, Number(Object.values(element)).toFixed(2)]])
+                            }
                             break;
                         case "Hydro":
                             setHydroSum((old) => old + Number(Object.values(element)))
-                            setTotalSum((old) => old + Number(Object.values(element)))
-                            setAllBills((old) => [...old, [el.date, Number(Object.values(element)).toFixed(2)]])
+                            if (device.resourcesType === "Hydro" && filter === "Hydro") {
+                                setTotalSum((old) => old + Number(Object.values(element)))
+                                setAllBills((old) => [...old, [el.date, Number(Object.values(element)).toFixed(2)]])
+                            }
                             break;
                         case "Geo":
                             setGeoSum((old) => old + Number(Object.values(element)))
-                            setTotalSum((old) => old + Number(Object.values(element)))
-                            setAllBills((old) => [...old, [el.date, Number(Object.values(element)).toFixed(2)]])
+                            if (device.resourcesType === "Geo" && filter === "Geo") {
+                                setTotalSum((old) => old + Number(Object.values(element)))
+                                setAllBills((old) => [...old, [el.date, Number(Object.values(element)).toFixed(2)]])
+                            }
                             break;
                         case "Wind":
                             setWindSum((old) => old + Number(Object.values(element)))
-                            setTotalSum((old) => old + Number(Object.values(element)))
-                            setAllBills((old) => [...old, [el.date, Number(Object.values(element)).toFixed(2)]])
+                            if (device.resourcesType === "Wind" && filter === "Wind") {
+                                setTotalSum((old) => old + Number(Object.values(element)))
+                                setAllBills((old) => [...old, [el.date, Number(Object.values(element)).toFixed(2)]])
+                            }
                             break;
                         default:
                             break;
@@ -161,6 +170,7 @@ const RenewableCards = ({ item, bills, resources }) => {
     }
 
     const [visible, setVisible] = useState(false)
+    const [visible1, setVisible1] = useState(false)
     const [filter, setFilter] = useState("")
     const [geoSum, setGeoSum] = useState(0)
     const [hydroSum, setHydroSum] = useState(0)
@@ -219,20 +229,30 @@ const RenewableCards = ({ item, bills, resources }) => {
                 </Row>
                 <Divider />
 
-                <Row style={{ marginTop: 32 }} justify="center" align="middle">
-                    <Col span={24}>
-                        <p style={{ fontSize: 18, fontWeight: 500 }}> {filter} Usage</p>
-                        <ReactApexChart options={optionsLine} series={[{ data: allBills }]} type="line" height={320} />
-                    </Col>
-                </Row>
-                <Divider />
-                <Row style={{ marginTop: 32 }} justify="space-between" align="middle">
-                    <Col span={24}>
-                        <p style={{ fontSize: 18, fontWeight: 500 }}> Total Profit</p>
-                        <ReactApexChart options={optionsBar} series={getSeries()} type="bar" height={250} />
-                    </Col>
-                </Row>
-
+                {allBills.length > 0 ?
+                    <>
+                        <Row style={{ marginTop: 32 }} justify="center" align="middle">
+                            <Col span={24}>
+                                <p style={{ fontSize: 18, fontWeight: 500 }}> {filter} Usage</p>
+                                <ReactApexChart options={optionsLine} series={[{ data: allBills }]} type="line" height={320} />
+                            </Col>
+                        </Row>
+                        <Divider />
+                        <Row style={{ marginTop: 32 }} justify="space-between" align="middle">
+                            <Col span={24}>
+                                <p style={{ fontSize: 18, fontWeight: 500 }}> Total Profit</p>
+                                <ReactApexChart options={optionsBar} series={getSeries()} type="bar" height={250} />
+                            </Col>
+                        </Row>
+                    </> :
+                    <Empty
+                        image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+                        imageStyle={{ height: 100, }}
+                        description={<span>  This building has <a>NO {filter}</a> resources installed yet</span>}
+                    >
+                        <Button onClick={() =>setVisible1(true)} type="primary" style={{ borderRadius: 20 }}>Install One Now</Button>
+                    </Empty>
+                }
             </Card>
         </>
 
@@ -288,6 +308,7 @@ const RenewableCards = ({ item, bills, resources }) => {
             <Modal destroyOnClose visible={visible} onCancel={() => setVisible(false)} width={800} title={"Total " + filter + " Production"}>
                 {renderData(filter)}
             </Modal>
+            <ResourcesModal building={item} visible={visible1} setVisible={setVisible1} data={item.resources} />
         </Row >
     )
 }

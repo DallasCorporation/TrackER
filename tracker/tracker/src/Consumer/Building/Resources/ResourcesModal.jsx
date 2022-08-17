@@ -3,7 +3,7 @@ import ResourcesContent from "./ResourcesContent"
 
 const ResourcesModal = ({ building, visible, setVisible, data }) => {
     return (
-        <Modal visible={visible} onCancel={() => setVisible(false)} width={1200}>
+        <Modal zIndex={1200} visible={visible} onCancel={() => setVisible(false)} width={1200}>
             <Tabs defaultActiveKey="1" centered size="large">
                 <Tabs.TabPane tab={<><span class="anticon iconfont">&#xe65f;</span>Solar</>} key="1">
                     <ResourcesContent data={data} type="Solar" building={building} />

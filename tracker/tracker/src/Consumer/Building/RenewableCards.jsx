@@ -217,10 +217,10 @@ const RenewableCards = ({ item, bills, resources }) => {
             <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
                 <Row align="top" gutter={[32, 32]} >
                     <Col span={12}>
-                        <Statistic title={`Total ${filter} Usage`} value={metric ? totalSum / 1000 : totalSum} suffix={metric ? "Kilowatt Hours (kWh)" : "Watt"} precision={2} />
+                        <Statistic title={`Total ${filter} Usage`} value={metric ? totalSum / 1000 : totalSum} suffix={metric ? "Kilowatt (kW)" : "Watt"} precision={2} />
                         <Row align="middle">
                             <span onClick={() => setMetric(!metric)} style={{ color: "blue", marginRight: 6 }} class="anticon iconfont">&#xe615;</span>
-                            <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metric ? "Kilowatt Hours (kWh)" : "Watt"}</p>
+                            <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metric ? "Kilowatt (kW)" : "Watt"}</p>
                         </Row>
                     </Col>
                     <Col span={12}>
@@ -259,7 +259,7 @@ const RenewableCards = ({ item, bills, resources }) => {
     return (
         <Row justify="center" gutter={[32, 32]}>
             <Col span={24}>
-                <Statistic title="Total Electric Usage" value={metric ? totalSum / 1000 : totalSum} suffix={metric ? "KiloWatt (kW)" : "Watt"} precision={2} />
+                <Statistic title="Total Electric Usage" value={metric ? (solarSum+ geoSum+ hydroSum+ windSum) / 1000 : (solarSum+ geoSum+ hydroSum+ windSum)} suffix={metric ? "KiloWatt (kW)" : "Watt"} precision={2} />
                 <Row align="middle">
                     <span onClick={() => setMetric(!metric)} style={{ color: "blue", marginRight: 6 }} class="anticon iconfont">&#xe615;</span>
                     <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metric ? "Total in Kilowatt (kW)" : "Total in Watt (W)"}</p>

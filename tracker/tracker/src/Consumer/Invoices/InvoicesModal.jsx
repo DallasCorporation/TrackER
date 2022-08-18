@@ -66,13 +66,13 @@ const InvoicesModal = ({ data, visible, setVisible, timespan, building }) => {
             <Modal visible={visible} width={1200} onOk={() => setVisible(!visible)} onCancel={() => setVisible(!visible)}>
                 <Tabs defaultActiveKey="1" centered>
                     <TabPane tab="Electric" key="1">
-                        <ElectricInvoices bills={data}></ElectricInvoices>
+                        <ElectricInvoices cost={electricDetail} bills={data} />
                     </TabPane>
                     <TabPane tab="Gas" key="2">
-                        <GasInvoices bills={data} cost={gasDetail}></GasInvoices>
+                        <GasInvoices bills={data} cost={gasDetail} />
                     </TabPane>
                     <TabPane tab="Water" key="3">
-                        <WaterInvoices bills={data} cost={waterDetail}></WaterInvoices>
+                        <WaterInvoices bills={data} cost={waterDetail} />
                     </TabPane>
                 </Tabs>
             </Modal>

@@ -1,6 +1,8 @@
-import { Breadcrumb, Card, Carousel, Col, Divider, Layout, PageHeader, Radio, Row, Statistic, Switch } from "antd"
+import { Breadcrumb, Card, Carousel, Col, Divider, Layout, PageHeader, Row, Statistic } from "antd"
 import { useEffect, useState } from "react"
 import ReactApexChart from "react-apexcharts"
+import { useNavigate } from "react-router-dom"
+import { useSelector } from "react-redux"
 
 let optionsLine = {
     legend: {
@@ -72,10 +74,78 @@ let optionsLine = {
 }
 
 
-const ElectricInvoices = ({ bills, aggregated }) => {
+const ElectricInvoices = ({ bills, cost, aggregated }) => {
     const [metricCubic, setMetric] = useState(true)
     const [electricSum, setElectricSum] = useState(0)
     const [allElectricLine, setAllElectricLine] = useState([])
+    const [totalTaxCost, setTotalTax] = useState(0)
+    const [totalEarning, setTotalEarning] = useState(0)
+    const [supplier, setSupplier] = useState(0)
+    const [delivery, setDelivery] = useState(0)
+
+    const options = {
+        chart: {
+            height: 390,
+            type: 'pie',
+        },
+        plotOptions: {
+            polarArea: {
+                offsetY: 0,
+                startAngle: 0,
+                endAngle: 270,
+                hollow: {
+                    margin: 10,
+                    size: '40%',
+                    background: 'transparent',
+                },
+                dataLabels: {
+                    name: {
+                        fontSize: '14px',
+                        show: true,
+
+                    },
+                }
+            }
+        },
+        labels: ["Organization Cost", "Delivery Cost", "Supplier Cost", "Tax Cost"],
+        colors: ["#1984f5", "#00c2f6", "#00cbc8", "#00cbff",],
+        value: {
+            formatter: function (value) { return value + " €" },
+        },
+        tooltip: {
+            enabled: true,
+            y: {
+                formatter: function (value) { return value + " €" },
+            },
+
+        },
+        legend: {
+            show: true,
+            fontSize: '16px',
+            position: 'right',
+            labels: {
+                useSeriesColors: true,
+            },
+            markers: {
+                size: 0
+            },
+            formatter: function (seriesName, opts) {
+                let res = opts.w.globals.series[opts.seriesIndex].toFixed(4) + " w"
+                return seriesName + " " + res
+            },
+            itemMargin: {
+                vertical: 3
+            }
+        },
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                legend: {
+                    show: false
+                }
+            }
+        }]
+    }
 
     useEffect(() => {
         setElectricSum(0)
@@ -93,6 +163,30 @@ const ElectricInvoices = ({ bills, aggregated }) => {
             })
         }
         setElectricSum(Number(totalElectric).toFixed(2))
+        let earning = 0
+        let costTot = 0
+        if (cost !== undefined) {
+            cost.forEach(el => {
+                if (el.name === "Electricity Cost at kWh") {
+                    setTotalEarning(electricSum * 0.0833333 / 1000 * el.price)
+                    earning += electricSum * 0.0833333 / 1000 * el.price
+                }
+                if (el.name === "Electricity Supplier Cost") {
+                    setSupplier(el.price)
+                    earning += el.price
+                }
+                if (el.name === "Electricity Delivery Cost") {
+                    setDelivery(el.price)
+                    costTot += el.price
+                }
+                if (el.name === "Electricity Tax Percentage") {
+                    setTotalTax(electricSum * 0.0833333 / 1000 * el.price / 100)
+                    costTot += electricSum * 0.0833333 / 1000 * el.price / 100
+                }
+            });
+        }
+
+
         let tmp = []
         if (aggregated === undefined) {
             Object.values(bills.bills).map(el => {
@@ -116,7 +210,6 @@ const ElectricInvoices = ({ bills, aggregated }) => {
             style={{
                 paddingLeft: 24,
                 paddingRight: 24,
-                height: "85vh"
             }}
         >
             <Row gutter={[16, 16]} style={{ marginTop: "32px" }}>
@@ -131,14 +224,26 @@ const ElectricInvoices = ({ bills, aggregated }) => {
                 title="Electric Supplier Details"
                 subTitle="Check your supplier earnings and productions"
             />
-            <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
+            <Card style={{ borderRadius: 20, marginBottom: 32, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
                 <Row align="middle" gutter={[32, 32]} >
-                    <Col span={20}>
+                    <Col span={7}>
                         <Statistic title="Total Electric Usage" value={metricCubic ? electricSum * 0.0833333 / 1000 : electricSum} suffix={metricCubic ? "Kilowatt Hours (kWh)" : "Watt"} precision={4} />
                         <Row align="middle">
                             <span onClick={() => setMetric(!metricCubic)} style={{ color: "blue", marginRight: 6 }} class="anticon iconfont">&#xe615;</span>
                             <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricCubic ? "Kilowatt Hours (kWh)" : "Watt"}</p>
                         </Row>
+                    </Col>
+                    <Col span={5} style={{ height: 90 }} >
+                        <Statistic title="Organization Cost" value={totalEarning} suffix={"Euro (€)"} precision={4} />
+                    </Col>
+                    <Col span={5} style={{ height: 90 }} >
+                        <Statistic title="Total Delivery Cost" value={delivery} suffix={"Euro (€)"} precision={4} />
+                    </Col>
+                    <Col span={5} style={{ height: 90 }} >
+                        <Carousel autoplay dots={false} autoplaySpeed={3500}>
+                            <Statistic title="Total Tax Cost" value={totalTaxCost} suffix={"Euro (€)"} precision={4} />
+                            <Statistic title="Total Supplier Cost" value={supplier} suffix={"Euro (€)"} precision={4} />
+                        </Carousel>
                     </Col>
                 </Row>
                 <Divider />
@@ -147,6 +252,13 @@ const ElectricInvoices = ({ bills, aggregated }) => {
                     <Col span={24}>
                         <p style={{ fontSize: 18, fontWeight: 500 }}> Electric Usage</p>
                         <ReactApexChart options={optionsLine} series={allElectricLine} type="line" height={320} />
+                    </Col>
+                    <Divider />
+                    <Col span={24}>
+                        <p style={{ fontSize: 18, fontWeight: 500 }}> Cost Overview</p>
+                        <Row justify="center">
+                            <ReactApexChart options={options} series={[totalEarning, totalTaxCost, delivery, supplier]} type="pie" width={700} />
+                        </Row>
                     </Col>
                 </Row>
             </Card>

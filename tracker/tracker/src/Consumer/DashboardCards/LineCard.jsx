@@ -72,7 +72,6 @@ const LineCard = ({ data }) => {
         ApexCharts.exec('area-datetime', 'zoomX',
             new Date(e[0]).getTime(),
             new Date(e[1]).getTime(),
-
         )
     }
 
@@ -81,7 +80,7 @@ const LineCard = ({ data }) => {
             <Row justify="space-between" align="middle" >
                 <Col>
                     <CardTitle>
-                        Consumption Chart
+                        Aggregated Consumption Overview
                     </CardTitle>
                 </Col>
                 <Col>

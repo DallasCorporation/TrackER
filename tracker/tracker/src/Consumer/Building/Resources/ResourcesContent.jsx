@@ -1,5 +1,5 @@
 import { ProForm, ProTable } from "@ant-design/pro-components"
-import { Card, Popconfirm, Row, Tooltip } from "antd"
+import { Avatar, Card, Popconfirm, Row, Tooltip } from "antd"
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import api from "../../../api";
@@ -27,7 +27,7 @@ const ResourcesContent = ({ data, type, building }) => {
             width: 200,
         },
         {
-            title: 'Name',
+            title: 'Organization Name',
             dataIndex: 'organizationId',
             initialValue: 'all',
             filters: true,
@@ -37,26 +37,43 @@ const ResourcesContent = ({ data, type, building }) => {
             render: (_, val) => Object.values(allOrganization).find(el => el._id === val.organizationId).name
         },
         {
+            title: 'Organization Logo',
+            dataIndex: 'organizationId',
+            initialValue: 'all',
+            filters: true,
+            onFilter: true,
+            width: 200,
+            render: (_, val) => {
+                let src = (Object.values(allOrganization).find(el => el._id === val.organizationId).icon)
+                return <Avatar src={src} />
+            }
+        },
+        {
             title: 'Type',
             dataIndex: 'type',
             initialValue: 'all',
             filters: true,
+            width:200,
             onFilter: true,
             valueType: 'select',
         },
         {
             title: 'Installation Price',
+            width:200,
             dataIndex: 'price',
             render: (val, data) => val + " €"
         },
         {
             title: 'Saving at KWh',
             dataIndex: 'earning',
+            width:200,
+
             render: (val, data) => val + " €"
         },
         {
             title: 'Organization percentage earning at KWh',
             dataIndex: 'organization',
+            width:200,
             render: (val, data) => val + "%"
         },
         {

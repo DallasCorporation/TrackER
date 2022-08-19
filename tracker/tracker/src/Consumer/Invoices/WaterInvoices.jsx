@@ -8,8 +8,6 @@ import CustomerDrawer from "../../Vendor/CustomerDrawer"
 import CustomersBuildingTable from "../../Vendor/CustomersBuildingTable"
 import ModalDetails from "../../Vendor/ModalDetails"
 
-
-
 let optionsLine = {
     legend: {
         position: "top",
@@ -79,7 +77,7 @@ let optionsLine = {
 
 }
 
-const WaterInvoices = ({ bills, cost, aggregated }) => {
+const WaterInvoices = ({ cost, aggregated, filtered }) => {
     let navigate = useNavigate()
     const allBuildings = useSelector(state => state.allOrganization.allBuildings)
     const [metricCubic, setMetric] = useState(true)
@@ -166,10 +164,10 @@ const WaterInvoices = ({ bills, cost, aggregated }) => {
         setWaterSum(0)
         let totalWater = 0
         if (aggregated === undefined) {
-            bills.bills.map(el => {
-                totalWater = +totalWater + +el.water
+            filtered.forEach(el => {
+                totalWater = +totalWater + +el[1]
             })
-            if (bills.bills.length === 0)
+            if (filtered.length === 0)
                 return
         } else {
             Object.values(aggregated).map(el => {
@@ -203,30 +201,19 @@ const WaterInvoices = ({ bills, cost, aggregated }) => {
 
         let tmp = []
         if (aggregated === undefined) {
-            Object.values(bills.bills).map(el => {
-                tmp.push([el.date, el.water])
+            filtered.forEach(el => {
+                tmp.push([el[0], el[1]])
             })
             setAllWaterLine([{ data: tmp }])
-
-            let sum = 0
-            bills.bills.forEach(singleBill => {
-                sum += singleBill.water
-            })
-
-            setLabels((old) => [...old, allBuildings.find(el => el._id === bills.buildingId).name])
-            setAllWater((old) => [...old, parseFloat(Number(sum).toFixed(4))])
         } else {
-            let sum = 0
             Object.values(aggregated).map(el => {
                 tmp.push([el.date, el.water])
-                sum += el.water
             })
             setAllWaterLine([{ data: tmp }])
-            //setLabels((old) => [...old, allBuildings.find(el => el._id === bills.buildingId).name])
-            setAllWater((old) => [...old, parseFloat(Number(sum).toFixed(4))])
+
         }
 
-    }, [bills, metricCubic])
+    }, [filtered, aggregated, metricCubic])
 
     return (
         <Layout

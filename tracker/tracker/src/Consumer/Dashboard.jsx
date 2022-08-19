@@ -82,12 +82,22 @@ const Dashboard = () => {
   const [water, setWater] = useState({})
   const [electric, setElectric] = useState({})
   const day = moment().subtract(31, 'days');
-
+  //const [renewable, setRenewable] = useState({})
+  let renewable = []
   let navigate = useNavigate();
+  let ids = Object.values(buildings).map(el => el._id)
+
+  const getBillsRenewable = async (id) => {
+    await api.bills.getBillsRenewable(id).then(res => {
+      console.log(res.totalSolar)
+      renewable.push(res.totalSolar)
+    })
+    
+  }
+
   const getBillsAggregated = async () => {
     await api.bills.getBillsAggregated(user._id).then(res => {
       setBills(res)
-      setElectric(Object.values(res.aggregated).map(el => el.electric))
 
       let oldMoment = moment("01/01/17", "MM/D/YYYY")
       let billDates = Object.values(res.aggregated).filter(el => moment(el.date).isBetween(day, undefined))
@@ -129,7 +139,11 @@ const Dashboard = () => {
   }
   useEffect(() => {
     getBillsAggregated(user._id)
-  }, [user])
+    ids.forEach(id =>  getBillsRenewable(id))
+   
+  }, [user, buildings])
+
+  console.log(renewable)
 
   return (
     <Layout

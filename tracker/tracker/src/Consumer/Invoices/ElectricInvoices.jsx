@@ -74,7 +74,7 @@ let optionsLine = {
 }
 
 
-const ElectricInvoices = ({ bills, cost, aggregated }) => {
+const ElectricInvoices = ({cost, aggregated, filtered }) => {
     const [metricCubic, setMetric] = useState(true)
     const [electricSum, setElectricSum] = useState(0)
     const [allElectricLine, setAllElectricLine] = useState([])
@@ -151,11 +151,11 @@ const ElectricInvoices = ({ bills, cost, aggregated }) => {
         setElectricSum(0)
         let totalElectric = 0
         if (aggregated === undefined) {
-            bills.bills.map(el => {
-                totalElectric = +totalElectric + +el.electric
+            filtered.forEach(el => {
+                totalElectric = +totalElectric + +el[1]
             })
 
-            if (bills.bills.length === 0)
+            if (filtered.length === 0)
                 return
         } else {
             Object.values(aggregated).map(el => {
@@ -189,8 +189,8 @@ const ElectricInvoices = ({ bills, cost, aggregated }) => {
 
         let tmp = []
         if (aggregated === undefined) {
-            Object.values(bills.bills).map(el => {
-                tmp.push([el.date, el.electric])
+            filtered.forEach(el => {
+                tmp.push([el[0], el[1]])
             })
             setAllElectricLine([{ data: tmp }])
         } else {
@@ -201,7 +201,7 @@ const ElectricInvoices = ({ bills, cost, aggregated }) => {
         }
 
 
-    }, [bills, metricCubic, aggregated])
+    }, [filtered, metricCubic, aggregated])
 
 
     return (

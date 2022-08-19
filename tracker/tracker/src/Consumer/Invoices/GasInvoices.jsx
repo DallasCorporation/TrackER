@@ -7,39 +7,6 @@ import { useSelector } from "react-redux"
 import CustomerDrawer from "../../Vendor/CustomerDrawer"
 import CustomersBuildingTable from "../../Vendor/CustomersBuildingTable"
 
-let optionsBar = {
-    chart: {
-        type: 'bar',
-        toolbar: { show: false, },
-    },
-    plotOptions: {
-        bar: {
-            borderRadius: 4,
-            horizontal: true,
-        },
-    },
-    tooltip: {
-        enabled: true,
-
-        y: {
-            formatter: function (val) {
-                return val + "€"
-            },
-            title: {
-                formatter: (seriesName, props) => {
-                    return ["Earnings", "Cost"][props.dataPointIndex]
-                },
-            },
-        }
-    },
-    dataLabels: {
-        enabled: false
-    },
-    xaxis: {
-        categories: ["Earnings", "Cost"],
-    }
-}
-
 let optionsLine = {
     legend: {
         position: "top",
@@ -101,7 +68,7 @@ let optionsLine = {
             },
             title: {
                 formatter: () => {
-                    return "Electric Usage"
+                    return "Gas Usage"
                 },
             },
         }
@@ -110,7 +77,7 @@ let optionsLine = {
 }
 
 
-const GasInvoices = ({ bills, cost, aggregated }) => {
+const GasInvoices = ({ cost, aggregated, filtered }) => {
     let navigate = useNavigate()
     const allBuildings = useSelector(state => state.allOrganization.allBuildings)
     const [metricCubic, setMetric] = useState(true)
@@ -194,14 +161,12 @@ const GasInvoices = ({ bills, cost, aggregated }) => {
         setLabels([])
         setAllGas([])
         setGasSum(0)
-        let totalElectric = 0
         let totalGas = 0
-        let totalWater = 0
         if (aggregated === undefined) {
-            bills.bills.map(el => {
-                totalGas = +totalGas + +el.gas
+            filtered.forEach(el => {
+                totalGas = +totalGas + +el[1]
             })
-            if (bills.bills.length === 0)
+            if (filtered.length === 0)
                 return
         } else {
             Object.values(aggregated).map(el => {
@@ -250,73 +215,22 @@ const GasInvoices = ({ bills, cost, aggregated }) => {
         })
         let tmp = []
         if (aggregated === undefined) {
-            Object.values(bills.bills).map(el => {
-                tmp.push([el.date, el.gas])
+            filtered.forEach(el => {
+                tmp.push([el[0], el[1]])
             })
             setAllGasLine([{ data: tmp }])
-            let sum = 0
-            bills.bills.forEach(singleBill => {
-                sum += singleBill.gas
-            })
-            setLabels((old) => [...old, allBuildings.find(el => el._id === bills.buildingId).name])
-            setAllGas((old) => [...old, parseFloat(Number(sum).toFixed(4))])
         } else {
             let sum = 0
             Object.values(aggregated).map(el => {
                 tmp.push([el.date, el.gas])
-                sum += el.gas
             })
             setAllGasLine([{ data: tmp }])
-            //setLabels((old) => [...old, allBuildings.find(el => el._id === bills.buildingId).name])
-            setAllGas((old) => [...old, parseFloat(Number(sum).toFixed(4))])
+
         }
 
-    }, [bills, metricCubic])
+    }, [aggregated, filtered, metricCubic])
 
-    const columns = [
-        {
-            title: "#",
-            dataIndex: 'index',
-            valueType: 'index',
-            key: 'index',
-            width: 10,
-        },
-        {
-            title: 'Name',
-            dataIndex: 'name',
-            initialValue: 'all',
-            filters: true,
-            onFilter: true,
-            valueType: 'select',
-        },
-        {
-            title: 'Address',
-            dataIndex: 'address',
-            initialValue: 'all',
-            filters: true,
-            onFilter: true,
-            valueType: 'select',
-            width: 300,
-        },
-        {
-            title: 'Type',
-            dataIndex: 'type',
-        },
-        {
-            title: 'Action',
-            key: 'option',
-            valueType: 'option',
-            render: (_, data) =>
-                <a onClick={() => {
-                    setVisible(true)
-                    if (aggregated === undefined) {
-                        setBuildingId(bills.buildingId)
-                    }
-                }} key="1" >
-                    See Details
-                </a>
-        },
-    ];
+    
     return (
         <Layout
             className="site-layout-background"

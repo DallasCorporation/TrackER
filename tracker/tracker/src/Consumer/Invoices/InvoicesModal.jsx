@@ -8,9 +8,9 @@ import WaterInvoices from "./WaterInvoices";
 const { TabPane } = Tabs;
 
 const InvoicesModal = ({ data, visible, setVisible, timespan, building }) => {
-    const elec = []
-    const gas = []
-    const water = []
+    let elec = []
+    let gas = []
+    let water = []
     const allOrganization = useSelector((state) => state.allOrganization.organization)
     const [gasDetail, setGas] = useState({})
     const [waterDetail, setWater] = useState({})
@@ -22,34 +22,37 @@ const InvoicesModal = ({ data, visible, setVisible, timespan, building }) => {
             setGas(organizationDetail.details.gas)
             setWater(organizationDetail.details.water)
             setElectric(organizationDetail.details.electric)
+            elec = []
+            gas = []
+            water = []
         }
 
     }, [allOrganization, building])
 
 
     data.bills?.forEach(el => {
-        let tmp = moment(el.date)
         const week = moment().subtract(7, 'days');
         const month = moment().subtract(1, 'months');
         const year = moment().subtract(1, 'years');
 
+
         switch (timespan) {
             case "Weekly":
-                if (tmp.isBetween(week, undefined, 'day')) {
+                if (moment(el.date).isBetween(week, undefined, 'day')) {
                     elec.push([moment.utc(el.date).local().format(), el.electric])
                     gas.push([moment.utc(el.date).local().format(), el.gas])
                     water.push([moment.utc(el.date).local().format(), el.water])
                 }
                 break;
             case "Monthly":
-                if (tmp.isBetween(month, undefined, 'day')) {
+                if (moment(el.date).isBetween(month, undefined, 'day')) {
                     elec.push([moment.utc(el.date).local().format(), el.electric])
                     gas.push([moment.utc(el.date).local().format(), el.gas])
                     water.push([moment.utc(el.date).local().format(), el.water])
                 }
                 break;
             case "Yearly":
-                if (tmp.isBetween(year, undefined, 'day')) {
+                if (moment(el.date).isBetween(year, undefined, 'day')) {
                     elec.push([moment.utc(el.date).local().format(), el.electric])
                     gas.push([moment.utc(el.date).local().format(), el.gas])
                     water.push([moment.utc(el.date).local().format(), el.water])
@@ -61,18 +64,19 @@ const InvoicesModal = ({ data, visible, setVisible, timespan, building }) => {
 
     })
 
-    if (Object.values(electricDetail).length !== 0 && Object.values(gasDetail).length !== 0 && Object.values(waterDetail).length !== 0) {
+    if (Object.values(electricDetail).length !== 0 && Object.values(gasDetail).length !== 0 && Object.values(waterDetail).length !== 0 
+    && elec.length !== 0 && gas.length !== 0 && water.length !== 0) {
         return (
             <Modal visible={visible} width={1200} onOk={() => setVisible(!visible)} onCancel={() => setVisible(!visible)}>
                 <Tabs defaultActiveKey="1" centered>
                     <TabPane tab="Electric" key="1">
-                        <ElectricInvoices cost={electricDetail} bills={data} />
+                        <ElectricInvoices cost={electricDetail} filtered={elec}/>
                     </TabPane>
                     <TabPane tab="Gas" key="2">
-                        <GasInvoices bills={data} cost={gasDetail} />
+                        <GasInvoices cost={gasDetail} filtered={gas}/>
                     </TabPane>
                     <TabPane tab="Water" key="3">
-                        <WaterInvoices bills={data} cost={waterDetail} />
+                        <WaterInvoices cost={waterDetail} filtered={water}/>
                     </TabPane>
                 </Tabs>
             </Modal>

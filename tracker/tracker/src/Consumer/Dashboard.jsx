@@ -82,17 +82,48 @@ const Dashboard = () => {
   const [water, setWater] = useState({})
   const [electric, setElectric] = useState({})
   const day = moment().subtract(31, 'days');
-  //const [renewable, setRenewable] = useState({})
-  let renewable = []
+  const [renewable, setRenewable] = useState([])
+  const [solar, setSolar] = useState({})
+  const [wind, setWind] = useState({})
+  const [hydro, setHydro] = useState({})
+  const [geo, setGeo] = useState({})
+  const [totalRen, setTotalRen] = useState(0)
+
   let navigate = useNavigate();
-  let ids = Object.values(buildings).map(el => el._id)
+  let ids = Object.values(buildings).filter(el => el.resources.length !== 0).map(el => el._id)
 
   const getBillsRenewable = async (id) => {
     await api.bills.getBillsRenewable(id).then(res => {
-      console.log(res.totalSolar)
-      renewable.push(res.totalSolar)
+      setRenewable((old) => [...old, { res, id }])
+      let type = Object.values(buildings).filter(el => el._id === id)
+      type.forEach(el => el.resources.forEach(el => {
+        let sumSolar = 0
+        let sumWind = 0
+        let sumHydro = 0
+        let sumGeo = 0
+        console.log(Object.keys(el))
+        switch (Object.keys(el)[0]) {
+          case "Solar":
+            sumSolar += res.totalSolar
+            break;
+          case "Hydro":
+            sumHydro += res.totalHydro
+            break;
+          case "Wind":
+            sumWind += res.totalWind
+            break;
+          case "Geo":
+            sumGeo += res.totalGeo
+            break;
+        }
+        setSolar({ name: "Solar", data: [sumSolar] })
+        setHydro({ name: "Hydro", data: [sumHydro] })
+        setGeo({ name: "Geo", data: [sumGeo] })
+        setWind({ name: "Wind", data: [sumWind] })
+        setTotalRen(sumSolar + sumGeo + sumHydro + sumWind)
+      }))
     })
-    
+
   }
 
   const getBillsAggregated = async () => {
@@ -139,11 +170,9 @@ const Dashboard = () => {
   }
   useEffect(() => {
     getBillsAggregated(user._id)
-    ids.forEach(id =>  getBillsRenewable(id))
-   
-  }, [user, buildings])
+    ids.forEach(id => getBillsRenewable(id))
 
-  console.log(renewable)
+  }, [user, buildings])
 
   return (
     <Layout
@@ -211,7 +240,7 @@ const Dashboard = () => {
             </ProCard>
           </Row>
           <Row style={{ marginTop: "32px" }}>
-            <EarningsCard />
+            <EarningsCard series={[solar, hydro, wind, geo]} total={(totalRen / 1000).toFixed(2)} />
           </Row>
           <Row style={{ marginTop: "32px" }}>
             <TableCard buildings={buildings} />

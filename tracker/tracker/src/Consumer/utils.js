@@ -1,5 +1,18 @@
 export const statebar = (type, color) => ( {
     options: {
+        title: {
+            text: type,
+            align: "center",
+            offsetY: 10
+        },
+        style: {
+            fontSize:  '14px',
+            fontWeight:  '300',
+            fontFamily: 'Manrope',
+            fontVariant: "tabular-nums",
+            fontFeatureSettings: "tnum",
+            color:  '#263238'
+          },
         colors: [color],
         grid: { show: false },
         chart: {
@@ -25,7 +38,10 @@ export const statebar = (type, color) => ( {
         },
         xaxis: {
             labels: {
-                show: false
+                show: false,
+                formatter: function () {
+                    return "";
+                }
             },
             categories: [type,type,type],
             position: 'top',
@@ -82,25 +98,16 @@ export const stateradial = (color) => ({
 });
 
 export const stacked = {
-    series: [{
-        name: 'Marketing',
-        data: [48]
-    }, {
-        name: 'Payments',
-        data: [21]
-    }, {
-        name: 'Bill',
-        data: [31]
-    }],
     options: {
-        colors: ['#26f8c9', '#1be7ff', '#022cf7',],
+        colors: ['#ffcf45', '#022cf7', '#00cbff', '#26f8c9'],
         grid: {
             show: false
         },
         chart: {
             type: 'bar',
+            height: 360,
             stacked: true,
-            stackType: 'normal',
+            stackType: '100%',
             toolbar: { show: false }
         },
         plotOptions: {
@@ -132,7 +139,7 @@ export const stacked = {
             },
             labels: {
                 show: false,
-                formatter: function (val) {   
+                formatter: function () {
                     return "";
                 }
             }
@@ -140,7 +147,7 @@ export const stacked = {
         tooltip: {
             y: {
                 formatter: function (val) {
-                    return val + "K"
+                    return (val/1000).toFixed(2) + "kW"
                 }
             }
         },

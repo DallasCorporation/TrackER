@@ -145,7 +145,7 @@ const Dashboard = () => {
       <Row gutter={[32, 32]}>
         <Col lg={18} md={24} sx={24}>
           <Row gutter={[0, 32]}>
-            <BannerCard name="Get exclusive discounts fot your bills" />
+            <BannerCard name="Get exclusive discounts for your bills" />
             <LineCard data={getData(bills)} />
           </Row>
           <Row justify="center" gutter={[32, 32]} style={{ marginTop: "32px" }}>

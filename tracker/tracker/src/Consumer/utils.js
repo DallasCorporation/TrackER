@@ -99,9 +99,8 @@ export const stacked = {
         },
         chart: {
             type: 'bar',
-            height: 350,
             stacked: true,
-            stackType: '100%',
+            stackType: 'normal',
             toolbar: { show: false }
         },
         plotOptions: {
@@ -133,8 +132,8 @@ export const stacked = {
             },
             labels: {
                 show: false,
-                formatter: function (val) {
-                    return val + "%";
+                formatter: function (val) {   
+                    return "";
                 }
             }
         },

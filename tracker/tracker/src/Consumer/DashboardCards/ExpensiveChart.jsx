@@ -10,6 +10,7 @@ import { CardTitle } from "../../Components/CustomComponents"
 import ElectricInvoices from "./../Invoices/ElectricInvoices";
 import GasInvoices from "./../Invoices/GasInvoices";
 import WaterInvoices from "./../Invoices/WaterInvoices";
+import BuildingsProductionCard from "./BuildingsProductionCard"
 const { TabPane } = Tabs;
 
 const RowHover = styled(Row)`
@@ -23,7 +24,7 @@ const ExpensiveChart = ({ bills }) => {
     const state = {
         series: [bills.totalElectric, bills.totalWater, bills.totalGas],
         options: {
-            labels: ['Electricity Cost', 'Water Cost', 'Gas Cost'],
+            labels: ['Electricity Production', 'Water Production', 'Gas Production'],
             legend: {
                 position: "bottom",
                 horizontalAlign: "center",
@@ -45,8 +46,8 @@ const ExpensiveChart = ({ bills }) => {
                             show: true,
                             total: {
                                 show: true,
-                                label: 'Total Cost',
-                                formatter: (val) => val.globals.series.reduce((partialSum, a) => partialSum + a, 0).toFixed(2)
+                                label: 'Total Production',
+                                formatter: (val) => val.globals.series.reduce((partialSum, a) => partialSum + a, 0).toFixed(2) + " W"
                             }
                         }
                     },
@@ -58,9 +59,7 @@ const ExpensiveChart = ({ bills }) => {
                     fontWeight: 400,
                     color: undefined,
                     offsetY: 16,
-                    formatter: function (val) {
-                        return val
-                    }
+                    formatter: function (val) { return val + " W" }
                 },
             },
             yaxis: {
@@ -79,7 +78,7 @@ const ExpensiveChart = ({ bills }) => {
                     offsetX: 0,
                     offsetY: 0,
                     rotate: 0,
-                    formatter: (val) => { return val.toFixed(2) },
+                    formatter: (val) => { return val.toFixed(2) + " W" },
                 },
             }
         },
@@ -130,7 +129,7 @@ const ExpensiveChart = ({ bills }) => {
         return (
             <ProCard bordered style={{ borderRadius: "10px" }}>
                 <Row justify="space-between" align="middle">
-                    <CardTitle >Expensive</CardTitle>
+                    <CardTitle >Expensive & Production</CardTitle>
                     <span class="anticon iconfont" style={{ color: "blue" }} >&#xe71b;</span>
                 </Row>
                 <Row justify="center">
@@ -157,14 +156,16 @@ const ExpensiveChart = ({ bills }) => {
                             <ElectricInvoices cost={electricDetail} aggregated={bills.aggregated}></ElectricInvoices>
                         </TabPane>
                         <TabPane tab="Gas" key="2">
-                            <GasInvoices bills={bills.all[0]} cost={gasDetail} aggregated={bills.aggregated}></GasInvoices>
+                            <GasInvoices bills={bills.aggregated} cost={gasDetail} aggregated={bills.aggregated}></GasInvoices>
                         </TabPane>
                         <TabPane tab="Water" key="3">
-                            <WaterInvoices bills={bills.all[0]} cost={waterDetail} aggregated={bills.aggregated}></WaterInvoices>
+                            <WaterInvoices bills={bills.aggregated} cost={waterDetail} aggregated={bills.aggregated}></WaterInvoices>
                         </TabPane>
                     </Tabs>
                 </Drawer>
-                <Modal visible={showModal} onCancel={() => setModal(false)}></Modal>
+                <Modal width={1200} visible={showModal} onCancel={() => setModal(false)}>
+                    <BuildingsProductionCard />
+                </Modal>
             </ProCard>
         )
     }

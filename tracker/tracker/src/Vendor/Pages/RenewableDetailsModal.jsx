@@ -91,7 +91,7 @@ let optionsLine = {
         },
         y: {
             formatter: function (val) {
-                return (val/1000).toFixed(2) + "kWh"
+                return (val / 1000).toFixed(2) + "kWh"
             },
             title: {
                 formatter: () => {
@@ -137,7 +137,7 @@ const RenewableDetailsModal = ({ filter, data, setVisible, visible }) => {
 
                     }, {
                         x: 'Organization Cost',
-                        y: Number(data.price* data.buildings.length).toFixed(2),
+                        y: Number(data.price * data.buildings.length).toFixed(2),
                         fillColor: "#008ffb"
                     }
                 ]
@@ -161,14 +161,14 @@ const RenewableDetailsModal = ({ filter, data, setVisible, visible }) => {
             <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
                 <Row align="top" gutter={[32, 32]} >
                     <Col span={12}>
-                        <Statistic title="Total Electric Usage" value={0} suffix={metric ? "Kilowatt Hours (kWh)" : "Watt"} precision={2} />
+                        <Statistic title="Total Electric Usage" value={0} suffix={metric ? "Kilowatt (kW)" : "Watt"} precision={2} />
                         <Row align="middle">
                             <span onClick={() => setMetric(!metric)} style={{ color: "blue", marginRight: 6 }} class="anticon iconfont">&#xe615;</span>
-                            <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metric ? "Kilowatt Hours (kWh)" : "Watt"}</p>
+                            <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metric ? "Kilowatt (kWh)" : "Watt"}</p>
                         </Row>
                     </Col>
                     <Col span={12}>
-                        <Statistic title="Total Earnings" value={0} suffix={metric ? "Kilowatt Hours (kWh)" : "Watt"} precision={2} />
+                        <Statistic title="Total Earnings" value={0} suffix={metric ? "Kilowatt (kW)" : "Watt"} precision={2} />
                     </Col>
                 </Row>
                 <Divider />

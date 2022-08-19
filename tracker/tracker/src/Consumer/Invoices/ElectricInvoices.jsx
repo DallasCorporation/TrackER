@@ -148,6 +148,7 @@ const ElectricInvoices = ({cost, aggregated, filtered }) => {
     }
 
     useEffect(() => {
+        setAllElectricLine([])
         setElectricSum(0)
         let totalElectric = 0
         if (aggregated === undefined) {
@@ -162,26 +163,22 @@ const ElectricInvoices = ({cost, aggregated, filtered }) => {
                 totalElectric = +totalElectric + +el.electric
             })
         }
+
+
         setElectricSum(Number(totalElectric).toFixed(2))
-        let earning = 0
-        let costTot = 0
         if (cost !== undefined) {
             cost.forEach(el => {
                 if (el.name === "Electricity Cost at kWh") {
                     setTotalEarning(electricSum * 0.0833333 / 1000 * el.price)
-                    earning += electricSum * 0.0833333 / 1000 * el.price
                 }
                 if (el.name === "Electricity Supplier Cost") {
                     setSupplier(el.price)
-                    earning += el.price
                 }
                 if (el.name === "Electricity Delivery Cost") {
                     setDelivery(el.price)
-                    costTot += el.price
                 }
                 if (el.name === "Electricity Tax Percentage") {
                     setTotalTax(electricSum * 0.0833333 / 1000 * el.price / 100)
-                    costTot += electricSum * 0.0833333 / 1000 * el.price / 100
                 }
             });
         }
@@ -201,7 +198,7 @@ const ElectricInvoices = ({cost, aggregated, filtered }) => {
         }
 
 
-    }, [filtered, metricCubic, aggregated])
+    }, [filtered, metricCubic, aggregated, cost, electricSum])
 
 
     return (

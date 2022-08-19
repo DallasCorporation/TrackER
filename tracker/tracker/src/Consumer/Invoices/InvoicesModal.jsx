@@ -26,7 +26,6 @@ const InvoicesModal = ({ data, visible, setVisible, timespan, building }) => {
             gas = []
             water = []
         }
-
     }, [allOrganization, building])
 
 
@@ -68,7 +67,7 @@ const InvoicesModal = ({ data, visible, setVisible, timespan, building }) => {
     && elec.length !== 0 && gas.length !== 0 && water.length !== 0) {
         return (
             <Modal visible={visible} width={1200} onOk={() => setVisible(!visible)} onCancel={() => setVisible(!visible)}>
-                <Tabs defaultActiveKey="1" centered>
+                <Tabs defaultActiveKey="1" centered destroyInactiveTabPane>
                     <TabPane tab="Electric" key="1">
                         <ElectricInvoices cost={electricDetail} filtered={elec}/>
                     </TabPane>

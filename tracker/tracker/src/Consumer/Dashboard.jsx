@@ -218,14 +218,18 @@ const Dashboard = () => {
             }}>
               <Row justify="space-between" align="middle" >
                 <Col span={12}>
-                  <h4 style={{ fontSize: "20px", fontWeight: 500, color: "#2d3436" }}>Best Organization</h4>
-                  <div>
-                    <p>Highest income this month</p>
-                    <p>$442.98 Highest income this month</p>
-                  </div>
+                  <h4 style={{ fontSize: "20px", fontWeight: 500, color: "#2d3436" }}>Our Organization</h4>
+                  <Row justify="center" align="top">
+                    <Col span={24}>
+                      <p style={{ margin: 0 }}>Highest saved this month:</p>
+                    </Col>
+                    <Col span={24}>
+                      <b style={{ fontSize: 22 }}>442.98€</b>
+                    </Col>
+                  </Row>
                 </Col>
                 <Col span={8} style={{ marginRight: 32 }}>
-                  <p>Name Organization Customers</p>
+                  <p>Check <a>TrackER</a> Organization and more</p>
                   <Row justify="space-between" align="middle" gutter={[32, 32]}>
                     <Avatar size={40} src={images['Avatar-1.svg']} />
                     <Avatar size={40} src={images['Avatar-2.svg']} />
@@ -233,7 +237,7 @@ const Dashboard = () => {
                     <Avatar size={40} src={images['Avatar-4.svg']} />
                     <Avatar size={40} src={images['Avatar-5.svg']} />
                     <Avatar size={40} src={images['Avatar-6.svg']} />
-                    <ArrowRightOutlined onClick={() => navigate("/Organizations")} />
+                    <ArrowRightOutlined style={{ fontSize: 22, color: "blue" }} onClick={() => navigate("/Organizations")} />
                   </Row>
                 </Col>
               </Row>
@@ -250,7 +254,7 @@ const Dashboard = () => {
           <Row gutter={[8, 32]} justify="center" align="middle">
             <ExpensiveChart bills={bills} />
             <DownloadCard />
-            <RevenueCard />
+            <RevenueCard bills={bills.aggregated} />
           </Row>
         </Col>
       </Row>

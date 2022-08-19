@@ -145,7 +145,7 @@ const ExpensiveChart = ({ bills }) => {
                                 <p>{el.desc}</p>
                             </Col>
                             <Col span={4} style={{ textAlign: "end", color: "blue" }}>
-                                <ArrowRightOutlined />
+                                <ArrowRightOutlined style={{fontSize:22}} />
                             </Col>
                         </RowHover>
                     )

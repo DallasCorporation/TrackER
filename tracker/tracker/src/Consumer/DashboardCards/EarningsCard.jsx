@@ -13,13 +13,13 @@ const EarningsCard = ({ series, total = 0 }) => {
       borderRadius: "10px"
     }}>
       <Row align="middle" justify="space-between">
-        <Col lg={4} md={4} xs={24}>
+        <Col lg={6} md={6} xs={24}>
           <h4 style={{ fontSize: "20px", fontWeight: 500, color: "#2d3436" }}>Renewable Production</h4>
           <div>
             <b style={{ fontSize: 22 }}>{total} kW</b>
           </div>
         </Col>
-        <Col lg={20} md={20} xs={24} >
+        <Col lg={18} md={18} xs={24} >
           <ReactApexChart options={stacked.options} series={series} type="bar" height={150} />
         </Col>
       </Row>

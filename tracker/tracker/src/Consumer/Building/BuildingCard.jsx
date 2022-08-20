@@ -1,16 +1,17 @@
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import { ProForm, ProFormText } from "@ant-design/pro-components";
-import { Avatar, Button, Card, Col, Collapse, Input, Modal, Popconfirm, Radio, Row, Statistic, Tabs, Tooltip } from "antd";
+import { Avatar, Button, Card, Col, Collapse, Divider, Input, Modal, Popconfirm, Radio, Row, Statistic, Tabs, Tooltip } from "antd";
 import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { useSelector } from "react-redux";
 import StatsCard from "../DashboardCards/StatsCard";
 import { linear } from "../utils";
+import KpiCard from "./KpiCard";
 import MapboxMap from "./MapboxMap";
 import RenewableCards from "./RenewableCards";
 import ResourcesModal from "./Resources/ResourcesModal";
 
-const BuildingCard = ({bills, item, setIsModalVisible, setContact, setName, setAddress, setType, setBuildingId, deleteBuilding, showBills, getData }) => {
+const BuildingCard = ({ bills, item, setIsModalVisible, setContact, setName, setAddress, setType, setBuildingId, deleteBuilding, showBills, getData }) => {
     const [collapse, setCollapse] = useState(false)
     const [visible, setVisible] = useState(false)
     const [avatar, setAvatar] = useState("")
@@ -22,7 +23,7 @@ const BuildingCard = ({bills, item, setIsModalVisible, setContact, setName, setA
         let res = Object.values(allOrganization).find(el => el._id === item.organizationId)
         setAvatar(res.icon)
         setOrganization(res.name)
-    }, [item])
+    }, [item, bills])
 
 
     return (
@@ -82,6 +83,10 @@ const BuildingCard = ({bills, item, setIsModalVisible, setContact, setName, setA
                         header={<Button style={{ borderRadius: 10 }} type={collapse ? "default" : "primary"} size="large" onClick={() => setCollapse(!collapse)}> {collapse ? "Close" : "Open"}</Button>}
                         key="1">
                         <Row justify="space-between" style={{ marginBottom: "32px", padding: "32px" }} gutter={[32, 32]}>
+                            <Col span={24}>
+                                <KpiCard bills={bills} item={item}/>
+                            </Col>
+                            <Divider />
                             {showBills("Electric", item.organizationId) &&
                                 <Col span={24}>
                                     <StatsCard chart={<ReactApexChart options={linear('Consumed Electricity', "watt", "#1984f5").options} series={getData(item._id, "Electric")} type="area" height={350} />} />
@@ -95,8 +100,8 @@ const BuildingCard = ({bills, item, setIsModalVisible, setContact, setName, setA
                             <Col span={24} style={{ marginTop: 22 }}>
                                 {item.resources.length > 0 ?
                                     <Row justify="center" >
-                                        <RenewableCards bills={bills} item={item} resources={item.resources}/>
-                                        <Button onClick={() => setVisible(true)} type="primary" size="large" style={{ borderRadius: 20, marginTop:16 }}>Install Renewable Device</Button>
+                                        <RenewableCards bills={bills} item={item} resources={item.resources} />
+                                        <Button onClick={() => setVisible(true)} type="primary" size="large" style={{ borderRadius: 20, marginTop: 16 }}>Install Renewable Device</Button>
                                     </Row>
                                     :
                                     <Row justify="center" >

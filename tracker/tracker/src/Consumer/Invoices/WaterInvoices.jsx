@@ -178,7 +178,7 @@ const WaterInvoices = ({ cost, aggregated, filtered }) => {
         setWaterSum(Number(totalWater).toFixed(2))
         let earning = 0
         let costTot = 0
-        if (cost !== undefined) {
+        if (cost !== undefined && Object.keys(cost).length > 0) {
             cost.forEach(el => {
                 if (el.name === "Water Cost at kWh") {
                     setTotalEarning(totalWater * 0.0001666667 * el.price)

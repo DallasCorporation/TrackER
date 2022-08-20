@@ -16,6 +16,17 @@ const RevenueCard = ({ bills = {} }) => {
     },]
 
     let options = {
+        noData: {
+            text: "You have no data...",
+            align: 'center',
+            verticalAlign: 'middle',
+            offsetX: 0,
+            offsetY: 0,
+            style: {
+                color: "blue",
+                fontSize: '12px',
+            }
+        },
         chart: {
             height: 350,
             type: 'radar',

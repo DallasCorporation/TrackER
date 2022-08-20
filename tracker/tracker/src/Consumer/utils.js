@@ -1,18 +1,29 @@
-export const statebar = (type, color) => ( {
+export const statebar = (type, color) => ({
     options: {
+        noData: {
+            text: "You have no data...",
+            align: 'center',
+            verticalAlign: 'middle',
+            offsetX: 0,
+            offsetY: 0,
+            style: {
+                color: "blue",
+                fontSize: '12px',
+            }
+        },
         title: {
             text: type,
             align: "center",
             offsetY: 10
         },
         style: {
-            fontSize:  '14px',
-            fontWeight:  '300',
+            fontSize: '14px',
+            fontWeight: '300',
             fontFamily: 'Manrope',
             fontVariant: "tabular-nums",
             fontFeatureSettings: "tnum",
-            color:  '#263238'
-          },
+            color: '#263238'
+        },
         colors: [color],
         grid: { show: false },
         chart: {
@@ -43,7 +54,7 @@ export const statebar = (type, color) => ( {
                     return "";
                 }
             },
-            categories: [type,type,type],
+            categories: [type, type, type],
             position: 'top',
             axisBorder: {
                 show: false
@@ -99,6 +110,17 @@ export const stateradial = (color) => ({
 
 export const stacked = {
     options: {
+        noData: {
+            text: "You have no data...",
+            align: 'center',
+            verticalAlign: 'middle',
+            offsetX: 0,
+            offsetY: 0,
+            style: {
+                color: "blue",
+                fontSize: '12px',
+            }
+        },
         colors: ['#ffcf45', '#022cf7', '#00cbff', '#26f8c9'],
         grid: {
             show: false
@@ -147,7 +169,7 @@ export const stacked = {
         tooltip: {
             y: {
                 formatter: function (val) {
-                    return (val/1000).toFixed(2) + "kW"
+                    return (val / 1000).toFixed(2) + "kW"
                 }
             }
         },

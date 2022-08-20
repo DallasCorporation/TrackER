@@ -177,7 +177,7 @@ const GasInvoices = ({ cost, aggregated, filtered }) => {
         setGasSum(Number(totalGas).toFixed(2))
         let earning = 0
         let costTot = 0
-        if (cost !== undefined) {
+        if (cost !== undefined && Object.keys(cost).length>0) {
             cost.forEach(el => {
                 if (el.name === "Gas Cost at m³") {
                     setTotalEarning(totalGas * 0.0454249414 / 1000 * el.price)

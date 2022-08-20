@@ -90,7 +90,6 @@ const Dashboard = () => {
   const [totalRen, setTotalRen] = useState(0)
 
   let navigate = useNavigate();
-  let ids = Object.values(buildings).filter(el => el.resources.length !== 0).map(el => el._id)
 
   const getBillsRenewable = async (id) => {
     await api.bills.getBillsRenewable(id).then(res => {
@@ -169,6 +168,9 @@ const Dashboard = () => {
     })
   }
   useEffect(() => {
+    if (buildings === null || buildings === undefined)
+      return
+    let ids = Object.values(buildings).filter(el => el.resources.length !== 0).map(el => el._id)
     getBillsAggregated(user._id)
     ids.forEach(id => getBillsRenewable(id))
 

@@ -8,7 +8,18 @@ import ApexCharts from 'apexcharts';
 
 
 const options = {
-    colors: [ "#ffcf45", "#19e396","#008ffb"],
+    noData: {
+        text: "You have no data... Try to add a Building to your account",
+        align: 'center',
+        verticalAlign: 'middle',
+        offsetX: 0,
+        offsetY: 0,
+        style: {
+            color: "blue",
+            fontSize: '18px',
+        }
+    },
+    colors: ["#ffcf45", "#19e396", "#008ffb"],
     legend: {
         position: "top",
         horizontalAlign: "center",

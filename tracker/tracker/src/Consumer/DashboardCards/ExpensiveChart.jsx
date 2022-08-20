@@ -92,6 +92,12 @@ const ExpensiveChart = ({ bills }) => {
     const [electricDetail, setElectric] = useState({})
 
     useEffect(() => {
+        if (allOrganization === null || allOrganization === undefined || bills === undefined)
+            return
+        if (bills.all === null || bills.all === undefined)
+            return
+        if (bills.all.length <= 0)
+            return
         if (Object.values(bills).length !== 0) {
             let organizationDetail = Object.values(allOrganization).find(el => el._id === bills.all[0].organizationId)
             if (organizationDetail !== undefined) {
@@ -145,7 +151,7 @@ const ExpensiveChart = ({ bills }) => {
                                 <p>{el.desc}</p>
                             </Col>
                             <Col span={4} style={{ textAlign: "end", color: "blue" }}>
-                                <ArrowRightOutlined style={{fontSize:22}} />
+                                <ArrowRightOutlined style={{ fontSize: 22 }} />
                             </Col>
                         </RowHover>
                     )

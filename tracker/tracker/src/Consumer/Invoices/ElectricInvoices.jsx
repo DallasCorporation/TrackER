@@ -166,7 +166,8 @@ const ElectricInvoices = ({cost, aggregated, filtered }) => {
 
 
         setElectricSum(Number(totalElectric).toFixed(2))
-        if (cost !== undefined) {
+        console.log(cost)
+        if (cost !== undefined && Object.keys(cost).length>0) {
             cost.forEach(el => {
                 if (el.name === "Electricity Cost at kWh") {
                     setTotalEarning(electricSum * 0.0833333 / 1000 * el.price)

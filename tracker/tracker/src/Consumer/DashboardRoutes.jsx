@@ -56,7 +56,8 @@ const DashboardRoute = () => {
                 {
                     path: '/Dashboard',
                     name: 'Dashboard',
-                    icon: <span class="anticon iconfont">&#x100d9;</span>
+                    icon: <span class="anticon iconfont">&#x100d9;</span>,
+                  
                 },
                 {
                     path: '/Buildings',
@@ -81,14 +82,17 @@ const DashboardRoute = () => {
                         {
                             path: '/Invoices/Weekly',
                             name: 'Weekly',
+                          
                         },
                         {
                             path: '/Invoices/Monthly',
                             name: 'Monthly',
+                          
                         },
                         {
                             path: '/Invoices/Yearly',
                             name: 'Yearly',
+                          
                         },
                     ],
                 },

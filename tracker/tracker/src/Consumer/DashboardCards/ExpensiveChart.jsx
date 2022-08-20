@@ -93,11 +93,13 @@ const ExpensiveChart = ({ bills }) => {
 
     useEffect(() => {
         if (Object.values(bills).length !== 0) {
-            let organizationDetail = Object.values(allOrganization).find(el => el._id === bills.all[0].organizationId)
-            if (organizationDetail !== undefined) {
-                setGas(organizationDetail.details.gas)
-                setWater(organizationDetail.details.water)
-                setElectric(organizationDetail.details.electric)
+            if (bills.all.length !== 0) {
+                let organizationDetail = Object.values(allOrganization).find(el => el._id === bills.all[0].organizationId)
+                if (organizationDetail !== undefined) {
+                    setGas(organizationDetail.details.gas)
+                    setWater(organizationDetail.details.water)
+                    setElectric(organizationDetail.details.electric)
+                }
             }
         }
 
@@ -145,7 +147,7 @@ const ExpensiveChart = ({ bills }) => {
                                 <p>{el.desc}</p>
                             </Col>
                             <Col span={4} style={{ textAlign: "end", color: "blue" }}>
-                                <ArrowRightOutlined style={{fontSize:22}} />
+                                <ArrowRightOutlined style={{ fontSize: 22 }} />
                             </Col>
                         </RowHover>
                     )

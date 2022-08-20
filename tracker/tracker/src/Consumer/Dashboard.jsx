@@ -88,9 +88,14 @@ const Dashboard = () => {
   const [hydro, setHydro] = useState({})
   const [geo, setGeo] = useState({})
   const [totalRen, setTotalRen] = useState(0)
+  const [ids, setIds] = useState({})
+  const [showBuild, setShowBuild] = useState(false)
 
   let navigate = useNavigate();
-  let ids = Object.values(buildings).filter(el => el.resources.length !== 0).map(el => el._id)
+  if (buildings !== null) {
+    setIds(Object.values(buildings).filter(el => el.resources.length !== 0).map(el => el._id))
+  }
+
 
   const getBillsRenewable = async (id) => {
     await api.bills.getBillsRenewable(id).then(res => {
@@ -170,7 +175,12 @@ const Dashboard = () => {
   }
   useEffect(() => {
     getBillsAggregated(user._id)
-    ids.forEach(id => getBillsRenewable(id))
+    if (buildings !== null) {
+      setShowBuild(true)
+      ids.forEach(id => getBillsRenewable(id))
+    }else{
+      setShowBuild(false)
+    }
 
   }, [user, buildings])
 
@@ -191,7 +201,7 @@ const Dashboard = () => {
             <BannerCard name="Get exclusive discounts for your bills" />
             <LineCard data={getData(bills)} />
           </Row>
-          <Row justify="center" gutter={[32, 32]} style={{ marginTop: "32px" }}>
+          {showBuild && <Row justify="center" gutter={[32, 32]} style={{ marginTop: "32px" }}>
             <Col lg={8} md={8} sx={8} >
               <StatsCard
                 color={"#ebfafa"}
@@ -210,7 +220,7 @@ const Dashboard = () => {
                 chart={<ReactApexChart options={statebar("Gas", "#19e396").options} series={[gas]} type="bar" height={150} />}
               />
             </Col>
-          </Row>
+          </Row>}
 
           <Row style={{ marginTop: "32px" }}>
             <ProCard bordered style={{
@@ -243,9 +253,9 @@ const Dashboard = () => {
               </Row>
             </ProCard>
           </Row>
-          <Row style={{ marginTop: "32px" }}>
+          {showBuild && <Row style={{ marginTop: "32px" }}>
             <EarningsCard series={[solar, hydro, wind, geo]} total={(totalRen / 1000).toFixed(2)} />
-          </Row>
+          </Row>}
           <Row style={{ marginTop: "32px" }}>
             <TableCard buildings={buildings} />
           </Row>

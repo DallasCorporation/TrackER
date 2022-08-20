@@ -1,4 +1,4 @@
-import { Col, Row } from "antd";
+import { Col, Row, Empty } from "antd";
 import { ProCard } from "@ant-design/pro-components";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
@@ -7,13 +7,6 @@ import { useEffect } from "react";
 import moment from "moment";
 import { useState } from "react";
 const RevenueCard = ({ bills = {} }) => {
-    let series = [{
-        name: 'Consumption',
-        data: [80, 50, 30, 40, 100, 20],
-    }, {
-        name: 'Production',
-        data: [20, 30, 40, 80, 20, 80],
-    },]
 
     let options = {
         noData: {
@@ -83,7 +76,6 @@ const RevenueCard = ({ bills = {} }) => {
         setGas({ name: "Gas", data: dataGas })
     }, [bills])
 
-
     return (
         <ProCard colSpan={12} bordered style={{ borderRadius: "10px", }}>
             <Row justify="space-between" align="middle" >
@@ -91,7 +83,7 @@ const RevenueCard = ({ bills = {} }) => {
                 <Col><span class="anticon iconfont" style={{ color: "blue" }} >&#x100e6;</span></Col>
             </Row>
             <Col span={24}>
-                <ReactApexChart options={options} series={[electric, gas, water]} type="radar" height={350} />
+                {Object.keys(bills).length <= 0 ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /> : <ReactApexChart options={options} series={[electric, gas, water]} type="radar" height={350} />}
             </Col>
         </ProCard>
     )

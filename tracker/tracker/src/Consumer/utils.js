@@ -188,6 +188,17 @@ export const stacked = {
 
 export const linear = (text, unit, color) => ({
     options: {
+        noData: {
+            text: "You have no bill data...",
+            align: 'center',
+            verticalAlign: 'middle',
+            offsetX: 0,
+            offsetY: 0,
+            style: {
+                color: "blue",
+                fontSize: '12px',
+            }
+        },
         chart: {
             id: text,
             group: 'social',

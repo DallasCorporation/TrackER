@@ -15,6 +15,10 @@ const KpiCard = ({ bills, item }) => {
         setElectric(0)
         setGas(0)
         setWater(0)
+        if (bills === null || bills === undefined)
+            return
+        if (bills.all.length <= 0)
+            return
         let buildingBills = bills.all.find(el => el.buildingId === item._id).bills
         buildingBills.map(el => {
             setElectric((old) => old + el.electric)

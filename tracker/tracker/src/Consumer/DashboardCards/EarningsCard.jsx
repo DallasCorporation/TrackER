@@ -1,4 +1,4 @@
-import { Col, Row } from "antd";
+import { Col, Row, Empty } from "antd";
 import { ProCard } from "@ant-design/pro-components";
 import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
@@ -20,7 +20,7 @@ const EarningsCard = ({ series, total = 0 }) => {
           </div>
         </Col>
         <Col lg={18} md={18} xs={24} >
-          <ReactApexChart options={stacked.options} series={series} type="bar" height={150} />
+          {total <= 0 ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /> : <ReactApexChart options={stacked.options} series={series} type="bar" height={150} />}
         </Col>
       </Row>
     </ProCard>

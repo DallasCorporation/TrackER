@@ -1,4 +1,4 @@
-import { Breadcrumb, Button, Card, Col, Layout, PageHeader, Row, Segmented } from "antd";
+import { Breadcrumb, Button, Card, Col, Empty, Layout, PageHeader, Row, Segmented } from "antd";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -22,8 +22,9 @@ const Invoices = () => {
     }
     useEffect(() => {
         getBillsAggregated(user._id)
+        console.log(building)
     }, [])
-    
+
     return (
         <Layout
             className="site-layout-background"
@@ -51,7 +52,22 @@ const Invoices = () => {
             </Row>
             <Row style={{ marginTop: "22px" }} gutter={[16, 16]}>
                 <Col span={24}>
-                    <Row style={{ marginTop: "22px" }} gutter={[32, 32]}>
+                    <Row gutter={[32, 32]}>
+                        {Object.keys(building).length === 0 &&
+                            <Col span={24} style={{ marginBottom: 32, background: "white", borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }}>
+                                <Empty
+                                    image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+                                    imageStyle={{
+                                        height: 150,
+                                    }}
+                                    description={
+                                        <p style={{ fontSize: 18 }}>You must have a Building to show some Bills...</p>
+                                    }
+                                >
+                                    <Button style={{ borderRadius: 20, marginBottom: 32 }} type="primary" onClick={() => navigate("/Building/New")}>Add a Building Now</Button>
+                                </Empty>
+                            </Col>
+                        }
                         {buildings.map(el =>
                             <Col span={8}>
                                 <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }} >
@@ -79,12 +95,14 @@ const Invoices = () => {
                                         <Button
                                             onClick={() => {
                                                 setVisible(true)
-                                                {bills.forEach(bill => {
-                                                    if (bill.buildingId === el._id){
-                                                        setData(bill)
-                                                        setBuilding(el)
-                                                    }
-                                                });}
+                                                {
+                                                    bills.forEach(bill => {
+                                                        if (bill.buildingId === el._id) {
+                                                            setData(bill)
+                                                            setBuilding(el)
+                                                        }
+                                                    });
+                                                }
                                                 setTimespan(filter)
                                             }}
                                             size="middle" type="primary" style={{ borderRadius: 10 }}>{filter} Bills Details</Button>

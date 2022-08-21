@@ -1,9 +1,11 @@
-import { Modal, Tabs } from "antd"
+import { message, Modal, Tabs } from "antd"
+import { useState } from "react"
+import api from "../../../api"
 import ResourcesContent from "./ResourcesContent"
 
 const ResourcesModal = ({ building, visible, setVisible, data }) => {
     return (
-        <Modal zIndex={1200} visible={visible} onCancel={() => setVisible(false)} width={1200}>
+        <Modal zIndex={1000} visible={visible} onOk={() => setVisible(false) } onCancel={() => setVisible(false)} width={1200}>
             <Tabs defaultActiveKey="1" centered size="large">
                 <Tabs.TabPane tab={<><span class="anticon iconfont">&#xe65f;</span>Solar</>} key="1">
                     <ResourcesContent data={data} type="Solar" building={building} />

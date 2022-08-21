@@ -52,7 +52,6 @@ const Invoices = () => {
             <Row style={{ marginTop: "22px" }} gutter={[16, 16]}>
                 <Col span={24}>
                     <Row gutter={[32, 32]}>
-                    {console.log(buildings)}
                         {Object.keys(buildings).length === 0 &&
                             <Col span={24} style={{ marginBottom: 32, background: "white", borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }}>
                                 <Empty

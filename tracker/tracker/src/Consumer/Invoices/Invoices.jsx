@@ -10,7 +10,7 @@ const Invoices = () => {
     const filter = useLocation().pathname.split("/")[2]
     const buildings = useSelector(state => state.buildings.buildings)
     const user = useSelector((state) => state.user.user)
-    const [bills, setBills] = useState({})
+    const [bills, setBills] = useState([])
     const [data, setData] = useState({})
     const [timespan, setTimespan] = useState("")
     const [visible, setVisible] = useState(false)
@@ -22,7 +22,6 @@ const Invoices = () => {
     }
     useEffect(() => {
         getBillsAggregated(user._id)
-        console.log(building)
     }, [])
 
     return (
@@ -53,7 +52,8 @@ const Invoices = () => {
             <Row style={{ marginTop: "22px" }} gutter={[16, 16]}>
                 <Col span={24}>
                     <Row gutter={[32, 32]}>
-                        {Object.keys(building).length === 0 &&
+                    {console.log(buildings)}
+                        {Object.keys(buildings).length === 0 &&
                             <Col span={24} style={{ marginBottom: 32, background: "white", borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }}>
                                 <Empty
                                     image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
@@ -68,6 +68,7 @@ const Invoices = () => {
                                 </Empty>
                             </Col>
                         }
+                        
                         {buildings.map(el =>
                             <Col span={8}>
                                 <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }} >

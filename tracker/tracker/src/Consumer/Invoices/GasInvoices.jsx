@@ -8,6 +8,17 @@ import CustomerDrawer from "../../Vendor/CustomerDrawer"
 import CustomersBuildingTable from "../../Vendor/CustomersBuildingTable"
 
 let optionsLine = {
+    noData: {
+        text: "You have no data...",
+        align: 'center',
+        verticalAlign: 'middle',
+        offsetX: 0,
+        offsetY: 0,
+        style: {
+            color: "blue",
+            fontSize: '12px',
+        }
+    },
     legend: {
         position: "top",
         horizontalAlign: "center",
@@ -94,6 +105,17 @@ const GasInvoices = ({ cost, aggregated, filtered }) => {
     const [series, setSeries] = useState([])
 
     const options = {
+        noData: {
+            text: "You have no data...",
+            align: 'center',
+            verticalAlign: 'middle',
+            offsetX: 0,
+            offsetY: 0,
+            style: {
+                color: "blue",
+                fontSize: '12px',
+            }
+        },
         chart: {
             height: 390,
             type: 'pie',
@@ -158,6 +180,9 @@ const GasInvoices = ({ cost, aggregated, filtered }) => {
     }
 
     useEffect(() => {
+        if (Object.values(cost).length === 0 || filtered.length === 0){
+            return
+        }
         setLabels([])
         setAllGas([])
         setGasSum(0)

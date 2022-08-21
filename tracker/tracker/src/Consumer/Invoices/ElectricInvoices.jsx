@@ -5,6 +5,17 @@ import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 
 let optionsLine = {
+    noData: {
+        text: "You have no data...",
+        align: 'center',
+        verticalAlign: 'middle',
+        offsetX: 0,
+        offsetY: 0,
+        style: {
+            color: "blue",
+            fontSize: '12px',
+        }
+    },
     legend: {
         position: "top",
         horizontalAlign: "center",
@@ -84,6 +95,17 @@ const ElectricInvoices = ({cost, aggregated, filtered }) => {
     const [delivery, setDelivery] = useState(0)
 
     const options = {
+        noData: {
+            text: "You have no data...",
+            align: 'center',
+            verticalAlign: 'middle',
+            offsetX: 0,
+            offsetY: 0,
+            style: {
+                color: "blue",
+                fontSize: '12px',
+            }
+        },
         chart: {
             height: 390,
             type: 'pie',
@@ -148,6 +170,9 @@ const ElectricInvoices = ({cost, aggregated, filtered }) => {
     }
 
     useEffect(() => {
+        if (Object.values(cost).length === 0 || filtered.length === 0){
+            return
+        }
         setAllElectricLine([])
         setElectricSum(0)
         let totalElectric = 0

@@ -9,6 +9,17 @@ import CustomersBuildingTable from "../../Vendor/CustomersBuildingTable"
 import ModalDetails from "../../Vendor/ModalDetails"
 
 let optionsLine = {
+    noData: {
+        text: "You have no data...",
+        align: 'center',
+        verticalAlign: 'middle',
+        offsetX: 0,
+        offsetY: 0,
+        style: {
+            color: "blue",
+            fontSize: '12px',
+        }
+    },
     legend: {
         position: "top",
         horizontalAlign: "center",
@@ -94,6 +105,17 @@ const WaterInvoices = ({ cost, aggregated, filtered }) => {
     const [allWaterLine, setAllWaterLine] = useState([])
 
     const options = {
+        noData: {
+            text: "You have no data...",
+            align: 'center',
+            verticalAlign: 'middle',
+            offsetX: 0,
+            offsetY: 0,
+            style: {
+                color: "blue",
+                fontSize: '12px',
+            }
+        },
         chart: {
             height: 390,
             type: 'pie',
@@ -159,6 +181,9 @@ const WaterInvoices = ({ cost, aggregated, filtered }) => {
 
 
     useEffect(() => {
+        if (Object.values(cost).length === 0 || filtered.length === 0){
+            return
+        }
         setLabels([])
         setAllWater([])
         setWaterSum(0)

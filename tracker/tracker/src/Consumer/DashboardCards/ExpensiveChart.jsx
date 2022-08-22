@@ -156,16 +156,16 @@ const ExpensiveChart = ({ bills }) => {
                         </RowHover>
                     )
                 })}
-                <Drawer width={1000} visible={showDrawer} onClose={() => setDrawer(false)}>
+                <Drawer destroyOnClose width={1000} visible={showDrawer} onClose={() => setDrawer(false)}>
                     <Tabs defaultActiveKey="1" centered>
                         <TabPane tab="Electric" key="1">
-                            <ElectricInvoices cost={electricDetail} aggregated={bills.aggregated}></ElectricInvoices>
+                            <ElectricInvoices bills={bills} cost={electricDetail} aggregated={bills.aggregated}></ElectricInvoices>
                         </TabPane>
                         <TabPane tab="Gas" key="2">
-                            <GasInvoices bills={bills.aggregated} cost={gasDetail} aggregated={bills.aggregated}></GasInvoices>
+                            <GasInvoices bills={bills} cost={gasDetail} aggregated={bills.aggregated}></GasInvoices>
                         </TabPane>
                         <TabPane tab="Water" key="3">
-                            <WaterInvoices bills={bills.aggregated} cost={waterDetail} aggregated={bills.aggregated}></WaterInvoices>
+                            <WaterInvoices bills={bills} cost={waterDetail} aggregated={bills.aggregated}></WaterInvoices>
                         </TabPane>
                     </Tabs>
                 </Drawer>

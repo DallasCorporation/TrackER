@@ -1,4 +1,4 @@
-import { Breadcrumb, Card, Carousel, Col, Divider, Layout, PageHeader, Row, Statistic } from "antd"
+import { Breadcrumb, Card, Carousel, Col, Divider, Empty, Layout, PageHeader, Row, Statistic } from "antd"
 import { useEffect, useState } from "react"
 import ReactApexChart from "react-apexcharts"
 import { useNavigate } from "react-router-dom"
@@ -6,14 +6,14 @@ import { useSelector } from "react-redux"
 
 let optionsLine = {
     noData: {
-        text: "You have no data...",
+        text: "No data to show...",
         align: 'center',
         verticalAlign: 'middle',
         offsetX: 0,
         offsetY: 0,
         style: {
             color: "blue",
-            fontSize: '12px',
+            fontSize: '20px',
         }
     },
     legend: {
@@ -36,7 +36,7 @@ let optionsLine = {
         },
         toolbar: { show: true, },
     },
-    colors: ['#00E396'],
+    colors: ['#ffcf45'],
     stroke: {
         curve: 'smooth',
         width: 2,
@@ -72,7 +72,7 @@ let optionsLine = {
         },
         y: {
             formatter: function (val) {
-                return val + "€"
+                return val + "W"
             },
             title: {
                 formatter: () => {
@@ -85,7 +85,7 @@ let optionsLine = {
 }
 
 
-const ElectricInvoices = ({cost, aggregated, filtered }) => {
+const ElectricInvoices = ({ bills, cost, aggregated, filtered }) => {
     const [metricCubic, setMetric] = useState(true)
     const [electricSum, setElectricSum] = useState(0)
     const [allElectricLine, setAllElectricLine] = useState([])
@@ -170,29 +170,13 @@ const ElectricInvoices = ({cost, aggregated, filtered }) => {
     }
 
     useEffect(() => {
-        if (Object.values(cost).length === 0 || filtered.length === 0){
+        if (bills === null)
             return
-        }
         setAllElectricLine([])
         setElectricSum(0)
-        let totalElectric = 0
-        if (aggregated === undefined) {
-            filtered.forEach(el => {
-                totalElectric = +totalElectric + +el[1]
-            })
-
-            if (filtered.length === 0)
-                return
-        } else {
-            Object.values(aggregated).map(el => {
-                totalElectric = +totalElectric + +el.electric
-            })
-        }
-
-
-        setElectricSum(Number(totalElectric).toFixed(2))
+        setElectricSum(Number(bills.totalElectric).toFixed(2))
         console.log(cost)
-        if (cost !== undefined && Object.keys(cost).length>0) {
+        if (cost !== undefined && Object.keys(cost).length > 0) {
             cost.forEach(el => {
                 if (el.name === "Electricity Cost at kWh") {
                     setTotalEarning(electricSum * 0.0833333 / 1000 * el.price)
@@ -224,7 +208,7 @@ const ElectricInvoices = ({cost, aggregated, filtered }) => {
         }
 
 
-    }, [filtered, metricCubic, aggregated, cost, electricSum])
+    }, [filtered, metricCubic, aggregated, cost, electricSum, bills])
 
 
     return (
@@ -247,44 +231,50 @@ const ElectricInvoices = ({cost, aggregated, filtered }) => {
                 title="Electric Supplier Details"
                 subTitle="Check your supplier earnings and productions"
             />
-            <Card style={{ borderRadius: 20, marginBottom: 32, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
-                <Row align="middle" gutter={[32, 32]} >
-                    <Col span={7}>
-                        <Statistic title="Total Electric Usage" value={metricCubic ? electricSum * 0.0833333 / 1000 : electricSum} suffix={metricCubic ? "Kilowatt (kW)" : "Watt"} precision={4} />
-                        <Row align="middle">
-                            <span onClick={() => setMetric(!metricCubic)} style={{ color: "blue", marginRight: 6 }} class="anticon iconfont">&#xe615;</span>
-                            <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricCubic ? "Kilowatt (kW)" : "Watt"}</p>
-                        </Row>
-                    </Col>
-                    <Col span={5} style={{ height: 90 }} >
-                        <Statistic title="Organization Cost" value={totalEarning} suffix={"Euro (€)"} precision={4} />
-                    </Col>
-                    <Col span={5} style={{ height: 90 }} >
-                        <Statistic title="Total Delivery Cost" value={delivery} suffix={"Euro (€)"} precision={4} />
-                    </Col>
-                    <Col span={5} style={{ height: 90 }} >
-                        <Carousel autoplay dots={false} autoplaySpeed={3500}>
-                            <Statistic title="Total Tax Cost" value={totalTaxCost} suffix={"Euro (€)"} precision={4} />
-                            <Statistic title="Total Supplier Cost" value={supplier} suffix={"Euro (€)"} precision={4} />
-                        </Carousel>
-                    </Col>
-                </Row>
-                <Divider />
-
-                <Row style={{ marginTop: 32 }} justify="center" align="middle">
-                    <Col span={24}>
-                        <p style={{ fontSize: 18, fontWeight: 500 }}> Electric Usage</p>
-                        <ReactApexChart options={optionsLine} series={allElectricLine} type="line" height={320} />
-                    </Col>
+            {Object.keys(aggregated).length === 0 ?
+                <Card style={{ borderRadius: 20, marginBottom: 32, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
+                    < Empty />
+                </Card>
+                :
+                <Card style={{ borderRadius: 20, marginBottom: 32, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
+                    <Row align="top" gutter={[32, 32]} >
+                        <Col span={6}>
+                            <Statistic title="Total Electric Usage" value={metricCubic ? electricSum / 1000 : electricSum} suffix={metricCubic ? "Kilowatt (kW)" : "Watt"} precision={4} />
+                            <Row align="middle">
+                                <span onClick={() => setMetric(!metricCubic)} style={{ color: "blue", marginRight: 6 }} class="anticon iconfont">&#xe615;</span>
+                                <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricCubic ? "Kilowatt (kW)" : "Watt"}</p>
+                            </Row>
+                        </Col>
+                        <Col span={6} style={{ height: 90 }} >
+                            <Statistic title="Organization Cost" value={totalEarning} suffix={"Euro (€)"} precision={4} />
+                        </Col>
+                        <Col span={6} style={{ height: 90 }} >
+                            <Statistic title="Total Delivery Cost" value={delivery} suffix={"Euro (€)"} precision={4} />
+                        </Col>
+                        <Col span={6} style={{ height: 90 }} >
+                            <Carousel autoplay dots={false} autoplaySpeed={3500}>
+                                <Statistic title="Total Tax Cost" value={totalTaxCost} suffix={"Euro (€)"} precision={4} />
+                                <Statistic title="Total Supplier Cost" value={supplier} suffix={"Euro (€)"} precision={4} />
+                            </Carousel>
+                        </Col>
+                    </Row>
                     <Divider />
-                    <Col span={24}>
-                        <p style={{ fontSize: 18, fontWeight: 500 }}> Cost Overview</p>
-                        <Row justify="center">
-                            <ReactApexChart options={options} series={[totalEarning, totalTaxCost, delivery, supplier]} type="pie" width={700} />
-                        </Row>
-                    </Col>
-                </Row>
-            </Card>
+
+                    <Row style={{ marginTop: 32 }} justify="center" align="middle">
+                        <Col span={24}>
+                            <p style={{ fontSize: 18, fontWeight: 500 }}> Electric Usage</p>
+                            <ReactApexChart options={optionsLine} series={allElectricLine} type="line" height={320} />
+                        </Col>
+                        <Divider />
+                        <Col span={24}>
+                            <p style={{ fontSize: 18, fontWeight: 500 }}> Cost Overview</p>
+                            <Row justify="center">
+                                <ReactApexChart options={options} series={[totalEarning, totalTaxCost, delivery, supplier]} type="pie" width={700} />
+                            </Row>
+                        </Col>
+                    </Row>
+                </Card>
+            }
         </Layout>
     )
 }

@@ -1,5 +1,5 @@
 import { SwapOutlined } from "@ant-design/icons"
-import { Breadcrumb, Card, Carousel, Col, Divider, Layout, PageHeader, Radio, Row, Statistic, Switch } from "antd"
+import { Breadcrumb, Card, Carousel, Col, Divider, Empty, Layout, PageHeader, Radio, Row, Statistic, Switch } from "antd"
 import { useEffect, useState } from "react"
 import ReactApexChart from "react-apexcharts"
 import { useNavigate } from "react-router-dom"
@@ -9,14 +9,14 @@ import CustomersBuildingTable from "../../Vendor/CustomersBuildingTable"
 
 let optionsLine = {
     noData: {
-        text: "You have no data...",
+        text: "No data to show...",
         align: 'center',
         verticalAlign: 'middle',
         offsetX: 0,
         offsetY: 0,
         style: {
             color: "blue",
-            fontSize: '12px',
+            fontSize: '20px',
         }
     },
     legend: {
@@ -39,7 +39,7 @@ let optionsLine = {
         },
         toolbar: { show: true, },
     },
-    colors: ['#00E396'],
+    colors: ['#19e396'],
     stroke: {
         curve: 'smooth',
         width: 2,
@@ -48,7 +48,6 @@ let optionsLine = {
     dataLabels: {
         enabled: false
     },
-
     xaxis: {
         type: 'datetime',
         tooltip: {
@@ -75,7 +74,7 @@ let optionsLine = {
         },
         y: {
             formatter: function (val) {
-                return val + "€"
+                return val + "Gallon"
             },
             title: {
                 formatter: () => {
@@ -88,12 +87,8 @@ let optionsLine = {
 }
 
 
-const GasInvoices = ({ cost, aggregated, filtered }) => {
-    let navigate = useNavigate()
-    const allBuildings = useSelector(state => state.allOrganization.allBuildings)
+const GasInvoices = ({ bills, cost, aggregated, filtered }) => {
     const [metricCubic, setMetric] = useState(true)
-    const [buildingId, setBuildingId] = useState("")
-    const [visible, setVisible] = useState(false)
     const [gasSum, setGasSum] = useState(0)
     const [allGas, setAllGas] = useState([])
     const [allGasLine, setAllGasLine] = useState([])
@@ -180,33 +175,19 @@ const GasInvoices = ({ cost, aggregated, filtered }) => {
     }
 
     useEffect(() => {
-        if (Object.values(cost).length === 0 || filtered.length === 0){
+        if (bills === null)
             return
-        }
+
         setLabels([])
         setAllGas([])
-        setGasSum(0)
-        let totalGas = 0
-        if (aggregated === undefined) {
-            filtered.forEach(el => {
-                totalGas = +totalGas + +el[1]
-            })
-            if (filtered.length === 0)
-                return
-        } else {
-            Object.values(aggregated).map(el => {
-                totalGas = +totalGas + +el.gas
-            })
-        }
-
-        setGasSum(Number(totalGas).toFixed(2))
+        setGasSum(Number(bills.totalGas).toFixed(2))
         let earning = 0
         let costTot = 0
-        if (cost !== undefined && Object.keys(cost).length>0) {
+        if (cost !== undefined && Object.keys(cost).length > 0) {
             cost.forEach(el => {
                 if (el.name === "Gas Cost at m³") {
-                    setTotalEarning(totalGas * 0.0454249414 / 1000 * el.price)
-                    earning += totalGas * 0.0454249414 / 1000 * el.price
+                    setTotalEarning(bills.totalGas * 0.0454249414 / 1000 * el.price)
+                    earning += bills.totalGas * 0.0454249414 / 1000 * el.price
                 }
                 if (el.name === "Supplier Gas Cost") {
                     setSupplier(el.price)
@@ -217,13 +198,11 @@ const GasInvoices = ({ cost, aggregated, filtered }) => {
                     costTot += el.price
                 }
                 if (el.name === "Gas Tax Percentage") {
-                    setTotalTax(totalGas * 0.0454249414 / 1000 * el.price / 100)
-                    costTot += totalGas * 0.0454249414 / 1000 * el.price / 100
+                    setTotalTax(bills.totalGas * 0.0454249414 / 1000 * el.price / 100)
+                    costTot += bills.totalGas * 0.0454249414 / 1000 * el.price / 100
                 }
             });
         }
-
-
         setSeries({
             data: [
                 {
@@ -255,7 +234,7 @@ const GasInvoices = ({ cost, aggregated, filtered }) => {
 
     }, [aggregated, filtered, metricCubic])
 
-    
+
     return (
         <Layout
             className="site-layout-background"
@@ -276,45 +255,49 @@ const GasInvoices = ({ cost, aggregated, filtered }) => {
                 title="Gas Supplier Details"
                 subTitle="Check your supplier earnings and productions"
             />
-            <Card style={{ borderRadius: 20, marginBottom: 32, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
-                <Row align="middle" gutter={[32, 32]} >
-
-                    <Col span={7}>
-                        <Statistic title="Total Gas Usage" value={metricCubic ? gasSum * 0.0454249414 / 1000 : gasSum} suffix={metricCubic ? "Gas/m³" : "Gallon"} precision={4} />
-                        <Row align="middle">
-                            <span onClick={() => setMetric(!metricCubic)} style={{ color: "blue", marginRight: 6 }} class="anticon iconfont">&#xe615;</span>
-                            <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricCubic ? "Gas/m³" : "Gallon"}</p>
-                        </Row>
-                    </Col>
-                    <Col span={5} style={{ height: 90 }} >
-                        <Statistic title="Organization Cost" value={totalEarning} suffix={"Euro (€)"} precision={4} />
-                    </Col>
-                    <Col span={5} style={{ height: 90 }} >
-                        <Statistic title="Total Delivery Cost" value={delivery} suffix={"Euro (€)"} precision={4} />
-                    </Col>
-                    <Col span={5} style={{ height: 90 }} >
-                        <Carousel autoplay dots={false} autoplaySpeed={3500}>
-                            <Statistic title="Total Tax Cost" value={totalTaxCost} suffix={"Euro (€)"} precision={4} />
-                            <Statistic title="Total Supplier Cost" value={supplier} suffix={"Euro (€)"} precision={4} />
-                        </Carousel>
-                    </Col>
-                </Row>
-                <Divider />
-
-                <Row style={{ marginTop: 32 }} justify="center" align="middle">
-                    <Col span={24}>
-                        <p style={{ fontSize: 18, fontWeight: 500 }}> Gas Usage</p>
-                        <ReactApexChart options={optionsLine} series={allGasLine} type="line" height={320} />
-                    </Col>
+            {Object.keys(aggregated).length === 0 ?
+                <Card style={{ borderRadius: 20, marginBottom: 32, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
+                    < Empty />
+                </Card>
+                :
+                <Card style={{ borderRadius: 20, marginBottom: 32, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
+                    <Row align="top" gutter={[32, 32]} >
+                        <Col span={6}>
+                            <Statistic title="Total Gas Usage" value={metricCubic ? gasSum * 0.0454249414 / 1000 : gasSum} suffix={metricCubic ? "Gas/m³" : "Gallon"} precision={4} />
+                            <Row align="middle">
+                                <span onClick={() => setMetric(!metricCubic)} style={{ color: "blue", marginRight: 6 }} class="anticon iconfont">&#xe615;</span>
+                                <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricCubic ? "Gas/m³" : "Gallon"}</p>
+                            </Row>
+                        </Col>
+                        <Col span={6} style={{ height: 90 }} >
+                            <Statistic title="Organization Cost" value={totalEarning} suffix={"Euro (€)"} precision={4} />
+                        </Col>
+                        <Col span={6} style={{ height: 90 }} >
+                            <Statistic title="Total Delivery Cost" value={delivery} suffix={"Euro (€)"} precision={4} />
+                        </Col>
+                        <Col span={6} style={{ height: 90 }} >
+                            <Carousel autoplay dots={false} autoplaySpeed={3500}>
+                                <Statistic title="Total Tax Cost" value={totalTaxCost} suffix={"Euro (€)"} precision={4} />
+                                <Statistic title="Total Supplier Cost" value={supplier} suffix={"Euro (€)"} precision={4} />
+                            </Carousel>
+                        </Col>
+                    </Row>
                     <Divider />
-                    <Col span={24}>
-                        <p style={{ fontSize: 18, fontWeight: 500 }}> Cost Overview</p>
-                        <Row justify="center">
-                            <ReactApexChart options={options} series={[totalEarning, totalTaxCost, delivery, supplier]} type="pie" width={700} />
-                        </Row>
-                    </Col>
-                </Row>
-            </Card>
+
+                    <Row style={{ marginTop: 32 }} justify="center" align="middle">
+                        <Col span={24}>
+                            <p style={{ fontSize: 18, fontWeight: 500 }}> Gas Usage</p>
+                            <ReactApexChart options={optionsLine} series={allGasLine} type="line" height={320} />
+                        </Col>
+                        <Divider />
+                        <Col span={24}>
+                            <p style={{ fontSize: 18, fontWeight: 500 }}> Cost Overview</p>
+                            <Row justify="center">
+                                <ReactApexChart options={options} series={[totalEarning, totalTaxCost, delivery, supplier]} type="pie" width={700} />
+                            </Row>
+                        </Col>
+                    </Row>
+                </Card>}
         </Layout>
     )
 }

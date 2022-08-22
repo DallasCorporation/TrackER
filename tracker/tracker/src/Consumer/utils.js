@@ -1,7 +1,7 @@
 export const statebar = (type, color) => ({
     options: {
         noData: {
-            text: "You have no data...",
+            text: "No data to show...",
             align: 'center',
             verticalAlign: 'middle',
             offsetX: 0,
@@ -111,7 +111,7 @@ export const stateradial = (color) => ({
 export const stacked = {
     options: {
         noData: {
-            text: "You have no data...",
+            text: "No data to show...",
             align: 'center',
             verticalAlign: 'middle',
             offsetX: 0,
@@ -189,7 +189,7 @@ export const stacked = {
 export const linear = (text, unit, color) => ({
     options: {
         noData: {
-            text: "You have no bill data...",
+            text: "No data to show...",
             align: 'center',
             verticalAlign: 'middle',
             offsetX: 0,

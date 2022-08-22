@@ -52,7 +52,7 @@ const Invoices = () => {
             <Row style={{ marginTop: "22px" }} gutter={[16, 16]}>
                 <Col span={24}>
                     <Row gutter={[32, 32]}>
-                        {Object.keys(buildings).length === 0 &&
+                        {Object.keys(buildings).length === 0 ?
                             <Col span={24} style={{ marginBottom: 32, background: "white", borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }}>
                                 <Empty
                                     image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
@@ -66,50 +66,49 @@ const Invoices = () => {
                                     <Button style={{ borderRadius: 20, marginBottom: 32 }} type="primary" onClick={() => navigate("/Building/New")}>Add a Building Now</Button>
                                 </Empty>
                             </Col>
-                        }
-                        
-                        {buildings.map(el =>
-                            <Col span={8}>
-                                <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }} >
-                                    <Row justify="space-between" align="middle">
-                                        <p style={{ fontWeight: 500, fontSize: 22, margin: 0 }}>{el.name}</p>
-                                        <InfoCircleOutlined />
-                                    </Row>
-                                    <Row justify="space-between" align="middle" style={{ marginTop: "12px" }}>
-                                        <p style={{ margin: 0 }}>Address:</p>
-                                        <p style={{ margin: 0 }}>{el.address}</p>
-                                    </Row>
-                                    <Row justify="space-between" align="middle" style={{ marginTop: "12px" }}>
-                                        <p style={{ margin: 0 }}>Contact Name:</p>
-                                        <p style={{ margin: 0 }}>{el.contact}</p>
-                                    </Row>
-                                    <Row justify="space-between" align="middle" style={{ marginTop: "12px" }}>
-                                        <p style={{ margin: 0 }}>Type:</p>
-                                        <p style={{ margin: 0 }}>{el.type}</p>
-                                    </Row>
-                                    <Row justify="space-between" align="middle" style={{ marginTop: "12px" }}>
-                                        <p style={{ margin: 0 }}>Size (sqmt):</p>
-                                        <p style={{ margin: 0 }}>{el.sqft}</p>
-                                    </Row>
-                                    <Row justify="center" style={{ marginTop: "22px" }}>
-                                        <Button
-                                            onClick={() => {
-                                                setVisible(true)
-                                                {
-                                                    bills.forEach(bill => {
-                                                        if (bill.buildingId === el._id) {
-                                                            setData(bill)
-                                                            setBuilding(el)
-                                                        }
-                                                    });
-                                                }
-                                                setTimespan(filter)
-                                            }}
-                                            size="middle" type="primary" style={{ borderRadius: 10 }}>{filter} Bills Details</Button>
-                                    </Row>
-                                </Card>
-                            </Col>
-                        )}
+                            :
+                            buildings.map(el =>
+                                <Col span={8}>
+                            <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }} >
+                                <Row justify="space-between" align="middle">
+                                    <p style={{ fontWeight: 500, fontSize: 22, margin: 0 }}>{el.name}</p>
+                                    <InfoCircleOutlined />
+                                </Row>
+                                <Row justify="space-between" align="middle" style={{ marginTop: "12px" }}>
+                                    <p style={{ margin: 0 }}>Address:</p>
+                                    <p style={{ margin: 0 }}>{el.address}</p>
+                                </Row>
+                                <Row justify="space-between" align="middle" style={{ marginTop: "12px" }}>
+                                    <p style={{ margin: 0 }}>Contact Name:</p>
+                                    <p style={{ margin: 0 }}>{el.contact}</p>
+                                </Row>
+                                <Row justify="space-between" align="middle" style={{ marginTop: "12px" }}>
+                                    <p style={{ margin: 0 }}>Type:</p>
+                                    <p style={{ margin: 0 }}>{el.type}</p>
+                                </Row>
+                                <Row justify="space-between" align="middle" style={{ marginTop: "12px" }}>
+                                    <p style={{ margin: 0 }}>Size (sqmt):</p>
+                                    <p style={{ margin: 0 }}>{el.sqft}</p>
+                                </Row>
+                                <Row justify="center" style={{ marginTop: "22px" }}>
+                                    <Button
+                                        onClick={() => {
+                                            setVisible(true)
+                                            {
+                                                bills.forEach(bill => {
+                                                    if (bill.buildingId === el._id) {
+                                                        setData(bill)
+                                                        setBuilding(el)
+                                                    }
+                                                });
+                                            }
+                                            setTimespan(filter)
+                                        }}
+                                        size="middle" type="primary" style={{ borderRadius: 10 }}>{filter} Bills Details</Button>
+                                </Row>
+                            </Card>
+                        </Col>
+                            )}
                     </Row>
                 </Col>
             </Row>

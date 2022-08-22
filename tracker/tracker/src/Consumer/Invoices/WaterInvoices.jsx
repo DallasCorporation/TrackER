@@ -1,25 +1,10 @@
-import { SwapOutlined } from "@ant-design/icons"
-import { Breadcrumb, Card, Carousel, Col, Divider, Layout, PageHeader, Radio, Row, Statistic, Switch } from "antd"
+import { Breadcrumb, Card, Carousel, Col, Divider, Empty, Layout, PageHeader, Row, Statistic } from "antd"
 import { useEffect, useState } from "react"
 import ReactApexChart from "react-apexcharts"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import CustomerDrawer from "../../Vendor/CustomerDrawer"
-import CustomersBuildingTable from "../../Vendor/CustomersBuildingTable"
-import ModalDetails from "../../Vendor/ModalDetails"
 
 let optionsLine = {
-    noData: {
-        text: "You have no data...",
-        align: 'center',
-        verticalAlign: 'middle',
-        offsetX: 0,
-        offsetY: 0,
-        style: {
-            color: "blue",
-            fontSize: '12px',
-        }
-    },
     legend: {
         position: "top",
         horizontalAlign: "center",
@@ -40,7 +25,7 @@ let optionsLine = {
         },
         toolbar: { show: true, },
     },
-    colors: ['#00E396'],
+    colors: ['#008ffb'],
     stroke: {
         curve: 'smooth',
         width: 2,
@@ -76,7 +61,7 @@ let optionsLine = {
         },
         y: {
             formatter: function (val) {
-                return val + "€"
+                return val + "l"
             },
             title: {
                 formatter: () => {
@@ -88,7 +73,7 @@ let optionsLine = {
 
 }
 
-const WaterInvoices = ({ cost, aggregated, filtered }) => {
+const WaterInvoices = ({ bills, cost, aggregated, filtered }) => {
     let navigate = useNavigate()
     const allBuildings = useSelector(state => state.allOrganization.allBuildings)
     const [metricCubic, setMetric] = useState(true)
@@ -181,9 +166,8 @@ const WaterInvoices = ({ cost, aggregated, filtered }) => {
 
 
     useEffect(() => {
-        if (Object.values(cost).length === 0 || filtered.length === 0){
+        if (bills === null)
             return
-        }
         setLabels([])
         setAllWater([])
         setWaterSum(0)
@@ -201,25 +185,19 @@ const WaterInvoices = ({ cost, aggregated, filtered }) => {
         }
 
         setWaterSum(Number(totalWater).toFixed(2))
-        let earning = 0
-        let costTot = 0
         if (cost !== undefined && Object.keys(cost).length > 0) {
             cost.forEach(el => {
                 if (el.name === "Water Cost at kWh") {
                     setTotalEarning(totalWater * 0.0001666667 * el.price)
-                    earning += totalWater * 0.0001666667 * el.price
                 }
                 if (el.name === "Water Supplier Cost") {
                     setSupplier(el.price)
-                    earning += el.price
                 }
                 if (el.name === "Water Delivery Cost") {
                     setDelivery(el.price)
-                    costTot += el.price
                 }
                 if (el.name === "Water Tax Percentage") {
                     setTotalTax(totalWater * 0.0001666667 * el.price / 100)
-                    costTot += totalWater * 0.0001666667 * el.price / 100
                 }
             });
         }
@@ -260,44 +238,49 @@ const WaterInvoices = ({ cost, aggregated, filtered }) => {
                 title="Water Supplier Details"
                 subTitle="Check your supplier earnings and productions"
             />
-            <Card style={{ borderRadius: 20, marginBottom: 32, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
-                <Row align="middle" gutter={[32, 32]}>
-                    <Col span={7} >
-                        <Statistic title="Total Water Usage" value={metricCubic ? waterSum * 0.0001666667 : waterSum} suffix={metricCubic ? "Liter/Hours (l/h)" : "Liter"} precision={4} />
-                        <Row align="middle">
-                            <span onClick={() => setMetric(!metricCubic)} style={{ color: "blue", marginRight: 6 }} class="anticon iconfont">&#xe615;</span>
-                            <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricCubic ? "Literr/Hours (l/h)" : "Liter"}</p>
-                        </Row>
-                    </Col>
-                    <Col span={5} style={{ height: 90 }} >
-                        <Statistic title="Organization Cost" value={totalEarning} suffix={"Euro (€)"} precision={2} />
-                    </Col>
-                    <Col span={5} style={{ height: 90 }} >
-                        <Statistic title="Total Delivery Cost" value={delivery} suffix={"Euro (€)"} precision={2} />
-                    </Col>
-                    <Col span={5} style={{ height: 90 }} >
-                        <Carousel autoplay dots={false} autoplaySpeed={3500}>
-                            <Statistic title="Total Tax Cost" value={totalTaxCost} suffix={"Euro (€)"} precision={2} />
-                            <Statistic title="Total Supplier Cost" value={supplier} suffix={"Euro (€)"} precision={2} />
-                        </Carousel>
-                    </Col>
-                </Row>
-                <Divider />
-
-                <Row style={{ marginTop: 32 }} justify="center" align="middle">
-                    <Col span={24}>
-                        <p style={{ fontSize: 18, fontWeight: 500 }}> Water Usage</p>
-                        <ReactApexChart options={optionsLine} series={allWaterLine} type="line" height={320} />
-                    </Col>
+            {Object.keys(aggregated).length === 0 ?
+                <Card style={{ borderRadius: 20, marginBottom: 32, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
+                    < Empty />
+                </Card>
+                :
+                <Card style={{ borderRadius: 20, marginBottom: 32, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
+                    <Row align="top" gutter={[32, 32]}>
+                        <Col span={6} >
+                            <Statistic title="Total Water Usage" value={metricCubic ? waterSum * 0.0001666667 : waterSum} suffix={metricCubic ? "Liter/Hours (l/h)" : "Liter"} precision={4} />
+                            <Row align="middle">
+                                <span onClick={() => setMetric(!metricCubic)} style={{ color: "blue", marginRight: 6 }} class="anticon iconfont">&#xe615;</span>
+                                <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricCubic ? "Literr/Hours (l/h)" : "Liter"}</p>
+                            </Row>
+                        </Col>
+                        <Col span={6} style={{ height: 90 }} >
+                            <Statistic title="Organization Cost" value={totalEarning} suffix={"Euro (€)"} precision={2} />
+                        </Col>
+                        <Col span={6} style={{ height: 90 }} >
+                            <Statistic title="Total Delivery Cost" value={delivery} suffix={"Euro (€)"} precision={2} />
+                        </Col>
+                        <Col span={6} style={{ height: 90 }} >
+                            <Carousel autoplay dots={false} autoplaySpeed={3500}>
+                                <Statistic title="Total Tax Cost" value={totalTaxCost} suffix={"Euro (€)"} precision={2} />
+                                <Statistic title="Total Supplier Cost" value={supplier} suffix={"Euro (€)"} precision={2} />
+                            </Carousel>
+                        </Col>
+                    </Row>
                     <Divider />
-                    <Col span={24}>
-                        <p style={{ fontSize: 18, fontWeight: 500 }}> Cost Overview</p>
-                        <Row justify="center">
-                            <ReactApexChart options={options} series={[totalEarning, totalTaxCost, delivery, supplier]} type="pie" width={700} />
-                        </Row>
-                    </Col>
-                </Row>
-            </Card>
+
+                    <Row style={{ marginTop: 32 }} justify="center" align="middle">
+                        <Col span={24}>
+                            <p style={{ fontSize: 18, fontWeight: 500 }}> Water Usage</p>
+                            <ReactApexChart options={optionsLine} series={allWaterLine} type="line" height={320} />
+                        </Col>
+                        <Divider />
+                        <Col span={24}>
+                            <p style={{ fontSize: 18, fontWeight: 500 }}> Cost Overview</p>
+                            <Row justify="center">
+                                <ReactApexChart options={options} series={[totalEarning, totalTaxCost, delivery, supplier]} type="pie" width={700} />
+                            </Row>
+                        </Col>
+                    </Row>
+                </Card>}
         </Layout>
     )
 }

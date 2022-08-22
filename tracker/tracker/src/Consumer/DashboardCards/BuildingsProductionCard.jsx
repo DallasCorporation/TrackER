@@ -120,7 +120,7 @@ const BuildingsProductionCard = () => {
         <Layout
             className="site-layout-background"
             style={{
-                marginTop:22,
+                marginTop: 22,
                 paddingLeft: 24,
                 paddingRight: 24,
             }}
@@ -132,21 +132,24 @@ const BuildingsProductionCard = () => {
                 subTitle="Check your buildings energy earnings and productions"
             />
             <Card style={{ borderRadius: 20, marginBottom: 32, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
-                <Tabs>
-                    {buildings.map((el, index) =>
-                        <Tabs.TabPane tab={<>{renderIcon(el)}</>} key={index}>
-                            {el.resources.length === 0 ?
-                                <Empty
-                                    image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
-                                    imageStyle={{ height: 100, }}
-                                    description={<span>  This building has <a>NO resources installed</a> yet</span>}
-                                >
-                                </Empty> :
-                                renderData(el._id)
-                            }
-                        </Tabs.TabPane>
-                    )}
-                </Tabs>
+                {Object.keys(buildings).length === 0 ?
+                    <Empty description="No data to show"/>
+                    :
+                    <Tabs>
+                        {buildings.map((el, index) =>
+                            <Tabs.TabPane tab={<>{renderIcon(el)}</>} key={index}>
+                                {el.resources.length === 0 ?
+                                    <Empty
+                                        image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
+                                        imageStyle={{ height: 100, }}
+                                        description={<span>  This building has <a>NO resources installed</a> yet</span>}
+                                    >
+                                    </Empty> :
+                                    renderData(el._id)
+                                }
+                            </Tabs.TabPane>
+                        )}
+                    </Tabs>}
             </Card>
         </Layout>
     )

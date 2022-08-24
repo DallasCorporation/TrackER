@@ -1,11 +1,6 @@
-import { SwapOutlined } from "@ant-design/icons"
-import { Breadcrumb, Card, Carousel, Col, Divider, Empty, Layout, PageHeader, Radio, Row, Statistic, Switch } from "antd"
+import { Breadcrumb, Card, Carousel, Col, Divider, Empty, Layout, PageHeader, Row, Statistic } from "antd"
 import { useEffect, useState } from "react"
 import ReactApexChart from "react-apexcharts"
-import { useNavigate } from "react-router-dom"
-import { useSelector } from "react-redux"
-import CustomerDrawer from "../../Vendor/CustomerDrawer"
-import CustomersBuildingTable from "../../Vendor/CustomersBuildingTable"
 
 let optionsLine = {
     noData: {
@@ -90,14 +85,11 @@ let optionsLine = {
 const GasInvoices = ({ bills, cost, aggregated, filtered }) => {
     const [metricCubic, setMetric] = useState(true)
     const [gasSum, setGasSum] = useState(0)
-    const [allGas, setAllGas] = useState([])
     const [allGasLine, setAllGasLine] = useState([])
-    const [labels, setLabels] = useState([])
     const [totalTaxCost, setTotalTax] = useState(0)
     const [totalEarning, setTotalEarning] = useState(0)
     const [supplier, setSupplier] = useState(0)
     const [delivery, setDelivery] = useState(0)
-    const [series, setSeries] = useState([])
 
     const options = {
         noData: {
@@ -177,46 +169,29 @@ const GasInvoices = ({ bills, cost, aggregated, filtered }) => {
     useEffect(() => {
         if (bills === null)
             return
+        setGasSum(0)
+        setAllGasLine([])
+        if (bills.hasOwnProperty("all"))
+            setGasSum(Number(bills.totalGas).toFixed(2))
+        else
+            bills.bills.map(bill => setGasSum(old => old + bill.gas))
 
-        setLabels([])
-        setAllGas([])
-        setGasSum(Number(bills.totalGas).toFixed(2))
-        let earning = 0
-        let costTot = 0
         if (cost !== undefined && Object.keys(cost).length > 0) {
             cost.forEach(el => {
                 if (el.name === "Gas Cost at m³") {
                     setTotalEarning(bills.totalGas * 0.0454249414 / 1000 * el.price)
-                    earning += bills.totalGas * 0.0454249414 / 1000 * el.price
                 }
                 if (el.name === "Supplier Gas Cost") {
                     setSupplier(el.price)
-                    earning += el.price
                 }
                 if (el.name === "Gas Delivery Cost") {
                     setDelivery(el.price)
-                    costTot += el.price
                 }
                 if (el.name === "Gas Tax Percentage") {
                     setTotalTax(bills.totalGas * 0.0454249414 / 1000 * el.price / 100)
-                    costTot += bills.totalGas * 0.0454249414 / 1000 * el.price / 100
                 }
             });
         }
-        setSeries({
-            data: [
-                {
-                    x: 'Organization Earnings',
-                    y: earning.toFixed(2),
-                    fillColor: '#00E396'
-
-                }, {
-                    x: 'Organization Cost',
-                    y: costTot.toFixed(2),
-                    fillColor: "#d40000"
-                }
-            ]
-        })
         let tmp = []
         if (aggregated === undefined) {
             filtered.forEach(el => {
@@ -224,15 +199,13 @@ const GasInvoices = ({ bills, cost, aggregated, filtered }) => {
             })
             setAllGasLine([{ data: tmp }])
         } else {
-            let sum = 0
             Object.values(aggregated).map(el => {
                 tmp.push([el.date, el.gas])
             })
             setAllGasLine([{ data: tmp }])
 
         }
-
-    }, [aggregated, filtered, metricCubic])
+    }, [filtered, metricCubic, aggregated, cost, gasSum, bills])
 
 
     return (
@@ -255,7 +228,7 @@ const GasInvoices = ({ bills, cost, aggregated, filtered }) => {
                 title="Gas Supplier Details"
                 subTitle="Check your supplier earnings and productions"
             />
-            {Object.keys(aggregated).length === 0 ?
+            {Object.keys(bills).length === 0 ?
                 <Card style={{ borderRadius: 20, marginBottom: 32, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
                     < Empty />
                 </Card>

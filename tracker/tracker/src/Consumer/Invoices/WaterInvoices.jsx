@@ -74,19 +74,12 @@ let optionsLine = {
 }
 
 const WaterInvoices = ({ bills, cost, aggregated, filtered }) => {
-    let navigate = useNavigate()
-    const allBuildings = useSelector(state => state.allOrganization.allBuildings)
     const [metricCubic, setMetric] = useState(true)
-    const [buildingId, setBuildingId] = useState("")
-    const [visible, setVisible] = useState(false)
     const [waterSum, setWaterSum] = useState(0)
-    const [allWater, setAllWater] = useState([])
-    const [labels, setLabels] = useState([])
     const [totalTaxCost, setTotalTax] = useState(0)
     const [totalEarning, setTotalEarning] = useState(0)
     const [supplier, setSupplier] = useState(0)
     const [delivery, setDelivery] = useState(0)
-    const [series, setSeries] = useState([])
     const [allWaterLine, setAllWaterLine] = useState([])
 
     const options = {
@@ -168,9 +161,13 @@ const WaterInvoices = ({ bills, cost, aggregated, filtered }) => {
     useEffect(() => {
         if (bills === null)
             return
-        setLabels([])
-        setAllWater([])
         setWaterSum(0)
+        setAllWaterLine([])
+        if (bills.hasOwnProperty("all")) {
+            setWaterSum(Number(bills.totalGas).toFixed(2))
+        }
+        else filtered.map(el => setWaterSum(old => old + el[1]))
+
         let totalWater = 0
         if (aggregated === undefined) {
             filtered.forEach(el => {
@@ -216,7 +213,7 @@ const WaterInvoices = ({ bills, cost, aggregated, filtered }) => {
 
         }
 
-    }, [filtered, aggregated, metricCubic])
+    }, [filtered, aggregated, metricCubic, bills, cost])
 
     return (
         <Layout
@@ -238,7 +235,7 @@ const WaterInvoices = ({ bills, cost, aggregated, filtered }) => {
                 title="Water Supplier Details"
                 subTitle="Check your supplier earnings and productions"
             />
-            {Object.keys(aggregated).length === 0 ?
+            {Object.keys(bills).length === 0 ?
                 <Card style={{ borderRadius: 20, marginBottom: 32, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
                     < Empty />
                 </Card>

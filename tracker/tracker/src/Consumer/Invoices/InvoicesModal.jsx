@@ -33,8 +33,6 @@ const InvoicesModal = ({ data, visible, setVisible, timespan, building }) => {
         const week = moment().subtract(7, 'days');
         const month = moment().subtract(1, 'months');
         const year = moment().subtract(1, 'years');
-
-
         switch (timespan) {
             case "Weekly":
                 if (moment(el.date).isBetween(week, undefined, 'day')) {
@@ -60,27 +58,22 @@ const InvoicesModal = ({ data, visible, setVisible, timespan, building }) => {
             default:
 
         }
-
     })
 
-    // if (Object.values(electricDetail).length !== 0 && Object.values(gasDetail).length !== 0 && Object.values(waterDetail).length !== 0 
-    // && elec.length !== 0 && gas.length !== 0 && water.length !== 0) {
-        return (
-            <Modal destroyOnClose visible={visible} width={1200} onOk={() => setVisible(!visible)} onCancel={() => setVisible(!visible)}>
-                <Tabs defaultActiveKey="1" centered destroyInactiveTabPane>
-                    <TabPane tab="Electric" key="1">
-                        <ElectricInvoices bills={data} cost={electricDetail} filtered={elec}/>
-                    </TabPane>
-                    <TabPane tab="Gas" key="2">
-                        <GasInvoices bills={data}cost={gasDetail} filtered={gas}/>
-                    </TabPane>
-                    <TabPane tab="Water" key="3">
-                        <WaterInvoices bills={data} cost={waterDetail} filtered={water}/>
-                    </TabPane>
-                </Tabs>
-            </Modal>
-        )
-    }
-
-// }
+    return (
+        <Modal destroyOnClose visible={visible} width={1200} onOk={() => setVisible(!visible)} onCancel={() => setVisible(!visible)}>
+            <Tabs defaultActiveKey="1" centered destroyInactiveTabPane>
+                <TabPane tab="Electric" key="1">
+                    <ElectricInvoices bills={data} cost={electricDetail} filtered={elec} />
+                </TabPane>
+                <TabPane tab="Gas" key="2">
+                    <GasInvoices bills={data} cost={gasDetail} filtered={gas} />
+                </TabPane>
+                <TabPane tab="Water" key="3">
+                    <WaterInvoices bills={data} cost={waterDetail} filtered={water} />
+                </TabPane>
+            </Tabs>
+        </Modal>
+    )
+}
 export default InvoicesModal

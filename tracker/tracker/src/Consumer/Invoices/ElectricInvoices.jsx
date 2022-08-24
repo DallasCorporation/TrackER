@@ -1,8 +1,7 @@
 import { Breadcrumb, Card, Carousel, Col, Divider, Empty, Layout, PageHeader, Row, Statistic } from "antd"
+import moment from "moment"
 import { useEffect, useState } from "react"
 import ReactApexChart from "react-apexcharts"
-import { useNavigate } from "react-router-dom"
-import { useSelector } from "react-redux"
 
 let optionsLine = {
     noData: {
@@ -84,6 +83,9 @@ let optionsLine = {
 
 }
 
+const week = moment().subtract(7, 'days');
+const month = moment().subtract(1, 'months');
+const year = moment().subtract(1, 'years');
 
 const ElectricInvoices = ({ bills, cost, aggregated, filtered }) => {
     const [metricCubic, setMetric] = useState(true)
@@ -174,8 +176,12 @@ const ElectricInvoices = ({ bills, cost, aggregated, filtered }) => {
             return
         setAllElectricLine([])
         setElectricSum(0)
-        setElectricSum(Number(bills.totalElectric).toFixed(2))
-        console.log(cost)
+        if (bills.hasOwnProperty("all"))
+            setElectricSum(Number(bills.totalElectric).toFixed(2))
+        else
+            filtered.map(el => setElectricSum(old => old + el[1]))
+
+
         if (cost !== undefined && Object.keys(cost).length > 0) {
             cost.forEach(el => {
                 if (el.name === "Electricity Cost at kWh") {
@@ -192,8 +198,6 @@ const ElectricInvoices = ({ bills, cost, aggregated, filtered }) => {
                 }
             });
         }
-
-
         let tmp = []
         if (aggregated === undefined) {
             filtered.forEach(el => {
@@ -206,8 +210,6 @@ const ElectricInvoices = ({ bills, cost, aggregated, filtered }) => {
             })
             setAllElectricLine([{ data: tmp }])
         }
-
-
     }, [filtered, metricCubic, aggregated, cost, electricSum, bills])
 
 
@@ -231,7 +233,7 @@ const ElectricInvoices = ({ bills, cost, aggregated, filtered }) => {
                 title="Electric Supplier Details"
                 subTitle="Check your supplier earnings and productions"
             />
-            {Object.keys(aggregated).length === 0 ?
+            {Object.keys(bills).length === 0 ?
                 <Card style={{ borderRadius: 20, marginBottom: 32, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
                     < Empty />
                 </Card>

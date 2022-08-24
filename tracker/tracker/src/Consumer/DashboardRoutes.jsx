@@ -57,7 +57,7 @@ const DashboardRoute = () => {
                     path: '/Dashboard',
                     name: 'Dashboard',
                     icon: <span class="anticon iconfont">&#x100d9;</span>,
-                  
+
                 },
                 {
                     path: '/Buildings',
@@ -82,17 +82,17 @@ const DashboardRoute = () => {
                         {
                             path: '/Invoices/Weekly',
                             name: 'Weekly',
-                          
+
                         },
                         {
                             path: '/Invoices/Monthly',
                             name: 'Monthly',
-                          
+
                         },
                         {
                             path: '/Invoices/Yearly',
                             name: 'Yearly',
-                          
+
                         },
                     ],
                 },
@@ -197,9 +197,9 @@ const DashboardRoute = () => {
                 <Route path="/buildings" element={<BuildingsTab updateRoute={() => { setPathname("/building/New"); navigate("/building/New") }} />} />
                 <Route path="/building/New" element={<AddNewBuildings user={user} />} />
                 <Route path="/Organizations" element={<Organizations user={user} allOrganization={allOrganization} allUser={allUser} />} />
-                <Route path="/Invoices/Weekly" element={<Invoices user={user} allOrganization={allOrganization} allUser={allUser} />} />
-                <Route path="/Invoices/Monthly" element={<Invoices user={user} allOrganization={allOrganization} allUser={allUser} />} />
-                <Route path="/Invoices/Yearly" element={<Invoices user={user} allOrganization={allOrganization} allUser={allUser} />} />
+                <Route path="/Invoices/Weekly" element={<Invoices user={user} />} />
+                <Route path="/Invoices/Monthly" element={<Invoices user={user} />} />
+                <Route path="/Invoices/Yearly" element={<Invoices user={user} />} />
                 <Route path="/Profile/Edit" element={<Account avatar={userAvatar} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
                 <Route path="/Profile/Notification" element={<Account avatar={userAvatar} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
                 <Route path="/Profile/Activity" element={<Account avatar={userAvatar} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />

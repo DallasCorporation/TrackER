@@ -6,10 +6,9 @@ import api from "../../api";
 import { InfoCircleOutlined } from '@ant-design/icons';
 import InvoicesModal from "./InvoicesModal";
 
-const Invoices = () => {
+const Invoices = ({ user }) => {
     const filter = useLocation().pathname.split("/")[2]
     const buildings = useSelector(state => state.buildings.buildings)
-    const user = useSelector((state) => state.user.user)
     const [bills, setBills] = useState([])
     const [data, setData] = useState({})
     const [timespan, setTimespan] = useState("")
@@ -69,45 +68,43 @@ const Invoices = () => {
                             :
                             buildings.map(el =>
                                 <Col span={8}>
-                            <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }} >
-                                <Row justify="space-between" align="middle">
-                                    <p style={{ fontWeight: 500, fontSize: 22, margin: 0 }}>{el.name}</p>
-                                    <InfoCircleOutlined />
-                                </Row>
-                                <Row justify="space-between" align="middle" style={{ marginTop: "12px" }}>
-                                    <p style={{ margin: 0 }}>Address:</p>
-                                    <p style={{ margin: 0 }}>{el.address}</p>
-                                </Row>
-                                <Row justify="space-between" align="middle" style={{ marginTop: "12px" }}>
-                                    <p style={{ margin: 0 }}>Contact Name:</p>
-                                    <p style={{ margin: 0 }}>{el.contact}</p>
-                                </Row>
-                                <Row justify="space-between" align="middle" style={{ marginTop: "12px" }}>
-                                    <p style={{ margin: 0 }}>Type:</p>
-                                    <p style={{ margin: 0 }}>{el.type}</p>
-                                </Row>
-                                <Row justify="space-between" align="middle" style={{ marginTop: "12px" }}>
-                                    <p style={{ margin: 0 }}>Size (sqmt):</p>
-                                    <p style={{ margin: 0 }}>{el.sqft}</p>
-                                </Row>
-                                <Row justify="center" style={{ marginTop: "22px" }}>
-                                    <Button
-                                        onClick={() => {
-                                            setVisible(true)
-                                            {
-                                                bills.forEach(bill => {
-                                                    if (bill.buildingId === el._id) {
-                                                        setData(bill)
-                                                        setBuilding(el)
-                                                    }
-                                                });
-                                            }
-                                            setTimespan(filter)
-                                        }}
-                                        size="middle" type="primary" style={{ borderRadius: 10 }}>{filter} Bills Details</Button>
-                                </Row>
-                            </Card>
-                        </Col>
+                                    <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }} >
+                                        <Row justify="space-between" align="middle">
+                                            <p style={{ fontWeight: 500, fontSize: 22, margin: 0 }}>{el.name}</p>
+                                            <InfoCircleOutlined />
+                                        </Row>
+                                        <Row justify="space-between" align="middle" style={{ marginTop: "12px" }}>
+                                            <p style={{ margin: 0 }}>Address:</p>
+                                            <p style={{ margin: 0 }}>{el.address}</p>
+                                        </Row>
+                                        <Row justify="space-between" align="middle" style={{ marginTop: "12px" }}>
+                                            <p style={{ margin: 0 }}>Contact Name:</p>
+                                            <p style={{ margin: 0 }}>{el.contact}</p>
+                                        </Row>
+                                        <Row justify="space-between" align="middle" style={{ marginTop: "12px" }}>
+                                            <p style={{ margin: 0 }}>Type:</p>
+                                            <p style={{ margin: 0 }}>{el.type}</p>
+                                        </Row>
+                                        <Row justify="space-between" align="middle" style={{ marginTop: "12px" }}>
+                                            <p style={{ margin: 0 }}>Size (sqmt):</p>
+                                            <p style={{ margin: 0 }}>{el.sqft}</p>
+                                        </Row>
+                                        <Row justify="center" style={{ marginTop: "22px" }}>
+                                            <Button
+                                                onClick={() => {
+                                                    setVisible(true)
+                                                    bills.forEach(bill => {
+                                                        if (bill.buildingId === el._id) {
+                                                            setData(bill)
+                                                            setBuilding(el)
+                                                        }
+                                                    });
+                                                    setTimespan(filter)
+                                                }}
+                                                size="middle" type="primary" style={{ borderRadius: 10 }}>{filter} Bills Details</Button>
+                                        </Row>
+                                    </Card>
+                                </Col>
                             )}
                     </Row>
                 </Col>

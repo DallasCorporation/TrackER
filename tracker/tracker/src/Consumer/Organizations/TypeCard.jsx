@@ -7,7 +7,8 @@ const TypeCard = ({ title, data }) => {
         setLoad(false)
     }, 1000);
     return (
-        <Card style={{borderRadius:20, 
+        <Card style={{
+            borderRadius: 20,
             boxShadow: "0 19px 38px rgba(0,0,0,0.30), 0 10px 12px rgba(0,0,0,0.22)"
         }}>
 
@@ -21,20 +22,20 @@ const TypeCard = ({ title, data }) => {
                         lineHeight: 1.5715,
                         whiteSpace: "nowrap",
                         textOverflow: "ellipsis",
-                        margin:0
+                        margin: 0
                     }}>{title}</p>
                 </Col>
                 <Col span={12}>
-                    <Statistic title={data[0].name} value={data[0].price} loading={load} />
+                    <Statistic suffix="€" title={data[0].name} value={data[0].price} loading={load} />
                 </Col>
                 <Col span={12}>
-                    <Statistic title={data[1].name} value={data[1].price} loading={load} />
+                    <Statistic suffix="€" title={data[1].name} value={data[1].price} loading={load} />
                 </Col>
                 <Col span={12}>
-                    <Statistic title={data[2].name} value={data[2].price} loading={load} />
+                    <Statistic suffix="€" title={data[2].name} value={data[2].price} loading={load} />
                 </Col>
                 <Col span={12}>
-                    <Statistic title={data[3].name} value={data[3].price} loading={load} />
+                    <Statistic suffix="€" title={data[3].name} value={data[3].price} loading={load} />
                 </Col>
             </Row>
         </Card>

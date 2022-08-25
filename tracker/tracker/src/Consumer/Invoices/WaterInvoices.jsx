@@ -120,12 +120,12 @@ const WaterInvoices = ({ bills, cost, aggregated, filtered }) => {
         labels: ["Organization Cost", "Delivery Cost", "Supplier Cost", "Tax Cost"],
         colors: ["#1984f5", "#00c2f6", "#00cbc8", "#00cbff",],
         value: {
-            formatter: function (value) { return value + " €" },
+            formatter: function (value) { return Number(value).toFixed(2) + " €" },
         },
         tooltip: {
             enabled: true,
             y: {
-                formatter: function (value) { return value + " €" },
+                formatter: function (value) { return Number(value).toFixed(2) + " €" },
             },
 
         },
@@ -140,7 +140,7 @@ const WaterInvoices = ({ bills, cost, aggregated, filtered }) => {
                 size: 0
             },
             formatter: function (seriesName, opts) {
-                let res = opts.w.globals.series[opts.seriesIndex].toFixed(4) + " w"
+                let res = opts.w.globals.series[opts.seriesIndex].toFixed(2) + " €"
                 return seriesName + " " + res
             },
             itemMargin: {

@@ -149,7 +149,7 @@ const GasInvoices = ({ bills, cost, aggregated, filtered }) => {
                 size: 0
             },
             formatter: function (seriesName, opts) {
-                let res = opts.w.globals.series[opts.seriesIndex].toFixed(4) + " w"
+                let res = opts.w.globals.series[opts.seriesIndex].toFixed(2) + " €"
                 return seriesName + " " + res
             },
             itemMargin: {
@@ -174,12 +174,11 @@ const GasInvoices = ({ bills, cost, aggregated, filtered }) => {
         if (bills.hasOwnProperty("all"))
             setGasSum(Number(bills.totalGas).toFixed(2))
         else
-            bills.bills.map(bill => setGasSum(old => old + bill.gas))
-
+            filtered.map(el => setGasSum(old => old + el[1]))
         if (cost !== undefined && Object.keys(cost).length > 0) {
             cost.forEach(el => {
                 if (el.name === "Gas Cost at m³") {
-                    setTotalEarning(bills.totalGas * 0.0454249414 / 1000 * el.price)
+                    setTotalEarning(gasSum * 0.0454249414 / 1000 * el.price)
                 }
                 if (el.name === "Supplier Gas Cost") {
                     setSupplier(el.price)
@@ -188,7 +187,7 @@ const GasInvoices = ({ bills, cost, aggregated, filtered }) => {
                     setDelivery(el.price)
                 }
                 if (el.name === "Gas Tax Percentage") {
-                    setTotalTax(bills.totalGas * 0.0454249414 / 1000 * el.price / 100)
+                    setTotalTax(gasSum * 0.0454249414 / 1000 * el.price / 100)
                 }
             });
         }
@@ -205,7 +204,7 @@ const GasInvoices = ({ bills, cost, aggregated, filtered }) => {
             setAllGasLine([{ data: tmp }])
 
         }
-    }, [filtered, metricCubic, aggregated, cost, gasSum, bills])
+    }, [filtered, metricCubic, aggregated, cost, bills])
 
 
     return (
@@ -243,15 +242,15 @@ const GasInvoices = ({ bills, cost, aggregated, filtered }) => {
                             </Row>
                         </Col>
                         <Col span={6} style={{ height: 90 }} >
-                            <Statistic title="Organization Cost" value={totalEarning} suffix={"Euro (€)"} precision={4} />
+                            <Statistic title="Organization Cost" value={totalEarning} suffix={"Euro (€)"} precision={2} />
                         </Col>
                         <Col span={6} style={{ height: 90 }} >
-                            <Statistic title="Total Delivery Cost" value={delivery} suffix={"Euro (€)"} precision={4} />
+                            <Statistic title="Total Delivery Cost" value={delivery} suffix={"Euro (€)"} precision={2} />
                         </Col>
                         <Col span={6} style={{ height: 90 }} >
                             <Carousel autoplay dots={false} autoplaySpeed={3500}>
-                                <Statistic title="Total Tax Cost" value={totalTaxCost} suffix={"Euro (€)"} precision={4} />
-                                <Statistic title="Total Supplier Cost" value={supplier} suffix={"Euro (€)"} precision={4} />
+                                <Statistic title="Total Tax Cost" value={totalTaxCost} suffix={"Euro (€)"} precision={2} />
+                                <Statistic title="Total Supplier Cost" value={supplier} suffix={"Euro (€)"} precision={2} />
                             </Carousel>
                         </Col>
                     </Row>

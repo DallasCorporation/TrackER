@@ -154,7 +154,7 @@ const ElectricInvoices = ({ bills, cost, aggregated, filtered }) => {
                 size: 0
             },
             formatter: function (seriesName, opts) {
-                let res = opts.w.globals.series[opts.seriesIndex].toFixed(4) + " w"
+                let res = opts.w.globals.series[opts.seriesIndex].toFixed(2) + " €"
                 return seriesName + " " + res
             },
             itemMargin: {
@@ -185,7 +185,7 @@ const ElectricInvoices = ({ bills, cost, aggregated, filtered }) => {
         if (cost !== undefined && Object.keys(cost).length > 0) {
             cost.forEach(el => {
                 if (el.name === "Electricity Cost at kWh") {
-                    setTotalEarning(electricSum * 0.0833333 / 1000 * el.price)
+                    setTotalEarning((electricSum * 0.0833333 / 1000 * el.price))
                 }
                 if (el.name === "Electricity Supplier Cost") {
                     setSupplier(el.price)
@@ -248,15 +248,15 @@ const ElectricInvoices = ({ bills, cost, aggregated, filtered }) => {
                             </Row>
                         </Col>
                         <Col span={6} style={{ height: 90 }} >
-                            <Statistic title="Organization Cost" value={totalEarning} suffix={"Euro (€)"} precision={4} />
+                            <Statistic title="Organization Cost" value={totalEarning} suffix={"Euro (€)"} precision={2} />
                         </Col>
                         <Col span={6} style={{ height: 90 }} >
-                            <Statistic title="Total Delivery Cost" value={delivery} suffix={"Euro (€)"} precision={4} />
+                            <Statistic title="Total Delivery Cost" value={delivery} suffix={"Euro (€)"} precision={2} />
                         </Col>
                         <Col span={6} style={{ height: 90 }} >
                             <Carousel autoplay dots={false} autoplaySpeed={3500}>
-                                <Statistic title="Total Tax Cost" value={totalTaxCost} suffix={"Euro (€)"} precision={4} />
-                                <Statistic title="Total Supplier Cost" value={supplier} suffix={"Euro (€)"} precision={4} />
+                                <Statistic title="Total Tax Cost" value={totalTaxCost} suffix={"Euro (€)"} precision={2} />
+                                <Statistic title="Total Supplier Cost" value={supplier} suffix={"Euro (€)"} precision={2} />
                             </Carousel>
                         </Col>
                     </Row>

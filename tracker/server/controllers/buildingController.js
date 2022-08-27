@@ -87,6 +87,26 @@ const updateBuilding = asyncHandler(async (req, res) => {
     res.status(200).json(updateBuilding)
 })
 
+const updateBuildingResources = asyncHandler(async (req, res) => {
+    const building = await Building.findById(req.params.id)
+    if (!building) {
+        res.status(400)
+        throw new Error('User not found')
+    }
+    if (building._id.toString() !== req.params.id) {
+        res.status(401)
+        throw new Error('User not authorized')
+    }
+
+    building.resources.push(req.body.resource)
+    building.save().then(() => {
+        res.status(200).json(building)
+    }).catch(e => {
+        res.status(400)
+        throw new Error(e)
+    })
+})
+
 const getBuildingsById = asyncHandler(async (req, res) => {
     let db_connect = dbo.getDb();
     let myQuery = { userId: ObjectId(req.params.id) };
@@ -169,5 +189,6 @@ module.exports = {
     getBuilding,
     getBuildings,
     updateBuilding,
-    getBuildingsByOrganizationId
+    getBuildingsByOrganizationId,
+    updateBuildingResources
 }

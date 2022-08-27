@@ -15,7 +15,7 @@ const ResourcesCard = ({ element, onClick }) => {
                     </p>
                 </Col>
             </Row>
-            <Button onClick={onClick} type="primary" style={{ borderRadius: 20, marginTop: 22 }}>Add a configuration</Button>
+            <Button onClick={onClick} type="primary" style={{ borderRadius: 20, marginTop:36 }}>Add a configuration</Button>
         </Card>
     )
 }

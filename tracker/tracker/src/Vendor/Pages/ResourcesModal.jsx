@@ -136,11 +136,11 @@ const ResourcesModal = ({ visible, setVisible, data, options, }) => {
                         <ProForm grid layout="vertical" rowProps={{ gutter: [32, 32], }} submitter={{
                             submitButtonProps: { style: { display: 'none', }, }, resetButtonProps: { style: { display: 'none', }, },
                         }}>
-                            <ProFormText label="Name" placeholder="Device Name" colProps={{ span: 12 }} onChange={(value) => setName(value.target.value)} />
-                            <ProFormSelect label="Type" placeholder="Device Type" colProps={{ span: 12 }} options={options} onChange={(value) => setType(value)} />
-                            <ProFormMoney label="Installation Price" placeholder="Device Installation Price" colProps={{ span: 8 }} customSymbol="€" min={0} onChange={(value) => setPrice(value)} />
-                            <ProFormMoney label="Saving at KWh" placeholder="Device Customer Earning at kWh" colProps={{ span: 8 }} customSymbol="€" min={0} onChange={(value) => setEarning(value)} />
-                            <ProFormMoney label="Organization percentage earning at KWh" placeholder="Device Organization Percentage at kWh" colProps={{ span: 8 }} customSymbol="%" min={0} onChange={(value) => setOrganization(value)} />
+                            <ProFormText label="Name" placeholder="Device Name" colProps={{ md: 12, sm:24 }} onChange={(value) => setName(value.target.value)} />
+                            <ProFormSelect label="Type" placeholder="Device Type" colProps={{md: 12, sm:24}} options={options} onChange={(value) => setType(value)} />
+                            <ProFormMoney label="Installation Price" placeholder="Device Installation Price" colProps={{ md: 8, sm:24 }} customSymbol="€" min={0} onChange={(value) => setPrice(value)} />
+                            <ProFormMoney label="Saving at KWh" placeholder="Device Customer Earning at kWh" colProps={{ md: 8, sm:24 }} customSymbol="€" min={0} onChange={(value) => setEarning(value)} />
+                            <ProFormMoney label="Organization percentage earning at KWh" placeholder="Device Organization Percentage at kWh" colProps={{ md: 8, sm:24 }} customSymbol="%" min={0} onChange={(value) => setOrganization(value)} />
                         </ProForm>
                     </Row>
                     <Row justify="end">

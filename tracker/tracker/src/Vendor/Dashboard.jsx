@@ -156,9 +156,6 @@ const Dashboard = () => {
                 await getKpi(element.user).then(() => setLoading(false))
             }
         });
-        if (organization.customers.length === 0)
-            setLoading(false)
-
         setUsers(tmp)
     }, [organization])
 
@@ -188,7 +185,7 @@ const Dashboard = () => {
                         }} />
                     </Card>
                 </Col>
-                <Col span={16}>
+                <Col md={16} xs={24} sm={24}>
                     <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
                         <Row justify="space-between" align="middle" style={{ marginBottom: 32 }}>
                             <p style={{ fontSize: 18, fontWeight: 500, margin: 0 }}>Organization Overview </p>
@@ -197,7 +194,7 @@ const Dashboard = () => {
                         <ConsumeCard />
                     </Card>
                 </Col>
-                <Col span={8}>
+                <Col md={8} xs={24} sm={24}>
                     <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
                         <Row justify="space-between" align="middle" style={{ marginBottom: 32 }}>
                             <p style={{ fontSize: 18, fontWeight: 500, margin: 0 }}>Organization Total Cost</p>

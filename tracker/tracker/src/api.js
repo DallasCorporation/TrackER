@@ -69,6 +69,9 @@ export default {
         updateBuilding: (buildingId, body) =>
             axios.put(`${API_URL}/building/${buildingId}`, body)
                 .then((res) => res.data),
+        updateBuildingResources: (buildingId, body) =>
+            axios.put(`${API_URL}/building/resources/${buildingId}`, body)
+                .then((res) => res.data),
         deleteBuilding: (userId) =>
             axios.delete(`${API_URL}/building/${userId}`)
                 .then((res) => res.data),
@@ -129,8 +132,8 @@ export default {
         fetchResourcesByOrganizationId: (organizationId) =>
             axios.get(`${API_URL}/renewable/organization/${organizationId}`)
                 .then((res) => res.data),
-        updateResources: (organizationId, body) =>
-            axios.put(`${API_URL}/renewable/${organizationId}`, body)
+        updateResourcesBuildings: (renewableId, body) =>
+            axios.put(`${API_URL}/renewable/buildings/${renewableId}`, body)
                 .then((res) => res.data),
         deleteResources: (id) =>
             axios.delete(`${API_URL}/renewable/${id}`)

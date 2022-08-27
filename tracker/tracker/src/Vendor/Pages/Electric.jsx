@@ -324,22 +324,22 @@ const Electric = ({ bills, cost }) => {
             />
             <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
                 <Row align="middle" gutter={[32, 32]} >
-                    <Col span={7}>
+                    <Col md={6} sm={12}>
                         <Statistic title="Total Electric Usage" value={metricCubic ? electricSum * 0.0833333 / 1000 : electricSum} suffix={metricCubic ? "Kilowatt (kW)" : "Watt"} precision={2} />
                         <Row align="middle">
-                            <span onClick={() => setMetric(!metricCubic)} style={{ color: "blue", marginRight: 6 }} class="anticon iconfont">&#xe615;</span>
+                            <span onClick={() => setMetric(!metricCubic)} style={{ color: "blue", marginRight: 6, cursor:"pointer" }} class="anticon iconfont">&#xe615;</span>
                             <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricCubic ? "Kilowatt (kW)" : "Watt"}</p>
                         </Row>
                     </Col>
-                    <Col span={5} style={{ height: 90 }} >
+                    <Col md={6} sm={12} style={{ height: 90 }} >
                         <Statistic title="Total Energy Earning" value={totalEarning} suffix={"Euro (€)"} precision={2} />
                     </Col>
-                    <Col span={5} style={{ height: 90 }} >
+                    <Col md={6} sm={12} style={{ height: 90 }} >
                         <Statistic title="Total Delivery Cost" value={delivery} suffix={"Euro (€)"} precision={2} />
                     </Col>
-                    <Col span={5} style={{ height: 90 }} >
+                    <Col md={6} sm={12} style={{ height: 90 }} >
                         <Carousel autoplay dots={false} autoplaySpeed={3500}>
-                            <Statistic title="Total Tax Cost" value={totalTaxCost} suffix={"Euro (€)"} precision={2} />
+                            <Statistic title="Total Tax Cost" value={totalTaxCost.toFixed(2)} suffix={"Euro (€)"} precision={2} />
                             <Statistic title="Total Supplier Cost" value={supplier} suffix={"Euro (€)"} precision={2} />
                         </Carousel>
                     </Col>
@@ -354,11 +354,11 @@ const Electric = ({ bills, cost }) => {
                 </Row>
                 <Divider />
                 <Row style={{ marginTop: 32 }} justify="space-between" align="middle">
-                    <Col span={10}>
+                    <Col md={10} sm={24} xs={24}>
                         <p style={{ fontSize: 18, fontWeight: 500 }}> Profit</p>
                         <ReactApexChart options={optionsBar} series={[series]} type="bar" height={250} />
                     </Col>
-                    <Col span={12}>
+                    <Col md={12} sm={24} xs={24}>
                         <p style={{ fontSize: 18, fontWeight: 500 }}>Buildings Electric Usage</p>
                         <ReactApexChart options={options} series={allElectric} type="polarArea" />
                     </Col>

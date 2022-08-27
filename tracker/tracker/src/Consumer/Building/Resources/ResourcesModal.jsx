@@ -1,12 +1,24 @@
-import { message, Modal, Tabs } from "antd"
-import { useState } from "react"
-import api from "../../../api"
+import { Modal, Tabs } from "antd"
 import ResourcesContent from "./ResourcesContent"
 
-const ResourcesModal = ({ building, visible, setVisible, data }) => {
+const ResourcesModal = ({ defaultActiveKey = "1", building, visible, setVisible, data }) => {
+    const getKey = () => {
+        switch (defaultActiveKey) {
+            case "Solar":
+                return "1"
+            case "Geo":
+                return "2"
+            case "Wind":
+                return "3"
+            case "Hydro":
+                return "4"
+            default:
+                return "1"
+        }
+    }
     return (
-        <Modal zIndex={1000} visible={visible} onOk={() => setVisible(false) } onCancel={() => setVisible(false)} width={1200}>
-            <Tabs defaultActiveKey="1" centered size="large">
+        <Modal destroyOnClose zIndex={1000} visible={visible} onOk={() => setVisible(false)} onCancel={() => setVisible(false)} width={1200}>
+            <Tabs defaultActiveKey={getKey()} centered size="large">
                 <Tabs.TabPane tab={<><span class="anticon iconfont">&#xe65f;</span>Solar</>} key="1">
                     <ResourcesContent data={data} type="Solar" building={building} />
                 </Tabs.TabPane>

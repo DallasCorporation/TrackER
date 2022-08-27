@@ -127,6 +127,9 @@ const RenewableDetailsModal = ({ filter, data, setVisible, visible }) => {
     }
 
     const getSeries = () => {
+        console.log(data)
+        if (Object.keys(data).length === 0)
+            return []
         return [
             {
                 data: [
@@ -163,7 +166,7 @@ const RenewableDetailsModal = ({ filter, data, setVisible, visible }) => {
                     <Col span={12}>
                         <Statistic title="Total Electric Usage" value={0} suffix={metric ? "Kilowatt (kW)" : "Watt"} precision={2} />
                         <Row align="middle">
-                            <span onClick={() => setMetric(!metric)} style={{ color: "blue", marginRight: 6 }} class="anticon iconfont">&#xe615;</span>
+                            <span onClick={() => setMetric(!metric)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} class="anticon iconfont">&#xe615;</span>
                             <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metric ? "Kilowatt (kWh)" : "Watt"}</p>
                         </Row>
                     </Col>
@@ -187,7 +190,6 @@ const RenewableDetailsModal = ({ filter, data, setVisible, visible }) => {
                     </Col>
                 </Row>
             </Card>
-
         </Modal>
     )
 }

@@ -58,11 +58,11 @@ const BuildingCard = ({ bills, item, setIsModalVisible, setContact, setName, set
                     </Row>
                 }
             >
-                <Row justify="space-between" gutter={[32, 0]} style={{ marginBottom: "32px", padding: "16px" }}>
-                    <Col span={10} >
+                <Row justify="space-between" gutter={[32, 32]} style={{ marginBottom: "32px", padding: "16px" }}>
+                    <Col md={10} sm={24} >
                         <MapboxMap lat={item.lat} lng={item.long} />
                     </Col>
-                    <Col span={12}>
+                    <Col md={12} sm={24}>
                         <ProForm grid layout="vertical" rowProps={{ gutter: [32, 32], }} submitter={{
                             submitButtonProps: { style: { display: 'none', }, }, resetButtonProps: { style: { display: 'none', }, },
                         }}>

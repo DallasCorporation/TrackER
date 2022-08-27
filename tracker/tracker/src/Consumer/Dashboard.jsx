@@ -95,12 +95,11 @@ const Dashboard = () => {
     await api.bills.getBillsRenewable(id).then(res => {
       setRenewable((old) => [...old, { res, id }])
       let type = Object.values(buildings).filter(el => el._id === id)
+      let sumSolar = 0
+      let sumWind = 0
+      let sumHydro = 0
+      let sumGeo = 0
       type.forEach(el => el.resources.forEach(el => {
-        let sumSolar = 0
-        let sumWind = 0
-        let sumHydro = 0
-        let sumGeo = 0
-        console.log(Object.keys(el))
         switch (Object.keys(el)[0]) {
           case "Solar":
             sumSolar += res.totalSolar
@@ -114,28 +113,27 @@ const Dashboard = () => {
           case "Geo":
             sumGeo += res.totalGeo
             break;
+          default:
+            break
         }
-        setSolar({ name: "Solar", data: [sumSolar] })
-        setHydro({ name: "Hydro", data: [sumHydro] })
-        setGeo({ name: "Geo", data: [sumGeo] })
-        setWind({ name: "Wind", data: [sumWind] })
-        setTotalRen(sumSolar + sumGeo + sumHydro + sumWind)
-      }))
-    })
 
+      }))
+      setSolar({ name: "Solar", data: [sumSolar] })
+      setHydro({ name: "Hydro", data: [sumHydro] })
+      setGeo({ name: "Geo", data: [sumGeo] })
+      setWind({ name: "Wind", data: [sumWind] })
+      setTotalRen(sumSolar + sumGeo + sumHydro + sumWind)
+    })
   }
 
   const getBillsAggregated = async () => {
     await api.bills.getBillsAggregated(user._id).then(res => {
       setBills(res)
-
       let oldMoment = moment("01/01/17", "MM/D/YYYY")
       let billDates = Object.values(res.aggregated).filter(el => moment(el.date).isBetween(day, undefined))
-
       let water = []
       let gas = []
       let electric = []
-
       let sumGas = 0
       let sumWater = 0
       let sumElectric = 0
@@ -167,13 +165,13 @@ const Dashboard = () => {
       setElectric({ name: "Electric", data: electric })
     })
   }
+
   useEffect(() => {
     if (buildings === null || buildings === undefined)
       return
     let ids = Object.values(buildings).filter(el => el.resources.length !== 0).map(el => el._id)
     getBillsAggregated(user._id)
     ids.forEach(id => getBillsRenewable(id))
-
   }, [user, buildings])
 
   return (

@@ -84,20 +84,20 @@ const RenewableCard = ({ title, organizationId }) => {
                         </div>
                     }
                     {solar.map(el =>
-                        <Row justify="space-between" key={el._id}>
-                            <Col span={4}>
+                        <Row justify="space-between" key={el._id} gutter={[32,32]}>
+                            <Col md={4} sm={24}>
                                 <Statistic title={"Name"} value={el.name} loading={load} />
                             </Col>
-                            <Col span={4}>
+                            <Col md={4} sm={24}>
                                 <Statistic title={"Type"} value={el.type} loading={load} />
                             </Col>
-                            <Col span={4}>
+                            <Col md={4} sm={24}>
                                 <Statistic title={"Installation Price"} value={el.price} loading={load} suffix="€" />
                             </Col>
-                            <Col span={4}>
+                            <Col md={4} sm={24}>
                                 <Statistic title={"Earnings at kWh"} value={el.earning} loading={load} suffix="€" />
                             </Col>
-                            <Col span={4}>
+                            <Col md={4} sm={24}>
                                 <Statistic title={"Organization profit at kWh"} value={el.organization} suffix="%" loading={load} />
                             </Col>
                             <Divider />
@@ -110,20 +110,20 @@ const RenewableCard = ({ title, organizationId }) => {
                         </div>
                     }
                     {hydro.map(el =>
-                       <Row justify="space-between" key={el._id}>
-                            <Col span={4}>
+                        <Row justify="space-between" key={el._id}>
+                            <Col md={4} sm={24}>
                                 <Statistic title={"Name"} value={el.name} loading={load} />
                             </Col>
-                            <Col span={4}>
+                            <Col md={4} sm={24}>
                                 <Statistic title={"Type"} value={el.type} loading={load} />
                             </Col>
-                            <Col span={4}>
+                            <Col md={4} sm={24}>
                                 <Statistic title={"Installation Price"} value={el.price} loading={load} suffix="€" />
                             </Col>
-                            <Col span={4}>
+                            <Col md={4} sm={24}>
                                 <Statistic title={"Earnings at kWh"} value={el.earning} loading={load} suffix="€" />
                             </Col>
-                            <Col span={4}>
+                            <Col md={4} sm={24}>
                                 <Statistic title={"Organization profit at kWh"} value={el.organization} suffix="%" loading={load} />
                             </Col>
                             <Divider />
@@ -136,20 +136,20 @@ const RenewableCard = ({ title, organizationId }) => {
                         </div>
                     }
                     {geo.map(el =>
-                       <Row justify="space-between" key={el._id}>
-                            <Col span={4}>
+                        <Row justify="space-between" key={el._id}>
+                            <Col md={4} sm={24}>
                                 <Statistic title={"Name"} value={el.name} loading={load} />
                             </Col>
-                            <Col span={4}>
+                            <Col md={4} sm={24}>
                                 <Statistic title={"Type"} value={el.type} loading={load} />
                             </Col>
-                            <Col span={4}>
+                            <Col md={4} sm={24}>
                                 <Statistic title={"Installation Price"} value={el.price} loading={load} suffix="€" />
                             </Col>
-                            <Col span={4}>
+                            <Col md={4} sm={24}>
                                 <Statistic title={"Earnings at kWh"} value={el.earning} loading={load} suffix="€" />
                             </Col>
-                            <Col span={4}>
+                            <Col md={4} sm={24}>
                                 <Statistic title={"Organization profit at kWh"} value={el.organization} suffix="%" loading={load} />
                             </Col>
                             <Divider />
@@ -162,20 +162,20 @@ const RenewableCard = ({ title, organizationId }) => {
                         </div>
                     }
                     {wind.map(el =>
-                       <Row justify="space-between" key={el._id}>
-                            <Col span={4}>
+                        <Row justify="space-between" key={el._id}>
+                            <Col md={4} sm={24}>
                                 <Statistic title={"Name"} value={el.name} loading={load} />
                             </Col>
-                            <Col span={4}>
+                            <Col md={4} sm={24}>
                                 <Statistic title={"Type"} value={el.type} loading={load} />
                             </Col>
-                            <Col span={4}>
+                            <Col md={4} sm={24}>
                                 <Statistic title={"Installation Price"} value={el.price} loading={load} suffix="€" />
                             </Col>
-                            <Col span={4}>
+                            <Col md={4} sm={24}>
                                 <Statistic title={"Earnings at kWh"} value={el.earning} loading={load} suffix="€" />
                             </Col>
-                            <Col span={4}>
+                            <Col md={4} sm={24}>
                                 <Statistic title={"Organization profit at kWh"} value={el.organization} suffix="%" loading={load} />
                             </Col>
                             <Divider />

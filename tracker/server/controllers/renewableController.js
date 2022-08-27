@@ -25,7 +25,7 @@ const getRenewableByOrganizationId = asyncHandler(async (req, res) => {
 
 
 const getRenewableByBuildingId = asyncHandler(async (req, res) => {
-    const goal = await Renewable.findOne({ buildings: ObjectId(req.params.id) })
+    const goal = await Renewable.find({ buildings: ObjectId(req.params.id) })
     if (goal)
         res.status(200).json(goal)
     else {
@@ -79,6 +79,26 @@ const updateRenewable = asyncHandler(async (req, res) => {
     res.status(200).json(update)
 })
 
+
+const updateRenewableBuildingsById = asyncHandler(async (req, res) => {
+    const renewable = await Renewable.findById(req.params.id)
+    if (!renewable) {
+        res.status(400)
+        throw new Error('Renewable not found')
+    }
+    if (!req.params.id) {
+        res.status(401)
+        throw new Error('User not found')
+    }
+    renewable.buildings.push(new ObjectId(req.body.building))
+    renewable.save().then(() => {
+        res.status(200).json(renewable)
+    }).catch(e => {
+        res.status(400)
+        throw new Error(e)
+    })
+})
+
 const deleteRenewable = asyncHandler(async (req, res) => {
     const renewable = await Renewable.findById({ _id: ObjectId(req.params.id) })
     if (!renewable) {
@@ -100,5 +120,6 @@ module.exports = {
     getRenewableById,
     create,
     getRenewableByOrganizationId,
-    getRenewableByBuildingId
+    getRenewableByBuildingId,
+    updateRenewableBuildingsById
 }

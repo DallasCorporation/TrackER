@@ -34,7 +34,7 @@ const MapboxMap = (props) => {
       .addTo(map.current);
   }, [props]);
 
-  return <div ref={mapContainer} style={{ height: "100%" }} className="map-container" />
+  return <div ref={mapContainer} style={{ height: "400px" }} className="map-container" />
 
 }
 export default MapboxMap

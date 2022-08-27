@@ -131,7 +131,7 @@ const AddNewBuildings = ({ user }) => {
             <Card style={{ borderRadius: 20, marginTop: "12px", boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }}>
                 <AccountSubTitle style={{ marginLeft: 15 }}>Add a new building to your account</AccountSubTitle>
                 <Row gutter={[32, 0]} style={{ marginTop: "32px", }}>
-                    <Col lg={12} sm={24}>
+                    <Col lg={12} md={24}>
                         <Col span={24}>
                             <Form.Item
                                 name="name"
@@ -159,14 +159,14 @@ const AddNewBuildings = ({ user }) => {
                             </Form.Item>
                         </Col>
                     </Col>
-                    <Col lg={12} sm={24}>
+                    <Col lg={12} md={24}>
                         <Col span={24}>
                             <Form.Item size="large" rules={[{ required: true, message: 'Please input the building size' }]}
                             >
                                 <Input size="large" onChange={(e) => setSqft(e.target.value)} min={1} type={"number"} allowClear placeholder="Building Size (Sqmt)" prefix={<ExpandAltOutlined style={{ fontSize: 25, paddingTop: 7, paddingBottom: 7, marginRight: 5 }} />} />
                             </Form.Item>
                         </Col>
-                        <Col lg={24}>
+                        <Col span={24}>
                             <Form.Item
                                 name="Address"
                                 rules={[{ required: true, message: 'Please input the building name' }]}
@@ -179,7 +179,7 @@ const AddNewBuildings = ({ user }) => {
                                     onSearch={(e) => handleCoords(e)} options={options} onSelect={onSelect} />
                             </Form.Item>
                         </Col>
-                        <Col lg={24}>
+                        <Col span={24}>
                             <Form.Item rules={[{ required: true, message: 'Please input the building organization' }]}>
                                 <Select size="large"
                                     placeholder={<Row align="middle"><span className="antioc iconfont" style={{ marginRight: 5 }}>&#x100dc;</span> Building Organization</Row>}

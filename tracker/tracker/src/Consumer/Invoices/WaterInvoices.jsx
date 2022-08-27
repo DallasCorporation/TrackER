@@ -117,7 +117,7 @@ const WaterInvoices = ({ bills, cost, aggregated, filtered }) => {
                 }
             }
         },
-        labels: ["Organization Cost", "Delivery Cost", "Supplier Cost", "Tax Cost"],
+        labels: ["Organization Cost", "Tax Cost", "Delivery Cost", "Supplier Cost"],
         colors: ["#1984f5", "#00c2f6", "#00cbc8", "#00cbff",],
         value: {
             formatter: function (value) { return Number(value).toFixed(2) + " €" },
@@ -242,22 +242,22 @@ const WaterInvoices = ({ bills, cost, aggregated, filtered }) => {
                 :
                 <Card style={{ borderRadius: 20, marginBottom: 32, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
                     <Row align="top" gutter={[32, 32]}>
-                        <Col span={6} >
+                        <Col md={6} sm={12}>
                             <Statistic title="Total Water Usage" value={metricCubic ? waterSum * 0.0001666667 : waterSum} suffix={metricCubic ? "Liter/Hours (l/h)" : "Liter"} precision={4} />
                             <Row align="middle">
-                                <span onClick={() => setMetric(!metricCubic)} style={{ color: "blue", marginRight: 6 }} class="anticon iconfont">&#xe615;</span>
+                                <span onClick={() => setMetric(!metricCubic)} style={{ color: "blue", marginRight: 6, cursor:"pointer" }} class="anticon iconfont">&#xe615;</span>
                                 <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricCubic ? "Literr/Hours (l/h)" : "Liter"}</p>
                             </Row>
                         </Col>
-                        <Col span={6} style={{ height: 90 }} >
+                        <Col md={6} sm={12} style={{ height: 90 }} >
                             <Statistic title="Organization Cost" value={totalEarning} suffix={"Euro (€)"} precision={2} />
                         </Col>
-                        <Col span={6} style={{ height: 90 }} >
+                        <Col md={6} sm={12} style={{ height: 90 }} >
                             <Statistic title="Total Delivery Cost" value={delivery} suffix={"Euro (€)"} precision={2} />
                         </Col>
-                        <Col span={6} style={{ height: 90 }} >
+                        <Col md={6} sm={12} style={{ height: 90 }} >
                             <Carousel autoplay dots={false} autoplaySpeed={3500}>
-                                <Statistic title="Total Tax Cost" value={totalTaxCost} suffix={"Euro (€)"} precision={2} />
+                                <Statistic title="Total Tax Cost" value={totalTaxCost.toFixed(2)} suffix={"Euro (€)"} precision={2} />
                                 <Statistic title="Total Supplier Cost" value={supplier} suffix={"Euro (€)"} precision={2} />
                             </Carousel>
                         </Col>

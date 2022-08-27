@@ -97,7 +97,6 @@ const BuildingsProductionCard = () => {
 
     const renderData = (building) => {
         fetchResources(building)
-        console.log(Object.keys(bills).length === 0, resourceApi)
         let totPrice = resourceApi.earning * getTotal(resourceApi.resourcesType)
         return (
             Object.keys(resourceApi).length !== 0 &&

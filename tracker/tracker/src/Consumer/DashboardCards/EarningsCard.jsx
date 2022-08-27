@@ -6,6 +6,7 @@ import { stacked } from "../utils";
 import { useEffect } from "react";
 const EarningsCard = ({ series, total = 0 }) => {
   useEffect(() => {
+    console.log(series)
   }, [series])
 
   return (
@@ -20,7 +21,12 @@ const EarningsCard = ({ series, total = 0 }) => {
           </div>
         </Col>
         <Col lg={18} md={18} xs={24} >
-          {total <= 0 ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /> : <ReactApexChart options={stacked.options} series={series} type="bar" height={150} />}
+          {
+            total <= 0 ?
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+              :
+              <ReactApexChart options={stacked.options} series={series} type="bar" height={150} />
+          }
         </Col>
       </Row>
     </ProCard>

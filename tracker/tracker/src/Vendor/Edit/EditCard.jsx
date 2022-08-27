@@ -85,22 +85,22 @@ const EditCard = ({ data, type }) => {
                         </div>
                     </Tooltip>
                 </Row>
-                <Row justify="space-between" align="middle" gutter={[64, 0]} style={{ marginTop: 22 }}>
-                    <Col span={3} style={{ textAlign: "center" }}>
-                        {type === "g" && <span class="anticon iconfontLarge" >&#xe657;</span>}
-                        {type === "e" && <span class="anticon iconfontLarge" >&#xe61d;</span>}
-                        {type === "w" && <span class="anticon iconfontLarge" >&#xe730;</span>}
+                <Row justify="space-between" align="middle" gutter={[64, 64]} style={{ marginTop: 32 }}>
+                    <Col md={3} xs={24} sm={24} style={{ textAlign: "center" }}>
+                        {type === "g" && <span class="anticon iconfontLarge" style={{ color: "#19e396" }} >&#xe657;</span>}
+                        {type === "e" && <span class="anticon iconfontLarge" style={{ color: "#ffd901" }}>&#xe61d;</span>}
+                        {type === "w" && <span class="anticon iconfontLarge" style={{ color: "#1984f5" }} >&#xe730;</span>}
                         {/* {type === "r" && <span class="anticon iconfontLarge" >&#xe927;</span>} */}
                     </Col>
-                    <Col span={21}>
-                        <Row gutter={[16, 16]}>
+                    <Col md={21} xs={24} sm={24}>
+                        <Row gutter={[16, 32]}>
                             {data.map(el =>
-                                <Col span={12}>
+                                <Col md={12} sm={24} xs={24}>
                                     <Row justify="space-between" align="middle">
-                                        <Col span={10}>
+                                        <Col md={10} xs={12} sm={12}>
                                             <PlanParagraph>{el.name}</PlanParagraph>
                                         </Col>
-                                        <Col span={14}>
+                                        <Col md={14} xs={12} sm={12}>
                                             <InputNumber onChange={(value) => editPrice(value, el.name, type)} disabled={edit} min={0} placeholder={el.price} addonAfter={el.name.includes("Percentage") ? "%" : "€"} />
                                         </Col>
                                     </Row>

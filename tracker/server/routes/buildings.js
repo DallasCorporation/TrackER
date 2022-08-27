@@ -7,7 +7,8 @@ const {
     getBuilding,
     getBuildings,
     updateBuilding,
-    getBuildingsByOrganizationId
+    getBuildingsByOrganizationId,
+    updateBuildingResources
 } = require('../controllers/buildingController')
 
 
@@ -18,6 +19,8 @@ router.get('/api/builds', getBuildings)
 router.delete('/api/building/:id', deleteBuildingById)
 router.put('/api/building/:id', updateBuilding)
 router.get('/api/building/organization/:id', getBuildingsByOrganizationId)
+router.put('/api/building/resources/:id', updateBuildingResources)
+
 
 
 module.exports = router

@@ -75,6 +75,7 @@ const Header = ({ avatar }) => {
             ]}
         />
     );
+    
     return (
         <Row justify="center" style={{ marginTop: "15px", }}>
             <Row style={{ fontWeight: 500, width: "95%", backgroundColor: "white", borderRadius: "10px", paddingRight: 30, paddingLeft: 30, height: 50 }} align="middle" justify="space-between">

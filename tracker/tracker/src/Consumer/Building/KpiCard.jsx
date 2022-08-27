@@ -28,54 +28,70 @@ const KpiCard = ({ bills, item }) => {
     }, [bills])
 
 
+    const getWindowSize = () => {
+        const { innerWidth } = window;
+        return innerWidth;
+    }
+    const [width, setWindowSize] = useState(getWindowSize());
+    const handleWindowResize = () => {
+        setWindowSize(getWindowSize());
+    }
+
+    useEffect(() => {
+        window.addEventListener('resize', handleWindowResize);
+        return () => {
+            window.removeEventListener('resize', handleWindowResize);
+        };
+    }, []);
+
     return (
         <Row align="top" gutter={[32, 32]} >
-            <Col span={8}>
+            <Col md={8} sm={24} xs={24} >
                 <Card class="kpi" hoverable style={{ borderRadius: 20, }}>
-                    <Row justify="space-between" align="middle">
-                        <Col span={5}>
+                    <Row gutter={[32, 32]} justify={width <= 768 ? "center" : "space-between"} align="middle">
+                        <Col md={6} sm={24} xs={24}>
                             <span style={{ color: "#1196db", }} class="anticon iconfontMedium2">&#xe64c;</span>
                         </Col>
-                        <Col span={19} >
+                        <Col md={18} sm={24} xs={24}>
                             <Statistic title={`Electricity Consumption`} value={metricElectric ? electric / 1000 : electric} suffix={metricElectric ? "Kilowatt (kW)" : "Watt"} precision={2} />
                         </Col>
                     </Row>
                     <Row align="middle" >
-                        <span onClick={() => setMetricElectric(!metricElectric)} style={{ color: "blue", marginRight: 6 }} class="anticon iconfont">&#xe615;</span>
+                        <span onClick={() => setMetricElectric(!metricElectric)} style={{ color: "blue", marginRight: 6, cursor:"pointer" }} class="anticon iconfont">&#xe615;</span>
                         <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricElectric ? "Kilowatt (kW)" : "Watt"}</p>
                     </Row>
                 </Card>
             </Col>
 
-            <Col span={8}>
+            <Col md={8} sm={24} xs={24}>
                 <Card class="kpi" hoverable style={{ borderRadius: 20, }}>
-                    <Row justify="space-between" align="middle">
-                        <Col span={5}>
+                    <Row gutter={[32, 32]} justify={width <= 768 ? "center" : "space-between"} align="middle">
+                        <Col md={6} sm={24} xs={24}>
                             <span style={{ color: "#1196db" }} class="anticon iconfontMedium2">&#xe662;</span>
                         </Col>
-                        <Col span={19} >
+                        <Col md={18} sm={24} xs={24}>
                             <Statistic title="Water Consumption" value={metricWater ? water * 0.0001666667 : water} suffix={metricWater ? "Liter/Hours (l/h)" : "Liter"} precision={2} />
                         </Col>
                     </Row>
                     <Row align="middle" >
-                        <span onClick={() => setMetricWater(!metricWater)} style={{ color: "blue", marginRight: 6 }} class="anticon iconfont">&#xe615;</span>
+                        <span onClick={() => setMetricWater(!metricWater)} style={{ color: "blue", marginRight: 6, cursor:"pointer" }} class="anticon iconfont">&#xe615;</span>
                         <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricWater ? "Liter/Hours (l/h)" : "Liter"}</p>
                     </Row>
                 </Card>
             </Col>
 
-            <Col span={8}>
+            <Col md={8} sm={24} xs={24}>
                 <Card class="kpi" hoverable style={{ borderRadius: 20, }}>
-                    <Row justify="space-between" align="middle">
-                        <Col span={5}>
+                    <Row gutter={[32, 32]} justify={width <= 768 ? "center" : "space-between"} align="middle">
+                        <Col md={6} sm={24} xs={24}>
                             <span style={{ color: "#1196db" }} class="anticon iconfontMedium2">&#xe657;</span>
                         </Col>
-                        <Col span={19} >
+                        <Col md={18} sm={24} xs={24}>
                             <Statistic title={`Gas Consumption`} value={metricGas ? gas * 0.0454249414 / 1000 : gas} suffix={metricGas ? "Gas/m³" : "Gallon"} precision={2} />
                         </Col>
                     </Row>
                     <Row align="middle" >
-                        <span onClick={() => setMetricGas(!metricGas)} style={{ color: "blue", marginRight: 6 }} class="anticon iconfont">&#xe615;</span>
+                        <span onClick={() => setMetricGas(!metricGas)} style={{ color: "blue", marginRight: 6, cursor:"pointer" }} class="anticon iconfont">&#xe615;</span>
                         <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricGas ? "Gas/m³" : "Gallon"}</p>
                     </Row>
                 </Card>

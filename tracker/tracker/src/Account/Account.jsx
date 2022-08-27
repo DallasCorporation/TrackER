@@ -69,9 +69,9 @@ const Account = ({ updateRoute, user, avatar }) => {
                 subTitle="Check your profile and customize your preferences"
                 onBack={() => navigate("/Dashboard")}
             />
-            <ProCard style={{ borderRadius: "20px" , boxShadow: "0 2px 10px rgba(0,0,0,0.2)" }}>
-                <Row>
-                    <Col span={5}>
+            <ProCard style={{ borderRadius: "20px", boxShadow: "0 2px 10px rgba(0,0,0,0.2)" }}>
+                <Row gutter={[16,16]}>
+                    <Col md={5} sm={24} xs={24}>
                         <Row justify="end">
                             <Dropdown overlay={menu}>
                                 <MoreOutlined style={{ fontSize: 23, fontWeight: "bold" }} />
@@ -90,10 +90,10 @@ const Account = ({ updateRoute, user, avatar }) => {
                             selectedKeys={[location.pathname]}
                         />
                     </Col>
-                    <Col span={1}>
+                    <Col md={1} sm={0}>
                         <Space type="vertical" style={{ width: "100%" }} />
                     </Col>
-                    <Col span={18}>
+                    <Col md={18} sm={24} >
                         {location.pathname === "/Profile/Edit" && <InfoAccount user={user} />}
                         {location.pathname === "/Profile/Notification" && <AccountNotification user={user} />}
                         {location.pathname === "/Profile/Activity" && <AccountActivity user={user} />}

@@ -122,51 +122,56 @@ const RenewableCards = ({ item, bills, resources }) => {
         setWindSum(0)
         setGeoSum(0)
         setTotalSum(0)
+        setDeviceEarning(0)
+        setDeviceCost(0)
         setAllBills([])
         let resArray = resources.map(el => Object.keys(el)[0])
         if (bills.all === undefined)
             return []
         let test = bills.all.find(el => el.buildingId === item._id)
-        await api.renewable.fetchResourcesByBuildingId(test.buildingId).then(res => setDevice(res))
         if (test === undefined) return []
-        test.bills.map(el => {
-            el["resources"].forEach(element => {
-                if (resArray.includes(Object.keys(element)[0])) {
-                    switch (Object.keys(element)[0]) {
-                        case "Solar":
-                            setSolarSum((old) => old + Number(Object.values(element)))
-                            if (device.resourcesType === "Solar" && filter === "Solar") {
-                                setTotalSum((old) => old + Number(Object.values(element)))
-                                setAllBills((old) => [...old, [el.date, Number(Object.values(element)).toFixed(2)]])
-                            }
-                            break;
-                        case "Hydro":
-                            setHydroSum((old) => old + Number(Object.values(element)))
-                            if (device.resourcesType === "Hydro" && filter === "Hydro") {
-                                setTotalSum((old) => old + Number(Object.values(element)))
-                                setAllBills((old) => [...old, [el.date, Number(Object.values(element)).toFixed(2)]])
-                            }
-                            break;
-                        case "Geo":
-                            setGeoSum((old) => old + Number(Object.values(element)))
-                            if (device.resourcesType === "Geo" && filter === "Geo") {
-                                setTotalSum((old) => old + Number(Object.values(element)))
-                                setAllBills((old) => [...old, [el.date, Number(Object.values(element)).toFixed(2)]])
-                            }
-                            break;
-                        case "Wind":
-                            setWindSum((old) => old + Number(Object.values(element)))
-                            if (device.resourcesType === "Wind" && filter === "Wind") {
-                                setTotalSum((old) => old + Number(Object.values(element)))
-                                setAllBills((old) => [...old, [el.date, Number(Object.values(element)).toFixed(2)]])
-                            }
-                            break;
-                        default:
-                            break;
+        await api.renewable.fetchResourcesByBuildingId(test.buildingId).then(res => res.map(devices => {
+            setDeviceEarning((old) => old + devices.earning)
+            setDeviceCost((old) => old + devices.price)
+            test.bills.map(el => {
+                el["resources"].forEach(element => {
+                    if (resArray.includes(Object.keys(element)[0])) {
+                        switch (Object.keys(element)[0]) {
+                            case "Solar":
+                                setSolarSum((old) => old + Number(Object.values(element)))
+                                if (devices.resourcesType === "Solar" && filter === "Solar") {
+                                    setTotalSum((old) => old + Number(Object.values(element)))
+                                    setAllBills((old) => [...old, [el.date, Number(Object.values(element)).toFixed(2)]])
+                                }
+                                break;
+                            case "Hydro":
+                                setHydroSum((old) => old + Number(Object.values(element)))
+                                if (devices.resourcesType === "Hydro" && filter === "Hydro") {
+                                    setTotalSum((old) => old + Number(Object.values(element)))
+                                    setAllBills((old) => [...old, [el.date, Number(Object.values(element)).toFixed(2)]])
+                                }
+                                break;
+                            case "Geo":
+                                setGeoSum((old) => old + Number(Object.values(element)))
+                                if (devices.resourcesType === "Geo" && filter === "Geo") {
+                                    setTotalSum((old) => old + Number(Object.values(element)))
+                                    setAllBills((old) => [...old, [el.date, Number(Object.values(element)).toFixed(2)]])
+                                }
+                                break;
+                            case "Wind":
+                                setWindSum((old) => old + Number(Object.values(element)))
+                                if (devices.resourcesType === "Wind" && filter === "Wind") {
+                                    setTotalSum((old) => old + Number(Object.values(element)))
+                                    setAllBills((old) => [...old, [el.date, Number(Object.values(element)).toFixed(2)]])
+                                }
+                                break;
+                            default:
+                                break;
+                        }
                     }
-                }
+                })
             })
-        })
+        }))
     }
 
     const [visible, setVisible] = useState(false)
@@ -178,7 +183,8 @@ const RenewableCards = ({ item, bills, resources }) => {
     const [solarSum, setSolarSum] = useState(0)
     const [totalSum, setTotalSum] = useState(0)
     const [allBills, setAllBills] = useState([])
-    const [device, setDevice] = useState({})
+    const [deviceEarning, setDeviceEarning] = useState(0)
+    const [deviceCost, setDeviceCost] = useState(0)
     const [metric, setMetric] = useState(true)
 
     useEffect(() => {
@@ -193,12 +199,12 @@ const RenewableCards = ({ item, bills, resources }) => {
                 data: [
                     {
                         x: 'Organization Earnings',
-                        y: (device.earning * totalSum / 1000).toFixed(2),
+                        y: (deviceEarning * totalSum / 1000).toFixed(2),
                         fillColor: '#00E396'
 
                     }, {
                         x: 'Organization Cost',
-                        y: Number(device.price).toFixed(2),
+                        y: Number(deviceCost).toFixed(2),
                         fillColor: "#d40000"
                     }
                 ]
@@ -219,12 +225,12 @@ const RenewableCards = ({ item, bills, resources }) => {
                     <Col span={12}>
                         <Statistic title={`Total ${filter} Production`} value={metric ? totalSum / 1000 : totalSum} suffix={metric ? "Kilowatt (kW)" : "Watt"} precision={2} />
                         <Row align="middle">
-                            <span onClick={() => setMetric(!metric)} style={{ color: "blue", marginRight: 6 }} class="anticon iconfont">&#xe615;</span>
+                            <span onClick={() => setMetric(!metric)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} class="anticon iconfont">&#xe615;</span>
                             <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metric ? "Kilowatt (kW)" : "Watt"}</p>
                         </Row>
                     </Col>
                     <Col span={12}>
-                        <Statistic title="Total Earnings" value={(device.earning * totalSum / 1000).toFixed(2)} suffix={"Euro €"} precision={2} />
+                        <Statistic title="Total Earnings" value={(deviceEarning * totalSum / 1000).toFixed(2)} suffix={"Euro €"} precision={2} />
                     </Col>
                 </Row>
                 <Divider />
@@ -233,7 +239,7 @@ const RenewableCards = ({ item, bills, resources }) => {
                     <>
                         <Row style={{ marginTop: 32 }} justify="center" align="middle">
                             <Col span={24}>
-                                <p style={{ fontSize: 18, fontWeight: 500 }}> {filter} Usage</p>
+                                <p style={{ fontSize: 18, fontWeight: 500 }}> {filter} Production</p>
                                 <ReactApexChart options={optionsLine} series={[{ data: allBills }]} type="line" height={320} />
                             </Col>
                         </Row>
@@ -250,7 +256,7 @@ const RenewableCards = ({ item, bills, resources }) => {
                         imageStyle={{ height: 100, }}
                         description={<span>  This building has <a>NO {filter}</a> resources installed yet</span>}
                     >
-                        <Button onClick={() =>setVisible1(true)} type="primary" style={{ borderRadius: 20 }}>Install One Now</Button>
+                        <Button onClick={() => setVisible1(true)} type="primary" style={{ borderRadius: 20 }}>Install One Now</Button>
                     </Empty>
                 }
             </Card>
@@ -259,13 +265,13 @@ const RenewableCards = ({ item, bills, resources }) => {
     return (
         <Row justify="center" gutter={[32, 32]}>
             <Col span={24}>
-                <Statistic title="Total Energy Production" value={metric ? (solarSum+ geoSum+ hydroSum+ windSum) / 1000 : (solarSum+ geoSum+ hydroSum+ windSum)} suffix={metric ? "KiloWatt (kW)" : "Watt"} precision={2} />
+                <Statistic title="Total Energy Production" value={metric ? (solarSum + geoSum + hydroSum + windSum) / 1000 : (solarSum + geoSum + hydroSum + windSum)} suffix={metric ? "KiloWatt (kW)" : "Watt"} precision={2} />
                 <Row align="middle">
-                    <span onClick={() => setMetric(!metric)} style={{ color: "blue", marginRight: 6 }} class="anticon iconfont">&#xe615;</span>
+                    <span onClick={() => setMetric(!metric)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} class="anticon iconfont">&#xe615;</span>
                     <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metric ? "Total in Kilowatt (kW)" : "Total in Watt (W)"}</p>
                 </Row>
             </Col>
-            <Col span={6}>
+            <Col lg={6} sm={24} md={12}>
                 <Card hoverable style={{ borderRadius: 20, textAlign: "center" }} onClick={() => {
                     setFilter("Solar")
                     setVisible(true)
@@ -275,7 +281,7 @@ const RenewableCards = ({ item, bills, resources }) => {
                     <Statistic value={!metric ? solarSum : solarSum / 1000} suffix={metric ? "kW" : "W"} precision={2} />
                 </Card>
             </Col>
-            <Col span={6}>
+            <Col lg={6} sm={24} md={12}>
                 <Card hoverable style={{ borderRadius: 20, textAlign: "center" }} onClick={() => {
                     setFilter("Hydro")
                     setVisible(true)
@@ -285,7 +291,7 @@ const RenewableCards = ({ item, bills, resources }) => {
                     <Statistic value={!metric ? hydroSum : hydroSum / 1000} suffix={metric ? "kW" : "W"} precision={2} />
                 </Card>
             </Col>
-            <Col span={6}>
+            <Col lg={6} sm={24} md={12}>
                 <Card hoverable style={{ borderRadius: 20, textAlign: "center" }} onClick={() => {
                     setFilter("Wind")
                     setVisible(true)
@@ -295,7 +301,7 @@ const RenewableCards = ({ item, bills, resources }) => {
                     <Statistic value={!metric ? windSum : windSum / 1000} suffix={metric ? "kW" : "W"} precision={2} />
                 </Card>
             </Col>
-            <Col span={6}>
+            <Col lg={6} sm={24} md={12}>
                 <Card hoverable style={{ borderRadius: 20, textAlign: "center" }} onClick={() => {
                     setFilter("Geo")
                     setVisible(true)
@@ -308,7 +314,7 @@ const RenewableCards = ({ item, bills, resources }) => {
             <Modal destroyOnClose visible={visible} onCancel={() => setVisible(false)} width={800} title={"Total " + filter + " Production"}>
                 {renderData(filter)}
             </Modal>
-            <ResourcesModal building={item} visible={visible1} setVisible={setVisible1} data={item.resources} />
+            <ResourcesModal defaultActiveKey={filter} building={item} visible={visible1} setVisible={setVisible1} data={item.resources} />
         </Row >
     )
 }

@@ -59,7 +59,7 @@ const Resources = () => {
                 <p style={{ fontSize: 18, fontWeight: 500 }}>Create and check your energy resources offer</p>
                 <Row justify="center" gutter={[32, 32]}>
                     {resources.map(el =>
-                        <Col span={12}>
+                        <Col md={12} sm={24} xs={24}>
                             <ResourcesCard element={el} onClick={() => setProps(el)} />
                         </Col>
                     )}

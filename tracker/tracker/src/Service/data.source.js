@@ -30,7 +30,7 @@ export const Banner50DataSource = {
   image: {
     className: 'banner5-image',
     children:
-      'https://gw.alipayobjects.com/mdn/rms_ae7ad9/afts/img/A*-wAhRYnWQscAAAAAAAAAAABkARQnAQ',
+      'https://res.cloudinary.com/dgfnyulqh/image/upload/v1661783604/7941763_3395012__1_-removebg-preview_q7tjt0.png',
   },
 };
 export const Feature60DataSource = {
@@ -165,7 +165,7 @@ export const Pricing00DataSource = {
     className: 'pricing0-img',
     name: 'image',
     children:
-      'https://gw.alipayobjects.com/mdn/rms_ae7ad9/afts/img/A*OnyWT4Nsxy0AAAAAAAAAAABjARQnAQ',
+      'https://res.cloudinary.com/dgfnyulqh/image/upload/v1661781746/mockuper_2_tn7jru.png',
   },
   childWrapper: {
     className: 'pricing0-text-wrapper',

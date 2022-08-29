@@ -1,6 +1,7 @@
 import React from 'react';
 import QueueAnim from 'rc-queue-anim';
 import TweenOne from 'rc-tween-one';
+import "./style.css"
 import { getChildrenToRender } from './utils';
 
 class Banner extends React.PureComponent {
@@ -33,7 +34,7 @@ class Banner extends React.PureComponent {
             {dataSource.childWrapper.children.map(getChildrenToRender)}
           </QueueAnim>
           <TweenOne animation={animType.one} key="title" {...dataSource.image}>
-            <img src={dataSource.image.children} width="100%" alt="img" />
+            <img src={dataSource.image.children} width="100%" alt="img" className='shadowImage'/>
           </TweenOne>
         </div>
       </div>

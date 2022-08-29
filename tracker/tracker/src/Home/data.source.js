@@ -320,9 +320,10 @@ export const Feature40DataSource = {
     ],
   },
   img: {
-    children: 'https://zos.alipayobjects.com/rmsportal/VHGOVdYyBwuyqCx.png',
+    children: 'https://img.freepik.com/free-vector/active-people-bikes-windmills-house-with-solar-panel-rooftop-flat-illustration_74855-10477.jpg?w=2000&t=st=1661782614~exp=1661783214~hmac=e47bd15f058d891ce0bc3690cbc23dd978d82d342ae82c382f5496ec91601ee4',
     className: 'content6-img',
     xs: 24,
+    sm:24,
     md: 14,
   },
   block: {

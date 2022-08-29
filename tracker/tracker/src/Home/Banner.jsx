@@ -4,7 +4,7 @@ import { DownOutlined } from '@ant-design/icons';
 import QueueAnim from 'rc-queue-anim';
 import TweenOne from 'rc-tween-one';
 import { isImg } from './utils';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 class Banner extends React.PureComponent {
   render() {
@@ -31,9 +31,11 @@ class Banner extends React.PureComponent {
           <div key="content" {...dataSource.content}>
             {dataSource.content.children}
           </div>
-          <Button ghost key="button" {...dataSource.button} onClick={() => this.props.navigation.navigate('/Service') }>
-            {dataSource.button.children}
-          </Button>
+          <Link to={"/Service"}>
+            <Button ghost key="button" {...dataSource.button}>
+              {dataSource.button.children}
+            </Button>
+          </Link>
         </QueueAnim>
         <TweenOne
           animation={{

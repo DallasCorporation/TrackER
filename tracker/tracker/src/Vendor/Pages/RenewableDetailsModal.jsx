@@ -127,7 +127,6 @@ const RenewableDetailsModal = ({ filter, data, setVisible, visible }) => {
     }
 
     const getSeries = () => {
-        console.log(data)
         if (Object.keys(data).length === 0)
             return []
         return [

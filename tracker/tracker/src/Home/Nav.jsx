@@ -128,7 +128,7 @@ class Header extends React.Component {
             <Menu
               mode={isMobile ? 'inline' : 'horizontal'}
               defaultSelectedKeys={
-                window.location.pathname === "/Home" ? ['item1'] :
+                window.location.pathname === "/" || window.location.pathname === "/Home" ? ['item1'] :
                   window.location.pathname === "/Service" ?
                     ["item0"] : ["item2"]}
               theme="light"

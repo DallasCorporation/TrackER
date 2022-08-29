@@ -6,7 +6,6 @@ import { stacked } from "../utils";
 import { useEffect } from "react";
 const EarningsCard = ({ series, total = 0 }) => {
   useEffect(() => {
-    console.log(series)
   }, [series])
 
   return (

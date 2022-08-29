@@ -5,7 +5,7 @@ export const Nav30DataSource = {
   logo: {
     className: 'header3-logo',
     children: {
-      logo: 'https://gw.alipayobjects.com/zos/basement_prod/b30cdc2a-d91c-4c78-be9c-7c63b308d4b3.svg',
+      logo: 'https://res.cloudinary.com/dgfnyulqh/image/upload/v1661774798/logo_1_alj01r.jpg',
       href: '/',
     }
   },
@@ -45,7 +45,7 @@ export const Banner01DataSource = {
   textWrapper: { className: 'banner0-text-wrapper' },
   title: {
     className: 'banner0-title',
-    children: 'https://zos.alipayobjects.com/rmsportal/HqnZZjBjWRbjyMr.png',
+    children: 'https://res.cloudinary.com/dgfnyulqh/image/upload/v1661777772/Senzanome_msgnl2.png',
   },
   content: {
     className: 'banner0-content',
@@ -520,14 +520,14 @@ export const Footer10DataSource = {
         title: {
           className: 'logo',
           children:
-            'https://zos.alipayobjects.com/rmsportal/qqaimmXZVSwAhpL.svg',
+            'https://res.cloudinary.com/dgfnyulqh/image/upload/v1661776543/Senzanome_v4pxgz.png',
         },
         childWrapper: {
           className: 'slogan',
           children: [
             {
               name: 'content0',
-              children: 'Slogan of TrackER.',
+              children: '',
             },
           ],
         },

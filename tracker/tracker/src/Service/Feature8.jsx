@@ -14,7 +14,8 @@ class Feature8 extends React.PureComponent {
   }
 
   onTitleClick = (_, i) => {
-    const carouselRef = this.carouselRef.current.childRefs.carousel;
+    console.log(this.carouselRef.current, i)
+    const carouselRef = this.carouselRef.current;
     carouselRef.goTo(i);
   };
 
@@ -94,19 +95,14 @@ class Feature8 extends React.PureComponent {
 
     return (
       <div>
-
-      {/* // <QueueAnim
-      //   key="queue"
-      //   type="bottom"
-      //   ref={this.carouselRef}
-      //   {...childrenProps}
-      // > */}
         {childWrapper.length > 1 && (
           <div {...titleWrapperProps} key="title">
             <div {...titleChild}>{titleToRender}</div>
           </div>
         )}
         <AntCarousel
+          ref={this.carouselRef}
+          autoplay
           key="carousel"
           {...carouselProps}
           infinite={false}
@@ -117,8 +113,7 @@ class Feature8 extends React.PureComponent {
         <div key="button" {...buttonWrapper}>
           {buttonWrapper.children.map(getChildrenToRender)}
         </div>
-      {/* // </QueueAnim> */}
-      </div>
+      </div >
 
     );
   };

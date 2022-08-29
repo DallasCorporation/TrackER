@@ -150,14 +150,83 @@ const DashboardRoute = () => {
 
     return (
         <ProLayout
-            //logo={<p></p>}
+            logo={<img onClick={() => navigate("/Dashboard")} src="https://res.cloudinary.com/dgfnyulqh/image/upload/v1658845429/nbnkxykkyymhethjdiek.jpg" alt="Tracker Logo" />}
             title="TrackER"
             {...defaultProps}
             location={{ pathname, }}
             navTheme="light"
             menu={{ defaultOpenAll: true }}
             waterMarkProps={{ content: 'TrackER', }}
-            headerRender={() => <Header avatar={userAvatar} />}
+            headerRender={() => width >= 768 ? <Header avatar={userAvatar} /> :
+                <ProLayout
+                    logo={<img onClick={() => navigate("/Dashboard")} src="https://res.cloudinary.com/dgfnyulqh/image/upload/v1658845429/nbnkxykkyymhethjdiek.jpg" alt="Tracker Logo" />}
+                    title="TrackER"
+                    {...defaultProps}
+                    location={{ pathname, }}
+                    navTheme="light"
+                    menu={{ defaultOpenAll: true }}
+                    waterMarkProps={{ content: 'TrackER', }}
+                    footerRender={() =>
+                        <DefaultFooter style={{ backgroundColor: "#f7fafd", }}
+                            copyright="2022 by TrackER"
+                            links={[
+                                {
+                                    key: 'github',
+                                    title: <GithubOutlined />,
+                                    href: 'https://github.com/DallasCorporation/TrackER',
+                                    blankTarget: true,
+                                },]}
+                        />
+                    }
+                    menuFooterRender={(props) => {
+                        return (
+                            <Row
+                                justify="center"
+                                style={{ marginBottom: 20 }}
+                                gutter={[16, 16]}
+                            >
+                                <Col style={{ alignSelf: "center" }}>
+                                    <Avatar size={40} src={userAvatar} />
+                                </Col>
+                                {!props.collapsed &&
+                                    <Col style={{ alignSelf: "center", }}>
+                                        <div>{user.name} {user.surname} <br></br>
+                                            <LinkHover to="/Profile/Edit" >View Profile</LinkHover>
+                                        </div>
+                                    </Col>
+                                }
+                            </Row>
+                        );
+                    }}
+                    menuItemRender={(item, dom) => (
+                        <p
+                            onClick={() => {
+                                setPathname(item.path || '/Dashboard');
+                                navigate(item.path, { replace: true });
+                            }}
+                        >
+                            {dom}
+                        </p>
+                    )}
+                    {...settings}
+                >
+                    <Routes >
+                        <Route path="*" element={<Dashboard user={user} />} />
+                        <Route path="/dashboard" element={<Dashboard user={user} />} />
+                        <Route path="/buildings" element={<BuildingsTab updateRoute={() => { setPathname("/building/New"); navigate("/building/New") }} />} />
+                        <Route path="/building/New" element={<AddNewBuildings user={user} />} />
+                        <Route path="/Organizations" element={<Organizations user={user} allOrganization={allOrganization} allUser={allUser} />} />
+                        <Route path="/Invoices/Weekly" element={<Invoices user={user} />} />
+                        <Route path="/Invoices/Monthly" element={<Invoices user={user} />} />
+                        <Route path="/Invoices/Yearly" element={<Invoices user={user} />} />
+                        <Route path="/Profile/Edit" element={<Account avatar={userAvatar} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                        <Route path="/Profile/Notification" element={<Account avatar={userAvatar} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                        <Route path="/Profile/Activity" element={<Account avatar={userAvatar} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                        <Route path="/Profile/Security" element={<Account avatar={userAvatar} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                        <Route path="/Profile/Password" element={<Account avatar={userAvatar} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                    </Routes>
+                </ProLayout >
+            }
             footerRender={() =>
                 <DefaultFooter style={{ backgroundColor: "#f7fafd", }}
                     copyright="2022 by TrackER"

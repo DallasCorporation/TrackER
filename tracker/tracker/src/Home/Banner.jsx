@@ -4,6 +4,7 @@ import { DownOutlined } from '@ant-design/icons';
 import QueueAnim from 'rc-queue-anim';
 import TweenOne from 'rc-tween-one';
 import { isImg } from './utils';
+import { useNavigate } from 'react-router-dom';
 
 class Banner extends React.PureComponent {
   render() {
@@ -21,7 +22,7 @@ class Banner extends React.PureComponent {
         >
           <div key="title" {...dataSource.title}>
             {typeof dataSource.title.children === 'string' &&
-            dataSource.title.children.match(isImg) ? (
+              dataSource.title.children.match(isImg) ? (
               <img src={dataSource.title.children} width="100%" alt="img" />
             ) : (
               dataSource.title.children
@@ -30,12 +31,12 @@ class Banner extends React.PureComponent {
           <div key="content" {...dataSource.content}>
             {dataSource.content.children}
           </div>
-          <Button ghost key="button" {...dataSource.button}>
+          <Button ghost key="button" {...dataSource.button} onClick={() => this.props.navigation.navigate('/Service') }>
             {dataSource.button.children}
           </Button>
         </QueueAnim>
         <TweenOne
-           animation={{
+          animation={{
             y: "-=20",
             yoyo: true,
             repeat: -1,

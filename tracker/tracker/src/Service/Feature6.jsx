@@ -16,12 +16,16 @@ class Feature6 extends React.PureComponent {
     };
   }
 
+
   onTitleClick = (_, i) => {
-    this.setState({ current: i })
+    console.log(this.carouselRef.current, i)
+    const carouselRef = this.carouselRef.current;
+    carouselRef.goTo(i);
   };
 
+
   onBeforeChange = (_, newIndex) => {
-    this.setState({current: newIndex,});
+    this.setState({ current: newIndex, });
   };
 
   getChildrenToRender = (dataSource) => {
@@ -59,8 +63,9 @@ class Feature6 extends React.PureComponent {
         const { number, children: child, ...childProps } = $item;
         const numberChild = number.children.replace(/[^0-9.-]/g, '');
         const { unit, toText, ...numberProps } = number;
+        console.log(number, unit)
         return (
-          ii === this.state.current && 
+          ii === this.state.current &&
           <Col {...childProps} >
             <TweenOne
               {...numberProps}
@@ -115,12 +120,11 @@ class Feature6 extends React.PureComponent {
           </div>
         </div>
         <AntCarousel
-          autoplay
-          {...carouselProps}
+          ref={this.carouselRef}
           key="carousel"
+          {...carouselProps}
           infinite={false}
           beforeChange={this.onBeforeChange}
-          afterChange={this.onBeforeChange}
         >
 
           {childrenToRender}

@@ -164,7 +164,7 @@ const SignInForm = () => {
                             <Input.Password size="large" type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
                         </Form.Item>
                         <Row justify="end" style={{ marginTop: 10, width: "70%" }}>
-                            <Link className="basic-form-forgot" to="/forgot-password">Forgot Password?</Link>
+                            <Link className="basic-form-forgot" to="">Forgot Password?</Link>
                         </Row>
                         <button style={{ marginTop: 10 }} onClick={handleLoginSubmit}>Sign In</button>
                     </Form>
@@ -174,7 +174,7 @@ const SignInForm = () => {
                         <div className="overlay-panel overlay-right">
                             <h1 style={{ color: "white" }}>Welcome Back!</h1>
                             <p>
-                                To check you data and keep connected with us please login with your personal information
+                                To check your data and keep connected with us please login with your personal information
                             </p>
                             <Divider type="horizontal" >Or</Divider>
                             <button

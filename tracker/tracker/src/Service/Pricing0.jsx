@@ -20,7 +20,7 @@ function Pricing0(props) {
           ease: 'easeOutQuad',
         }
       : [
-        { y: 0, x: "-=30", duration: 200, type: 'from', opacity: 0, delay: 80 },
+        { y: 0, x: "-=30", duration: 1000, type: 'from', opacity: 0, delay: 100 },
         { x: 0, y: 0, opacity: 1 },
       ]
   };

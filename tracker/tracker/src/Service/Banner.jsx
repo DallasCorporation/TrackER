@@ -13,7 +13,7 @@ class Banner extends React.PureComponent {
     const animType = {
       queue: 'bottom',
       one: [
-        { x: 0, y: "+=30", duration: 200, type: 'from', opacity: 0, delay: 80 },
+        { x: 0, y: "+=30", duration: 1000, type: 'from', opacity: 0, delay: 80 },
         { x: 0, y: 0, opacity: 1 },
       ]
     };

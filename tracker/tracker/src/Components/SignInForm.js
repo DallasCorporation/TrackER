@@ -54,6 +54,10 @@ const SignInForm = () => {
     }
 
     const handleSignUpSubmit = (e) => {
+        if (name === null || surname === null || password === null || passwordConf === null || email === null) {
+            setError(["Fill the form to continue"])
+            return
+        }
         if (password !== passwordConf) {
             setError(["Typed Password are different"])
             return

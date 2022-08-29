@@ -193,7 +193,7 @@ export const Content30DataSource = {
           content: {
             className: 'content3-content',
             children:
-              'automated Time-of-Use energy and demand charge breakdowns are displayed for each billing period on an intuitive user-friendly dashboard, empowering you to optimize building operations intelligently.',
+              'Automated Time-of-Use energy and demand charge breakdowns are displayed for each billing period on an intuitive user-friendly dashboard, empowering you to optimize building operations intelligently.',
           },
         },
       },

@@ -6,10 +6,10 @@ import { ProFormMoney } from '@ant-design/pro-components';
 import { useEffect } from "react";
 
 const FirstStep = ({ gas, setGas, electric, setElectric, water, setWater, distributed, setDistributed, setPrices, prices = [] }) => {
-    const [solar, setSolar] = useState(Object.values(prices).find(el =>el.name === "Solar"? el.price : false))
-    const [hydro, setHydro] = useState(Object.values(prices).find(el =>el.name === "Hydro"? el.price : false))
-    const [windy, setWindy] = useState(Object.values(prices).find(el =>el.name === "Wind"? el.price : false))
-    const [geo, setGeo] = useState(Object.values(prices).find(el =>el.name === "Geo"? el.price : false))
+    const [solar, setSolar] = useState(Object.values(prices).find(el => el.name === "Solar" ? el.price : false))
+    const [hydro, setHydro] = useState(Object.values(prices).find(el => el.name === "Hydro" ? el.price : false))
+    const [windy, setWindy] = useState(Object.values(prices).find(el => el.name === "Wind" ? el.price : false))
+    const [geo, setGeo] = useState(Object.values(prices).find(el => el.name === "Geo" ? el.price : false))
     const [pricesTmp, setPricesTmp] = useState(prices)
     const [name, setName] = useState("")
     const [value, setValue] = useState(0)
@@ -38,7 +38,7 @@ const FirstStep = ({ gas, setGas, electric, setElectric, water, setWater, distri
     return (
         <div>
             <Row gutter={[48, 48]} style={{ marginTop: "42px" }} justify="center">
-                <Col span={6}>
+                <Col lg={6} md={12} xs={24} sm={24}>
                     <div onClick={() => setGas(!gas)}>
                         <OrganizationCard title={"Gas Supplier"} description={"If your organization is providing natural gas to cities, region or country"} selected={gas} />
                     </div>
@@ -62,7 +62,7 @@ const FirstStep = ({ gas, setGas, electric, setElectric, water, setWater, distri
                         </Card>
                     </div>
                 </Col>
-                <Col span={6} >
+                <Col lg={6} md={12} xs={24} sm={24}>
                     <div onClick={() => setElectric(!electric)}>
                         <OrganizationCard title={"Electric Supplier"} description={"If your organization is is providing electricity to cities, region or country"} selected={electric} />
                     </div>
@@ -86,7 +86,7 @@ const FirstStep = ({ gas, setGas, electric, setElectric, water, setWater, distri
                         </Card>
                     </div>
                 </Col>
-                <Col span={6}>
+                <Col lg={6} md={12} xs={24} sm={24}>
                     <div onClick={() => setWater(!water)}>
                         <OrganizationCard title={"Water Supplier"} description={"If your organization is providing water to cities, region or country"} selected={water} />
                     </div>
@@ -110,7 +110,7 @@ const FirstStep = ({ gas, setGas, electric, setElectric, water, setWater, distri
                         </Card>
                     </div>
                 </Col>
-                <Col span={6}>
+                <Col lg={6} md={12} xs={24} sm={24}>
                     <div onClick={() => setDistributed(!distributed)}>
                         <OrganizationCard title={"Energy Resources"}
                             description={"If your organization is selling energy resources like Solar energy, Wind energy or Hydro energy"}

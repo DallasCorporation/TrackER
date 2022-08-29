@@ -92,7 +92,7 @@ const UsersCard = ({ openModal }) => {
             {users.length === 0 ? <div></div> :
                 users.map((el, index) =>
 
-                    <Col span={5} style={{ textAlign: "center" }} key={index} onClick={() => openModal(el)}>
+                    <Col md={5} xs={24} sm={24} style={{ textAlign: "center" }} key={index} onClick={() => openModal(el)}>
                         {loading ? <Skeleton active /> :
                             <Row>
                                 <Col span={24}>
@@ -108,7 +108,7 @@ const UsersCard = ({ openModal }) => {
                     </Col>
                 )}
             {users.length !== 0 &&
-                <Col span={1} onClick={() => navigate("/Customers")}>
+                <Col md={1} xs={24} sm={24} onClick={() => navigate("/Customers")}>
                     <TweenOne
                         animation={{
                             x: 0,
@@ -116,10 +116,10 @@ const UsersCard = ({ openModal }) => {
                             repeat: -1,
                             duration: 1000
                         }}
-                        style={{ transform: 'translateX(-20px)' }}
+                        style={{ transform: 'translateX(-20px)', textAlign:"center" }}
                     >
                         <Tooltip title="See all">
-                            <ArrowRightOutlined style={{ fontSize: 30, color:"blue" }} />
+                            <ArrowRightOutlined style={{ fontSize: 30, color: "blue" }} />
                         </Tooltip>
                     </TweenOne>
                 </Col>}

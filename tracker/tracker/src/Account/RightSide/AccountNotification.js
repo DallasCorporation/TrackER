@@ -34,7 +34,7 @@ const AccountNotification = ({ user }) => {
             <Row justify="space-between" align="middle">
                 <Col>
                     <AccountSubTitle>Newsletter update</AccountSubTitle>
-                    <GreyParagraph>Notify me by email about sales and latest news of TrackEr.</GreyParagraph>
+                    <GreyParagraph>Notify me by email about sales and latest news of TrackER.</GreyParagraph>
                 </Col>
                 <Col style={{ marginRight: "20px" }}>
                     <Switch onClick={(type) => setNotification({ news: type })} />

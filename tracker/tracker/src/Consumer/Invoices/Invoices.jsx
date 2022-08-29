@@ -21,7 +21,8 @@ const Invoices = ({ user }) => {
     }
     useEffect(() => {
         getBillsAggregated(user._id)
-    }, [])
+    }, [buildings])
+
 
     return (
         <Layout
@@ -51,7 +52,7 @@ const Invoices = ({ user }) => {
             <Row style={{ marginTop: "22px" }} gutter={[16, 16]}>
                 <Col span={24}>
                     <Row gutter={[32, 32]}>
-                        {Object.keys(buildings).length === 0 ?
+                        {buildings === null || Object.keys(buildings).length === 0 ?
                             <Col span={24} style={{ marginBottom: 32, background: "white", borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }}>
                                 <Empty
                                     image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"

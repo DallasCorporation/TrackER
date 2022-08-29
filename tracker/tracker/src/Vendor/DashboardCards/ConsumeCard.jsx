@@ -140,13 +140,13 @@ const ConsumeCard = () => {
 
     return (
         <Row justify="space-between" align="center">
-            <Col span={8}>
+            <Col md={8} xs={24} sm={24}>
                 <ReactApexChart options={state.electricOption} series={state.electricLine} type="line" height={460} />
             </Col>
-            <Col span={8}>
+            <Col md={8} xs={24} sm={24}>
                 <ReactApexChart options={state.gasOption} series={state.gasLine} type="line" height={460} />
             </Col>
-            <Col span={8}>
+            <Col md={8} xs={24} sm={24}>
                 <ReactApexChart options={state.waterOption} series={state.waterLine} type="line" height={460} />
             </Col>
         </Row>

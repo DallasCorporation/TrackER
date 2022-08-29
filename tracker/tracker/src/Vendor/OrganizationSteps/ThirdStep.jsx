@@ -22,7 +22,7 @@ const ThirdStep = ({ name, owner, icon, createdAt, type, description, prices = [
                 electric.push(el)
             if (el.name.includes("Water"))
                 water.push(el)
-            if (el.price===true&& (el.name.includes("Solar") || el.name.includes("Hydro") || el.name.includes("Wind") || el.name.includes("Bio") || el.name.includes("Geo") ))
+            if (el.price === true && (el.name.includes("Solar") || el.name.includes("Hydro") || el.name.includes("Wind") || el.name.includes("Bio") || el.name.includes("Geo")))
                 resources.push(el)
         })
         setData({
@@ -59,7 +59,7 @@ const ThirdStep = ({ name, owner, icon, createdAt, type, description, prices = [
     return (
         <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }}>
             <Descriptions title="Organization Info" bordered
-                column={{ xxl: 4, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
+                column={{ xxl: 4, xl: 3, lg: 3, md: 2, sm: 2, xs: 1 }}
             >
                 <Descriptions.Item label="Name">{name}</Descriptions.Item>
                 <Descriptions.Item label="Organization Owner">{owner}</Descriptions.Item>

@@ -36,6 +36,7 @@ const ExpensiveChart = ({ bills }) => {
             dataLabels: {
                 enabled: false
             },
+            // colors: ["#ffcf45", "#008ffb", "#19e396",],
             colors: ['#022cf7', '#55b1f3', '#1be7ff'],
             plotOptions: {
                 pie: {

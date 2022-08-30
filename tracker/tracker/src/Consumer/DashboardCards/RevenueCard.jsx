@@ -20,21 +20,22 @@ const RevenueCard = ({ bills = {} }) => {
                 fontSize: '12px',
             }
         },
+        colors: ["#ffcf45", "#19e396", "#008ffb"],
         chart: {
-            height: 350,
             type: 'radar',
             dropShadow: {
                 enabled: true,
             },
             animations: {
                 enabled: true,
-            }
+            },
+            toolbar: { show: false, },
         },
         stroke: {
             width: 1
         },
         fill: {
-            opacity: 0.8
+            opacity: 0.4
         }, yaxis: {
             show: false,
         },
@@ -55,7 +56,7 @@ const RevenueCard = ({ bills = {} }) => {
         let totWater = 0
         let month
         Object.values(bills).map(el => {
-            month = moment(el.date).format('dd');
+            month = moment(el.date).format('DD MMM');
             if (moment(el.date).isSame(date, 'day')) {
                 totElectric += Number(el.electric)
                 totWater += Number(el.water)
@@ -66,11 +67,15 @@ const RevenueCard = ({ bills = {} }) => {
                 dataGas.push({ x: month, y: totGas.toFixed(2) })
                 dataWater.push({ x: month, y: totWater.toFixed(2) })
                 date = el.date
+                console.log(totElectric)
+                totElectric = 0
+                totGas = 0
+                totWater = 0
             }
         })
-        dataElectric.push({ x: month, y: totElectric.toFixed(2) })
-        dataGas.push({ x: month, y: totGas.toFixed(2) })
-        dataWater.push({ x: month, y: totWater.toFixed(2) })
+        // dataElectric.push({ x: month, y: totElectric.toFixed(2) })
+        // dataGas.push({ x: month, y: totGas.toFixed(2) })
+        // dataWater.push({ x: month, y: totWater.toFixed(2) })
         setElectric({ name: "Electric", data: dataElectric })
         setWater({ name: "Water", data: dataWater })
         setGas({ name: "Gas", data: dataGas })
@@ -83,7 +88,9 @@ const RevenueCard = ({ bills = {} }) => {
                 <Col><span class="anticon iconfont" style={{ color: "blue" }} >&#x100e6;</span></Col>
             </Row>
             <Col span={24}>
-                {Object.keys(bills).length <= 0 ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /> : <ReactApexChart options={options} series={[electric, gas, water]} type="radar" height={350} />}
+                <Row justify="center">
+                    {Object.keys(bills).length <= 0 ? <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} /> : <ReactApexChart options={options} series={[electric, gas, water]} type="radar" height={390} />}
+                </Row>
             </Col>
         </ProCard>
     )

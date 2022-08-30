@@ -24,13 +24,19 @@ const SignInForm = () => {
     const dispatch = useDispatch()
 
     const signUpButton = () => {
+        setError(null)
         setSwapPanel(true);
     };
     const signInButton = () => {
+        setError(null)
         setSwapPanel(false);
     };
 
     const handleLoginSubmit = () => {
+        if (email === null || password === null) {
+            setError(["Fill the form to continue"])
+            return
+        }
         let data = { email, password }
         api.user
             .login(data)

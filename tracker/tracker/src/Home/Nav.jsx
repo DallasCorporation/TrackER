@@ -1,10 +1,9 @@
 import React from 'react';
 import TweenOne from 'rc-tween-one';
-import { Menu } from 'antd';
+import { Layout, Menu } from 'antd';
 import { getChildrenToRender } from './utils';
 
 const { Item, SubMenu } = Menu;
-
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -71,73 +70,76 @@ class Header extends React.Component {
     });
     const moment = phoneOpen === undefined ? 300 : null;
     return (
-      <TweenOne
-        component="header"
-        animation={[
-          { x: 0, y: 0, duration: 200, type: 'from', opacity: 0, },
-          { x: 0, y: 0, opacity: 1 },
-        ]}
+      // <Layout.Header style={{ position: 'fixed', zIndex: 1, width: '100%', backgroundColor: "transparent" }}>
+        <TweenOne
+          component="header"
+          animation={[
+            { x: 0, y: 0, duration: 200, type: 'from', opacity: 0, },
+            { x: 0, y: 0, opacity: 1 },
+          ]}
 
-        {...dataSource.wrapper}
-        {...props}
-      >
-        <div
-          {...dataSource.page}
-          className={`${dataSource.page.className}${phoneOpen ? ' open' : ''}`}
+          {...dataSource.wrapper}
+          {...props}
         >
-          <TweenOne
-            animation={{ x: -30, type: 'from', ease: 'easeOutQuad' }}
-            {...dataSource.logo}
+          <div
+            {...dataSource.page}
+            className={`${dataSource.page.className}${phoneOpen ? ' open' : ''}`}
           >
-            <a href={dataSource.logo.children.href}>
-              <img width="100%" src={dataSource.logo.children.logo} alt="img" />
-            </a>
-          </TweenOne>
-          {isMobile && (
-            <div
-              {...dataSource.mobileMenu}
-              onClick={() => {
-                this.phoneClick();
-              }}
+            <TweenOne
+              animation={{ x: -30, type: 'from', ease: 'easeOutQuad' }}
+              {...dataSource.logo}
             >
-              <em />
-              <em />
-              <em />
-            </div>
-          )}
-          <TweenOne
-            {...dataSource.Menu}
-            animation={
-              isMobile
-                ? {
-                  x: 0,
-                  height: 0,
-                  duration: 300,
-                  onComplete: (e) => {
-                    if (this.state.phoneOpen) {
-                      e.target.style.height = 'auto';
-                    }
-                  },
-                  ease: 'easeInOutQuad',
-                }
-                : null
-            }
-            moment={moment}
-            reverse={!!phoneOpen}
-          >
-            <Menu
-              mode={isMobile ? 'inline' : 'horizontal'}
-              defaultSelectedKeys={
-                window.location.pathname === "/" || window.location.pathname === "/Home" ? ['item1'] :
-                  window.location.pathname === "/Service" ?
-                    ["item0"] : ["item2"]}
-              theme="light"
+              <a href={dataSource.logo.children.href}>
+                <img width="100%" src={dataSource.logo.children.logo} alt="img" />
+              </a>
+            </TweenOne>
+            {isMobile && (
+              <div
+                {...dataSource.mobileMenu}
+                onClick={() => {
+                  this.phoneClick();
+                }}
+              >
+                <em />
+                <em />
+                <em />
+              </div>
+            )}
+            <TweenOne
+              {...dataSource.Menu}
+              animation={
+                isMobile
+                  ? {
+                    x: 0,
+                    height: 0,
+                    duration: 300,
+                    onComplete: (e) => {
+                      if (this.state.phoneOpen) {
+                        e.target.style.height = 'auto';
+                      }
+                    },
+                    ease: 'easeInOutQuad',
+                  }
+                  : null
+              }
+              moment={moment}
+              reverse={!!phoneOpen}
             >
-              {navChildren}
-            </Menu>
-          </TweenOne>
-        </div>
-      </TweenOne>
+              <Menu
+                style={{ borderRadius: 20 }}
+                mode={isMobile ? 'inline' : 'horizontal'}
+                defaultSelectedKeys={
+                  window.location.pathname === "/" || window.location.pathname === "/Home" ? ['item1'] :
+                    window.location.pathname === "/Service" ?
+                      ["item0"] : ["item2"]}
+                theme="light"
+              >
+                {navChildren}
+              </Menu>
+            </TweenOne>
+          </div>
+        </TweenOne >
+      // </Layout.Header>
     );
   }
 }

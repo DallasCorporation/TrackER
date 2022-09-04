@@ -156,7 +156,7 @@ const DashboardRoute = () => {
     const [pathname, setPathname] = useState('/Dashboard');
     return (
         <ProLayout
-            //logo={<p></p>}
+        logo={<img onClick={() => navigate("/Dashboard")} src="https://res.cloudinary.com/dgfnyulqh/image/upload/v1658845429/nbnkxykkyymhethjdiek.jpg" alt="Tracker Logo" />}
             title="TrackER"
             {...defaultProps}
             location={{ pathname, }}

@@ -204,7 +204,7 @@ const CustomerDrawer = ({ visible, buildingId = "", setVisible, showWater = true
                 <Row>
                     <Col span={24}>
                         {/* <StreetMap lat={building.lat} lng={building.long} /> */}
-                        <div style={{ height: 300 }}>
+                        <div style={{ height: "400px" }}>
                             <MapboxMap lat={building.lat} lng={building.long} />
                         </div>
                         <Row style={{ marginTop: 22 }} gutter={[16, 16]} justify="space-between" align="middle">

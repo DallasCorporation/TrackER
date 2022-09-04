@@ -218,28 +218,28 @@ const Dashboard = () => {
                                 <Col span={24} style={{ height: "200px", textAlign: "center", marginTop: 12 }}>
                                     <p style={{ fontWeight: "300", fontSize: 17, color: "#1196db" }}>Total Solar Production</p>
                                     <span class="anticon iconfontMedium3" style={{ color: "#1196db" }}>&#xe65f;</span>
-                                    <Statistic loading={loadingRenew} value={totalSolar} suffix="Kw" precision={2} />
+                                    <Statistic loading={loadingRenew} value={totalSolar} suffix="kW" precision={2} />
                                 </Col>
                             </Row>
                             <Row justify="space-between" align="middle">
                                 <Col span={24} style={{ height: "200px", textAlign: "center", marginTop: 12 }}>
                                     <p style={{ fontWeight: "300", fontSize: 17, color: "#1196db" }}>Total Hydro Production</p>
                                     <span class="anticon iconfontMedium3" style={{ color: "#1196db" }}>&#xe650;</span>
-                                    <Statistic loading={loadingRenew} value={totalHydro} suffix="Kw" precision={2} />
+                                    <Statistic loading={loadingRenew} value={totalHydro} suffix="kW" precision={2} />
                                 </Col>
                             </Row>
                             <Row justify="space-between" align="middle">
                                 <Col span={24} style={{ height: "200px", textAlign: "center", marginTop: 12 }}>
                                     <p style={{ fontWeight: "300", fontSize: 17, color: "#1196db" }}>Total Windy Production</p>
                                     <span class="anticon iconfontMedium3" style={{ color: "#1196db" }}>&#xe661;</span>
-                                    <Statistic loading={loadingRenew} value={totalWind} suffix="Kw" precision={2} />
+                                    <Statistic loading={loadingRenew} value={totalWind} suffix="kW" precision={2} />
                                 </Col>
                             </Row>
                             <Row justify="space-between" align="middle">
                                 <Col span={24} style={{ height: "200px", textAlign: "center", marginTop: 12 }}>
                                     <p style={{ fontWeight: "300", fontSize: 17, color: "#1196db" }}>Total Geothermic Production</p>
                                     <span class="anticon iconfontMedium3" style={{ color: "#1196db" }}>&#xe64b;</span>
-                                    <Statistic loading={loadingRenew} value={totalGeo} suffix="Kw" precision={2} />
+                                    <Statistic loading={loadingRenew} value={totalGeo} suffix="kW" precision={2} />
                                 </Col>
                             </Row>
                         </CarouselWrapper>

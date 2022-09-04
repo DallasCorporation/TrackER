@@ -168,7 +168,7 @@ const ModalDetails = ({ visible = false, setVisible, building, bills, }) => {
         <Modal destroyOnClose visible={visible} onCancel={() => setVisible(false)} onOk={() => setVisible(false)} width={900} title={building.name + " Consume Overview"}>
             <div>
                 <Col span={24}>
-                    <div style={{ height: 300 }}>
+                    <div style={{ height: 400 }}>
                         {building.lat !== undefined && <MapboxMap lat={building.lat} lng={building.long} />}
                     </div>
                     <Row style={{ marginTop: 22 }} gutter={[16, 16]} justify="space-between" align="middle">

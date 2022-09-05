@@ -157,7 +157,7 @@ const Dashboard = () => {
             }
         });
         setUsers(tmp)
-    }, [organization])
+    }, [organization, buildings])
 
     return (
         <Layout

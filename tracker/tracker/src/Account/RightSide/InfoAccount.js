@@ -6,7 +6,7 @@ import { AccountSubTitle, AccountTitle, GreyParagraph } from "../../Components/C
 import { logout } from "../../reducers/user"
 import EditAccountModal from "./Modal/EditAccountModal"
 
-const InfoAccount = ({ user }) => {
+const InfoAccount = ({ user, socket }) => {
     const dispatch = useDispatch()
     const [visible, setVisible] = useState(false)
     return (
@@ -43,9 +43,13 @@ const InfoAccount = ({ user }) => {
             <Row justify="space-between" align="middle">
                 <AccountSubTitle>Exit</AccountSubTitle>
                 <Popconfirm
-                    icon={<InfoCircleFilled/>}
+                    icon={<InfoCircleFilled />}
                     title="Are you sure to Logout?"
-                    onConfirm={()=>dispatch(logout())}
+                    onConfirm={() => {
+                        dispatch(logout())
+                        socket?.emit("disconnect")
+                    }
+                    }
                     okText="Yes"
                     cancelText="No"
                 >

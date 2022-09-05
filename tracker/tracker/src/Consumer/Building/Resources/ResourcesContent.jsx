@@ -6,7 +6,7 @@ import api from "../../../api";
 import ContractModal from "./ContractModal";
 
 
-const ResourcesContent = ({ data, type, building }) => {
+const ResourcesContent = ({socket, data, type, building }) => {
     const allOrganization = useSelector(state => state.allOrganization.organization)
 
     const columns = [
@@ -119,7 +119,7 @@ const ResourcesContent = ({ data, type, building }) => {
                 request={() => getRenewable()}
                 columns={columns} search={false} dateFormatter="string"
             />
-            <ContractModal data={selected} visible={visible} setVisible={setVisible} buildingId={building._id} />
+            <ContractModal socket={socket} data={selected} visible={visible} setVisible={setVisible} buildingId={building._id} />
         </>
     )
 }

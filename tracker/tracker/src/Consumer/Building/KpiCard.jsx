@@ -19,8 +19,9 @@ const KpiCard = ({ bills, item }) => {
             return
         if (bills.all.length <= 0)
             return
-        let buildingBills = bills.all.find(el => el.buildingId === item._id).bills
-        buildingBills.map(el => {
+        let buildingBills = bills.all.find(el => el.buildingId === item._id)
+        buildingBills !== undefined &&
+        buildingBills.bills.map(el => {
             setElectric((old) => old + el.electric)
             setWater((old) => old + el.water)
             setGas((old) => old + el.gas)

@@ -1,13 +1,14 @@
-import { Avatar, Col, Dropdown, Menu, Row, Space } from "antd";
-import React from "react";
+import { Avatar, Badge, Col, Dropdown, List, Menu, notification, Row, Space, Typography } from "antd";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AvatarHover, LinkHover } from "../../Components/CustomComponents";
 import { logout } from "../../reducers/user";
 
-const Header = ({ avatar }) => {
+const Header = ({ avatar, socket }) => {
     const dispatch = useDispatch()
     const user = useSelector((state) => state.user.user)
     const type = user.type
+
     const menu = (
         <Menu
             style={{ borderRadius: 10 }}
@@ -67,7 +68,10 @@ const Header = ({ avatar }) => {
                         {
                             key: '3-1',
                             label: (
-                                <div onClick={() => dispatch(logout())}>Logout</div>
+                                <div onClick={() => {
+                                    dispatch(logout())
+                                    socket?.emit("disconnect")
+                                }}>Logout</div>
                             ),
                         }],
                     label: <h3 >Exit Profile</h3>,
@@ -75,7 +79,7 @@ const Header = ({ avatar }) => {
             ]}
         />
     );
-    
+
     return (
         <Row justify="center" style={{ marginTop: "15px", }}>
             <Row style={{ fontWeight: 500, width: "95%", backgroundColor: "white", borderRadius: "10px", paddingRight: 30, paddingLeft: 30, height: 50 }} align="middle" justify="space-between">
@@ -97,6 +101,13 @@ const Header = ({ avatar }) => {
                             <AvatarHover size={"default"} src={avatar} />
                         </Row>
                     </Dropdown>
+                    {/* <Dropdown overlay={menuNotification} placement="bottomRight" overlayStyle={{ borderRadius: 10 }}>
+                        <Col style={{ borderRadius: 10, height: 40, width: 40, background: "#ebfafa", textAlign: "center", marginRight: 5 }}>
+                            <Badge count={notification.length} showZero>
+                                <span class="anticon iconfont" style={{ color: "blue", verticalAlign: "baseline" }} >&#x100e4;</span>
+                            </Badge>
+                        </Col>
+                    </Dropdown> */}
                 </Space>
             </Row>
         </Row>

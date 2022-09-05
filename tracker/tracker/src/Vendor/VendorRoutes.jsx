@@ -1,6 +1,6 @@
 import { GithubOutlined } from "@ant-design/icons";
 import { DefaultFooter, ProLayout } from "@ant-design/pro-components";
-import { Avatar, Col, Row } from "antd";
+import { Avatar, Button, Col, notification, Row } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes, useNavigate } from "react-router-dom";
@@ -20,15 +20,83 @@ import Gas from "./Pages/Gas";
 import Water from "./Pages/Water";
 import Resources from "./Pages/Resources";
 import { setAllBuildings } from "../reducers/allOrganization";
+import { io } from "socket.io-client"
 
 
 const DashboardRoute = () => {
+    const [socket, setSocket] = useState(null)
     let navigate = useNavigate();
     const user = useSelector((state) => state.user.user)
+    const allUser = useSelector((state) => state.allUser.user)
     const organization = useSelector((state) => state.organization.organization)
     const edited = organization !== null ? organization.type.length : 0
     const icon = organization !== null ? organization.icon : ""
     const [bills, setBills] = useState([])
+
+
+
+    useEffect(() => {
+        setSocket(io("http://localhost:3002"))
+    }, []);
+
+    useEffect(() => {
+        if (socket === null || organization === null) return
+        socket.emit("newUser", organization._id);
+    }, [socket, user, organization]);
+
+    const getName = (id, msg) => {
+        let user = allUser.find(el => el._id === id)
+        return (
+            <Row>
+                <Col span={24}>
+                    <p><b>{user.name + " " + user.surname}</b> {msg}</p>
+                </Col>
+            </Row>
+        )
+    }
+
+    useEffect(() => {
+        socket?.on("getNotification", (data) => {
+            const key = `open${Date.now()}`
+            data.type === "New" &&
+                notification.open({
+                    key,
+                    duration: 0,
+                    icon: <div style={{ paddingTop: 10 }}>
+                        <span class="anticon iconfontMedium2" style={{ marginTop: 32, color: "blue", verticalAlign: "baseline" }} >&#x100e4;</span>
+                    </div>,
+                    message: "A New Building has added to your Organization!",
+                    description: getName(data.sender, data.msg),
+                    className: 'custom-class',
+                    btn: <Button type="primary" style={{ borderRadius: 20 }} onClick={() => notification.close(key)}>Got it</Button>,
+                    style: {
+                        width: 500,
+                        height: 150,
+                        borderRadius: 20,
+                    },
+                });
+
+            data.type === "Renewable" &&
+                notification.open({
+                    key,
+                    duration: 0,
+                    icon: <div style={{ paddingTop: 10 }}>
+                        <span class="anticon iconfontMedium2" style={{ marginTop: 32, color: "blue", verticalAlign: "baseline" }} >&#xe927;</span>
+                    </div>,
+                    message: "A Building has mounted an Energy Device!",
+                    description: getName(data.sender, data.msg),
+                    className: 'custom-class',
+                    btn: <Button type="primary" style={{ borderRadius: 20 }} onClick={() => notification.close(key)}>Got it</Button>,
+                    style: {
+                        width: 500,
+                        height: 150,
+                        borderRadius: 20,
+                    },
+                });
+
+        });
+    }, [socket]);
+
 
     const dispatch = useDispatch()
     const fetchPreference = async () => {
@@ -152,18 +220,102 @@ const DashboardRoute = () => {
             pathname: '/',
         },
     };
+    const [width, setWidth] = useState(window.innerWidth);
+    const handleWindowSizeChange = () => {
+        setWidth(window.innerWidth);
+    }
+    useEffect(() => {
+        window.addEventListener('resize', handleWindowSizeChange);
+        return () => {
+            window.removeEventListener('resize', handleWindowSizeChange);
+        }
+    }, []);
     const settings = { fixSiderbar: true, };
     const [pathname, setPathname] = useState('/Dashboard');
     return (
         <ProLayout
-        logo={<img onClick={() => navigate("/Dashboard")} src="https://res.cloudinary.com/dgfnyulqh/image/upload/v1658845429/nbnkxykkyymhethjdiek.jpg" alt="Tracker Logo" />}
+            logo={<img onClick={() => navigate("/Dashboard")} src="https://res.cloudinary.com/dgfnyulqh/image/upload/v1658845429/nbnkxykkyymhethjdiek.jpg" alt="Tracker Logo" />}
             title="TrackER"
             {...defaultProps}
             location={{ pathname, }}
             navTheme="light"
             menu={{ defaultOpenAll: edited !== 0 }}
             waterMarkProps={{ content: 'TrackER', }}
-            headerRender={() => <Header avatar={icon} />}
+            headerRender={() => width >= 768 ? <Header socket={socket} avatar={icon} /> :
+                <ProLayout
+                    logo={<img onClick={() => navigate("/Dashboard")} src="https://res.cloudinary.com/dgfnyulqh/image/upload/v1658845429/nbnkxykkyymhethjdiek.jpg" alt="Tracker Logo" />}
+                    title="TrackER"
+                    {...defaultProps}
+                    location={{ pathname, }}
+                    navTheme="light"
+                    menu={{ defaultOpenAll: edited !== 0 }}
+                    waterMarkProps={{ content: 'TrackER', }}
+                    footerRender={() =>
+                        <DefaultFooter style={{ backgroundColor: "#f7fafd", }}
+                            copyright="2022 by TrackER"
+                            links={[
+                                {
+                                    key: 'github',
+                                    title: <GithubOutlined />,
+                                    href: 'https://github.com/DallasCorporation/TrackER',
+                                    blankTarget: true,
+                                },]}
+                        />
+                    }
+                    menuFooterRender={(props) => {
+                        return (
+                            <Row
+                                justify="center"
+                                style={{ marginBottom: 20 }}
+                                gutter={[16, 16]}
+                            >
+                                <Col style={{ alignSelf: "center" }}>
+                                    <Avatar size={40} src={icon} />
+                                </Col>
+                                {!props.collapsed &&
+                                    <Col style={{ alignSelf: "center", }}>
+                                        <div>{user.name} {user.surname} <br></br>
+                                            <LinkHover to="/Profile/Edit" >View Profile</LinkHover>
+                                        </div>
+                                    </Col>
+                                }
+                            </Row>
+                        );
+                    }}
+                    menuItemRender={(item, dom) => (
+                        <p
+                            onClick={() => {
+                                setPathname(item.path || '/Dashboard');
+                                navigate(item.path, { replace: true });
+                            }}
+                        >
+                            {dom}
+                        </p>
+                    )}
+                    {...settings}
+                >
+                    {organization !== null && organization.type.length === 0 ? <CompleteOrganization />
+                        : organization !== null &&
+                        <Routes >
+                            <Route path="*" element={<Dashboard user={user} />} />
+                            <Route path="/Dashboard" element={<Dashboard user={user} />} />
+                            <Route path="/Electric" element={<Electric user={user} bills={bills} cost={organization.details.electric} />} />
+                            <Route path="/Gas" element={<Gas user={user} bills={bills} cost={organization.details.gas} />} />
+                            <Route path="/Water" element={<Water user={user} bills={bills} cost={organization.details.water} />} />
+                            <Route path="/Resources" element={<Resources user={user} bills={bills} />} />
+                            <Route path="/Customers" element={<Customers organization={organization} avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                            <Route path="/Edit" element={<EditPlan organization={organization} avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                            <Route path="/Profile/Edit" element={<Account socket={socket} avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                            <Route path="/Profile/Notification" element={<Account socket={socket} avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                            <Route path="/Profile/Activity" element={<Account socket={socket} avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                            <Route path="/Profile/Security" element={<Account socket={socket} avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                            <Route path="/Profile/Password" element={<Account socket={socket} avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                        </Routes>
+                    }
+                </ProLayout >
+
+
+            }
             footerRender={() =>
                 <DefaultFooter style={{ backgroundColor: "#f7fafd", }}
                     copyright="2022 by TrackER"
@@ -209,7 +361,7 @@ const DashboardRoute = () => {
             {...settings}
         >
             {organization !== null && organization.type.length === 0 ? <CompleteOrganization />
-                : organization!== null &&
+                : organization !== null &&
                 <Routes >
                     <Route path="*" element={<Dashboard user={user} />} />
                     <Route path="/Dashboard" element={<Dashboard user={user} />} />
@@ -219,11 +371,11 @@ const DashboardRoute = () => {
                     <Route path="/Resources" element={<Resources user={user} bills={bills} />} />
                     <Route path="/Customers" element={<Customers organization={organization} avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
                     <Route path="/Edit" element={<EditPlan organization={organization} avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
-                    <Route path="/Profile/Edit" element={<Account avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
-                    <Route path="/Profile/Notification" element={<Account avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
-                    <Route path="/Profile/Activity" element={<Account avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
-                    <Route path="/Profile/Security" element={<Account avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
-                    <Route path="/Profile/Password" element={<Account avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                    <Route path="/Profile/Edit" element={<Account socket={socket} avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                    <Route path="/Profile/Notification" element={<Account socket={socket} avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                    <Route path="/Profile/Activity" element={<Account socket={socket} avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                    <Route path="/Profile/Security" element={<Account socket={socket} avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
+                    <Route path="/Profile/Password" element={<Account socket={socket} avatar={icon} user={user} updateRoute={(val) => { setPathname(val); navigate(val) }} />} />
                 </Routes>
             }
         </ProLayout >

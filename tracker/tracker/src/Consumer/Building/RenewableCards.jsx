@@ -126,6 +126,7 @@ const RenewableCards = ({ item, bills, resources }) => {
         setDeviceCost(0)
         setAllBills([])
         let resArray = resources.map(el => Object.keys(el)[0])
+        if(bills===null || Object.keys(bills).length===0)
         if (bills.all === undefined)
             return []
         let test = bills.all.find(el => el.buildingId === item._id)

@@ -8,7 +8,7 @@ import { updatePreference } from "../../reducers/preference"
 import { logout } from "../../reducers/user"
 import LoadingSpinner from "../../Components/LoadingSpinner"
 
-const SecuritySettings = ({ user, updateRoute }) => {
+const SecuritySettings = ({ user, updateRoute, socket }) => {
 
     const dispatch = useDispatch()
     const [show, setShow] = useState(false)
@@ -17,7 +17,7 @@ const SecuritySettings = ({ user, updateRoute }) => {
         await api.preference.updatePreference(user._id, { activityLog: value }).then(data => {
             dispatch((updatePreference(data)))
             message.success("Update Activity Log Preference")
-        }).catch(err=> message.error("Error on Update Preference"))
+        }).catch(err => message.error("Error on Update Preference"))
     }
     const deleteAccount = async () => {
         await api.user.delete(user._id)
@@ -25,6 +25,7 @@ const SecuritySettings = ({ user, updateRoute }) => {
         setTimeout(() => {
             message.success('Account deleted');
             dispatch((logout()))
+            socket?.emit("disconnect")
             setShow(false)
         }, 5000);
     }

@@ -198,8 +198,8 @@ const getBillsRenewableOnly = asyncHandler(async (req, res) => {
   const bills = await billsModel.findOne({ buildingId: (req.params.id) })
   let totalSolar = 0, totalWind = 0, totalGeo = 0, totalHydro = 0
   if (!bills) {
-    res.status(400)
-    throw new Error('User not found')
+    res.status(400).json({renewable:[], totalSolar:0, totalWind:0, totalGeo:0, totalHydro:0})
+    throw new Error('Bills not found')
   }
 
   let renewable = Object.values(bills.bills).map(el => {

@@ -77,3 +77,11 @@ h6,
     max-width: 60px !important;
     width: 60px !important;
 }
+
+.ant-notification-notice-btn {
+    margin-top: 0 !important;
+}
+
+.ant-notification-notice-icon {
+    margin-left: 0px !important;
+}

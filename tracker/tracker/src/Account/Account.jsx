@@ -11,7 +11,7 @@ import AvatarDrawer from "./AvatarDrawer";
 import AccountNotification from "./RightSide/AccountNotification";
 import OrganizationDrawer from "./OrganizationDrawer";
 
-const Account = ({ updateRoute, user, avatar }) => {
+const Account = ({ updateRoute, user, avatar, socket }) => {
     const navigate = useNavigate()
     function getItem(label, key, icon, children, type, style) {
         return {
@@ -94,10 +94,10 @@ const Account = ({ updateRoute, user, avatar }) => {
                         <Space type="vertical" style={{ width: "100%" }} />
                     </Col>
                     <Col md={18} sm={24} >
-                        {location.pathname === "/Profile/Edit" && <InfoAccount user={user} />}
+                        {location.pathname === "/Profile/Edit" && <InfoAccount socket={socket} user={user} />}
                         {location.pathname === "/Profile/Notification" && <AccountNotification user={user} />}
                         {location.pathname === "/Profile/Activity" && <AccountActivity user={user} />}
-                        {location.pathname === "/Profile/Security" && <SecuritySettings user={user} updateRoute={() => updateRoute("/Profile/Password")} />}
+                        {location.pathname === "/Profile/Security" && <SecuritySettings socket={socket} user={user} updateRoute={() => updateRoute("/Profile/Password")} />}
                         {location.pathname === "/Profile/Password" && <ChangePassword user={user} />}
                     </Col>
                 </Row>

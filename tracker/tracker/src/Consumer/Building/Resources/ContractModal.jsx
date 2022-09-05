@@ -1,11 +1,12 @@
 import { EditOutlined, SettingOutlined, SolutionOutlined } from "@ant-design/icons"
 import { Checkbox, Col, Collapse, message, Modal, PageHeader, Row } from "antd"
 import { useState } from "react"
+import { useSelector } from "react-redux"
 import api from "../../../api"
 import { eula, privacy } from "./utils"
 
-const ContractModal = ({ visible, setVisible, data, buildingId }) => {
-
+const ContractModal = ({ socket, visible, setVisible, data, buildingId }) => {
+    const user = useSelector(state => state.user.user)
     const [check1, setCheck1] = useState(false)
     const [check2, setCheck2] = useState(false)
 
@@ -31,7 +32,10 @@ const ContractModal = ({ visible, setVisible, data, buildingId }) => {
                     break;
             }
             await api.buildings.updateBuildingResources(buildingId, { resource: obj })
-            await api.renewable.updateResourcesBuildings(data._id, { building: buildingId }).then(() => message.success("Devices Request Submitted!"))
+            await api.renewable.updateResourcesBuildings(data._id, { building: buildingId }).then(() => {
+                socket.emit("newRenewable", { sender: user._id, receiver: data.organizationId })
+                message.success("Devices Request Submitted!")
+            })
         }
         else
             message.error("You have to accept both condition to submit this request")

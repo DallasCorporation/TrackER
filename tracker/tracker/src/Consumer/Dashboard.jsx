@@ -27,8 +27,6 @@ function importAll(r) {
 const component = require.context('../assets/avatars/', false, /\.svg/)
 const images = importAll(component);
 
-
-
 const getData = (data) => {
   if (data === undefined) return []
   if (Object.keys(data).length === 0) return []

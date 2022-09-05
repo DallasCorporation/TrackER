@@ -6,7 +6,7 @@ import api from "../../api"
 
 const BuildingsProductionCard = () => {
     const buildings = useSelector(state => state.buildings.buildings)
-    const [resourceApi, setResourceApi] = useState({})
+    const [resourceApi, setResourceApi] = useState([])
     const [build, setBuild] = useState({})
     const [bills, setBills] = useState({})
 
@@ -19,9 +19,6 @@ const BuildingsProductionCard = () => {
         await api.bills.getBillsRenewable(id).then(res => setBills(res))
     }
 
-    useEffect(() => {
-        fetchResources(build)
-    }, [build])
 
     const renderIcon = (building) => {
         switch (building.type) {
@@ -97,23 +94,21 @@ const BuildingsProductionCard = () => {
 
     const renderData = (building) => {
         fetchResources(building)
-        let totPrice = resourceApi.earning * getTotal(resourceApi.resourcesType)
-        return (
-            Object.keys(resourceApi).length !== 0 &&
-            Object.keys(bills).length !== 0 &&
-            <Row>
+        return resourceApi.map(resources => {
+            let totPrice = resources.earning * getTotal(resources.resourcesType)
+            return (
+                Object.keys(resources).length !== 0 && Object.keys(bills).length !== 0 &&
                 <Col span={12}>
                     <Card style={{ borderRadius: "20px", boxShadow: "0 2px 10px rgba(0,0,0,0.2)" }} title={getIcon(resourceApi)}>
                         <Row justify="space-around" align="top">
-                            <Statistic title={`Total Production`} value={getTotal(resourceApi.resourcesType)} suffix={"kWh"} precision={2} />
+                            <Statistic title={`Total ${resources.resourcesType} Production`} value={getTotal(resources.resourcesType)} suffix={"kWh"} precision={2} />
                             <Statistic title={`Total Earnings`} value={totPrice} suffix={"€"} precision={2} />
                         </Row>
                     </Card>
                 </Col>
-            </Row>
-        )
+            )
+        })
     }
-
 
     return (
         <Layout
@@ -132,11 +127,11 @@ const BuildingsProductionCard = () => {
             />
             <Card style={{ borderRadius: 20, marginBottom: 32, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
                 {Object.keys(buildings).length === 0 ?
-                    <Empty description="No data to show"/>
+                    <Empty description="No data to show" />
                     :
-                    <Tabs>
-                        {buildings.map((el, index) =>
-                            <Tabs.TabPane tab={<>{renderIcon(el)}</>} key={index}>
+                    <Tabs onChange={(el) => { setBuild(el) }}>
+                        {buildings.map((el) =>
+                            <Tabs.TabPane tab={<>{renderIcon(el)}</>} key={el._id}>
                                 {el.resources.length === 0 ?
                                     <Empty
                                         image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
@@ -144,7 +139,9 @@ const BuildingsProductionCard = () => {
                                         description={<span>  This building has <a>NO resources installed</a> yet</span>}
                                     >
                                     </Empty> :
-                                    renderData(el._id)
+                                    <Row justify="space-between" align="top" gutter={[32, 32]}>
+                                        {renderData(el._id)}
+                                    </Row>
                                 }
                             </Tabs.TabPane>
                         )}

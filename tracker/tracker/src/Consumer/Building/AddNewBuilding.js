@@ -15,7 +15,7 @@ import { ExpandAltOutlined } from '@ant-design/icons';
 import "./style.css"
 import { useNavigate } from "react-router-dom";
 
-const AddNewBuildings = ({ user }) => {
+const AddNewBuildings = ({ user, socket }) => {
     const dispatch = useDispatch()
     const [options, setOptions] = useState([])
     const [name, setName] = useState("")
@@ -69,6 +69,8 @@ const AddNewBuildings = ({ user }) => {
     }
 
     const addBuilding = async () => {
+        if (name === "" || contact === "" || address === "" || sqft === "" || type === "" || organizationId === [])
+            message.error("Fill the form to submit a building")
         let data = {
             name,
             contact,
@@ -84,13 +86,11 @@ const AddNewBuildings = ({ user }) => {
         let customers = orgCopy.customers
         setShow(true)
         await api.buildings.addBuilding(data).then(async res => {
-            // await api.organization.update(organizationId, { customers: { ...customers, user: user._id, building: res._id } })
-            //     .then((data1) => {
             setTimeout(() => {
                 setShow(false)
                 message.success("Building created!")
+                socket.emit("newBuilding", { sender: user._id, receiver: organizationId })
             }, 1000);
-            // })
         }).catch(err => {
             console.log(err)
             setTimeout(() => {

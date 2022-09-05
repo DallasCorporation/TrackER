@@ -11,7 +11,7 @@ import MapboxMap from "./MapboxMap";
 import RenewableCards from "./RenewableCards";
 import ResourcesModal from "./Resources/ResourcesModal";
 
-const BuildingCard = ({ bills, item, setIsModalVisible, setContact, setName, setAddress, setType, setBuildingId, deleteBuilding, showBills, getData }) => {
+const BuildingCard = ({ socket, bills, item, setIsModalVisible, setContact, setName, setAddress, setType, setBuildingId, deleteBuilding, showBills, getData }) => {
     const [collapse, setCollapse] = useState(false)
     const [visible, setVisible] = useState(false)
     const [avatar, setAvatar] = useState("")
@@ -84,7 +84,7 @@ const BuildingCard = ({ bills, item, setIsModalVisible, setContact, setName, set
                         key="1">
                         <Row justify="space-between" style={{ marginBottom: "32px", padding: "32px" }} gutter={[32, 32]}>
                             <Col span={24}>
-                                <KpiCard bills={bills} item={item}/>
+                                <KpiCard bills={bills} item={item} />
                             </Col>
                             <Divider />
                             {showBills("Electric", item.organizationId) &&
@@ -113,7 +113,7 @@ const BuildingCard = ({ bills, item, setIsModalVisible, setContact, setName, set
                     </Collapse.Panel>
                 </Collapse>
             </Card>
-            <ResourcesModal building={item} visible={visible} setVisible={setVisible} data={item.resources} />
+            <ResourcesModal socket={socket} building={item} visible={visible} setVisible={setVisible} data={item.resources} />
         </div>
     )
 }

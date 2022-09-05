@@ -18,7 +18,7 @@ import BuildingCard from "./BuildingCard";
 const { Option } = Select;
 const { Search } = Input;
 
-const BuildingTab = ({ updateRoute }) => {
+const BuildingTab = ({ updateRoute, socket }) => {
     const buildings = useSelector((state) => state.buildings.buildings)
     const user = useSelector((state) => state.user.user)
     const allOrg = useSelector((state) => state.allOrganization.organization)
@@ -188,11 +188,11 @@ const BuildingTab = ({ updateRoute }) => {
                         </Empty>
                     </Card>
                     :
-                    buildingsFilter.map((item) => <BuildingCard key={item._id} bills={bills} deleteBuilding={deleteBuilding} getData={getData} setAddress={setAddress} setBuildingId={setBuildingId} setContact={setContact} item={item} setIsModalVisible={setIsModalVisible} setName={setName} setType={setType} showBills={showBills} />)
+                    buildingsFilter.map((item) => <BuildingCard socket={socket} key={item._id} bills={bills} deleteBuilding={deleteBuilding} getData={getData} setAddress={setAddress} setBuildingId={setBuildingId} setContact={setContact} item={item} setIsModalVisible={setIsModalVisible} setName={setName} setType={setType} showBills={showBills} />)
             }
             <EditBuildingModal setName={(val) => setName(val)} setContact={(val) => setContact(val)} setType={(val) => setType(val)}
                 buildingId={buildingId} name={name} contact={contact} address={address} type={type} visible={isModalVisible} setVisible={() => setIsModalVisible(false)} updateBuilding={() => updateBuilding(buildingId)} />
         </Layout >
     );
 }
-export default ({ updateRoute }) => <BuildingTab updateRoute={() => updateRoute()} />
+export default ({ updateRoute, socket }) => <BuildingTab socket={socket} updateRoute={() => updateRoute()} />

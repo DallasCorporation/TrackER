@@ -40,6 +40,8 @@ Inside **server** install the dependecies for the app with the command:
 
 `$ npm install`
 
+![cd2eca9ae719e65956103b434c373239a953fa39](https://user-images.githubusercontent.com/71103219/188493705-7bdae70d-bb86-4f04-9e0f-13345cdf29c6.gif)
+
 
 
 Move to **tracker** and also here install the dependecies for the app with the same command:
@@ -48,15 +50,17 @@ Move to **tracker** and also here install the dependecies for the app with the s
 
 `$ npm install`
 
+![d23049f52b27f00bf6580700b4680274be2eb88a](https://user-images.githubusercontent.com/71103219/188494558-38b30f33-c5da-4178-8231-9a83527d5f50.gif)
 
 
 Start the backend server:
 
 `$ cd server`
 
-`$ npm start`
+`$ npm run dev`
 
 
+![dd7400b4a13d32f7fef6d1d6921e5787d3916f17](https://user-images.githubusercontent.com/71103219/188494696-a6a9b211-7793-419f-9b7f-d9844396bce4.gif)
 
 Start the frontend server via a new shell:
 
@@ -65,8 +69,9 @@ Start the frontend server via a new shell:
 `$ npm start`
 
 
-
 The frontend server will detect that another app (server) is running on the standard port 3000 and will ask if you want to start on a different port. **Select Yes (Y)**
+
+![acb192396fb1a36f59db826f778fef64baafd499](https://user-images.githubusercontent.com/71103219/188494025-e7d65609-4d73-4ef2-b6a4-df71aa795e74.gif)
 
 :tada: Enjoy the TrackER app on your machine!
 

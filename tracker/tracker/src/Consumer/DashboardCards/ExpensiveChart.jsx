@@ -36,7 +36,6 @@ const ExpensiveChart = ({ bills }) => {
             dataLabels: {
                 enabled: false
             },
-            // colors: ["#ffcf45", "#008ffb", "#19e396",],
             colors: ['#022cf7', '#55b1f3', '#1be7ff'],
             plotOptions: {
                 pie: {
@@ -87,28 +86,18 @@ const ExpensiveChart = ({ bills }) => {
     const [showModal, setModal] = useState()
     const [showDrawer, setDrawer] = useState()
     const navigate = useNavigate()
-    const allOrganization = useSelector((state) => state.allOrganization.organization)
     const [gasDetail, setGas] = useState({})
     const [waterDetail, setWater] = useState({})
     const [electricDetail, setElectric] = useState({})
 
     useEffect(() => {
-        if (allOrganization === null || allOrganization === undefined || bills === undefined)
-            return
         if (bills.all === null || bills.all === undefined)
             return
         if (bills.all.length <= 0)
             return
-        if (Object.values(bills).length !== 0) {
-            let organizationDetail = Object.values(allOrganization).find(el => el._id === bills.all[0].organizationId)
-            if (organizationDetail !== undefined) {
-                setGas(organizationDetail.details.gas)
-                setWater(organizationDetail.details.water)
-                setElectric(organizationDetail.details.electric)
-            }
-        }
 
-    }, [allOrganization, bills])
+
+    }, [bills])
 
     const names = [
         {

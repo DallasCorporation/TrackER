@@ -21,7 +21,6 @@ const { Search } = Input;
 const BuildingTab = ({ updateRoute, socket }) => {
     const buildings = useSelector((state) => state.buildings.buildings)
     const user = useSelector((state) => state.user.user)
-    const allOrg = useSelector((state) => state.allOrganization.organization)
     const dispatch = useDispatch()
     const [show, setShow] = useState(false)
     const [bills, setBills] = useState([])
@@ -77,10 +76,6 @@ const BuildingTab = ({ updateRoute, socket }) => {
             data: data
         }]
         return series
-    }
-
-    const showBills = (type, orgId) => {
-        return allOrg.find(el => el._id === orgId).type.includes(type)
     }
 
     const renderItem = () => {
@@ -149,46 +144,16 @@ const BuildingTab = ({ updateRoute, socket }) => {
                 subTitle="Browse and check your buildings"
                 onBack={() => navigate("/Dashboard")}
             />
-            <Row style={{ width: "100%" }}>
-                <Input.Group compact>
-                    <Select
-                        onChange={(val) => setFilter(val)}
-                        defaultValue="Address"
-                        style={{ width: "35%" }}
-                    >
-                        <Option value="Address">Address</Option>
-                        <Option value="Building">Building</Option>
-                    </Select>
-                    <AutoComplete
-                        allowClear
-                        onClear={() => {
-                            setBuildingsFilter(buildings)
-                            window.scroll(0, 0)
-                        }}
-                        style={{ width: "65%" }}
-                        dataSource={renderItem()}
-                        onSelect={(d, da) => renderBuildings(da.value)}
-                    >
-                        <Search placeholder="Search by Name"
-                        />
-                    </AutoComplete>
-                </Input.Group>
-            </Row>
             {
                 buildingsFilter === null || buildingsFilter.length === 0 ?
                     <Card style={{ marginTop: "32px" }}>
                         <Empty
                             description="No Buildings found..."
                         >
-                            <Button style={{ height: 40, borderRadius: 8 }} type="primary" onClick={() => {
-                                updateRoute("/building/New")
-                            }}>
-                                Add a new Building to your account!
-                            </Button>
                         </Empty>
                     </Card>
                     :
-                    buildingsFilter.map((item) => <BuildingCard socket={socket} key={item._id} bills={bills} deleteBuilding={deleteBuilding} getData={getData} setAddress={setAddress} setBuildingId={setBuildingId} setContact={setContact} item={item} setIsModalVisible={setIsModalVisible} setName={setName} setType={setType} showBills={showBills} />)
+                    buildingsFilter.map((item) => <BuildingCard socket={socket} key={item._id} bills={bills} deleteBuilding={deleteBuilding} getData={getData} setAddress={setAddress} setBuildingId={setBuildingId} setContact={setContact} item={item} setIsModalVisible={setIsModalVisible} setName={setName} setType={setType} />)
             }
             <EditBuildingModal setName={(val) => setName(val)} setContact={(val) => setContact(val)} setType={(val) => setType(val)}
                 buildingId={buildingId} name={name} contact={contact} address={address} type={type} visible={isModalVisible} setVisible={() => setIsModalVisible(false)} updateBuilding={() => updateBuilding(buildingId)} />

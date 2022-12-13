@@ -1,10 +1,12 @@
-import { Button, Col, Row } from "antd";
+import { Button, Col, Modal, Row } from "antd";
 import { ProCard } from "@ant-design/pro-components";
 import React from "react";
 import { CardTitle } from "../../Components/CustomComponents";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 const DownloadCard = ({ ...props }) => {
     const navigate = useNavigate()
+    const [visible, setVisible]= useState()
     return (
         <ProCard bordered style={{
             borderRadius: "10px",
@@ -18,7 +20,7 @@ const DownloadCard = ({ ...props }) => {
                     <CardTitle style={{ color: "white", whiteSpace: "pre-wrap" }}>
                         {"Save and improve your Energy now!\nCheck our Organizations and\nBoost Your Energy"}
                     </CardTitle>
-                    <Button onClick={() => navigate("/Organizations")} type="default" style={{ fontSize: 15, textTransform: "none", borderRadius: "6px", marginTop: "22px", marginLeft: "5px", color: "blue" }}>View</Button>
+                    <Button onClick={() => navigate("/Organizations")} type="default" style={{ fontSize: 15, textTransform: "none", borderRadius: "6px", marginTop: "22px", marginLeft: "5px", color: "blue" }}>Learn More</Button>
                 </Col>
                 <img
                     alt=""
@@ -31,6 +33,9 @@ const DownloadCard = ({ ...props }) => {
                     }}
                     src="http://yoda.hypeople.studio/yoda-admin-template/react/static/media/analytics-download-vector.614c5d22.svg" />
             </Row>
+            <Modal onCancel={()=> setVisible(false)}>
+                <p>Bla bla bla</p>
+            </Modal>
         </ProCard>
     )
 };

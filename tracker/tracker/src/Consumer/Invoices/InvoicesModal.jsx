@@ -7,26 +7,13 @@ import GasInvoices from "./GasInvoices";
 import WaterInvoices from "./WaterInvoices";
 const { TabPane } = Tabs;
 
-const InvoicesModal = ({ data, visible, setVisible, timespan, building }) => {
+const InvoicesModal = ({ data, visible, setVisible, timespan }) => {
     let elec = []
     let gas = []
     let water = []
-    const allOrganization = useSelector((state) => state.allOrganization.organization)
     const [gasDetail, setGas] = useState({})
     const [waterDetail, setWater] = useState({})
     const [electricDetail, setElectric] = useState({})
-
-    useEffect(() => {
-        let organizationDetail = Object.values(allOrganization).find(el => el._id === building.organizationId)
-        if (organizationDetail !== undefined) {
-            setGas(organizationDetail.details.gas)
-            setWater(organizationDetail.details.water)
-            setElectric(organizationDetail.details.electric)
-            elec = []
-            gas = []
-            water = []
-        }
-    }, [allOrganization, building])
 
 
     data.bills?.forEach(el => {

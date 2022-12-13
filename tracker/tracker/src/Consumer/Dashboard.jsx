@@ -1,4 +1,4 @@
-import { Avatar, Col, Layout, Row, } from "antd";
+import { Col, Layout, Row, } from "antd";
 import React, { useEffect } from "react";
 import BannerCard from "./DashboardCards/BannerCard";
 import ReactApexChart from "react-apexcharts";
@@ -6,9 +6,6 @@ import LineCard from "./DashboardCards/LineCard";
 import StatsCard from "./DashboardCards/StatsCard";
 import { statebar } from "./utils";
 import ExpensiveChart from "./DashboardCards/ExpensiveChart";
-import { ProCard } from "@ant-design/pro-components";
-import { ArrowRightOutlined } from "@ant-design/icons";
-import TableCard from "./DashboardCards/TableCard";
 import RevenueCard from "./DashboardCards/RevenueCard";
 import EarningsCard from "./DashboardCards/EarningsCard";
 import DownloadCard from "./DashboardCards/DowloadCard";
@@ -74,24 +71,20 @@ const getData = (data) => {
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user)
   const buildings = useSelector((state) => state.buildings.buildings)
-  const organization = useSelector((state) => state.organization.organization)
   const [bills, setBills] = useState({})
   const [gas, setGas] = useState({})
   const [water, setWater] = useState({})
   const [electric, setElectric] = useState({})
   const day = moment().subtract(31, 'days');
-  const [renewable, setRenewable] = useState([])
   const [solar, setSolar] = useState({})
   const [wind, setWind] = useState({})
   const [hydro, setHydro] = useState({})
   const [geo, setGeo] = useState({})
   const [totalRen, setTotalRen] = useState(0)
 
-  let navigate = useNavigate();
 
   const getBillsRenewable = async (id) => {
     await api.bills.getBillsRenewable(id).then(res => {
-      setRenewable((old) => [...old, { res, id }])
       let type = Object.values(buildings).filter(el => el._id === id)
       let sumSolar = 0
       let sumWind = 0
@@ -135,7 +128,7 @@ const Dashboard = () => {
       let sumGas = 0
       let sumWater = 0
       let sumElectric = 0
-      billDates.map(el => {
+      billDates.forEach(el => {
         if (moment(el.date).isSame(oldMoment, "day")) {
           sumWater = +sumWater + +el.water
           sumElectric = +sumElectric + +el.electric
@@ -165,11 +158,11 @@ const Dashboard = () => {
   }
 
   useEffect(() => {
-    if (buildings === null || buildings === undefined)
-      return
-    let ids = Object.values(buildings).filter(el => el.resources.length !== 0).map(el => el._id)
+    // if (buildings === null || buildings === undefined)
+    //   return
+    // let ids = Object.values(buildings).filter(el => el.resources.length !== 0).map(el => el._id)
     getBillsAggregated(user._id)
-    ids.forEach(id => getBillsRenewable(id))
+    // ids.forEach(id => getBillsRenewable(id))
   }, [user, buildings])
 
   return (
@@ -209,43 +202,8 @@ const Dashboard = () => {
               />
             </Col>
           </Row>
-
-          <Row style={{ marginTop: "32px" }}>
-            <ProCard bordered style={{
-              borderRadius: "10px"
-            }}>
-              <Row justify="space-between" align="middle" >
-                <Col span={12}>
-                  <h4 style={{ fontSize: "20px", fontWeight: 500, color: "#2d3436" }}>Our Organization</h4>
-                  <Row justify="center" align="top">
-                    <Col span={24}>
-                      <p style={{ margin: 0 }}>Highest saved this month:</p>
-                    </Col>
-                    <Col span={24}>
-                      <b style={{ fontSize: 22 }}>442.98€</b>
-                    </Col>
-                  </Row>
-                </Col>
-                <Col span={8} style={{ marginRight: 32 }}>
-                  <p>Check <a>TrackER</a> Organization and more</p>
-                  <Row justify="space-between" align="middle" gutter={[32, 32]}>
-                    <Avatar size={40} src={images['Avatar-1.svg']} />
-                    <Avatar size={40} src={images['Avatar-2.svg']} />
-                    <Avatar size={40} src={images['Avatar-3.svg']} />
-                    <Avatar size={40} src={images['Avatar-4.svg']} />
-                    <Avatar size={40} src={images['Avatar-5.svg']} />
-                    <Avatar size={40} src={images['Avatar-6.svg']} />
-                    <ArrowRightOutlined style={{ fontSize: 22, color: "blue" }} onClick={() => navigate("/Organizations")} />
-                  </Row>
-                </Col>
-              </Row>
-            </ProCard>
-          </Row>
           <Row style={{ marginTop: "32px" }}>
             <EarningsCard series={[solar, hydro, wind, geo]} total={(totalRen / 1000).toFixed(2)} />
-          </Row>
-          <Row style={{ marginTop: "32px" }}>
-            <TableCard buildings={buildings} />
           </Row>
         </Col>
         <Col lg={6} md={24} sx={24}>

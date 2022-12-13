@@ -1,8 +1,6 @@
 import { Breadcrumb, Card, Carousel, Col, Divider, Empty, Layout, PageHeader, Row, Statistic } from "antd"
 import { useEffect, useState } from "react"
 import ReactApexChart from "react-apexcharts"
-import { useSelector } from "react-redux"
-import { useNavigate } from "react-router-dom"
 
 let optionsLine = {
     legend: {
@@ -175,11 +173,8 @@ const WaterInvoices = ({ bills, cost, aggregated, filtered }) => {
             })
             if (filtered.length === 0)
                 return
-        } else {
-            Object.values(aggregated).map(el => {
-                totalWater = +totalWater + +el.water
-            })
-        }
+        } else Object.values(aggregated).map(el => totalWater = +totalWater + +el.water)
+
 
         setWaterSum(Number(totalWater).toFixed(2))
         if (cost !== undefined && Object.keys(cost).length > 0) {
@@ -245,7 +240,7 @@ const WaterInvoices = ({ bills, cost, aggregated, filtered }) => {
                         <Col md={6} sm={12}>
                             <Statistic title="Total Water Usage" value={metricCubic ? waterSum * 0.0001666667 : waterSum} suffix={metricCubic ? "Liter/Hours (l/h)" : "Liter"} precision={4} />
                             <Row align="middle">
-                                <span onClick={() => setMetric(!metricCubic)} style={{ color: "blue", marginRight: 6, cursor:"pointer" }} class="anticon iconfont">&#xe615;</span>
+                                <span onClick={() => setMetric(!metricCubic)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} class="anticon iconfont">&#xe615;</span>
                                 <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricCubic ? "Literr/Hours (l/h)" : "Liter"}</p>
                             </Row>
                         </Col>

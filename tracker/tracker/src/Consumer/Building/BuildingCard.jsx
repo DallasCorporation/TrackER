@@ -11,20 +11,9 @@ import MapboxMap from "./MapboxMap";
 import RenewableCards from "./RenewableCards";
 import ResourcesModal from "./Resources/ResourcesModal";
 
-const BuildingCard = ({ socket, bills, item, setIsModalVisible, setContact, setName, setAddress, setType, setBuildingId, deleteBuilding, showBills, getData }) => {
+const BuildingCard = ({ socket, bills, item, setIsModalVisible, setContact, setName, setAddress, setType, setBuildingId, deleteBuilding, getData }) => {
     const [collapse, setCollapse] = useState(false)
     const [visible, setVisible] = useState(false)
-    const [avatar, setAvatar] = useState("")
-    const [organization, setOrganization] = useState("")
-    const allOrganization = useSelector(state => state.allOrganization.organization)
-    useEffect(() => {
-        if (allOrganization === undefined)
-            return
-        let res = Object.values(allOrganization).find(el => el._id === item.organizationId)
-        setAvatar(res.icon)
-        setOrganization(res.name)
-    }, [item, bills])
-
 
     return (
         <div style={{ paddingTop: "32px" }} key={item._id}>
@@ -71,10 +60,6 @@ const BuildingCard = ({ socket, bills, item, setIsModalVisible, setContact, setN
                             <ProFormText allowClear={false} value={item.type} label="Building Type" placeholder="Building Type" colProps={{ span: 12 }} />
                             <ProFormText allowClear={false} value={item.sqft} label="Building Dimension in Sqmt" placeholder="Building Type" colProps={{ span: 12 }} />
                             <ProFormText allowClear={false} value={item.address} label="Building Address" placeholder="Building Address" colProps={{ span: 24 }} />
-                            <ProFormText allowClear={false} value={organization} label="Building Organization" placeholder="Building Organization" colProps={{ span: 12 }} />
-                            <Tooltip title={organization + " organization logo"}>
-                                <Avatar size={100} src={avatar} style={{ marginLeft: 100, boxShadow: "2px 4px 12px #000000" }} />
-                            </Tooltip>
                         </ProForm>
                     </Col>
                 </Row>
@@ -87,7 +72,7 @@ const BuildingCard = ({ socket, bills, item, setIsModalVisible, setContact, setN
                                 <KpiCard bills={bills} item={item} />
                             </Col>
                             <Divider />
-                            {showBills("Electric", item.organizationId) &&
+                            {/* {showBills("Electric", item.organizationId) &&
                                 <Col span={24}>
                                     <StatsCard chart={<ReactApexChart options={linear('Consumed Electricity', "watt", "#1984f5").options} series={getData(item._id, "Electric")} type="area" height={350} />} />
                                 </Col>}
@@ -96,18 +81,11 @@ const BuildingCard = ({ socket, bills, item, setIsModalVisible, setContact, setN
                             </Col>}
                             {showBills("Gas", item.organizationId) && <Col span={24}>
                                 <StatsCard chart={<ReactApexChart options={linear('Consumed Gas', "m³", "#00cbc8").options} series={getData(item._id, "Gas")} type="area" height={350} />} />
-                            </Col>}
+                            </Col>} */}
                             <Col span={24} style={{ marginTop: 22 }}>
-                                {item.resources.length > 0 ?
-                                    <Row justify="center" >
-                                        <RenewableCards bills={bills} item={item} resources={item.resources} />
-                                        <Button onClick={() => setVisible(true)} type="primary" size="large" style={{ borderRadius: 20, marginTop: 16 }}>Install Renewable Device</Button>
-                                    </Row>
-                                    :
-                                    <Row justify="center" >
-                                        <Button onClick={() => setVisible(true)} type="primary" size="large" style={{ borderRadius: 20 }}>Install Your First Renewable Device</Button>
-                                    </Row>
-                                }
+                                <Row justify="center" >
+                                    <RenewableCards bills={bills} item={item} resources={item.resources} />
+                                </Row>
                             </Col>
                         </Row>
                     </Collapse.Panel>

@@ -17,7 +17,7 @@ const BannerCard = ({ name = "default" }) => {
                     <div>Check all Organization</div>
                 </Col>
                 <Col >
-                    <Button onClick={()=>navigate("/Organizations")} type="default" style={{ fontSize: 15, textTransform: "none", borderRadius: 10, color: "blue" }}>See now</Button>
+                    <Button onClick={()=>navigate("/Organizations")} type="default" style={{ fontSize: 15, textTransform: "none", borderRadius: 10, color: "blue" }}>Check it out</Button>
                 </Col>
             </Row>
         </ProCard>

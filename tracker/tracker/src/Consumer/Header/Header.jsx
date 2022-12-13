@@ -1,84 +1,7 @@
-import { Avatar, Badge, Col, Dropdown, List, Menu, notification, Row, Space, Typography } from "antd";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { AvatarHover, LinkHover } from "../../Components/CustomComponents";
-import { logout } from "../../reducers/user";
+import { Col, Row, Space } from "antd";
+import React from "react";
 
 const Header = ({ avatar, socket }) => {
-    const dispatch = useDispatch()
-    const user = useSelector((state) => state.user.user)
-    const type = user.type
-
-    const menu = (
-        <Menu
-            style={{ borderRadius: 10 }}
-            items={[
-                {
-                    key: '1',
-                    type: 'group',
-                    children: [
-                        {
-                            key: '1-1',
-                            label: (
-                                <LinkHover to="/Profile/Edit">View Profile</LinkHover>
-                            ),
-                        },
-                        {
-                            key: '1-2',
-                            label: (
-                                <LinkHover to="/Profile/Security">Settings</LinkHover>
-                            ),
-                        },],
-                    label: <h3>Profile Settings</h3>
-                },
-                type === "Buildings" && {
-                    type: "divider",
-                },
-                type === "Buildings" && {
-                    key: '2',
-                    type: 'group',
-                    children: [
-                        {
-                            key: '2-1',
-                            label: (
-                                <LinkHover to="/Building">View Building</LinkHover>
-                            ),
-                        },
-                        {
-                            key: '2-2',
-                            label: (
-                                <LinkHover to="/Organizations">View Organizations</LinkHover>
-                            ),
-                        },
-                        {
-                            key: '2-3',
-                            label: (
-                                <LinkHover to="/Invoices/Yearly">View Invoices</LinkHover>
-                            ),
-                        }],
-                    label: <h3>Profile Actions</h3>
-                },
-                {
-                    type: "divider",
-                },
-                {
-                    key: '3',
-                    type: 'group',
-                    children: [
-                        {
-                            key: '3-1',
-                            label: (
-                                <div onClick={() => {
-                                    dispatch(logout())
-                                    socket?.emit("disconnect")
-                                }}>Logout</div>
-                            ),
-                        }],
-                    label: <h3 >Exit Profile</h3>,
-                },
-            ]}
-        />
-    );
 
     return (
         <Row justify="center" style={{ marginTop: "15px", }}>
@@ -95,19 +18,6 @@ const Header = ({ avatar, socket }) => {
                     </Col>
                 </Row>
                 <Space>
-                    <Dropdown overlay={menu} placement="bottomRight" overlayStyle={{ borderRadius: 10 }}>
-                        <Row justify="space-between" align="middle" >
-                            <p style={{ color: "blue", margin: 0, marginRight: 6 }}>{user.name} {user.surname}</p>
-                            <AvatarHover size={"default"} src={avatar} />
-                        </Row>
-                    </Dropdown>
-                    {/* <Dropdown overlay={menuNotification} placement="bottomRight" overlayStyle={{ borderRadius: 10 }}>
-                        <Col style={{ borderRadius: 10, height: 40, width: 40, background: "#ebfafa", textAlign: "center", marginRight: 5 }}>
-                            <Badge count={notification.length} showZero>
-                                <span class="anticon iconfont" style={{ color: "blue", verticalAlign: "baseline" }} >&#x100e4;</span>
-                            </Badge>
-                        </Col>
-                    </Dropdown> */}
                 </Space>
             </Row>
         </Row>

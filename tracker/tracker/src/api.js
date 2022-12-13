@@ -78,23 +78,6 @@ export default {
         getBuilding: (id) =>
             axios.get(`${API_URL}/build/${id}`)
                 .then((res) => res.data),
-        getBuildingsByOrganizationId: (organizationId) =>
-            axios.get(`${API_URL}/building/organization/${organizationId}`)
-                .then((res) => res.data),
-    },
-    organization: {
-        create: (body) =>
-            axios.post(`${API_URL}/organization`, body)
-                .then((res) => res.data),
-        getByUserId: (userId) =>
-            axios.get(`${API_URL}/organization/user/${userId}`)
-                .then((res) => res.data),
-        update: (id, body) =>
-            axios.put(`${API_URL}/organization/${id}`, body)
-                .then((res) => res.data),
-        fetch: () =>
-            axios.get(`${API_URL}/organization/all`)
-                .then((res) => res.data)
     },
     bills: {
         fetchBills: (buildingId) =>
@@ -109,12 +92,6 @@ export default {
         getBillsAggregated: (userId) =>
             axios.get(`${API_URL}/bills/${userId}`)
                 .then((res) => res.data),
-        getBillsByOrganizationId: (organizationId) =>
-            axios.get(`${API_URL}/bills/organization/${organizationId}`)
-                .then((res) => res.data),
-        getBillsByOrganizationIdAggregated: (organizationId) =>
-            axios.get(`${API_URL}/bills/organization/aggregated/${organizationId}`)
-                .then((res) => res.data),
         getBillsRenewable: (buildingId) =>
             axios.get(`${API_URL}/bills/renewable/${buildingId}`)
                 .then((res) => res.data),
@@ -128,9 +105,6 @@ export default {
                 .then((res) => res.data),
         fetchAll: () =>
             axios.get(`${API_URL}/all/renewable`)
-                .then((res) => res.data),
-        fetchResourcesByOrganizationId: (organizationId) =>
-            axios.get(`${API_URL}/renewable/organization/${organizationId}`)
                 .then((res) => res.data),
         updateResourcesBuildings: (renewableId, body) =>
             axios.put(`${API_URL}/renewable/buildings/${renewableId}`, body)

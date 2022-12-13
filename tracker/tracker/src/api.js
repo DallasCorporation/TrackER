@@ -37,28 +37,6 @@ export default {
             axios.get(`${API_URL}/user/all`)
                 .then((res) => res.data),
     },
-    activity: {
-        fetchActivity: (userId) =>
-            axios.get(`${API_URL}/activity/${userId}`)
-                .then((res) => res.data),
-        updateActivity: (userId) =>
-            axios.post(`${API_URL}/activity`, { userId: userId })
-                .then((res) => res.data),
-    },
-    preference: {
-        fetchPreference: (userId) =>
-            axios.get(`${API_URL}/preference/${userId}`)
-                .then((res) => res.data),
-        getAvatar: (userId) =>
-            axios.get(`${API_URL}/preference/avatar/${userId}`)
-                .then((res) => res.data),
-        updatePreference: (userId, body) =>
-            axios.put(`${API_URL}/preference/${userId}`, body)
-                .then((res) => res.data),
-        createPreference: (userId) =>
-            axios.post(`${API_URL}/preference/${userId}`)
-                .then((res) => res.data),
-    },
     buildings: {
         fetchBuildings: (userId) =>
             axios.get(`${API_URL}/building/${userId}`)

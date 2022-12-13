@@ -21,11 +21,11 @@ const KpiCard = ({ bills, item }) => {
             return
         let buildingBills = bills.all.find(el => el.buildingId === item._id)
         buildingBills !== undefined &&
-        buildingBills.bills.map(el => {
-            setElectric((old) => old + el.electric)
-            setWater((old) => old + el.water)
-            setGas((old) => old + el.gas)
-        })
+            buildingBills.bills.foreach(el => {
+                setElectric((old) => old + el.electric)
+                setWater((old) => old + el.water)
+                setGas((old) => old + el.gas)
+            })
     }, [bills])
 
 
@@ -58,7 +58,7 @@ const KpiCard = ({ bills, item }) => {
                         </Col>
                     </Row>
                     <Row align="middle" >
-                        <span onClick={() => setMetricElectric(!metricElectric)} style={{ color: "blue", marginRight: 6, cursor:"pointer" }} class="anticon iconfont">&#xe615;</span>
+                        <span onClick={() => setMetricElectric(!metricElectric)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} class="anticon iconfont">&#xe615;</span>
                         <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricElectric ? "Kilowatt (kW)" : "Watt"}</p>
                     </Row>
                 </Card>
@@ -75,7 +75,7 @@ const KpiCard = ({ bills, item }) => {
                         </Col>
                     </Row>
                     <Row align="middle" >
-                        <span onClick={() => setMetricWater(!metricWater)} style={{ color: "blue", marginRight: 6, cursor:"pointer" }} class="anticon iconfont">&#xe615;</span>
+                        <span onClick={() => setMetricWater(!metricWater)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} class="anticon iconfont">&#xe615;</span>
                         <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricWater ? "Liter/Hours (l/h)" : "Liter"}</p>
                     </Row>
                 </Card>
@@ -92,7 +92,7 @@ const KpiCard = ({ bills, item }) => {
                         </Col>
                     </Row>
                     <Row align="middle" >
-                        <span onClick={() => setMetricGas(!metricGas)} style={{ color: "blue", marginRight: 6, cursor:"pointer" }} class="anticon iconfont">&#xe615;</span>
+                        <span onClick={() => setMetricGas(!metricGas)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} class="anticon iconfont">&#xe615;</span>
                         <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricGas ? "Gas/m³" : "Gallon"}</p>
                     </Row>
                 </Card>

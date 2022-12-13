@@ -34,9 +34,6 @@ const DashboardRoute = () => {
 
     let navigate = useNavigate();
 
-    const preference = useSelector((state) => state.preference.preference)
-    const userAvatar = preference !== null ? preference.avatar : ""
-
     let defaultProps = {
         route: {
             path: '/',
@@ -108,8 +105,8 @@ const DashboardRoute = () => {
             navTheme="light"
             menu={{ defaultOpenAll: true }}
             waterMarkProps={{ content: 'TrackER', }}
-            headerRender={() => width >= 768 ? <Header avatar={userAvatar} /> :
-                <ProLayout
+            headerRender={
+                < ProLayout
                     logo={<img onClick={() => navigate("/Dashboard")} src="https://res.cloudinary.com/dgfnyulqh/image/upload/v1658845429/nbnkxykkyymhethjdiek.jpg" alt="Tracker Logo" />}
                     title="TrackER"
                     {...defaultProps}

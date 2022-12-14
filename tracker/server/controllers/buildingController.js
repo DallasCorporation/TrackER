@@ -1,8 +1,6 @@
 const asyncHandler = require('express-async-handler')
 const Building = require('../models/buildingModel')
-const Organization = require('../models/organizationModel')
 const dbo = require("../db/conn");
-const organizationModel = require('../models/organizationModel');
 const ObjectId = require("mongodb").ObjectId;
 
 const registerBuilding = asyncHandler(async (req, res) => {

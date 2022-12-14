@@ -101,8 +101,8 @@ const ExpensiveChart = ({ bills }) => {
 
     const names = [
         {
-            name: "Company Expenses",
-            desc: "Total cost",
+            name: "Total Expenses",
+            desc: "Check your buildings bills",
             icon: <span class="anticon iconfont" >&#xe715;</span>,
             action: () => navigate("/Invoices/Yearly")
         },
@@ -123,7 +123,7 @@ const ExpensiveChart = ({ bills }) => {
 
     if (Object.values(bills).length !== 0) {
         return (
-            <ProCard bordered style={{ borderRadius: "10px" }}>
+            <ProCard bordered style={{ borderRadius: "10px",  boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
                 <Row justify="space-between" align="middle">
                     <CardTitle >Expensive & Production</CardTitle>
                     <span class="anticon iconfont" style={{ color: "blue" }} >&#xe71b;</span>

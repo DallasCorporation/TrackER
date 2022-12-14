@@ -6,21 +6,22 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 const DownloadCard = ({ ...props }) => {
     const navigate = useNavigate()
-    const [visible, setVisible]= useState()
+    const [visible, setVisible] = useState()
     return (
         <ProCard bordered style={{
             borderRadius: "10px",
             backgroundImage: 'url("http://yoda.hypeople.studio/yoda-admin-template/react/static/media/analytics-download-bg.e499d6fb.png")',
             backgroundSize: "cover",
             backgroundPosition: "right center",
-            height: "194px"
+            height: "194px",
+            boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
         }}>
             <Row align="middle" justify="space-between">
                 <Col>
                     <CardTitle style={{ color: "white", whiteSpace: "pre-wrap" }}>
                         {"Save and improve your Energy now!\nCheck our Organizations and\nBoost Your Energy"}
                     </CardTitle>
-                    <Button onClick={() => navigate("/Organizations")} type="default" style={{ fontSize: 15, textTransform: "none", borderRadius: "6px", marginTop: "22px", marginLeft: "5px", color: "blue" }}>Learn More</Button>
+                    <Button onClick={() => setVisible(true)} type="default" style={{ fontSize: 15, textTransform: "none", borderRadius: "6px", marginTop: "22px", marginLeft: "5px", color: "blue" }}>Learn More</Button>
                 </Col>
                 <img
                     alt=""
@@ -33,10 +34,10 @@ const DownloadCard = ({ ...props }) => {
                     }}
                     src="http://yoda.hypeople.studio/yoda-admin-template/react/static/media/analytics-download-vector.614c5d22.svg" />
             </Row>
-            <Modal onCancel={()=> setVisible(false)}>
+            <Modal visible={visible} onCancel={() => setVisible(false)} footer={null} >
                 <p>Bla bla bla</p>
             </Modal>
-        </ProCard>
+        </ProCard >
     )
 };
 

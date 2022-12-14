@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { stacked } from "../utils";
 import { useEffect } from "react";
-const EarningsCard = ({ series, total = 0 }) => {
+const SeismographCard = ({ series, total = 0 }) => {
   useEffect(() => {
   }, [series])
 
@@ -15,17 +15,14 @@ const EarningsCard = ({ series, total = 0 }) => {
     }}>
       <Row align="middle" justify="space-between">
         <Col lg={6} md={6} xs={24}>
-          <h4 style={{ fontSize: "20px", fontWeight: 500, color: "#2d3436" }}>Renewable Production</h4>
-          <div>
-            <b style={{ fontSize: 22 }}>{total} kW</b>
-          </div>
+          <h4 style={{ fontSize: "20px", fontWeight: 500, color: "#2d3436" }}>Seismograph Status</h4>
         </Col>
         <Col lg={18} md={18} xs={24} >
           {
             total <= 0 ?
               <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
               :
-              <ReactApexChart options={stacked.options} series={series} type="bar" height={150} />
+              <ReactApexChart options={stacked.options} series={series} type="line" height={150} />
           }
         </Col>
       </Row>
@@ -33,5 +30,5 @@ const EarningsCard = ({ series, total = 0 }) => {
   )
 };
 
-export default EarningsCard
+export default SeismographCard
 

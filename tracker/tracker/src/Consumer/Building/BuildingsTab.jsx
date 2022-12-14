@@ -1,22 +1,15 @@
-import { QuestionCircleOutlined } from "@ant-design/icons";
-import { AutoComplete, Breadcrumb, Button, Card, Col, Collapse, Empty, Input, Layout, PageHeader, Popconfirm, Radio, Row, Select, Modal, message } from "antd";
-import React, { useEffect, useRef } from "react";
+import { Breadcrumb, Card, Empty, Layout, PageHeader, Row, message } from "antd";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import api from "../../api";
 import { fetchBuildings } from "../../reducers/buildings";
-import MapboxMap from './MapboxMap';
 import LoadingSpinner from '../../Components/LoadingSpinner';
-import StatsCard from "../DashboardCards/StatsCard";
-import { linear } from "../utils";
-import ReactApexChart from "react-apexcharts";
 import "./style.css"
 import moment from "moment";
 import EditBuildingModal from "./EditBuildingModal";
 import { useNavigate } from "react-router-dom";
 import BuildingCard from "./BuildingCard";
-const { Option } = Select;
-const { Search } = Input;
 
 const BuildingTab = ({ updateRoute, socket }) => {
     const buildings = useSelector((state) => state.buildings.buildings)
@@ -94,13 +87,6 @@ const BuildingTab = ({ updateRoute, socket }) => {
         return tmp
     };
 
-    const renderBuildings = (element) => {
-        let res = buildings.find(el =>
-            filter === "Address" ? el.address === element : el.name === element,
-        )
-        setBuildingsFilter([res])
-    };
-
     const updateBuilding = async (buildingId) => {
         let data = {
             name,
@@ -146,7 +132,7 @@ const BuildingTab = ({ updateRoute, socket }) => {
             />
             {
                 buildingsFilter === null || buildingsFilter.length === 0 ?
-                    <Card style={{ marginTop: "32px" }}>
+                    <Card style={{ marginTop: "32px",  }}>
                         <Empty
                             description="No Buildings found..."
                         >

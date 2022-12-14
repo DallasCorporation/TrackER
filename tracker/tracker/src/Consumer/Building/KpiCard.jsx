@@ -21,7 +21,7 @@ const KpiCard = ({ bills, item }) => {
             return
         let buildingBills = bills.all.find(el => el.buildingId === item._id)
         buildingBills !== undefined &&
-            buildingBills.bills.foreach(el => {
+            buildingBills.bills.map(el => {
                 setElectric((old) => old + el.electric)
                 setWater((old) => old + el.water)
                 setGas((old) => old + el.gas)

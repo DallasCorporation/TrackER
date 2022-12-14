@@ -1,4 +1,4 @@
-import { QuestionCircleOutlined } from "@ant-design/icons";
+import { InfoCircleOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import { ProForm, ProFormText } from "@ant-design/pro-components";
 import { Avatar, Button, Card, Col, Collapse, Divider, Input, Modal, Popconfirm, Radio, Row, Statistic, Tabs, Tooltip } from "antd";
 import { useEffect, useState } from "react";
@@ -17,7 +17,7 @@ const BuildingCard = ({ socket, bills, item, setIsModalVisible, setContact, setN
 
     return (
         <div style={{ paddingTop: "32px" }} key={item._id}>
-            <Card bodyStyle={{ padding: "0", marginBottom: "32px", borderRadius: "10px" }} headStyle={{ borderTopLeftRadius: "10px", borderTopRightRadius: "10px", backgroundColor: "#0010f7" }} style={{ borderRadius: "10px" }}
+            <Card bodyStyle={{ padding: "0", marginBottom: "32px", borderRadius: "10px" }} headStyle={{ borderTopLeftRadius: "10px", borderTopRightRadius: "10px", backgroundColor: "#0010f7" }} style={{ borderRadius: "10px", boxShadow: "0 2px 10px rgba(0,0,0,0.2)" }}
                 title={
                     <Row >
                         <Col span={24}>
@@ -33,11 +33,10 @@ const BuildingCard = ({ socket, bills, item, setIsModalVisible, setContact, setN
                                         setBuildingId(item._id)
                                     }}>Edit</Radio.Button>
                                     <Popconfirm
-                                        icon={<QuestionCircleOutlined style={{ color: 'red' }} />}
-                                        title="Do you wanna delete this building?"
-                                        onConfirm={() => deleteBuilding(item._id)}
-                                        okText="Yes"
-                                        cancelText="No"
+                                        icon={<InfoCircleOutlined style={{ color: 'blue' }} />}
+                                        title="This function is currently unavailable"
+                                        okText="Ok"
+                                        showCancel={false}
                                     >
                                         <Radio.Button>Delete</Radio.Button>
                                     </Popconfirm>

@@ -9,20 +9,11 @@ import ExpensiveChart from "./DashboardCards/ExpensiveChart";
 import RevenueCard from "./DashboardCards/RevenueCard";
 import EarningsCard from "./DashboardCards/EarningsCard";
 import DownloadCard from "./DashboardCards/DowloadCard";
+import SeismographCard from "./DashboardCards/SeismographCard"
 import { useSelector } from "react-redux";
 import api from "../api";
 import { useState } from "react";
 import moment from "moment"
-import { useNavigate } from "react-router-dom";
-
-function importAll(r) {
-  let images = {};
-  r.keys().map(item => { images[item.replace('./', '')] = r(item); });
-  return images;
-}
-
-const component = require.context('../assets/avatars/', false, /\.svg/)
-const images = importAll(component);
 
 const getData = (data) => {
   if (data === undefined) return []
@@ -204,6 +195,9 @@ const Dashboard = () => {
           </Row>
           <Row style={{ marginTop: "32px" }}>
             <EarningsCard series={[solar, hydro, wind, geo]} total={(totalRen / 1000).toFixed(2)} />
+          </Row>
+          <Row style={{ marginTop: "32px" }}>
+            <SeismographCard series={[solar, hydro, wind, geo]} total={(totalRen / 1000).toFixed(2)} />
           </Row>
         </Col>
         <Col lg={6} md={24} sx={24}>

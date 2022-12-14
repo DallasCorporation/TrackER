@@ -1,12 +1,11 @@
 import { Button, Col, Row } from "antd";
 import { ProCard } from "@ant-design/pro-components";
 import React from "react";
-import { useNavigate } from "react-router-dom";
 
 const BannerCard = ({ name = "default" }) => {
-    let navigate= useNavigate()
     return (
         <ProCard colSpan={12} bordered style={{
+            boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
             borderRadius: "10px", backgroundImage: 'url("http://yoda.hypeople.studio/yoda-admin-template/react/static/media/analytics-payment-bg.55fb02f6.svg")', backgroundPosition: 'center',
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat'
@@ -17,7 +16,7 @@ const BannerCard = ({ name = "default" }) => {
                     <div>Check all Organization</div>
                 </Col>
                 <Col >
-                    <Button onClick={()=>navigate("/Organizations")} type="default" style={{ fontSize: 15, textTransform: "none", borderRadius: 10, color: "blue" }}>Check it out</Button>
+                    <Button onClick={()=>console.log("/Organizations")} type="default" style={{ fontSize: 15, textTransform: "none", borderRadius: 10, color: "blue" }}>Check it out</Button>
                 </Col>
             </Row>
         </ProCard>

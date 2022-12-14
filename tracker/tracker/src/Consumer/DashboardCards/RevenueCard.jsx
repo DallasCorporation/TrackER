@@ -73,16 +73,13 @@ const RevenueCard = ({ bills = {} }) => {
                 totWater = 0
             }
         })
-        // dataElectric.push({ x: month, y: totElectric.toFixed(2) })
-        // dataGas.push({ x: month, y: totGas.toFixed(2) })
-        // dataWater.push({ x: month, y: totWater.toFixed(2) })
         setElectric({ name: "Electric", data: dataElectric })
         setWater({ name: "Water", data: dataWater })
         setGas({ name: "Gas", data: dataGas })
     }, [bills])
 
     return (
-        <ProCard colSpan={12} bordered style={{ borderRadius: "10px", }}>
+        <ProCard colSpan={12} bordered style={{ borderRadius: "10px",  boxShadow: "0 2px 4px rgba(0,0,0,0.2)",}}>
             <Row justify="space-between" align="middle" >
                 <CardTitle>Consumption Overview</CardTitle>
                 <Col><span class="anticon iconfont" style={{ color: "blue" }} >&#x100e6;</span></Col>

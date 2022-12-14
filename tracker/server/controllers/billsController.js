@@ -4,7 +4,6 @@ const { connectToServer } = require('../db/conn');
 const dbo = require("../db/conn");
 const billsModel = require('../models/billsModel');
 const Building = require('../models/buildingModel');
-const Organization = require('../models/organizationModel');
 
 const hasCountedDay = function (allDay, date) {
   if (allDay.includes(new Date(date).getDate()))
@@ -103,34 +102,34 @@ const getBillsAggregatedFiltered = asyncHandler(async (req, res) => {
           return el._id.toString()
         })
         const res2 = result.filter(r => res.includes(r.buildingId.toString()))
-        await Promise.all(res2.map(async el => {
-          let obj = orgIds.find(o => o.id.toString() === el.buildingId.toString());
-          const goal2 = await Organization.findById((obj.organizationId))
-          if (goal2)
-            el.bills.map(bill => {
-              if (hasCountedDay(allDay, bill.date))
-                days++
-              if (aggregated.hasOwnProperty(bill.date)) {
-                let existing = aggregated[bill.date];
-                aggregated[bill.date] = {
-                  date: existing.date,
-                  ...(goal2.type.includes("Electric")) && { electric: parseFloat(existing.electric + bill.electric).toFixed(2) },
-                  ...(goal2.type.includes("Gas")) && { gas: parseFloat(existing.gas + bill.gas).toFixed(2) },
-                  ...(goal2.type.includes("Water")) && { water: parseFloat(isNaN(existing.water) ? 0 + bill.water : existing.water + bill.water).toFixed(2) },
-                }
-              } else {
-                aggregated[bill.date] = {
-                  date: bill.date,
-                  ...(goal2.type.includes("Electric")) && { electric: parseFloat(bill.electric).toFixed(2) },
-                  ...(goal2.type.includes("Gas")) && { gas: parseFloat(bill.gas).toFixed(2) },
-                  ...(goal2.type.includes("Water")) && { water: isNaN(bill.water) ? 0 : parseFloat(bill.water).toFixed(2) },
-                };
-              }
-              electric += goal2.type.includes("Electric") ? bill.electric : 0
-              gas += goal2.type.includes("Gas") ? bill.gas : 0
-              water += goal2.type.includes("Water") ? bill.water : 0
-            })
-        }))
+        // await Promise.all(res2.map(async el => {
+        //   let obj = orgIds.find(o => o.id.toString() === el.buildingId.toString());
+        //   const goal2 = await Organization.findById((obj.organizationId))
+        //   if (goal2)
+        //     el.bills.map(bill => {
+        //       if (hasCountedDay(allDay, bill.date))
+        //         days++
+        //       if (aggregated.hasOwnProperty(bill.date)) {
+        //         let existing = aggregated[bill.date];
+        //         aggregated[bill.date] = {
+        //           date: existing.date,
+        //           ...(goal2.type.includes("Electric")) && { electric: parseFloat(existing.electric + bill.electric).toFixed(2) },
+        //           ...(goal2.type.includes("Gas")) && { gas: parseFloat(existing.gas + bill.gas).toFixed(2) },
+        //           ...(goal2.type.includes("Water")) && { water: parseFloat(isNaN(existing.water) ? 0 + bill.water : existing.water + bill.water).toFixed(2) },
+        //         }
+        //       } else {
+        //         aggregated[bill.date] = {
+        //           date: bill.date,
+        //           ...(goal2.type.includes("Electric")) && { electric: parseFloat(bill.electric).toFixed(2) },
+        //           ...(goal2.type.includes("Gas")) && { gas: parseFloat(bill.gas).toFixed(2) },
+        //           ...(goal2.type.includes("Water")) && { water: isNaN(bill.water) ? 0 : parseFloat(bill.water).toFixed(2) },
+        //         };
+        //       }
+        //       electric += goal2.type.includes("Electric") ? bill.electric : 0
+        //       gas += goal2.type.includes("Gas") ? bill.gas : 0
+        //       water += goal2.type.includes("Water") ? bill.water : 0
+        //     })
+        // }))
         data = {
           totalElectric: parseFloat(electric.toFixed(2)),
           totalGas: parseFloat(gas.toFixed(2)),

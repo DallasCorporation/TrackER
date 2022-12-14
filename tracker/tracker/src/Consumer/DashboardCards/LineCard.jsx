@@ -87,12 +87,10 @@ const LineCard = ({ data }) => {
     }
 
     return (
-        <ProCard colSpan={12} bordered style={{ borderRadius: "10px" }}>
+        <ProCard colSpan={12} bordered style={{ borderRadius: "10px", boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
             <Row justify="space-between" align="middle" >
                 <Col>
-                    <CardTitle>
-                        Aggregated Consumption Overview
-                    </CardTitle>
+                    <CardTitle> Consumption Overview</CardTitle>
                 </Col>
                 <Col>
                     <DatePicker.RangePicker placeholder={["Start Date", "End Date"]} locale={locale} onChange={(e) => filterData(e)} />

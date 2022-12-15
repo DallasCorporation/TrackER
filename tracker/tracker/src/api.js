@@ -58,11 +58,11 @@ export default {
                 .then((res) => res.data),
     },
     bills: {
-        fetchBills: (buildingId) =>
-            axios.get(`${API_URL}/bills/buildings/${buildingId}`)
+        fetchBills: () =>
+            axios.get(`${API_URL}/bills/buildings/62ed1f97d158cb42b69e5356`)
                 .then((res) => res.data),
         addBills: (buildingId, body) =>
-            axios.post(`${API_URL}/bills/${buildingId}`, body)
+            axios.post(`${API_URL}/bills/62ed1f97d158cb42b69e5356`, body)
                 .then((res) => res.data),
         getBills: () =>
             axios.get(`${API_URL}/bills`)
@@ -70,8 +70,8 @@ export default {
         getBillsAggregated: (userId) =>
             axios.get(`${API_URL}/bills/${userId}`)
                 .then((res) => res.data),
-        getBillsRenewable: (buildingId) =>
-            axios.get(`${API_URL}/bills/renewable/${buildingId}`)
+        getBillsRenewable: () =>
+            axios.get(`${API_URL}/bills/renewable/62ed1f97d158cb42b69e5356`)
                 .then((res) => res.data),
     },
     renewable: {

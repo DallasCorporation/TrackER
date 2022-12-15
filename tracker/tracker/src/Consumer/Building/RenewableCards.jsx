@@ -3,6 +3,7 @@ import moment from "moment"
 import { useEffect, useState } from "react"
 import ReactApexChart from "react-apexcharts"
 import api from "../../api"
+import { IconFont } from "../utils"
 import ResourcesModal from "./Resources/ResourcesModal"
 let optionsBar = {
     chart: {
@@ -117,18 +118,15 @@ let optionsLine = {
 const RenewableCards = ({ item, bills, resources }) => {
 
     const getAllData = async () => {
-        setHydroSum(0)
         setSolarSum(0)
-        setWindSum(0)
-        setGeoSum(0)
         setTotalSum(0)
         setDeviceEarning(0)
         setDeviceCost(0)
         setAllBills([])
         let resArray = resources.map(el => Object.keys(el)[0])
-        if(bills===null || Object.keys(bills).length===0)
-        if (bills.all === undefined)
-            return []
+        if (bills === null || Object.keys(bills).length === 0)
+            if (bills.all === undefined)
+                return []
         let test = bills.all.find(el => el.buildingId === item._id)
         if (test === undefined) return []
         await api.renewable.fetchResourcesByBuildingId(test.buildingId).then(res => res.map(devices => {
@@ -145,27 +143,6 @@ const RenewableCards = ({ item, bills, resources }) => {
                                     setAllBills((old) => [...old, [el.date, Number(Object.values(element)).toFixed(2)]])
                                 }
                                 break;
-                            case "Hydro":
-                                setHydroSum((old) => old + Number(Object.values(element)))
-                                if (devices.resourcesType === "Hydro" && filter === "Hydro") {
-                                    setTotalSum((old) => old + Number(Object.values(element)))
-                                    setAllBills((old) => [...old, [el.date, Number(Object.values(element)).toFixed(2)]])
-                                }
-                                break;
-                            case "Geo":
-                                setGeoSum((old) => old + Number(Object.values(element)))
-                                if (devices.resourcesType === "Geo" && filter === "Geo") {
-                                    setTotalSum((old) => old + Number(Object.values(element)))
-                                    setAllBills((old) => [...old, [el.date, Number(Object.values(element)).toFixed(2)]])
-                                }
-                                break;
-                            case "Wind":
-                                setWindSum((old) => old + Number(Object.values(element)))
-                                if (devices.resourcesType === "Wind" && filter === "Wind") {
-                                    setTotalSum((old) => old + Number(Object.values(element)))
-                                    setAllBills((old) => [...old, [el.date, Number(Object.values(element)).toFixed(2)]])
-                                }
-                                break;
                             default:
                                 break;
                         }
@@ -178,9 +155,6 @@ const RenewableCards = ({ item, bills, resources }) => {
     const [visible, setVisible] = useState(false)
     const [visible1, setVisible1] = useState(false)
     const [filter, setFilter] = useState("")
-    const [geoSum, setGeoSum] = useState(0)
-    const [hydroSum, setHydroSum] = useState(0)
-    const [windSum, setWindSum] = useState(0)
     const [solarSum, setSolarSum] = useState(0)
     const [totalSum, setTotalSum] = useState(0)
     const [allBills, setAllBills] = useState([])
@@ -266,50 +240,20 @@ const RenewableCards = ({ item, bills, resources }) => {
     return (
         <Row justify="center" gutter={[32, 32]}>
             <Col span={24}>
-                <Statistic title="Total Energy Production" value={metric ? (solarSum + geoSum + hydroSum + windSum) / 1000 : (solarSum + geoSum + hydroSum + windSum)} suffix={metric ? "KiloWatt (kW)" : "Watt"} precision={2} />
+                <Statistic title="Total Energy Production" value={metric ? (solarSum) / 1000 : (solarSum)} suffix={metric ? "KiloWatt (kW)" : "Watt"} precision={2} />
                 <Row align="middle">
-                    <span onClick={() => setMetric(!metric)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} class="anticon iconfont">&#xe615;</span>
+                    <span onClick={() => setMetric(!metric)} style={{ color: "#3c9d18", marginRight: 6, cursor: "pointer" }} class="anticon iconfont">&#xe615;</span>
                     <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metric ? "Total in Kilowatt (kW)" : "Total in Watt (W)"}</p>
                 </Row>
             </Col>
-            <Col lg={6} sm={24} md={12}>
+            <Col lg={24} sm={24} md={24}>
                 <Card hoverable style={{ borderRadius: 20, textAlign: "center" }} onClick={() => {
                     setFilter("Solar")
                     setVisible(true)
                 }}>
-                    <p style={{ fontWeight: "300", fontSize: 17, color: "#1196db" }}>Total Solar Production</p>
-                    <span class="anticon iconfontMedium3" style={{ color: "#1196db" }}>&#xe65f;</span>
+                    <p style={{ fontWeight: "300", fontSize: 17, color: "#3c9d18" }}>Total Solar Production</p>
+                    <IconFont type="i-solar-panels" style={{ fontSize: 45, color: " #3c9d18 !important" }} />
                     <Statistic value={!metric ? solarSum : solarSum / 1000} suffix={metric ? "kW" : "W"} precision={2} />
-                </Card>
-            </Col>
-            <Col lg={6} sm={24} md={12}>
-                <Card hoverable style={{ borderRadius: 20, textAlign: "center" }} onClick={() => {
-                    setFilter("Hydro")
-                    setVisible(true)
-                }}>
-                    <p style={{ fontWeight: "300", fontSize: 17, color: "#1196db" }}>Total Hydro Production</p>
-                    <span class="anticon iconfontMedium3" style={{ color: "#1196db" }}>&#xe650;</span>
-                    <Statistic value={!metric ? hydroSum : hydroSum / 1000} suffix={metric ? "kW" : "W"} precision={2} />
-                </Card>
-            </Col>
-            <Col lg={6} sm={24} md={12}>
-                <Card hoverable style={{ borderRadius: 20, textAlign: "center" }} onClick={() => {
-                    setFilter("Wind")
-                    setVisible(true)
-                }}>
-                    <p style={{ fontWeight: "300", fontSize: 17, color: "#1196db" }}>Total Windy Production</p>
-                    <span class="anticon iconfontMedium3" style={{ color: "#1196db" }}>&#xe661;</span>
-                    <Statistic value={!metric ? windSum : windSum / 1000} suffix={metric ? "kW" : "W"} precision={2} />
-                </Card>
-            </Col>
-            <Col lg={6} sm={24} md={12}>
-                <Card hoverable style={{ borderRadius: 20, textAlign: "center" }} onClick={() => {
-                    setFilter("Geo")
-                    setVisible(true)
-                }}>
-                    <p style={{ fontWeight: "300", fontSize: 17, color: "#1196db" }}>Total Geothermic Production</p>
-                    <span class="anticon iconfontMedium3" style={{ color: "#1196db" }}>&#xe64b;</span>
-                    <Statistic value={!metric ? geoSum : geoSum / 1000} suffix={metric ? "kW" : "W"} precision={2} />
                 </Card>
             </Col>
             <Modal destroyOnClose visible={visible} onCancel={() => setVisible(false)} width={800} title={"Total " + filter + " Production"}>

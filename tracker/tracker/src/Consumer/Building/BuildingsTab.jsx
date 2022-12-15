@@ -28,20 +28,6 @@ const BuildingTab = ({ updateRoute, socket }) => {
     const [type, setType] = useState("")
     const [myMessage, setMessage] = useState("")
 
-    const deleteBuilding = async (id) => {
-        setMessage("Deleting...")
-        setShow(true)
-        await api.buildings.deleteBuilding(id)
-        await api.buildings.fetchBuildings(user._id).then((res) => {
-            setTimeout(() => {
-                setShow(false)
-            }, 1000);
-            message.success("Building deleted correctly")
-            setBuildingsFilter(res)
-            dispatch(fetchBuildings(res))
-        })
-        window.scroll(0, 0)
-    }
     const getBills = async () => {
         await api.bills.getBillsAggregated(user._id).then(res => setBills(res))
     }
@@ -139,7 +125,7 @@ const BuildingTab = ({ updateRoute, socket }) => {
                         </Empty>
                     </Card>
                     :
-                    buildingsFilter.map((item) => <BuildingCard socket={socket} key={item._id} bills={bills} deleteBuilding={deleteBuilding} getData={getData} setAddress={setAddress} setBuildingId={setBuildingId} setContact={setContact} item={item} setIsModalVisible={setIsModalVisible} setName={setName} setType={setType} />)
+                    buildingsFilter.map((item) => <BuildingCard socket={socket} key={item._id} bills={bills}  getData={getData} setAddress={setAddress} setBuildingId={setBuildingId} setContact={setContact} item={item} setIsModalVisible={setIsModalVisible} setName={setName} setType={setType} />)
             }
             <EditBuildingModal setName={(val) => setName(val)} setContact={(val) => setContact(val)} setType={(val) => setType(val)}
                 buildingId={buildingId} name={name} contact={contact} address={address} type={type} visible={isModalVisible} setVisible={() => setIsModalVisible(false)} updateBuilding={() => updateBuilding(buildingId)} />

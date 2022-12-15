@@ -1,17 +1,16 @@
-import { InfoCircleOutlined, QuestionCircleOutlined } from "@ant-design/icons";
+import { InfoCircleOutlined } from "@ant-design/icons";
 import { ProForm, ProFormText } from "@ant-design/pro-components";
-import { Avatar, Button, Card, Col, Collapse, Divider, Input, Modal, Popconfirm, Radio, Row, Statistic, Tabs, Tooltip } from "antd";
-import { useEffect, useState } from "react";
+import { Button, Card, Col, Collapse, Divider, Popconfirm, Radio, Row, Tooltip } from "antd";
+import { useState } from "react";
 import ReactApexChart from "react-apexcharts";
-import { useSelector } from "react-redux";
 import StatsCard from "../DashboardCards/StatsCard";
-import { linear } from "../utils";
+import { IconFont, linear } from "../utils";
 import KpiCard from "./KpiCard";
 import MapboxMap from "./MapboxMap";
 import RenewableCards from "./RenewableCards";
 import ResourcesModal from "./Resources/ResourcesModal";
 
-const BuildingCard = ({ socket, bills, item, setIsModalVisible, setContact, setName, setAddress, setType, setBuildingId, deleteBuilding, getData }) => {
+const BuildingCard = ({ socket, bills, item, setIsModalVisible, setContact, setName, setAddress, setType, setBuildingId, getData }) => {
     const [collapse, setCollapse] = useState(false)
     const [visible, setVisible] = useState(false)
 
@@ -60,6 +59,23 @@ const BuildingCard = ({ socket, bills, item, setIsModalVisible, setContact, setN
                             <ProFormText allowClear={false} value={item.sqft} label="Building Dimension in Sqmt" placeholder="Building Type" colProps={{ span: 12 }} />
                             <ProFormText allowClear={false} value={item.address} label="Building Address" placeholder="Building Address" colProps={{ span: 24 }} />
                         </ProForm>
+                        <Row justify="space-around">
+                            <Tooltip title="Green House System monitoring">
+                                <Col style={{ boxShadow: "0 2px 10px rgba(0,0,0,0.2)", borderRadius: "50%", display: "inline-block", padding: 20 }}>
+                                    <IconFont type="i-eco-house" style={{ fontSize: 60 }} />
+                                </Col>
+                            </Tooltip>
+                            <Tooltip title="Solar PV Installed">
+                                <Col style={{ boxShadow: "0 2px 10px rgba(0,0,0,0.2)", borderRadius: "50%", display: "inline-block", padding: 20 }}>
+                                    <IconFont type="i-solar-panels" style={{ fontSize: 60 }} />
+                                </Col>
+                            </Tooltip>
+                            <Tooltip title="Earthquake Sensor Installed">
+                                <Col style={{ boxShadow: "0 2px 10px rgba(0,0,0,0.2)", borderRadius: "50%", display: "inline-block", padding: 20 }}>
+                                    <IconFont type="i-357earthquake" style={{ fontSize: 60 }} />
+                                </Col>
+                            </Tooltip>
+                        </Row>
                     </Col>
                 </Row>
                 <Collapse style={{ border: 0, }} accordion isActive={collapse} collapsible="header" >
@@ -71,16 +87,15 @@ const BuildingCard = ({ socket, bills, item, setIsModalVisible, setContact, setN
                                 <KpiCard bills={bills} item={item} />
                             </Col>
                             <Divider />
-                            {/* {showBills("Electric", item.organizationId) &&
-                                <Col span={24}>
-                                    <StatsCard chart={<ReactApexChart options={linear('Consumed Electricity', "watt", "#1984f5").options} series={getData(item._id, "Electric")} type="area" height={350} />} />
-                                </Col>}
-                            {showBills("Water", item.organizationId) && <Col span={24}>
+                            <Col span={24}>
+                                <StatsCard chart={<ReactApexChart options={linear('Consumed Electricity', "watt", "#1984f5").options} series={getData(item._id, "Electric")} type="area" height={350} />} />
+                            </Col>
+                            <Col span={24}>
                                 <StatsCard chart={<ReactApexChart options={linear('Consumed Water', "liter", "#00c2f6").options} series={getData(item._id, "Water")} type="area" height={350} />} />
-                            </Col>}
-                            {showBills("Gas", item.organizationId) && <Col span={24}>
+                            </Col>
+                            <Col span={24}>
                                 <StatsCard chart={<ReactApexChart options={linear('Consumed Gas', "m³", "#00cbc8").options} series={getData(item._id, "Gas")} type="area" height={350} />} />
-                            </Col>} */}
+                            </Col>
                             <Col span={24} style={{ marginTop: 22 }}>
                                 <Row justify="center" >
                                     <RenewableCards bills={bills} item={item} resources={item.resources} />
@@ -89,9 +104,9 @@ const BuildingCard = ({ socket, bills, item, setIsModalVisible, setContact, setN
                         </Row>
                     </Collapse.Panel>
                 </Collapse>
-            </Card>
+            </Card >
             <ResourcesModal socket={socket} building={item} visible={visible} setVisible={setVisible} data={item.resources} />
-        </div>
+        </div >
     )
 }
 export default BuildingCard

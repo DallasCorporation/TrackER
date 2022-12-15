@@ -265,12 +265,12 @@ const WaterInvoices = ({ bills, cost, aggregated, filtered }) => {
                             <ReactApexChart options={optionsLine} series={allWaterLine} type="line" height={320} />
                         </Col>
                         <Divider />
-                        <Col span={24}>
+                        {/* <Col span={24}>
                             <p style={{ fontSize: 18, fontWeight: 500 }}> Cost Overview</p>
                             <Row justify="center">
                                 <ReactApexChart options={options} series={[totalEarning, totalTaxCost, delivery, supplier]} type="pie" width={700} />
                             </Row>
-                        </Col>
+                        </Col> */}
                     </Row>
                 </Card>}
         </Layout>

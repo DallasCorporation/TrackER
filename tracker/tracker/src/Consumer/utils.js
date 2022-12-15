@@ -1,4 +1,6 @@
-export const statebar = (type, color) => ({
+import { createFromIconfontCN } from "@ant-design/icons";
+
+export const stateBar = (type, color) => ({
     options: {
         noData: {
             text: "No data to show...",
@@ -267,3 +269,7 @@ export const invoices = {
         }
     }
 };
+
+export const IconFont = createFromIconfontCN({
+    scriptUrl: '//at.alicdn.com/t/c/font_3378177_50drx8euoam.js',
+});

@@ -3,7 +3,6 @@ import { ProCard } from "@ant-design/pro-components"
 import { Col, Drawer, Modal, Row, Tabs } from "antd"
 import { useEffect, useState } from "react"
 import ReactApexChart from "react-apexcharts"
-import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import { CardTitle } from "../../Components/CustomComponents"
@@ -21,6 +20,7 @@ cursor: pointer;
 }
 `
 const ExpensiveChart = ({ bills }) => {
+    console.log(bills)
     const state = {
         series: [bills.totalElectric, bills.totalWater, bills.totalGas],
         options: {
@@ -59,7 +59,7 @@ const ExpensiveChart = ({ bills }) => {
                     fontWeight: 400,
                     color: undefined,
                     offsetY: 16,
-                    formatter: function (val) { return val + " W" }
+                    formatter: function (val) { return val.toFixed(2) + " W" }
                 },
             },
             yaxis: {
@@ -91,12 +91,8 @@ const ExpensiveChart = ({ bills }) => {
     const [electricDetail, setElectric] = useState({})
 
     useEffect(() => {
-        if (bills.all === null || bills.all === undefined)
+        if (bills === null || bills === undefined)
             return
-        if (bills.all.length <= 0)
-            return
-
-
     }, [bills])
 
     const names = [
@@ -123,7 +119,7 @@ const ExpensiveChart = ({ bills }) => {
 
     if (Object.values(bills).length !== 0) {
         return (
-            <ProCard bordered style={{ borderRadius: "10px",  boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
+            <ProCard bordered style={{ borderRadius: "10px", boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
                 <Row justify="space-between" align="middle">
                     <CardTitle >Expensive & Production</CardTitle>
                     <span class="anticon iconfont" style={{ color: "blue" }} >&#xe71b;</span>

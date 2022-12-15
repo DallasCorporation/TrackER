@@ -1,5 +1,6 @@
 import { Card, Col, Row, Statistic } from "antd"
 import { useEffect, useState } from "react"
+import { IconFont } from "../utils"
 import "./style.css"
 
 const KpiCard = ({ bills, item }) => {
@@ -48,10 +49,10 @@ const KpiCard = ({ bills, item }) => {
     return (
         <Row align="top" gutter={[32, 32]} >
             <Col md={8} sm={24} xs={24} >
-                <Card class="kpi" hoverable style={{ borderRadius: 20, }}>
+                <Card class="kpi" hoverable style={{ borderRadius: 20, cursor: "default" }}>
                     <Row gutter={[32, 32]} justify={width <= 768 ? "center" : "space-between"} align="middle">
                         <Col md={6} sm={24} xs={24}>
-                            <span style={{ color: "#1196db", }} class="anticon iconfontMedium2">&#xe64c;</span>
+                            <IconFont type="i-Energy" style={{ fontSize: 45, color: "#1196db" }} />
                         </Col>
                         <Col md={18} sm={24} xs={24}>
                             <Statistic title={`Electricity Consumption`} value={metricElectric ? electric / 1000 : electric} suffix={metricElectric ? "Kilowatt (kW)" : "Watt"} precision={2} />
@@ -65,10 +66,10 @@ const KpiCard = ({ bills, item }) => {
             </Col>
 
             <Col md={8} sm={24} xs={24}>
-                <Card class="kpi" hoverable style={{ borderRadius: 20, }}>
+                <Card class="kpi" hoverable style={{ borderRadius: 20, cursor: "default" }}>
                     <Row gutter={[32, 32]} justify={width <= 768 ? "center" : "space-between"} align="middle">
                         <Col md={6} sm={24} xs={24}>
-                            <span style={{ color: "#1196db" }} class="anticon iconfontMedium2">&#xe662;</span>
+                            <IconFont type="i-water" color="#1196db" style={{ fontSize: 45, color: "#1196db" }} />
                         </Col>
                         <Col md={18} sm={24} xs={24}>
                             <Statistic title="Water Consumption" value={metricWater ? water * 0.0001666667 : water} suffix={metricWater ? "Liter/Hours (l/h)" : "Liter"} precision={2} />
@@ -82,10 +83,10 @@ const KpiCard = ({ bills, item }) => {
             </Col>
 
             <Col md={8} sm={24} xs={24}>
-                <Card class="kpi" hoverable style={{ borderRadius: 20, }}>
+                <Card class="kpi" hoverable style={{ borderRadius: 20, cursor: "default" }}>
                     <Row gutter={[32, 32]} justify={width <= 768 ? "center" : "space-between"} align="middle">
                         <Col md={6} sm={24} xs={24}>
-                            <span style={{ color: "#1196db" }} class="anticon iconfontMedium2">&#xe657;</span>
+                            <IconFont type="i-fire-line" style={{ fontSize: 45, color: "#1196db" }} />
                         </Col>
                         <Col md={18} sm={24} xs={24}>
                             <Statistic title={`Gas Consumption`} value={metricGas ? gas * 0.0454249414 / 1000 : gas} suffix={metricGas ? "Gas/m³" : "Gallon"} precision={2} />

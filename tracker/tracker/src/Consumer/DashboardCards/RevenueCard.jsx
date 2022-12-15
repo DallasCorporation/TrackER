@@ -67,7 +67,6 @@ const RevenueCard = ({ bills = {} }) => {
                 dataGas.push({ x: month, y: totGas.toFixed(2) })
                 dataWater.push({ x: month, y: totWater.toFixed(2) })
                 date = el.date
-                console.log(totElectric)
                 totElectric = 0
                 totGas = 0
                 totWater = 0

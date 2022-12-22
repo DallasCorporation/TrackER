@@ -15,6 +15,7 @@ app.use(express.json());
 app.use(require("./routes/buildings"));
 app.use(require("./routes/renewable"))
 app.use(require("./routes/bills.js"))
+app.use(require("./routes/quake.js"))
 
 // get driver connection
 const dbo = require("./db/conn");

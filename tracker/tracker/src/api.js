@@ -61,7 +61,7 @@ export default {
         fetchBills: () =>
             axios.get(`${API_URL}/bills/buildings/62ed1f97d158cb42b69e5356`)
                 .then((res) => res.data),
-        addBills: (buildingId, body) =>
+        addBills: ( body) =>
             axios.post(`${API_URL}/bills/62ed1f97d158cb42b69e5356`, body)
                 .then((res) => res.data),
         getBills: () =>

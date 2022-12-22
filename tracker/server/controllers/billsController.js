@@ -5,18 +5,10 @@ const dbo = require("../db/conn");
 const billsModel = require('../models/billsModel');
 const Building = require('../models/buildingModel');
 
-const hasCountedDay = function (allDay, date) {
-  if (allDay.includes(new Date(date).getDate()))
-    return false
-  allDay.push(new Date(date).getDate())
-  return true
-};
-
 const addData = asyncHandler(async (req, res) => {
-  let db_connect = dbo.getDb();
   const exist = await billsModel.findOne({ buildingId: req.params.id })
   if (exist) {
-    billsModel.updateOne(
+    let bill = billsModel.updateOne(
       { "buildingId": req.params.id },
       {
         "$push": {
@@ -25,13 +17,18 @@ const addData = asyncHandler(async (req, res) => {
             gas: req.body.gas,
             water: req.body.water,
             resources: req.body.resources,
-            date: req.body.date
+            date: Date.now
           }
         }
-      }
-      , function (err, count) {
-        console.log('Updated ' + count + ' document');
+      }).then(res => console.log(res))
+    if (bill) {
+      res.status(201).json({
+        bill
       })
+    } else {
+      res.status(400)
+      throw new Error('Invalid user data')
+    }
   }
   else {
     const bills = await billsModel.create({
@@ -197,7 +194,7 @@ const getBillsRenewableOnly = asyncHandler(async (req, res) => {
   const bills = await billsModel.findOne({ buildingId: (req.params.id) })
   let totalSolar = 0, totalWind = 0, totalGeo = 0, totalHydro = 0
   if (!bills) {
-    res.status(400).json({renewable:[], totalSolar:0, totalWind:0, totalGeo:0, totalHydro:0})
+    res.status(400).json({ renewable: [], totalSolar: 0, totalWind: 0, totalGeo: 0, totalHydro: 0 })
     throw new Error('Bills not found')
   }
 

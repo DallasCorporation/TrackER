@@ -15,6 +15,7 @@ app.use(require("./routes/renewable"))
 app.use(require("./routes/bills.js"))
 app.use(require("./routes/quake.js"))
 app.use(require("./routes/organization"))
+app.use(require("./routes/temperature"))
 
 // get driver connection
 const dbo = require("./db/conn");

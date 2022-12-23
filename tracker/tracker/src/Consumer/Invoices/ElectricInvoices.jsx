@@ -177,7 +177,6 @@ const ElectricInvoices = ({ bills, cost, aggregated, filtered }) => {
         else
             setElectricSum(Number(bills.totalElectric).toFixed(2))
 
-        console.log(cost)
         if (cost !== undefined && Object.keys(cost).length > 0) {
             cost.forEach(el => {
                 if (el.name === "Electricity Cost at kWh") {

@@ -1,7 +1,7 @@
 import { Col, Row, Space } from "antd";
 import React from "react";
 
-const Header = ({ avatar, socket }) => {
+const Header = ({ avatar }) => {
 
     return (
         <Row justify="center" style={{ marginTop: "15px", }}>

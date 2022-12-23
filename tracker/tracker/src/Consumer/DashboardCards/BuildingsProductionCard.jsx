@@ -1,6 +1,5 @@
 import { Card, Col, Divider, Empty, Layout, PageHeader, Row, Statistic, Tabs } from "antd"
 import { useState } from "react"
-import { useEffect } from "react"
 import { useSelector } from "react-redux"
 import api from "../../api"
 
@@ -16,7 +15,7 @@ const BuildingsProductionCard = () => {
             return
         setBuild(id)
         await api.renewable.fetchResourcesByBuildingId(id).then(res => setResourceApi(res))
-        await api.bills.getBillsRenewable(id).then(res => setBills(res))
+        await api.bills.fetchBills().then(res => setBills(res))
     }
 
 
@@ -71,25 +70,19 @@ const BuildingsProductionCard = () => {
                         <span className={"anticon iconfontMedium2"} style={{ color: "#1196db" }}>&#xe65f;</span>
                     </div>
                 </Row>)
-        if (resources.resourcesType.includes("Wind"))
-            return <span className={"anticon iconfontMedium2"} style={{ color: "#1196db" }}>&#xe661;</span>
-        if (resources.resourcesType.includes("Geo"))
-            return <span className={"anticon iconfontMedium2"} style={{ color: "#1196db" }}>&#xe64b;</span>
-        if (resources.resourcesType.includes("Hydro"))
-            return <span className={"anticon iconfontMedium2"} style={{ color: "#1196db" }}>&#xe650;</span>
+    }
+
+    const getTotalSolar = () => {
+        let sum = 0
+        if (Object.values(bills).length !== 0)
+            bills.bills.map(el => sum += el.solar)
+        return sum
     }
 
     const getTotal = (type) => {
         if (type === undefined)
             return
-        if (type.includes("Solar"))
-            return bills.totalSolar / 1000
-        if (type.includes("Hydro"))
-            return bills.totalHydro / 1000
-        if (type.includes("Geo"))
-            return bills.totalGeo / 1000
-        if (type.includes("Wind"))
-            return bills.totalWind / 1000
+        return getTotalSolar()
     }
 
     const renderData = (building) => {

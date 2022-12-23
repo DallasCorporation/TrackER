@@ -10,7 +10,7 @@ import MapboxMap from "./MapboxMap";
 import RenewableCards from "./RenewableCards";
 import ResourcesModal from "./Resources/ResourcesModal";
 
-const BuildingCard = ({ socket, bills, item, setIsModalVisible, setContact, setName, setAddress, setType, setBuildingId, getData }) => {
+const BuildingCard = ({ bills, item, setIsModalVisible, setContact, setName, setAddress, setType, setBuildingId, getData }) => {
     const [collapse, setCollapse] = useState(false)
     const [visible, setVisible] = useState(false)
 
@@ -88,13 +88,13 @@ const BuildingCard = ({ socket, bills, item, setIsModalVisible, setContact, setN
                             </Col>
                             <Divider />
                             <Col span={24}>
-                                <StatsCard chart={<ReactApexChart options={linear('Consumed Electricity', "watt", "#1984f5").options} series={getData(item._id, "Electric")} type="area" height={350} />} />
+                                <StatsCard chart={<ReactApexChart options={linear('Consumed Electricity', "watt", "#1984f5").options} series={getData("Electric")} type="area" height={350} />} />
                             </Col>
                             <Col span={24}>
-                                <StatsCard chart={<ReactApexChart options={linear('Consumed Water', "liter", "#00c2f6").options} series={getData(item._id, "Water")} type="area" height={350} />} />
+                                <StatsCard chart={<ReactApexChart options={linear('Consumed Water', "liter", "#00c2f6").options} series={getData("Water")} type="area" height={350} />} />
                             </Col>
                             <Col span={24}>
-                                <StatsCard chart={<ReactApexChart options={linear('Consumed Gas', "m³", "#00cbc8").options} series={getData(item._id, "Gas")} type="area" height={350} />} />
+                                <StatsCard chart={<ReactApexChart options={linear('Consumed Gas', "m³", "#00cbc8").options} series={getData("Gas")} type="area" height={350} />} />
                             </Col>
                             <Col span={24} style={{ marginTop: 22 }}>
                                 <Row justify="center" >
@@ -105,7 +105,7 @@ const BuildingCard = ({ socket, bills, item, setIsModalVisible, setContact, setN
                     </Collapse.Panel>
                 </Collapse>
             </Card >
-            <ResourcesModal socket={socket} building={item} visible={visible} setVisible={setVisible} data={item.resources} />
+            <ResourcesModal building={item} visible={visible} setVisible={setVisible} data={item.resources} />
         </div >
     )
 }

@@ -74,11 +74,11 @@ let optionsLine = {
 const WaterInvoices = ({ bills, cost, aggregated, filtered }) => {
     const [metricCubic, setMetric] = useState(true)
     const [waterSum, setWaterSum] = useState(0)
+    const [allWaterLine, setAllWaterLine] = useState([])
     const [totalTaxCost, setTotalTax] = useState(0)
     const [totalEarning, setTotalEarning] = useState(0)
     const [supplier, setSupplier] = useState(0)
     const [delivery, setDelivery] = useState(0)
-    const [allWaterLine, setAllWaterLine] = useState([])
 
     const options = {
         noData: {
@@ -118,12 +118,12 @@ const WaterInvoices = ({ bills, cost, aggregated, filtered }) => {
         labels: ["Organization Cost", "Tax Cost", "Delivery Cost", "Supplier Cost"],
         colors: ["#1984f5", "#00c2f6", "#00cbc8", "#00cbff",],
         value: {
-            formatter: function (value) { return Number(value).toFixed(2) + " €" },
+            formatter: function (value) { return value + " €" },
         },
         tooltip: {
             enabled: true,
             y: {
-                formatter: function (value) { return Number(value).toFixed(2) + " €" },
+                formatter: function (value) { return value + " €" },
             },
 
         },
@@ -155,32 +155,20 @@ const WaterInvoices = ({ bills, cost, aggregated, filtered }) => {
         }]
     }
 
-
     useEffect(() => {
         if (bills === null)
             return
-        setWaterSum(0)
         setAllWaterLine([])
-        if (bills.hasOwnProperty("all")) {
-            setWaterSum(Number(bills.totalGas).toFixed(2))
-        }
-        else filtered.map(el => setWaterSum(old => old + el[1]))
+        setWaterSum(0)
+        if (bills.hasOwnProperty("totalWater"))
+            setWaterSum(Number(bills.totalWater).toFixed(2))
+        else
+            filtered.map(el => setWaterSum(old => old + el[1]))
 
-        let totalWater = 0
-        if (aggregated === undefined) {
-            filtered.forEach(el => {
-                totalWater = +totalWater + +el[1]
-            })
-            if (filtered.length === 0)
-                return
-        } else Object.values(aggregated).map(el => totalWater = +totalWater + +el.water)
-
-
-        setWaterSum(Number(totalWater).toFixed(2))
         if (cost !== undefined && Object.keys(cost).length > 0) {
             cost.forEach(el => {
-                if (el.name === "Water Cost at kWh") {
-                    setTotalEarning(totalWater * 0.0001666667 * el.price)
+                if (el.name === "Water Cost at m³") {
+                    setTotalEarning((waterSum * 0.0833333 / 1000 * el.price))
                 }
                 if (el.name === "Water Supplier Cost") {
                     setSupplier(el.price)
@@ -189,26 +177,17 @@ const WaterInvoices = ({ bills, cost, aggregated, filtered }) => {
                     setDelivery(el.price)
                 }
                 if (el.name === "Water Tax Percentage") {
-                    setTotalTax(totalWater * 0.0001666667 * el.price / 100)
+                    setTotalTax(waterSum * 0.0833333 / 1000 * el.price / 100)
                 }
             });
         }
+        setAllWaterLine([{
+            data: bills.bills.map(el =>
+                [el.date, el.water]
+            )
+        }])
+    }, [filtered, metricCubic, aggregated, cost, waterSum, bills])
 
-        let tmp = []
-        if (aggregated === undefined) {
-            filtered.forEach(el => {
-                tmp.push([el[0], el[1]])
-            })
-            setAllWaterLine([{ data: tmp }])
-        } else {
-            Object.values(aggregated).map(el => {
-                tmp.push([el.date, el.water])
-            })
-            setAllWaterLine([{ data: tmp }])
-
-        }
-
-    }, [filtered, aggregated, metricCubic, bills, cost])
 
     return (
         <Layout
@@ -265,12 +244,12 @@ const WaterInvoices = ({ bills, cost, aggregated, filtered }) => {
                             <ReactApexChart options={optionsLine} series={allWaterLine} type="line" height={320} />
                         </Col>
                         <Divider />
-                        {/* <Col span={24}>
+                        <Col span={24}>
                             <p style={{ fontSize: 18, fontWeight: 500 }}> Cost Overview</p>
                             <Row justify="center">
                                 <ReactApexChart options={options} series={[totalEarning, totalTaxCost, delivery, supplier]} type="pie" width={700} />
                             </Row>
-                        </Col> */}
+                        </Col>
                     </Row>
                 </Card>}
         </Layout>

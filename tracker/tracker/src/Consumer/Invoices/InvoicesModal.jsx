@@ -1,10 +1,10 @@
 import { Modal, Tabs } from "antd"
 import moment from "moment";
-import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import ElectricInvoices from "./ElectricInvoices";
 import GasInvoices from "./GasInvoices";
 import WaterInvoices from "./WaterInvoices";
+import api from "../../api";
 const { TabPane } = Tabs;
 
 const InvoicesModal = ({ data, visible, setVisible, timespan }) => {
@@ -15,35 +15,64 @@ const InvoicesModal = ({ data, visible, setVisible, timespan }) => {
     const [waterDetail, setWater] = useState({})
     const [electricDetail, setElectric] = useState({})
 
+    const fetchDetailedConsumptions = async () => {
+        await api.organization.fetchCost().then((res) => {
+            setElectric(res.details.electric)
+            setWater(res.details.water)
+            setGas(res.details.gas)
+        })
+    }
+
+    useEffect(() => {
+        fetchDetailedConsumptions()
+    }, [data])
+
+    function isDateInThisWeek(date) {
+        const todayObj = new Date();
+        const todayDate = todayObj.getDate();
+        const todayDay = todayObj.getDay();
+        const firstDayOfWeek = new Date(todayObj.setDate(todayDate - todayDay));
+        const lastDayOfWeek = new Date(firstDayOfWeek);
+        lastDayOfWeek.setDate(lastDayOfWeek.getDate() + 6);
+        return date >= firstDayOfWeek && date <= lastDayOfWeek;
+    }
+    function isDateInThisMonth(date) {
+        const todayObj = new Date();
+        return todayObj.getMonth() === date.getMonth()
+    }
+    function isDateInThisYear(date) {
+        const todayObj = new Date();
+        return todayObj.getFullYear() === date.getFullYear()
+    }
+
 
     data.bills?.forEach(el => {
-        const week = moment().subtract(7, 'days');
-        const month = moment().subtract(1, 'months');
-        const year = moment().subtract(1, 'years');
+
+        let date = new Date(el.date)
         switch (timespan) {
             case "Weekly":
-                if (moment(el.date).isBetween(week, undefined, 'day')) {
-                    elec.push([moment.utc(el.date).local().format(), el.electric])
-                    gas.push([moment.utc(el.date).local().format(), el.gas])
-                    water.push([moment.utc(el.date).local().format(), el.water])
+                if (isDateInThisWeek(new Date(el.date))) {
+                    elec.push([moment.utc(date).local().format(), el.electric])
+                    gas.push([moment.utc(date).local().format(), el.gas])
+                    water.push([moment.utc(date).local().format(), el.water])
                 }
                 break;
             case "Monthly":
-                if (moment(el.date).isBetween(month, undefined, 'day')) {
-                    elec.push([moment.utc(el.date).local().format(), el.electric])
-                    gas.push([moment.utc(el.date).local().format(), el.gas])
-                    water.push([moment.utc(el.date).local().format(), el.water])
+                if (isDateInThisMonth(new Date(el.date))) {
+                    elec.push([moment.utc(date).local().format(), el.electric])
+                    gas.push([moment.utc(date).local().format(), el.gas])
+                    water.push([moment.utc(date).local().format(), el.water])
                 }
                 break;
             case "Yearly":
-                if (moment(el.date).isBetween(year, undefined, 'day')) {
-                    elec.push([moment.utc(el.date).local().format(), el.electric])
-                    gas.push([moment.utc(el.date).local().format(), el.gas])
-                    water.push([moment.utc(el.date).local().format(), el.water])
+                if (isDateInThisYear(new Date(el.date))) {
+                    elec.push([moment.utc(date).local().format(), el.electric])
+                    gas.push([moment.utc(date).local().format(), el.gas])
+                    water.push([moment.utc(date).local().format(), el.water])
                 }
                 break;
             default:
-
+                break
         }
     })
 

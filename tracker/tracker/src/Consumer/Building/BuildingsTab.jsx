@@ -11,7 +11,7 @@ import EditBuildingModal from "./EditBuildingModal";
 import { useNavigate } from "react-router-dom";
 import BuildingCard from "./BuildingCard";
 
-const BuildingTab = ({ updateRoute, socket }) => {
+const BuildingTab = ({ updateRoute }) => {
     const buildings = useSelector((state) => state.buildings.buildings)
     const user = useSelector((state) => state.user.user)
     const dispatch = useDispatch()
@@ -29,7 +29,7 @@ const BuildingTab = ({ updateRoute, socket }) => {
     const [myMessage, setMessage] = useState("")
 
     const getBills = async () => {
-        await api.bills.getBillsAggregated(user._id).then(res => setBills(res))
+        await api.bills.fetchBills().then(res => { setBills(res) })
     }
 
     useEffect(() => {
@@ -37,15 +37,11 @@ const BuildingTab = ({ updateRoute, socket }) => {
         window.scroll(0, 0)
     }, [buildings, show])
 
-    const getData = (id, type) => {
-        if (bills.all === undefined)
+    const getData = (type) => {
+        if (bills.bills === undefined)
             return []
-        let test = bills.all.find(el => el.buildingId === id)
-        if (test === undefined) {
-            return []
-        }
         let data = []
-        test.bills.map(el =>
+        bills.bills.map(el =>
             data.push({
                 x: moment.utc(el.date).local().format(),
                 y: el[type.toLowerCase()]
@@ -118,18 +114,18 @@ const BuildingTab = ({ updateRoute, socket }) => {
             />
             {
                 buildingsFilter === null || buildingsFilter.length === 0 ?
-                    <Card style={{ marginTop: "32px",  }}>
+                    <Card style={{ marginTop: "32px", }}>
                         <Empty
                             description="No Buildings found..."
                         >
                         </Empty>
                     </Card>
                     :
-                    buildingsFilter.map((item) => <BuildingCard socket={socket} key={item._id} bills={bills}  getData={getData} setAddress={setAddress} setBuildingId={setBuildingId} setContact={setContact} item={item} setIsModalVisible={setIsModalVisible} setName={setName} setType={setType} />)
+                    buildingsFilter.map((item) => <BuildingCard key={item._id} bills={bills} getData={getData} setAddress={setAddress} setBuildingId={setBuildingId} setContact={setContact} item={item} setIsModalVisible={setIsModalVisible} setName={setName} setType={setType} />)
             }
             <EditBuildingModal setName={(val) => setName(val)} setContact={(val) => setContact(val)} setType={(val) => setType(val)}
                 buildingId={buildingId} name={name} contact={contact} address={address} type={type} visible={isModalVisible} setVisible={() => setIsModalVisible(false)} updateBuilding={() => updateBuilding(buildingId)} />
         </Layout >
     );
 }
-export default ({ updateRoute, socket }) => <BuildingTab socket={socket} updateRoute={() => updateRoute()} />
+export default ({ updateRoute }) => <BuildingTab updateRoute={() => updateRoute()} />

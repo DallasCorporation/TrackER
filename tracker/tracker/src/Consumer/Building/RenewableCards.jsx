@@ -1,5 +1,4 @@
 import { Button, Card, Col, Divider, Empty, Modal, PageHeader, Row, Statistic } from "antd"
-import moment from "moment"
 import { useEffect, useState } from "react"
 import ReactApexChart from "react-apexcharts"
 import api from "../../api"
@@ -113,8 +112,6 @@ let optionsLine = {
 
 }
 
-
-
 const RenewableCards = ({ item, bills, resources }) => {
 
     const getAllData = async () => {
@@ -123,31 +120,16 @@ const RenewableCards = ({ item, bills, resources }) => {
         setDeviceEarning(0)
         setDeviceCost(0)
         setAllBills([])
-        let resArray = resources.map(el => Object.keys(el)[0])
         if (bills === null || Object.keys(bills).length === 0)
-            if (bills.all === undefined)
+            if (bills.bills === undefined)
                 return []
-        let test = bills.all.find(el => el.buildingId === item._id)
-        if (test === undefined) return []
-        await api.renewable.fetchResourcesByBuildingId(test.buildingId).then(res => res.map(devices => {
+        await api.renewable.fetchResourcesByBuildingId(bills.buildingId).then(res => res.map(devices => {
             setDeviceEarning((old) => old + devices.earning)
             setDeviceCost((old) => old + devices.price)
-            test.bills.map(el => {
-                el["resources"].forEach(element => {
-                    if (resArray.includes(Object.keys(element)[0])) {
-                        switch (Object.keys(element)[0]) {
-                            case "Solar":
-                                setSolarSum((old) => old + Number(Object.values(element)))
-                                if (devices.resourcesType === "Solar" && filter === "Solar") {
-                                    setTotalSum((old) => old + Number(Object.values(element)))
-                                    setAllBills((old) => [...old, [el.date, Number(Object.values(element)).toFixed(2)]])
-                                }
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                })
+            bills.bills.map(el => {
+                setSolarSum((old) => old + Number(el.solar))
+                setTotalSum((old) => old + Number(el.solar))
+                setAllBills((old) => [...old, [el.date, Number(el.solar).toFixed(2)]])
             })
         }))
     }
@@ -256,7 +238,7 @@ const RenewableCards = ({ item, bills, resources }) => {
                     <Statistic value={!metric ? solarSum : solarSum / 1000} suffix={metric ? "kW" : "W"} precision={2} />
                 </Card>
             </Col>
-            <Modal destroyOnClose visible={visible} onCancel={() => setVisible(false)} width={800} title={"Total " + filter + " Production"}>
+            <Modal destroyOnClose visible={visible} onCancel={() => setVisible(false)} width={1000} title={"Total " + filter + " Production"}>
                 {renderData(filter)}
             </Modal>
             <ResourcesModal defaultActiveKey={filter} building={item} visible={visible1} setVisible={setVisible1} data={item.resources} />

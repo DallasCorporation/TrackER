@@ -3,10 +3,9 @@ import { Avatar, Card, Popconfirm, Row, Tooltip } from "antd"
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import api from "../../../api";
-import ContractModal from "./ContractModal";
 
 
-const ResourcesContent = ({socket, data, type, building }) => {
+const ResourcesContent = ({  data, type, building }) => {
     const allOrganization = useSelector(state => state.allOrganization.organization)
 
     const columns = [
@@ -53,27 +52,27 @@ const ResourcesContent = ({socket, data, type, building }) => {
             dataIndex: 'type',
             initialValue: 'all',
             filters: true,
-            width:200,
+            width: 200,
             onFilter: true,
             valueType: 'select',
         },
         {
             title: 'Installation Price',
-            width:200,
+            width: 200,
             dataIndex: 'price',
             render: (val, data) => val + " €"
         },
         {
             title: 'Saving at KWh',
             dataIndex: 'earning',
-            width:200,
+            width: 200,
 
             render: (val, data) => val + " €"
         },
         {
             title: 'Organization percentage earning at KWh',
             dataIndex: 'organization',
-            width:200,
+            width: 200,
             render: (val, data) => val + "%"
         },
         {
@@ -119,7 +118,6 @@ const ResourcesContent = ({socket, data, type, building }) => {
                 request={() => getRenewable()}
                 columns={columns} search={false} dateFormatter="string"
             />
-            <ContractModal socket={socket} data={selected} visible={visible} setVisible={setVisible} buildingId={building._id} />
         </>
     )
 }

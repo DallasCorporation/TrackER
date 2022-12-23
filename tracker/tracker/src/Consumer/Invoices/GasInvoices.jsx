@@ -169,42 +169,37 @@ const GasInvoices = ({ bills, cost, aggregated, filtered }) => {
     useEffect(() => {
         if (bills === null)
             return
-        setGasSum(0)
         setAllGasLine([])
-        if (bills.hasOwnProperty("all"))
+        setGasSum(0)
+        if (bills.hasOwnProperty("totalGas"))
             setGasSum(Number(bills.totalGas).toFixed(2))
         else
             filtered.map(el => setGasSum(old => old + el[1]))
+
         if (cost !== undefined && Object.keys(cost).length > 0) {
             cost.forEach(el => {
                 if (el.name === "Gas Cost at m³") {
-                    setTotalEarning(gasSum * 0.0454249414 / 1000 * el.price)
+                    setTotalEarning((gasSum * 0.0833333 / 1000 * el.price))
                 }
-                if (el.name === "Supplier Gas Cost") {
+                if (el.name === "Gas Supplier Cost") {
                     setSupplier(el.price)
                 }
                 if (el.name === "Gas Delivery Cost") {
                     setDelivery(el.price)
                 }
                 if (el.name === "Gas Tax Percentage") {
-                    setTotalTax(gasSum * 0.0454249414 / 1000 * el.price / 100)
+                    setTotalTax(gasSum * 0.0833333 / 1000 * el.price / 100)
                 }
             });
         }
-        let tmp = []
-        if (aggregated === undefined) {
-            filtered.forEach(el => {
-                tmp.push([el[0], el[1]])
-            })
-            setAllGasLine([{ data: tmp }])
-        } else {
-            Object.values(aggregated).map(el => {
-                tmp.push([el.date, el.gas])
-            })
-            setAllGasLine([{ data: tmp }])
+        setAllGasLine([{
+            data: bills.bills.map(el =>
+                [el.date, el.gas]
+            )
+        }])
+        console.log(totalEarning)
+    }, [filtered, metricCubic, aggregated, cost, gasSum, bills])
 
-        }
-    }, [filtered, metricCubic, aggregated, cost, bills])
 
 
     return (
@@ -237,7 +232,7 @@ const GasInvoices = ({ bills, cost, aggregated, filtered }) => {
                         <Col md={6} sm={12}>
                             <Statistic title="Total Gas Usage" value={metricCubic ? gasSum * 0.0454249414 / 1000 : gasSum} suffix={metricCubic ? "Gas/m³" : "Gallon"} precision={4} />
                             <Row align="middle">
-                                <span onClick={() => setMetric(!metricCubic)} style={{ color: "blue", marginRight: 6, cursor:"pointer" }} class="anticon iconfont">&#xe615;</span>
+                                <span onClick={() => setMetric(!metricCubic)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} class="anticon iconfont">&#xe615;</span>
                                 <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricCubic ? "Gas/m³" : "Gallon"}</p>
                             </Row>
                         </Col>
@@ -262,12 +257,12 @@ const GasInvoices = ({ bills, cost, aggregated, filtered }) => {
                             <ReactApexChart options={optionsLine} series={allGasLine} type="line" height={320} />
                         </Col>
                         <Divider />
-                        {/* <Col span={24}>
+                        <Col span={24}>
                             <p style={{ fontSize: 18, fontWeight: 500 }}> Cost Overview</p>
                             <Row justify="center">
                                 <ReactApexChart options={options} series={[totalEarning, totalTaxCost, delivery, supplier]} type="pie" width={700} />
                             </Row>
-                        </Col> */}
+                        </Col>
                     </Row>
                 </Card>}
         </Layout>

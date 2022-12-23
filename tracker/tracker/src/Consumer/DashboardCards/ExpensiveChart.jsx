@@ -10,6 +10,7 @@ import ElectricInvoices from "./../Invoices/ElectricInvoices";
 import GasInvoices from "./../Invoices/GasInvoices";
 import WaterInvoices from "./../Invoices/WaterInvoices";
 import BuildingsProductionCard from "./BuildingsProductionCard"
+import api from "../../api"
 const { TabPane } = Tabs;
 
 const RowHover = styled(Row)`
@@ -20,7 +21,6 @@ cursor: pointer;
 }
 `
 const ExpensiveChart = ({ bills }) => {
-    console.log(bills)
     const state = {
         series: [bills.totalElectric, bills.totalWater, bills.totalGas],
         options: {
@@ -88,9 +88,18 @@ const ExpensiveChart = ({ bills }) => {
     const navigate = useNavigate()
     const [gasDetail, setGas] = useState({})
     const [waterDetail, setWater] = useState({})
-    const [electricDetail, setElectric] = useState({})
+    const [electricDetail, setElectric] = useState([])
+
+    const fetchDetailedConsumptions = async () => {
+        await api.organization.fetchCost().then((res) => {
+            setElectric(res.details.electric)
+            setWater(res.details.water)
+            setGas(res.details.gas)
+        })
+    }
 
     useEffect(() => {
+        fetchDetailedConsumptions()
         if (bills === null || bills === undefined)
             return
     }, [bills])
@@ -143,8 +152,8 @@ const ExpensiveChart = ({ bills }) => {
                     )
                 })}
                 <Drawer destroyOnClose width={1000} visible={showDrawer} onClose={() => setDrawer(false)}>
-                    <Tabs defaultActiveKey="1" centered>
-                        <TabPane tab="Electric" key="1">
+                    <Tabs defaultActiveKey="1" centered destroyInactiveTabPane>
+                        <TabPane tab="Electric" key="1" >
                             <ElectricInvoices bills={bills} cost={electricDetail} aggregated={bills.aggregated}></ElectricInvoices>
                         </TabPane>
                         <TabPane tab="Gas" key="2">
@@ -155,7 +164,7 @@ const ExpensiveChart = ({ bills }) => {
                         </TabPane>
                     </Tabs>
                 </Drawer>
-                <Modal width={1200} visible={showModal} onCancel={() => setModal(false)}>
+                <Modal width={1200} visible={showModal} onCancel={() => setModal(false)} onOk={() => setModal(false)}>
                     <BuildingsProductionCard />
                 </Modal>
             </ProCard>

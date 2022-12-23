@@ -22,7 +22,7 @@ const Dashboard = () => {
   const [gas, setGas] = useState({})
   const [water, setWater] = useState({})
   const [electric, setElectric] = useState({})
-  const day = moment().subtract(231, 'days');
+  const day = moment().subtract(10, 'days');
   const [solar, setSolar] = useState({})
   const [totalRen, setTotalRen] = useState(0)
 
@@ -70,28 +70,8 @@ const Dashboard = () => {
     return series
   }
 
-  const getBillsRenewable = async () => {
-    await api.bills.getBillsRenewable().then(res => {
-      let type = Object.values(buildings).filter(el => el._id === "62ed1f97d158cb42b69e5356")
-      let sumSolar = 0
-      type.forEach(el => el.resources.forEach(el => {
-        switch (Object.keys(el)[0]) {
-          case "Solar":
-            sumSolar += res.totalSolar
-            break;
-          default:
-            break
-        }
-      }))
-      setSolar({ name: "Solar", data: [sumSolar] })
-      setTotalRen(sumSolar)
-    })
-  }
-
   const getBills = async () => {
     await api.bills.fetchBills().then(res => {
-      let oldMoment = moment("01/01/17", "MM/D/YYYY")
-      let billDates = Object.values(res.bills).filter(el => moment(el.date).isBetween(day, undefined))
       let water = []
       let gas = []
       let electric = []
@@ -101,14 +81,20 @@ const Dashboard = () => {
       let totalElectric = 0
       let totalGas = 0
       let totalWater = 0
+      let sumSolar = 0
+      let oldMoment = moment("01/01/22", "MM/D/YYYY")
+      res.bills.map(bill => sumSolar += bill.solar)
+      setTotalRen(sumSolar)
+      setSolar({ name: "Solar", data: [sumSolar] })
+      let billDates = Object.values(res.bills).filter(el => moment(el.date).isBetween(day, undefined))
       billDates.forEach(el => {
         totalElectric += el.electric
         totalGas += el.gas
         totalWater += el.water
         if (moment(el.date).isSame(oldMoment, "day")) {
-          sumWater = sumWater + el.water
-          sumElectric = sumElectric + el.electric
-          sumGas = sumGas + el.gas
+          sumWater += el.water
+          sumElectric += el.electric
+          sumGas += el.gas
           oldMoment = el.date
         } else {
           water.push(Number(sumWater).toFixed(3))
@@ -120,15 +106,18 @@ const Dashboard = () => {
           oldMoment = el.date
         }
       })
+      water.push(Number(sumWater).toFixed(3))
+      electric.push(Number(sumElectric).toFixed(3))
+      gas.push(Number(sumGas).toFixed(3))
       electric.shift()
       gas.shift()
       water.shift()
       electric = electric.slice(-3)
       gas = gas.slice(-3)
       water = water.slice(-3)
-      totalElectric= Number(totalElectric.toFixed(2))
-      totalGas= Number(totalGas.toFixed(2))
-      totalWater= Number(totalWater.toFixed(2))
+      totalElectric = Number(totalElectric.toFixed(2))
+      totalGas = Number(totalGas.toFixed(2))
+      totalWater = Number(totalWater.toFixed(2))
       setBills({ ...res, totalElectric, totalGas, totalWater })
       setWater({ name: "Water", data: water })
       setGas({ name: "Gas", data: gas })
@@ -138,7 +127,6 @@ const Dashboard = () => {
 
   useEffect(() => {
     getBills()
-    getBillsRenewable()
   }, [user, buildings])
 
   return (

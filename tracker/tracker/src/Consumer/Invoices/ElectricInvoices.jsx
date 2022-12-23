@@ -83,10 +83,6 @@ let optionsLine = {
 
 }
 
-const week = moment().subtract(7, 'days');
-const month = moment().subtract(1, 'months');
-const year = moment().subtract(1, 'years');
-
 const ElectricInvoices = ({ bills, cost, aggregated, filtered }) => {
     const [metricCubic, setMetric] = useState(true)
     const [electricSum, setElectricSum] = useState(0)
@@ -176,12 +172,12 @@ const ElectricInvoices = ({ bills, cost, aggregated, filtered }) => {
             return
         setAllElectricLine([])
         setElectricSum(0)
-        if (bills.hasOwnProperty("all"))
-            setElectricSum(Number(bills.totalElectric).toFixed(2))
-        else
+        if (filtered !== undefined)
             filtered.map(el => setElectricSum(old => old + el[1]))
+        else
+            setElectricSum(Number(bills.totalElectric).toFixed(2))
 
-
+        console.log(cost)
         if (cost !== undefined && Object.keys(cost).length > 0) {
             cost.forEach(el => {
                 if (el.name === "Electricity Cost at kWh") {
@@ -198,18 +194,11 @@ const ElectricInvoices = ({ bills, cost, aggregated, filtered }) => {
                 }
             });
         }
-        let tmp = []
-        if (aggregated === undefined) {
-            filtered.forEach(el => {
-                tmp.push([el[0], el[1]])
-            })
-            setAllElectricLine([{ data: tmp }])
-        } else {
-            Object.values(aggregated).map(el => {
-                tmp.push([el.date, el.electric])
-            })
-            setAllElectricLine([{ data: tmp }])
-        }
+        setAllElectricLine([{
+            data: bills.bills.map(el =>
+                [el.date, el.electric]
+            )
+        }])
     }, [filtered, metricCubic, aggregated, cost, electricSum, bills])
 
 
@@ -243,7 +232,7 @@ const ElectricInvoices = ({ bills, cost, aggregated, filtered }) => {
                         <Col md={6} sm={12}>
                             <Statistic title="Total Electric Usage" value={metricCubic ? electricSum / 1000 : electricSum} suffix={metricCubic ? "Kilowatt (kW)" : "Watt"} precision={4} />
                             <Row align="middle">
-                                <span onClick={() => setMetric(!metricCubic)} style={{ color: "blue", marginRight: 6, cursor:"pointer" }} class="anticon iconfont">&#xe615;</span>
+                                <span onClick={() => setMetric(!metricCubic)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} class="anticon iconfont">&#xe615;</span>
                                 <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricCubic ? "Kilowatt (kW)" : "Watt"}</p>
                             </Row>
                         </Col>
@@ -253,7 +242,7 @@ const ElectricInvoices = ({ bills, cost, aggregated, filtered }) => {
                         <Col md={6} sm={12} style={{ height: 90 }} >
                             <Statistic title="Total Delivery Cost" value={delivery} suffix={"Euro (€)"} precision={2} />
                         </Col>
-                        <Col md={6} sm={12}style={{ height: 90 }} >
+                        <Col md={6} sm={12} style={{ height: 90 }} >
                             <Carousel autoplay dots={false} autoplaySpeed={3500}>
                                 <Statistic title="Total Tax Cost" value={totalTaxCost.toFixed(2)} suffix={"Euro (€)"} precision={2} />
                                 <Statistic title="Total Supplier Cost" value={supplier} suffix={"Euro (€)"} precision={2} />
@@ -268,12 +257,12 @@ const ElectricInvoices = ({ bills, cost, aggregated, filtered }) => {
                             <ReactApexChart options={optionsLine} series={allElectricLine} type="line" height={320} />
                         </Col>
                         <Divider />
-                        {/* <Col span={24}>
+                        <Col span={24}>
                             <p style={{ fontSize: 18, fontWeight: 500 }}> Cost Overview</p>
                             <Row justify="center">
                                 <ReactApexChart options={options} series={[totalEarning, totalTaxCost, delivery, supplier]} type="pie" width={700} />
                             </Row>
-                        </Col> */}
+                        </Col>
                     </Row>
                 </Card>
             }

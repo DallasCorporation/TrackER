@@ -1,26 +1,31 @@
 const asyncHandler = require('express-async-handler');
 const quakeModel = require('../models/quakeModel');
+const { ObjectId } = require('mongodb');
 
 const addQuakeData = asyncHandler(async (req, res) => {
-    const exist = await quakeModel.findOne({ buildingId: req.params.id })
+    const exist = await quakeModel.find({ buildingId: ObjectId("62ed1f97d158cb42b69e5356") })
     if (exist) {
-        let quake =
-            quakeModel.updateOne(
-                { "buildingId": req.params.id },
-                {
-                    "$push": {
-                        "intensity": {
-                            value: req.body.intensity,
-                            date: Date.now
-                        }
+        let date = new Date().toLocaleString('it-IT')
+        quakeModel.findOneAndUpdate(
+            { "buildingId": ObjectId("62ed1f97d158cb42b69e5356") },
+            {
+                "$push": {
+                    "intensity": {
+                        value: req.body.intensity,
+                        date
                     }
-                },
-                function (err, count) { console.log(err) }).then(res => console.log(res))
-        if (quake) {
-            res.status(201).json({
-                quake
+                }
+            },
+            { new: true }).then(result => {
+                if (result) {
+                    res.status(201).json({
+                        result
+                    })
+                } else {
+                    res.status(400)
+                    throw new Error('Invalid quake data')
+                }
             })
-        }
     }
     else {
         const quake = await quakeModel.create({

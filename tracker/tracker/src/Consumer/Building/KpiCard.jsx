@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { IconFont } from "../utils"
 import "./style.css"
 
-const KpiCard = ({ bills, item }) => {
+const KpiCard = ({ bills }) => {
     const [metricGas, setMetricGas] = useState(false)
     const [metricWater, setMetricWater] = useState(false)
     const [metricElectric, setMetricElectric] = useState(false)
@@ -18,15 +18,11 @@ const KpiCard = ({ bills, item }) => {
         setWater(0)
         if (bills === null || bills === undefined)
             return
-        if (bills.all.length <= 0)
-            return
-        let buildingBills = bills.all.find(el => el.buildingId === item._id)
-        buildingBills !== undefined &&
-            buildingBills.bills.map(el => {
-                setElectric((old) => old + el.electric)
-                setWater((old) => old + el.water)
-                setGas((old) => old + el.gas)
-            })
+        bills.bills.map(bill => {
+            setElectric((old) => old + bill.electric)
+            setWater((old) => old + bill.water)
+            setGas((old) => old + bill.gas)
+        })
     }, [bills])
 
 

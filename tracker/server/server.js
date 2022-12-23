@@ -2,8 +2,6 @@ const express = require("express");
 const mongoose = require('mongoose')
 const app = express();
 const cors = require("cors");
-const { Server } = require("socket.io");
-
 
 require("dotenv").config({ path: "./.env" });
 mongoose.connect(process.env.ATLAS_URI, { useNewUrlParser: true }, () => {
@@ -16,6 +14,7 @@ app.use(require("./routes/buildings"));
 app.use(require("./routes/renewable"))
 app.use(require("./routes/bills.js"))
 app.use(require("./routes/quake.js"))
+app.use(require("./routes/organization"))
 
 // get driver connection
 const dbo = require("./db/conn");

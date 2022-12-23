@@ -1,46 +1,46 @@
 const asyncHandler = require('express-async-handler');
 const { ObjectId } = require('mongodb');
-const { connectToServer } = require('../db/conn');
 const dbo = require("../db/conn");
 const billsModel = require('../models/billsModel');
 const Building = require('../models/buildingModel');
 
 const addData = asyncHandler(async (req, res) => {
-  const exist = await billsModel.findOne({ buildingId: req.params.id })
+  const exist = await billsModel.findOne({ buildingId: ObjectId("62ed1f97d158cb42b69e5356") })
+  let date = new Date().toLocaleString('it-IT')
   if (exist) {
-    let bill = billsModel.updateOne(
-      { "buildingId": req.params.id },
+    billsModel.findOneAndUpdate(
+      { "buildingId": ObjectId("62ed1f97d158cb42b69e5356") },
       {
         "$push": {
           "bills": {
             electric: req.body.electric,
             gas: req.body.gas,
             water: req.body.water,
-            resources: req.body.resources,
-            date: Date.now
+            solar: req.body.solar,
+            date
           }
         }
-      }).then(res => console.log(res))
-    if (bill) {
-      res.status(201).json({
-        bill
+      }, { new: true }).then(result => {
+        if (result) {
+          res.status(201).json({
+            result
+          })
+        } else {
+          res.status(400)
+          throw new Error('Invalid user data')
+        }
       })
-    } else {
-      res.status(400)
-      throw new Error('Invalid user data')
-    }
   }
   else {
     const bills = await billsModel.create({
-      buildingId: ObjectId(req.params.id),
-      organizationId: ObjectId(req.body.organizationId),
+      buildingId: ObjectId("62ed1f97d158cb42b69e5356"),
       bills: [
         {
           electric: req.body.electric,
           gas: req.body.gas,
           water: req.body.water,
-          resources: req.body.resources,
-          date: req.body.date
+          solar: req.body.solar,
+          date
         }
       ]
     })
@@ -66,7 +66,7 @@ const getBills = asyncHandler(async (req, res) => {
 })
 
 const getBuildingBills = asyncHandler(async (req, res) => {
-  const goal = await billsModel.findOne({ buildingId: ObjectId(req.params.id) })
+  const goal = await billsModel.findOne({ buildingId: ObjectId("62ed1f97d158cb42b69e5356") })
 
   if (!goal) {
     res.status(400).json([])
@@ -152,44 +152,6 @@ const getBillsByOrganizationId = asyncHandler(async (req, res) => {
 })
 
 
-const getBillsByOrganizationIdAggregated = asyncHandler(async (req, res) => {
-  let db_connect = dbo.getDb();
-  const organization = await Organization.findById(ObjectId(req.params.id))
-  db_connect
-    .collection("bills")
-    .find({ organizationId: ObjectId(req.params.id) }).toArray(function (err, result) {
-      if (err) throw err;
-      let totalElectric = 0
-      let totalGas = 0
-      let totalWater = 0
-      let aggregated = {}
-      result.map(obj => {
-        obj.bills.map(bill => {
-          if (aggregated.hasOwnProperty(bill.date)) {
-            let existing = aggregated[bill.date];
-            aggregated[bill.date] = {
-              date: existing.date,
-              ...(organization.type.includes("Electric")) && { electric: parseFloat(existing.electric + bill.electric).toFixed(2) },
-              ...(organization.type.includes("Gas")) && { gas: parseFloat(existing.gas + bill.gas).toFixed(2) },
-              ...(organization.type.includes("Water")) && { water: parseFloat(isNaN(existing.water) ? 0 + bill.water : existing.water + bill.water).toFixed(2) },
-            }
-          } else {
-            aggregated[bill.date] = {
-              date: bill.date,
-              ...(organization.type.includes("Electric")) && { electric: parseFloat(bill.electric).toFixed(2) },
-              ...(organization.type.includes("Gas")) && { gas: parseFloat(bill.gas).toFixed(2) },
-              ...(organization.type.includes("Water")) && { water: isNaN(bill.water) ? 0 : parseFloat(bill.water).toFixed(2) },
-            };
-          }
-          totalElectric += organization.type.includes("Electric") ? bill.electric : 0
-          totalGas += organization.type.includes("Gas") ? bill.gas : 0
-          totalWater += organization.type.includes("Water") ? bill.water : 0
-        })
-      })
-      res.json({ result, totalWater, totalGas, totalElectric, aggregated });
-    });
-})
-
 const getBillsRenewableOnly = asyncHandler(async (req, res) => {
   const bills = await billsModel.findOne({ buildingId: (req.params.id) })
   let totalSolar = 0, totalWind = 0, totalGeo = 0, totalHydro = 0
@@ -218,13 +180,11 @@ const getBillsRenewableOnly = asyncHandler(async (req, res) => {
   res.status(200).json({ renewable, totalSolar, totalWind, totalGeo, totalHydro })
 })
 
-
 module.exports = {
   addData,
   getBills,
   getBillsAggregatedFiltered,
   getBillsByOrganizationId,
-  getBillsByOrganizationIdAggregated,
   getBuildingBills,
   getBillsRenewableOnly
 }

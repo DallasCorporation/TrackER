@@ -271,5 +271,5 @@ export const invoices = {
 };
 
 export const IconFont = createFromIconfontCN({
-    scriptUrl: '//at.alicdn.com/t/c/font_3378177_50drx8euoam.js',
+    scriptUrl: '//at.alicdn.com/t/c/font_3378177_7taoj00zwn4.js',
 });

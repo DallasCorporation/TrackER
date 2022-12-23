@@ -1,10 +1,10 @@
-import { Col, Layout, Row, } from "antd";
+import { Card, Col, Layout, Row, Statistic, } from "antd";
 import React, { useEffect } from "react";
 import BannerCard from "./DashboardCards/BannerCard";
 import ReactApexChart from "react-apexcharts";
 import LineCard from "./DashboardCards/LineCard";
 import StatsCard from "./DashboardCards/StatsCard";
-import { stateBar } from "./utils";
+import { IconFont, stateBar } from "./utils";
 import ExpensiveChart from "./DashboardCards/ExpensiveChart";
 import RevenueCard from "./DashboardCards/RevenueCard";
 import EarningsCard from "./DashboardCards/EarningsCard";
@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import api from "../api";
 import { useState } from "react";
 import moment from "moment"
+import { ProCard } from "@ant-design/pro-components";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user)
@@ -25,6 +26,16 @@ const Dashboard = () => {
   const day = moment().subtract(10, 'days');
   const [solar, setSolar] = useState({})
   const [totalRen, setTotalRen] = useState(0)
+  const [currentTime, setCurrentTime] = useState(new Date())
+
+
+  useEffect(() => {
+    setInterval(() => {
+      let nwDate = new Date();
+      console.log(nwDate)
+      setCurrentTime(nwDate)
+    }, 1000);
+  }, [])
 
   const getData = (data) => {
     if (data === undefined) return []
@@ -138,10 +149,11 @@ const Dashboard = () => {
         marginTop: "32px"
       }}
     >
-      <h1 style={{ fontSize: "24px", }}>Welcome back, {user.name} 👋</h1>
-      <p style={{ color: "#636e72", fontSize: "14px", lineHeight: "21px" }}>Your current status and analytics are here</p>
       <Row gutter={[32, 32]}>
         <Col lg={18} md={24} sx={24}>
+          <h1 style={{ fontSize: "24px", }}>Welcome back, {user.name} 👋</h1>
+          <p style={{ color: "#636e72", fontSize: "14px", lineHeight: "21px" }}>Your current status and analytics are here</p>
+
           <Row gutter={[0, 32]}>
             <BannerCard name="Get exclusive discounts for your bills" />
             <LineCard data={getData(bills)} />
@@ -175,6 +187,13 @@ const Dashboard = () => {
         </Col>
         <Col lg={6} md={24} sx={24}>
           <Row gutter={[8, 32]} justify="center" align="middle">
+            <ProCard bordered style={{ borderRadius: "10px", boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
+              <Row justify="center" align="middle">
+                <Statistic value={"20°"} />
+                <IconFont type="i-Temperature" style={{ fontSize: 60 }} />
+                <Statistic value={currentTime.toLocaleTimeString()} />
+              </Row>
+            </ProCard>
             <ExpensiveChart bills={bills} />
             <DownloadCard />
             <RevenueCard bills={bills.aggregated} />

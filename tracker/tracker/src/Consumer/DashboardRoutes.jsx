@@ -6,15 +6,13 @@ import Dashboard from './Dashboard'
 import BuildingsTab from './Building/BuildingsTab';
 import "./Dashboard.less"
 import { DefaultFooter, ProLayout } from '@ant-design/pro-components';
-import Header from "./Header/Header";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import api from "../api";
 import Invoices from "./Invoices/Invoices";
 import { fetchBuildings } from "../reducers/buildings";
 
 
 const DashboardRoute = () => {
-    // const user = useSelector((state) => state.user.user)
     const dispatch = useDispatch()
     const user = {
         email: "emanuele@dernetsoft.com",

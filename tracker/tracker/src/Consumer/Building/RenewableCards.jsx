@@ -4,6 +4,7 @@ import ReactApexChart from "react-apexcharts"
 import api from "../../api"
 import { IconFont } from "../utils"
 import ResourcesModal from "./Resources/ResourcesModal"
+import { isMobile } from "react-device-detect"
 let optionsBar = {
     chart: {
         type: 'bar',
@@ -175,7 +176,7 @@ const RenewableCards = ({ item, bills, resources }) => {
                 style={{ paddingLeft: 0 }}
                 className="site-page-header"
                 title={filter + " Devices Production"}
-                subTitle="Check your devices earnings and productions"
+                subTitle={isMobile ? "" : "Check your devices earnings and productions"}
             />
             <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
                 <Row align="top" gutter={[32, 32]} >

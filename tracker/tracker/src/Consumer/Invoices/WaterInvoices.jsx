@@ -1,6 +1,7 @@
 import { Breadcrumb, Card, Carousel, Col, Divider, Empty, Layout, PageHeader, Row, Statistic } from "antd"
 import { useEffect, useState } from "react"
 import ReactApexChart from "react-apexcharts"
+import { isMobile } from "react-device-detect"
 
 let optionsLine = {
     legend: {
@@ -207,7 +208,7 @@ const WaterInvoices = ({ bills, cost, aggregated, filtered }) => {
                 style={{ paddingLeft: 0 }}
                 className="site-page-header"
                 title="Water Supplier Details"
-                subTitle="Check your supplier earnings and productions"
+                subTitle={isMobile ? "" : "Check your supplier earnings and productions"}
             />
             {Object.keys(bills).length === 0 ?
                 <Card style={{ borderRadius: 20, marginBottom: 32, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>

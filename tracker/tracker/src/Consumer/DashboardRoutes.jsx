@@ -10,72 +10,78 @@ import { useDispatch } from "react-redux";
 import api from "../api";
 import Invoices from "./Invoices/Invoices";
 import { fetchBuildings } from "../reducers/buildings";
+import { updateUser } from "../reducers/user.js"
 
+const user = {
+    email: "emanuele@dernetsoft.com",
+    name: "Emanuele",
+    password: "$2a$10$rUmw/c7v3NGhGqawkNLC.uq94V.gUqnkQr3fQzV0MVWDetrUJwLBS",
+    surname: "Dall'Ara",
+    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYmVlOTgxZTYzZjA5M2M4MTNiOGEwMiIsImlhdCI6MTY2Mjk3MTEwNSwiZXhwIjoxNjY1NTYzMTA1fQ.6Z9UkWwy1KR9xxSnf9v2Fo8HTy9lwsXD7w4HhtHgYIs",
+    type: "Building",
+    _id: "62bee981e63f093c813b8a02"
+}
 
+let defaultProps = {
+    route: {
+        path: '/',
+        routes: [
+            {
+                path: '/Dashboard',
+                name: 'Dashboard',
+                icon: <span class="anticon iconfont">&#x100d9;</span>,
+
+            },
+            {
+                path: '/Buildings',
+                name: 'Buildings',
+                icon: <span class="anticon iconfont" >&#x100dc;</span>
+            },
+            {
+                path: '/Invoices',
+                name: 'Invoices',
+                icon: <span class="anticon iconfont" >&#x100e6;</span>,
+                routes: [
+                    {
+                        path: '/Invoices/Weekly',
+                        name: 'Weekly',
+
+                    },
+                    {
+                        path: '/Invoices/Monthly',
+                        name: 'Monthly',
+
+                    },
+                    {
+                        path: '/Invoices/Yearly',
+                        name: 'Yearly',
+
+                    },
+                ],
+            },
+        ],
+    },
+    location: {
+        pathname: '/',
+    },
+};
+const settings = { fixSiderbar: true, };
 const DashboardRoute = () => {
     const dispatch = useDispatch()
-    const user = {
-        email: "emanuele@dernetsoft.com",
-        name: "Emanuele",
-        password: "$2a$10$rUmw/c7v3NGhGqawkNLC.uq94V.gUqnkQr3fQzV0MVWDetrUJwLBS",
-        surname: "Dall'Ara",
-        token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYmVlOTgxZTYzZjA5M2M4MTNiOGEwMiIsImlhdCI6MTY2Mjk3MTEwNSwiZXhwIjoxNjY1NTYzMTA1fQ.6Z9UkWwy1KR9xxSnf9v2Fo8HTy9lwsXD7w4HhtHgYIs",
-        type: "Building",
-        _id: "62bee981e63f093c813b8a02"
-    }
 
-    useEffect(async () => {
+    const fetch = async () => {
         await api.buildings.fetchBuildings(user._id).then(data =>
             dispatch(fetchBuildings(data)))
+    }
+
+    useEffect(() => {
+        dispatch(updateUser(user))
+        fetch()
     }, [])
 
 
     let navigate = useNavigate();
 
-    let defaultProps = {
-        route: {
-            path: '/',
-            routes: [
-                {
-                    path: '/Dashboard',
-                    name: 'Dashboard',
-                    icon: <span class="anticon iconfont">&#x100d9;</span>,
-
-                },
-                {
-                    path: '/Buildings',
-                    name: 'Buildings',
-                    icon: <span class="anticon iconfont" >&#x100dc;</span>
-                },
-                {
-                    path: '/Invoices',
-                    name: 'Invoices',
-                    icon: <span class="anticon iconfont" >&#x100e6;</span>,
-                    routes: [
-                        {
-                            path: '/Invoices/Weekly',
-                            name: 'Weekly',
-
-                        },
-                        {
-                            path: '/Invoices/Monthly',
-                            name: 'Monthly',
-
-                        },
-                        {
-                            path: '/Invoices/Yearly',
-                            name: 'Yearly',
-
-                        },
-                    ],
-                },
-            ],
-        },
-        location: {
-            pathname: '/',
-        },
-    };
-    const settings = { fixSiderbar: true, };
     const [pathname, setPathname] = useState('/Dashboard');
 
     const url = window.location.pathname

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { IconFont } from "../utils"
 import "./style.css"
 
-const KpiCard = ({ bills }) => {
+const KpiCard = ({ bills, gasVisible, waterVisible, electricVisible }) => {
     const [metricGas, setMetricGas] = useState(false)
     const [metricWater, setMetricWater] = useState(false)
     const [metricElectric, setMetricElectric] = useState(false)
@@ -45,7 +45,7 @@ const KpiCard = ({ bills }) => {
     return (
         <Row align="top" gutter={[32, 32]} >
             <Col md={8} sm={24} xs={24} >
-                <Card class="kpi" hoverable style={{ borderRadius: 20, cursor: "default" }}>
+                <Card class="kpi" hoverable style={{ borderRadius: 20, cursor: "default" }} onClick={() => electricVisible(true)}>
                     <Row gutter={[32, 32]} justify={width <= 768 ? "center" : "space-between"} align="middle">
                         <Col md={6} sm={24} xs={24}>
                             <IconFont type="i-Energy" style={{ fontSize: 45, color: "#1196db" }} />
@@ -62,7 +62,7 @@ const KpiCard = ({ bills }) => {
             </Col>
 
             <Col md={8} sm={24} xs={24}>
-                <Card class="kpi" hoverable style={{ borderRadius: 20, cursor: "default" }}>
+                <Card class="kpi" hoverable style={{ borderRadius: 20, cursor: "default" }} onClick={() => waterVisible(true)}>
                     <Row gutter={[32, 32]} justify={width <= 768 ? "center" : "space-between"} align="middle">
                         <Col md={6} sm={24} xs={24}>
                             <IconFont type="i-water" color="#1196db" style={{ fontSize: 45, color: "#1196db" }} />
@@ -80,7 +80,7 @@ const KpiCard = ({ bills }) => {
 
             <Col md={8} sm={24} xs={24}>
                 <Card class="kpi" hoverable style={{ borderRadius: 20, cursor: "default" }}>
-                    <Row gutter={[32, 32]} justify={width <= 768 ? "center" : "space-between"} align="middle">
+                    <Row gutter={[32, 32]} justify={width <= 768 ? "center" : "space-between"} align="middle" onClick={() => gasVisible(true)}>
                         <Col md={6} sm={24} xs={24}>
                             <IconFont type="i-fire-line" style={{ fontSize: 45, color: "#1196db" }} />
                         </Col>

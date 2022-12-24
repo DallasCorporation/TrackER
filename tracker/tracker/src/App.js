@@ -45,10 +45,5 @@ class App extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  const { logged } = state.user
-  const { type } = state.user.user
-  return { logged, type }
-}
 
-export default connect(mapStateToProps)(App);
+export default App;

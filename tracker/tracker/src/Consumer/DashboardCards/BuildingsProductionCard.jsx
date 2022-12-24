@@ -2,6 +2,7 @@ import { Card, Col, Divider, Empty, Layout, PageHeader, Row, Statistic, Tabs } f
 import { useState } from "react"
 import { useSelector } from "react-redux"
 import api from "../../api"
+import { isMobile } from "react-device-detect"
 
 const BuildingsProductionCard = () => {
     const buildings = useSelector(state => state.buildings.buildings)
@@ -106,7 +107,7 @@ const BuildingsProductionCard = () => {
     return (
         <Layout
             className="site-layout-background"
-            style={{
+            style={isMobile ? {} : {
                 marginTop: 22,
                 paddingLeft: 24,
                 paddingRight: 24,
@@ -116,7 +117,7 @@ const BuildingsProductionCard = () => {
                 style={{ paddingLeft: 0 }}
                 className="site-page-header"
                 title={"Buildings Devices Production"}
-                subTitle="Check your buildings energy earnings and productions"
+                subTitle={isMobile ? "" : "Check your buildings energy earnings and productions"}
             />
             <Card style={{ borderRadius: 20, marginBottom: 32, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
                 {Object.keys(buildings).length === 0 ?

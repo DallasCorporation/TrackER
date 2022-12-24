@@ -15,6 +15,8 @@ import api from "../api";
 import { useState } from "react";
 import moment from "moment"
 import { ProCard } from "@ant-design/pro-components";
+import TemperatureCard from "./DashboardCards/TemperatureCard";
+import { isMobile } from "react-device-detect";
 
 const Dashboard = () => {
   const user = useSelector((state) => state.user.user)
@@ -26,16 +28,6 @@ const Dashboard = () => {
   const day = moment().subtract(10, 'days');
   const [solar, setSolar] = useState({})
   const [totalRen, setTotalRen] = useState(0)
-  const [currentTime, setCurrentTime] = useState(new Date())
-
-
-  useEffect(() => {
-    setInterval(() => {
-      let nwDate = new Date();
-      console.log(nwDate)
-      setCurrentTime(nwDate)
-    }, 1000);
-  }, [])
 
   const getData = (data) => {
     if (data === undefined) return []
@@ -142,7 +134,7 @@ const Dashboard = () => {
 
   return (
     <Layout
-      style={{
+      style={isMobile ? {} : {
         paddingRight: 24,
         paddingLeft: 24,
         minHeight: 280,
@@ -187,13 +179,7 @@ const Dashboard = () => {
         </Col>
         <Col lg={6} md={24} sx={24}>
           <Row gutter={[8, 32]} justify="center" align="middle">
-            <ProCard bordered style={{ borderRadius: "10px", boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
-              <Row justify="center" align="middle">
-                <Statistic value={"20°"} />
-                <IconFont type="i-Temperature" style={{ fontSize: 60 }} />
-                <Statistic value={currentTime.toLocaleTimeString()} />
-              </Row>
-            </ProCard>
+            <TemperatureCard />
             <ExpensiveChart bills={bills} />
             <DownloadCard />
             <RevenueCard bills={bills.aggregated} />

@@ -235,6 +235,18 @@ export const linear = (text, unit, color) => ({
                 formatter: (val) => val + " " + unit
             }
         },
+        responsive: [{
+            breakpoint: 480,
+            options: {
+                chart: {
+                    height: 600
+                },
+                title: {
+                    offsetX: -60,
+                    offsetY: 2,
+                }
+            }
+        }],
     }
 });
 

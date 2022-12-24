@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import api from "../../api";
 import { InfoCircleOutlined } from '@ant-design/icons';
 import InvoicesModal from "./InvoicesModal";
+import { isMobile } from "react-device-detect";
 
 const Invoices = ({ user }) => {
     const filter = useLocation().pathname.split("/")[2]
@@ -43,7 +44,7 @@ const Invoices = ({ user }) => {
                 style={{ paddingLeft: 0 }}
                 className="site-page-header"
                 title="Buildings Invoices"
-                subTitle="Browse and check your invoices"
+                subTitle={isMobile ? "" : "Browse and check your invoices"}
                 onBack={() => navigate("/Dashboard")}
             />
             <Row justify="center">
@@ -68,7 +69,7 @@ const Invoices = ({ user }) => {
                             </Col>
                             :
                             buildings.map(el =>
-                                <Col md={8} sm={12} xs={24}>
+                                <Col md={12} sm={12} xs={24}>
                                     <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }} >
                                         <Row justify="space-between" align="middle">
                                             <p style={{ fontWeight: 500, fontSize: 22, margin: 0 }}>{el.name}</p>

@@ -2,6 +2,7 @@ import { Breadcrumb, Card, Carousel, Col, Divider, Empty, Layout, PageHeader, Ro
 import moment from "moment"
 import { useEffect, useState } from "react"
 import ReactApexChart from "react-apexcharts"
+import { isMobile } from "react-device-detect"
 
 let optionsLine = {
     noData: {
@@ -204,7 +205,7 @@ const ElectricInvoices = ({ bills, cost, aggregated, filtered }) => {
     return (
         <Layout
             className="site-layout-background"
-            style={{
+            style={isMobile ? {} : {
                 paddingLeft: 24,
                 paddingRight: 24,
             }}
@@ -219,7 +220,7 @@ const ElectricInvoices = ({ bills, cost, aggregated, filtered }) => {
                 style={{ paddingLeft: 0 }}
                 className="site-page-header"
                 title="Electric Supplier Details"
-                subTitle="Check your supplier earnings and productions"
+                subTitle={isMobile ? "" : "Check your supplier earnings and productions"}
             />
             {Object.keys(bills).length === 0 ?
                 <Card style={{ borderRadius: 20, marginBottom: 32, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>

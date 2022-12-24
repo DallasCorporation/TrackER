@@ -1,6 +1,6 @@
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { ProForm, ProFormText } from "@ant-design/pro-components";
-import { Button, Card, Col, Collapse, Divider, Popconfirm, Radio, Row, Tooltip } from "antd";
+import { Button, Card, Col, Collapse, Divider, Modal, Popconfirm, Radio, Row, Tooltip } from "antd";
 import { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import StatsCard from "../DashboardCards/StatsCard";
@@ -9,13 +9,18 @@ import KpiCard from "./KpiCard";
 import MapboxMap from "./MapboxMap";
 import RenewableCards from "./RenewableCards";
 import ResourcesModal from "./Resources/ResourcesModal";
+import { isMobile } from "react-device-detect";
 
 const BuildingCard = ({ bills, item, setIsModalVisible, setContact, setName, setAddress, setType, setBuildingId, getData }) => {
     const [collapse, setCollapse] = useState(false)
     const [visible, setVisible] = useState(false)
+    const [visibleElec, setVisibleElec] = useState(false)
+    const [visibleWater, setVisibleWater] = useState(false)
+    const [visibleGas, setVisibleGas] = useState(false)
+
 
     return (
-        <div style={{ paddingTop: "32px" }} key={item._id}>
+        <div style={isMobile ? {} : { paddingTop: "32px" }} key={item._id}>
             <Card bodyStyle={{ padding: "0", marginBottom: "32px", borderRadius: "10px" }} headStyle={{ borderTopLeftRadius: "10px", borderTopRightRadius: "10px", backgroundColor: "#0010f7" }} style={{ borderRadius: "10px", boxShadow: "0 2px 10px rgba(0,0,0,0.2)" }}
                 title={
                     <Row >
@@ -84,18 +89,22 @@ const BuildingCard = ({ bills, item, setIsModalVisible, setContact, setName, set
                         key="1">
                         <Row justify="space-between" style={{ marginBottom: "32px", padding: "32px" }} gutter={[32, 32]}>
                             <Col span={24}>
-                                <KpiCard bills={bills} item={item} />
+                                <KpiCard bills={bills} item={item} gasVisible={setVisibleGas} waterVisible={setVisibleWater} electricVisible={setVisibleElec} />
                             </Col>
-                            <Divider />
-                            <Col span={24}>
-                                <StatsCard chart={<ReactApexChart options={linear('Consumed Electricity', "watt", "#1984f5").options} series={getData("Electric")} type="area" height={350} />} />
-                            </Col>
-                            <Col span={24}>
-                                <StatsCard chart={<ReactApexChart options={linear('Consumed Water', "liter", "#00c2f6").options} series={getData("Water")} type="area" height={350} />} />
-                            </Col>
-                            <Col span={24}>
-                                <StatsCard chart={<ReactApexChart options={linear('Consumed Gas', "m³", "#00cbc8").options} series={getData("Gas")} type="area" height={350} />} />
-                            </Col>
+                            {!isMobile &&
+                                <>
+                                    <Divider />
+                                    <Col span={24}>
+                                        <StatsCard chart={<ReactApexChart options={linear('Consumed Electricity', "watt", "#1984f5").options} series={getData("Electric")} type="area" height={350} />} />
+                                    </Col>
+                                    <Col span={24}>
+                                        <StatsCard chart={<ReactApexChart options={linear('Consumed Water', "liter", "#00c2f6").options} series={getData("Water")} type="area" height={350} />} />
+                                    </Col>
+                                    <Col span={24}>
+                                        <StatsCard chart={<ReactApexChart options={linear('Consumed Gas', "m³", "#00cbc8").options} series={getData("Gas")} type="area" height={350} />} />
+                                    </Col>
+                                </>
+                            }
                             <Col span={24} style={{ marginTop: 22 }}>
                                 <Row justify="center" >
                                     <RenewableCards bills={bills} item={item} resources={item.resources} />
@@ -106,6 +115,19 @@ const BuildingCard = ({ bills, item, setIsModalVisible, setContact, setName, set
                 </Collapse>
             </Card >
             <ResourcesModal building={item} visible={visible} setVisible={setVisible} data={item.resources} />
+            {isMobile &&
+                <>
+                    <Modal visible={visibleElec} onCancel={() => setVisibleElec(false)} onOk={() => setVisibleElec(false)}>
+                        <StatsCard chart={<ReactApexChart options={linear('Consumed Electricity', "watt", "#1984f5").options} series={getData("Electric")} type="area" height={350} />} />
+                    </Modal>
+                    <Modal visible={visibleWater} onCancel={() => setVisibleWater(false)} onOk={() => setVisibleWater(false)}>
+                        <StatsCard chart={<ReactApexChart options={linear('Consumed Water', "liter", "#00c2f6").options} series={getData("Water")} type="area" height={350} />} />
+                    </Modal>
+                    <Modal visible={visibleGas} onCancel={() => setVisibleGas(false)} onOk={() => setVisibleGas(false)}>
+                        <StatsCard chart={<ReactApexChart options={linear('Consumed Gas', "m³", "#00cbc8").options} series={getData("Gas")} type="area" height={350} />} />
+                    </Modal>
+                </>
+            }
         </div >
     )
 }

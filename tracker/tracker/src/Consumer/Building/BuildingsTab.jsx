@@ -10,6 +10,7 @@ import moment from "moment";
 import EditBuildingModal from "./EditBuildingModal";
 import { useNavigate } from "react-router-dom";
 import BuildingCard from "./BuildingCard";
+import { isMobile } from "react-device-detect";
 
 const BuildingTab = ({ updateRoute }) => {
     const buildings = useSelector((state) => state.buildings.buildings)
@@ -93,7 +94,7 @@ const BuildingTab = ({ updateRoute }) => {
     return (
         <Layout
             className="site-layout-background"
-            style={{
+            style={isMobile ? {} : {
                 padding: 24,
                 minHeight: 280,
             }}
@@ -109,12 +110,12 @@ const BuildingTab = ({ updateRoute }) => {
                 style={{ paddingLeft: 0 }}
                 className="site-page-header"
                 title="Buildings Portfolio"
-                subTitle="Browse and check your buildings"
+                subTitle={isMobile? "":"Browse and check your buildings"}
                 onBack={() => navigate("/Dashboard")}
             />
             {
                 buildingsFilter === null || buildingsFilter.length === 0 ?
-                    <Card style={{ marginTop: "32px", }}>
+                    <Card style={isMobile ? {} : { marginTop: "32px", }}>
                         <Empty
                             description="No Buildings found..."
                         >

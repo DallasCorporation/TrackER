@@ -2,11 +2,32 @@ import { Col, Row, Empty } from "antd";
 import { ProCard } from "@ant-design/pro-components";
 import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
-import { stacked } from "../utils";
 import { useEffect } from "react";
-const EarningsCard = ({ series, total = 0 }) => {
+
+let options = {
+  chart: {
+    height: 350,
+    type: 'heatmap',
+  },
+  dataLabels: {
+    enabled: false
+  },
+ 
+  
+  colors: ["#ffcf26"],
+}
+const EarningsCard = ({ total = 0, data }) => {
+
+  const [series, setSeries] = useState([])
   useEffect(() => {
-  }, [series])
+    if (data !== undefined) {
+      setSeries([{
+        name: 'Energy production',
+        data: data
+      }])
+    }
+  }, [data])
+
 
   return (
     <ProCard bordered style={{
@@ -25,7 +46,8 @@ const EarningsCard = ({ series, total = 0 }) => {
             total <= 0 ?
               <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
               :
-              <ReactApexChart options={stacked.options} series={series} type="bar" height={150} />
+              <ReactApexChart options={options} series={series} type="heatmap" height={350} />
+            // <ReactApexChart options={linear('Consumed Gas', "m³", "#00cbc8").options} series={val} type="area" height={150} />
           }
         </Col>
       </Row>

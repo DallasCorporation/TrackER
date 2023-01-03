@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://192.168.1.7:3000/api";
+const API_URL = "http://192.168.1.206:3000/api";
+// const API_URL = "http://localhost:3000/api";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
@@ -36,6 +37,11 @@ export default {
     temperature: {
         get: () =>
             axios.get(`${API_URL}/temperature/`)
+                .then((res) => res.data),
+    },
+    quake: {
+        get: () =>
+            axios.get(`${API_URL}/quake/`)
                 .then((res) => res.data),
     }
 };

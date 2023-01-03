@@ -12,14 +12,13 @@ import { useNavigate } from "react-router-dom";
 import BuildingCard from "./BuildingCard";
 import { isMobile } from "react-device-detect";
 
-const BuildingTab = ({ updateRoute }) => {
+const BuildingTab = () => {
     const buildings = useSelector((state) => state.buildings.buildings)
     const user = useSelector((state) => state.user.user)
     const dispatch = useDispatch()
     const [show, setShow] = useState(false)
     const [bills, setBills] = useState([])
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [filter, setFilter] = useState("Address");
     const [buildingsFilter, setBuildingsFilter] = useState(buildings);
     const [name, setName] = useState("")
     const [contact, setContact] = useState("")
@@ -53,22 +52,6 @@ const BuildingTab = ({ updateRoute }) => {
         }]
         return series
     }
-
-    const renderItem = () => {
-        let tmp = []
-        if (buildings === null)
-            return []
-        buildings.map(el =>
-            tmp.push(
-                {
-                    value: filter === "Address" ? el.address : el.name,
-                    label: filter === "Address" ? el.address : el.name,
-                    key: el.id,
-                    props: el.id
-                })
-        )
-        return tmp
-    };
 
     const updateBuilding = async (buildingId) => {
         let data = {
@@ -110,7 +93,7 @@ const BuildingTab = ({ updateRoute }) => {
                 style={{ paddingLeft: 0 }}
                 className="site-page-header"
                 title="Buildings Portfolio"
-                subTitle={isMobile? "":"Browse and check your buildings"}
+                subTitle={isMobile ? "" : "Browse and check your buildings"}
                 onBack={() => navigate("/Dashboard")}
             />
             {

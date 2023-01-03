@@ -12,7 +12,7 @@ const Invoices = ({ user }) => {
     const buildings = useSelector(state => state.buildings.buildings)
     const [bills, setBills] = useState([])
     const [data, setData] = useState({})
-    const [timespan, setTimespan] = useState("")
+    const [timeSpan, setTimeSpan] = useState("")
     const [visible, setVisible] = useState(false)
     const navigate = useNavigate()
     const [building, setBuilding] = useState({})
@@ -101,7 +101,7 @@ const Invoices = ({ user }) => {
                                                             setBuilding(el)
                                                         }
                                                     });
-                                                    setTimespan(filter)
+                                                    setTimeSpan(filter)
                                                 }}
                                                 size="middle" type="primary" style={{ borderRadius: 10 }}>{filter} Bills Details</Button>
                                         </Row>
@@ -111,7 +111,7 @@ const Invoices = ({ user }) => {
                     </Row>
                 </Col>
             </Row>
-            <InvoicesModal visible={visible} setVisible={setVisible} data={data} timespan={timespan} building={building} />
+            <InvoicesModal visible={visible} setVisible={setVisible} data={data} timeSpan={timeSpan} building={building} />
         </Layout>
     )
 }

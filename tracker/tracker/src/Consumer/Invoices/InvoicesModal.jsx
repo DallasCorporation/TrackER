@@ -7,7 +7,7 @@ import WaterInvoices from "./WaterInvoices";
 import api from "../../api";
 const { TabPane } = Tabs;
 
-const InvoicesModal = ({ data, visible, setVisible, timespan }) => {
+const InvoicesModal = ({ data, visible, setVisible, timeSpan }) => {
     let elec = []
     let gas = []
     let water = []
@@ -49,7 +49,7 @@ const InvoicesModal = ({ data, visible, setVisible, timespan }) => {
     data.bills?.forEach(el => {
 
         let date = new Date(el.date)
-        switch (timespan) {
+        switch (timeSpan) {
             case "Weekly":
                 if (isDateInThisWeek(new Date(el.date))) {
                     elec.push([moment.utc(date).local().format(), el.electric])

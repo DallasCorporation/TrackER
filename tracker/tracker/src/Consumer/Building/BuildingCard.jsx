@@ -103,6 +103,12 @@ const BuildingCard = ({ bills, item, setIsModalVisible, setContact, setName, set
                                     <Col span={24}>
                                         <StatsCard chart={<ReactApexChart options={linear('Consumed Gas', "m³", "#00cbc8").options} series={getData("Gas")} type="area" height={350} />} />
                                     </Col>
+                                    <Col span={12}>
+                                        <StatsCard chart={<ReactApexChart options={linear('Temperature & Humidity', "°", "#00cbc8").options} series={getData("Gas")} type="area" height={350} />} />
+                                    </Col>
+                                    <Col span={12}>
+                                        <StatsCard chart={<ReactApexChart options={linear('Seismograph', "Kg", "#00cbc8").options} series={getData("Gas")} type="area" height={350} />} />
+                                    </Col>
                                 </>
                             }
                             <Col span={24} style={{ marginTop: 22 }}>

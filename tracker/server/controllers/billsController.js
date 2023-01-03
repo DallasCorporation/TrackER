@@ -13,10 +13,10 @@ const addData = asyncHandler(async (req, res) => {
       {
         "$push": {
           "bills": {
-            electric: req.body.electric,
-            gas: req.body.gas,
-            water: req.body.water,
-            solar: req.body.solar,
+            electric: Number(req.body.electric),
+            gas: Number(req.body.gas),
+            water: Number(req.body.water),
+            solar: Number(req.body.solar),
             date
           }
         }

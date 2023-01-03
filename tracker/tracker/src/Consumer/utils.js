@@ -188,7 +188,7 @@ export const stacked = {
 };
 
 
-export const linear = (text, unit, color) => ({
+export const linear = (text = "text", unit = "", color = "#000") => ({
     options: {
         noData: {
             text: "No data to show...",
@@ -283,5 +283,5 @@ export const invoices = {
 };
 
 export const IconFont = createFromIconfontCN({
-    scriptUrl: '//at.alicdn.com/t/c/font_3378177_7taoj00zwn4.js',
+    scriptUrl: '//at.alicdn.com/t/c/font_3378177_yi2fvh3znhd.js',
 });

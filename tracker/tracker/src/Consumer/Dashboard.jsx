@@ -1,12 +1,8 @@
-import { Card, Col, Layout, Row, Statistic, } from "antd";
+import { Col, Layout, Row, } from "antd";
 import React, { useEffect } from "react";
 import BannerCard from "./DashboardCards/BannerCard";
-import ReactApexChart from "react-apexcharts";
 import LineCard from "./DashboardCards/LineCard";
-import StatsCard from "./DashboardCards/StatsCard";
-import { IconFont, stateBar } from "./utils";
 import ExpensiveChart from "./DashboardCards/ExpensiveChart";
-import RevenueCard from "./DashboardCards/RevenueCard";
 import EarningsCard from "./DashboardCards/EarningsCard";
 import DownloadCard from "./DashboardCards/DowloadCard";
 import SeismographCard from "./DashboardCards/SeismographCard"
@@ -14,7 +10,6 @@ import { useSelector } from "react-redux";
 import api from "../api";
 import { useState } from "react";
 import moment from "moment"
-import { ProCard } from "@ant-design/pro-components";
 import TemperatureCard from "./DashboardCards/TemperatureCard";
 import { isMobile } from "react-device-detect";
 
@@ -22,12 +17,10 @@ const Dashboard = () => {
   const user = useSelector((state) => state.user.user)
   const buildings = useSelector((state) => state.buildings.buildings)
   const [bills, setBills] = useState({})
-  const [gas, setGas] = useState({})
-  const [water, setWater] = useState({})
-  const [electric, setElectric] = useState({})
-  const day = moment().subtract(10, 'days');
   const [solar, setSolar] = useState({})
+  const [quake, setQuake] = useState({})
   const [totalRen, setTotalRen] = useState(0)
+  const [solarArrayData, setSolarArrayData] = useState([])
 
   const getData = (data) => {
     if (data === undefined) return []
@@ -75,61 +68,34 @@ const Dashboard = () => {
 
   const getBills = async () => {
     await api.bills.fetchBills().then(res => {
-      let water = []
-      let gas = []
-      let electric = []
-      let sumGas = 0
-      let sumWater = 0
-      let sumElectric = 0
       let totalElectric = 0
       let totalGas = 0
       let totalWater = 0
       let sumSolar = 0
-      let oldMoment = moment("01/01/22", "MM/D/YYYY")
       res.bills.map(bill => sumSolar += bill.solar)
       setTotalRen(sumSolar)
       setSolar({ name: "Solar", data: [sumSolar] })
-      let billDates = Object.values(res.bills).filter(el => moment(el.date).isBetween(day, undefined))
-      billDates.forEach(el => {
-        totalElectric += el.electric
-        totalGas += el.gas
-        totalWater += el.water
-        if (moment(el.date).isSame(oldMoment, "day")) {
-          sumWater += el.water
-          sumElectric += el.electric
-          sumGas += el.gas
-          oldMoment = el.date
-        } else {
-          water.push(Number(sumWater).toFixed(3))
-          electric.push(Number(sumElectric).toFixed(3))
-          gas.push(Number(sumGas).toFixed(3))
-          sumWater = Number(el.water)
-          sumElectric = Number(el.electric)
-          sumGas = Number(el.gas)
-          oldMoment = el.date
-        }
+      setSolarArrayData(res.bills.map(el => ({ x: el.date, y: el.solar })))
+      res.bills.map(el => {
+        totalElectric += Number(el.electric)
+        totalGas += Number(el.gas)
+        totalWater += Number(el.water)
       })
-      water.push(Number(sumWater).toFixed(3))
-      electric.push(Number(sumElectric).toFixed(3))
-      gas.push(Number(sumGas).toFixed(3))
-      electric.shift()
-      gas.shift()
-      water.shift()
-      electric = electric.slice(-3)
-      gas = gas.slice(-3)
-      water = water.slice(-3)
-      totalElectric = Number(totalElectric.toFixed(2))
-      totalGas = Number(totalGas.toFixed(2))
-      totalWater = Number(totalWater.toFixed(2))
       setBills({ ...res, totalElectric, totalGas, totalWater })
-      setWater({ name: "Water", data: water })
-      setGas({ name: "Gas", data: gas })
-      setElectric({ name: "Electric", data: electric })
     })
+  }
+
+  const getQuake = async () => {
+    await api.quake.get().then(res => { setQuake(res.intensity.map(el => ({ x: el.date, y: el.value }))) })
   }
 
   useEffect(() => {
     getBills()
+    getQuake()
+    setInterval(() => {
+      getBills()
+      getQuake()
+    }, 5000);
   }, [user, buildings])
 
   return (
@@ -150,31 +116,11 @@ const Dashboard = () => {
             <BannerCard name="Get exclusive discounts for your bills" />
             <LineCard data={getData(bills)} />
           </Row>
-          <Row justify="center" gutter={[32, 32]} style={{ marginTop: "32px" }}>
-            <Col lg={8} md={8} sx={8} >
-              <StatsCard
-                color={"#ebfafa"}
-                chart={<ReactApexChart options={stateBar("Water", "#008ffb").options} series={[water]} type="bar" height={150} />}
-              />
-            </Col>
-            <Col lg={8} md={8} sx={8}>
-              <StatsCard
-                color={"#fff9e9"}
-                chart={<ReactApexChart options={stateBar("Electric", "#ffcf45").options} series={[electric]} type="bar" height={150} />}
-              />
-            </Col>
-            <Col lg={8} md={8} sx={8}>
-              <StatsCard
-                color={"#ebfafa"}
-                chart={<ReactApexChart options={stateBar("Gas", "#19e396").options} series={[gas]} type="bar" height={150} />}
-              />
-            </Col>
+          <Row style={{ marginTop: "32px" }}>
+            <EarningsCard series={[solar]} total={(totalRen / 1000).toFixed(2)} data={solarArrayData} />
           </Row>
           <Row style={{ marginTop: "32px" }}>
-            <EarningsCard series={[solar]} total={(totalRen / 1000).toFixed(2)} />
-          </Row>
-          <Row style={{ marginTop: "32px" }}>
-            <SeismographCard series={[solar]} total={(totalRen / 1000).toFixed(2)} />
+            <SeismographCard series={{ name: "Quake", data: quake }} total={(totalRen / 1000).toFixed(2)} />
           </Row>
         </Col>
         <Col lg={6} md={24} sx={24}>
@@ -182,7 +128,6 @@ const Dashboard = () => {
             <TemperatureCard />
             <ExpensiveChart bills={bills} />
             <DownloadCard />
-            <RevenueCard bills={bills.aggregated} />
           </Row>
         </Col>
       </Row>

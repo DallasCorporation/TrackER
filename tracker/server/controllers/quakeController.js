@@ -11,7 +11,7 @@ const addQuakeData = asyncHandler(async (req, res) => {
             {
                 "$push": {
                     "intensity": {
-                        value: req.body.intensity,
+                        value: Number(req.body.intensity),
                         date
                     }
                 }
@@ -44,12 +44,12 @@ const addQuakeData = asyncHandler(async (req, res) => {
 })
 
 const getQuakeData = asyncHandler(async (req, res) => {
-    const goal = await quakeModel.findOne({ _id: ObjectId(req.params.id) })
+    const goal = await quakeModel.findOne({ buildingId: ObjectId("62ed1f97d158cb42b69e5356") })
     if (goal)
         res.status(200).json(goal)
     else {
         res.status(400)
-        throw new Error('renewable not found')
+        throw new Error('quake not found')
     }
 })
 

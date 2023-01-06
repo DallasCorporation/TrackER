@@ -230,7 +230,7 @@ const ElectricInvoices = ({ bills, cost, aggregated, filtered }) => {
                 <Card style={{ borderRadius: 20, marginBottom: 32, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
                     <Row align="top" gutter={[32, 32]} >
                         <Col md={6} sm={12}>
-                            <Statistic title="Total Electric Usage" value={metricCubic ? electricSum / 1000 : electricSum} suffix={metricCubic ? "Kilowatt (kW)" : "Watt"} precision={4} />
+                            <Statistic title="Total Electric Usage" value={metricCubic ? electricSum / 1000 : electricSum} suffix={metricCubic ? "Kilowatt (kW)" : "Watt"} precision={2} />
                             <Row align="middle">
                                 <span onClick={() => setMetric(!metricCubic)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} class="anticon iconfont">&#xe615;</span>
                                 <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricCubic ? "Kilowatt (kW)" : "Watt"}</p>

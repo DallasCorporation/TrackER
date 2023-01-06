@@ -68,12 +68,12 @@ const KpiCard = ({ bills, gasVisible, waterVisible, electricVisible }) => {
                             <IconFont type="i-water" color="#1196db" style={{ fontSize: 45, color: "#1196db" }} />
                         </Col>
                         <Col md={18} sm={24} xs={24}>
-                            <Statistic title="Water Consumption" value={metricWater ? water * 0.0001666667 : water} suffix={metricWater ? "Liter/Hours (l/h)" : "Liter"} precision={2} />
+                            <Statistic title="Water Consumption" value={metricWater ? water / 1000 : water} suffix={metricWater ? "Liter (l)" : "ml"} precision={2} />
                         </Col>
                     </Row>
                     <Row align="middle" >
                         <span onClick={() => setMetricWater(!metricWater)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} class="anticon iconfont">&#xe615;</span>
-                        <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricWater ? "Liter/Hours (l/h)" : "Liter"}</p>
+                        <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricWater ? "Liter(l)" : "ml"}</p>
                     </Row>
                 </Card>
             </Col>
@@ -85,12 +85,12 @@ const KpiCard = ({ bills, gasVisible, waterVisible, electricVisible }) => {
                             <IconFont type="i-fire-line" style={{ fontSize: 45, color: "#1196db" }} />
                         </Col>
                         <Col md={18} sm={24} xs={24}>
-                            <Statistic title={`Gas Consumption`} value={metricGas ? gas * 0.0454249414 / 1000 : gas} suffix={metricGas ? "Gas/m³" : "Gallon"} precision={2} />
+                            <Statistic title={`Gas Consumption`} value={metricGas ? gas / 1000 : gas} suffix={metricGas ? "m³" : "Gallon"} precision={2} />
                         </Col>
                     </Row>
                     <Row align="middle" >
                         <span onClick={() => setMetricGas(!metricGas)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} class="anticon iconfont">&#xe615;</span>
-                        <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricGas ? "Gas/m³" : "Gallon"}</p>
+                        <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricGas ? "m³" : "Gallon"}</p>
                     </Row>
                 </Card>
             </Col>

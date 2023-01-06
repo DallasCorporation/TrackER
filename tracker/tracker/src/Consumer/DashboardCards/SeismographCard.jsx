@@ -3,9 +3,7 @@ import { ProCard } from "@ant-design/pro-components";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
 import { IconFont } from "../utils";
-const SeismographCard = ({ series, total = 0 }) => {
-
-
+const SeismographCard = ({ series }) => {
   let options = {
     chart: {
       type: 'line',
@@ -16,12 +14,48 @@ const SeismographCard = ({ series, total = 0 }) => {
           speed: 200
         }
       },
+      dropShadow: {
+        enabled: true,
+        color: '#000',
+        top: 18,
+        left: 7,
+        blur: 10,
+        opacity: 0.2
+      },
+    },
+    annotations: {
+      yaxis: [
+        {
+          y: 0,
+          y2: 4500,
+          borderColor: '#000',
+          fillColor: '#00E396',
+          opacity: 0.2,
+          label: {
+            borderColor: '#333',
+            style: {
+              fontSize: '10px',
+              color: '#333',
+              background: '#00E396',
+            },
+            text: 'Safe Area',
+          }
+        }]
     },
     xaxis: {
       labels: {
-        format: 'dd/MM/yyyy HH:mm',
+        format: 'dd-MM-yyyy HH:mm',
       },
       type: 'datetime',
+    },
+    tooltip: {
+      enabled: true,
+      followCursor: true,
+      theme: "light",
+      x: {
+        show: true,
+        format: "dd-MM-yyyy HH:mm"
+      },
     },
     dataLabels: {
       enabled: false
@@ -41,7 +75,7 @@ const SeismographCard = ({ series, total = 0 }) => {
     <ProCard bordered style={{
       borderRadius: "10px",
       boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
-    }}>
+    }} >
       <Row align="middle" justify="space-between">
         <Col>
           <h4 style={{ fontSize: "20px", fontWeight: 500, color: "#2d3436" }}>Seismograph Status</h4>
@@ -50,15 +84,10 @@ const SeismographCard = ({ series, total = 0 }) => {
           <IconFont type="i-wi-earthquake" style={{ fontSize: 40, color: "#713F00" }} />
         </Col>
         <Col xs={24} >
-          {
-            total <= 0 ?
-              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-              :
-              <ReactApexChart options={options} series={[series]} type="line" height={350} />
-          }
+          <ReactApexChart options={options} series={[series]} type="line" height={350} />
         </Col>
       </Row>
-    </ProCard>
+    </ProCard >
   )
 };
 

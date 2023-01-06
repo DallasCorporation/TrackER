@@ -77,7 +77,7 @@ const BuildingsProductionCard = () => {
         let sum = 0
         if (Object.values(bills).length !== 0)
             bills.bills.map(el => sum += el.solar)
-        return sum
+        return sum / 1000
     }
 
     const getTotal = (type) => {
@@ -92,10 +92,12 @@ const BuildingsProductionCard = () => {
             let totPrice = resources.earning * getTotal(resources.resourcesType)
             return (
                 Object.keys(resources).length !== 0 && Object.keys(bills).length !== 0 &&
-                <Col span={12}>
+                <Col span={24}>
                     <Card style={{ borderRadius: "20px", boxShadow: "0 2px 10px rgba(0,0,0,0.2)" }} title={getIcon(resourceApi)}>
                         <Row justify="space-around" align="top">
-                            <Statistic title={`Total ${resources.resourcesType} Production`} value={getTotal(resources.resourcesType)} suffix={"kWh"} precision={2} />
+                            <Statistic title={`Total ${resources.resourcesType} Power`} value={getTotal(resources.resourcesType)} suffix={"kW"} precision={2} />
+                            <Statistic title={`Total ${resources.resourcesType} Energy`} value={getTotal(resources.resourcesType) / 3600} suffix={"kWh"} precision={2} />
+                            <Statistic title={`Resources Earning at kWh`} value={resources.earning} suffix={"€"} precision={2} />
                             <Statistic title={`Total Earnings`} value={totPrice} suffix={"€"} precision={2} />
                         </Row>
                     </Card>

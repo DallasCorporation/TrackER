@@ -22,9 +22,9 @@ cursor: pointer;
 `
 const ExpensiveChart = ({ bills }) => {
     const state = {
-        series: [bills.totalElectric, bills.totalWater, bills.totalGas],
+        series: [bills.totalElectric / 1000, bills.totalWater / 1000, bills.totalGas / 1000],
         options: {
-            labels: ['Electricity Production', 'Water Production', 'Gas Production'],
+            labels: ['Electric Consumption(Kw)', 'Water Consumption(l)', 'Gas Consumption(m³)'],
             legend: {
                 position: "bottom",
                 horizontalAlign: "center",
@@ -45,9 +45,7 @@ const ExpensiveChart = ({ bills }) => {
                         labels: {
                             show: true,
                             total: {
-                                show: true,
-                                label: 'Total Production',
-                                formatter: (val) => val.globals.series.reduce((partialSum, a) => partialSum + a, 0).toFixed(2) + " W"
+                                show: false,
                             }
                         }
                     },
@@ -59,7 +57,7 @@ const ExpensiveChart = ({ bills }) => {
                     fontWeight: 400,
                     color: undefined,
                     offsetY: 16,
-                    formatter: function (val) { return val.toFixed(2) + " W" }
+                    formatter: function (val) { return val.toFixed(2) }
                 },
             },
             yaxis: {
@@ -78,7 +76,7 @@ const ExpensiveChart = ({ bills }) => {
                     offsetX: 0,
                     offsetY: 0,
                     rotate: 0,
-                    formatter: (val) => { return val.toFixed(2) + " W" },
+                    formatter: (val) => { return val.toFixed(2) },
                 },
             }
         },
@@ -134,7 +132,7 @@ const ExpensiveChart = ({ bills }) => {
                     <span class="anticon iconfont" style={{ color: "blue" }} >&#xe71b;</span>
                 </Row>
                 <Row justify="center">
-                    <ReactApexChart options={state.options} series={state.series} type="donut" height={320} />
+                    <ReactApexChart options={state.options} series={state.series} type="donut" height={360} />
                 </Row>
                 <CardTitle style={{ marginTop: "32px" }}>By Category</CardTitle>
                 {names.map((el) => {

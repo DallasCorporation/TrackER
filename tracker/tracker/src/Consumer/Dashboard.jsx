@@ -45,17 +45,17 @@ const Dashboard = () => {
     })
     electric = {
       type: 'area',
-      name: "Electric",
+      name: "Electric in w/s",
       data: electric
     }
     gas = {
       type: 'area',
-      name: "Gas",
+      name: "Gas in m³/s",
       data: gas
     }
     water = {
       type: 'area',
-      name: "Water",
+      name: "Water in ml/s",
       data: water
     }
     series = [
@@ -117,10 +117,10 @@ const Dashboard = () => {
             <LineCard data={getData(bills)} />
           </Row>
           <Row style={{ marginTop: "32px" }}>
-            <EarningsCard series={[solar]} total={(totalRen / 1000).toFixed(2)} data={solarArrayData} />
+            <EarningsCard series={[solar]} total={(totalRen / 1000).toFixed(3)} data={solarArrayData} />
           </Row>
           <Row style={{ marginTop: "32px" }}>
-            <SeismographCard series={{ name: "Quake", data: quake }} total={(totalRen / 1000).toFixed(2)} />
+            <SeismographCard series={{ name: "Quake", data: quake }} />
           </Row>
         </Col>
         <Col lg={6} md={24} sx={24}>

@@ -1,7 +1,7 @@
 import { InfoCircleOutlined } from "@ant-design/icons";
 import { ProForm, ProFormText } from "@ant-design/pro-components";
 import { Button, Card, Col, Collapse, Divider, Modal, Popconfirm, Radio, Row, Tooltip } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import StatsCard from "../DashboardCards/StatsCard";
 import { IconFont, linear } from "../utils";
@@ -10,6 +10,9 @@ import MapboxMap from "./MapboxMap";
 import RenewableCards from "./RenewableCards";
 import ResourcesModal from "./Resources/ResourcesModal";
 import { isMobile } from "react-device-detect";
+import SeismographCard from "../DashboardCards/SeismographCard";
+import api from "../../api";
+import TemperatureCard from "../DashboardCards/TemperatureCard";
 
 const BuildingCard = ({ bills, item, setIsModalVisible, setContact, setName, setAddress, setType, setBuildingId, getData }) => {
     const [collapse, setCollapse] = useState(false)
@@ -17,7 +20,19 @@ const BuildingCard = ({ bills, item, setIsModalVisible, setContact, setName, set
     const [visibleElec, setVisibleElec] = useState(false)
     const [visibleWater, setVisibleWater] = useState(false)
     const [visibleGas, setVisibleGas] = useState(false)
+    const [visibleTemp, setVisibleTemp] = useState(false)
+    const [visibleQuake, setVisibleQuake] = useState(false)
+    const [quake, setQuake] = useState({})
+    const getQuake = async () => {
+        await api.quake.get().then(res => { setQuake(res.intensity.map(el => ({ x: el.date, y: el.value }))) })
+    }
 
+    useEffect(() => {
+        getQuake()
+        setInterval(() => {
+            getQuake()
+        }, 10000);
+    }, [visibleTemp, visibleQuake])
 
     return (
         <div style={isMobile ? {} : { paddingTop: "32px" }} key={item._id}>
@@ -76,10 +91,12 @@ const BuildingCard = ({ bills, item, setIsModalVisible, setContact, setName, set
                                 </Col>
                             </Tooltip>
                             <Tooltip title="Earthquake Sensor Installed">
-                                <Col style={{ boxShadow: "0 2px 10px rgba(0,0,0,0.2)", borderRadius: "50%", display: "inline-block", padding: 20 }}>
+                                <Col style={{ boxShadow: "0 2px 10px rgba(0,0,0,0.2)", borderRadius: "50%", display: "inline-block", padding: 20, cursor: "pointer" }} onClick={() => setVisibleQuake(true)}>
                                     <IconFont type="i-357earthquake" style={{ fontSize: 60 }} />
                                 </Col>
                             </Tooltip>
+                            <TemperatureCard outText />
+
                         </Row>
                     </Col>
                 </Row>
@@ -103,12 +120,6 @@ const BuildingCard = ({ bills, item, setIsModalVisible, setContact, setName, set
                                     <Col span={24}>
                                         <StatsCard chart={<ReactApexChart options={linear('Consumed Gas', "m³", "#00cbc8").options} series={getData("Gas")} type="area" height={350} />} />
                                     </Col>
-                                    <Col span={12}>
-                                        <StatsCard chart={<ReactApexChart options={linear('Temperature & Humidity', "°", "#00cbc8").options} series={getData("Gas")} type="area" height={350} />} />
-                                    </Col>
-                                    <Col span={12}>
-                                        <StatsCard chart={<ReactApexChart options={linear('Seismograph', "Kg", "#00cbc8").options} series={getData("Gas")} type="area" height={350} />} />
-                                    </Col>
                                 </>
                             }
                             <Col span={24} style={{ marginTop: 22 }}>
@@ -121,6 +132,9 @@ const BuildingCard = ({ bills, item, setIsModalVisible, setContact, setName, set
                 </Collapse>
             </Card >
             <ResourcesModal building={item} visible={visible} setVisible={setVisible} data={item.resources} />
+            <Modal visible={visibleQuake} width={1200} onOk={() => setVisibleQuake(false)} >
+                <SeismographCard series={{ name: "Quake", data: quake }} />
+            </Modal>
             {isMobile &&
                 <>
                     <Modal visible={visibleElec} onCancel={() => setVisibleElec(false)} onOk={() => setVisibleElec(false)}>

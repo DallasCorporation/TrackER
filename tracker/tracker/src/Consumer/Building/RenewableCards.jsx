@@ -151,24 +151,22 @@ const RenewableCards = ({ item, bills, resources }) => {
     }, [filter])
 
 
-    const getSeries = () => {
-        return [
-            {
-                data: [
-                    {
-                        x: 'Organization Earnings',
-                        y: (deviceEarning * totalSum / 1000).toFixed(2),
-                        fillColor: '#00E396'
+    const getSeries = () => [
+        {
+            data: [
+                {
+                    x: 'Organization Earnings',
+                    y: (deviceEarning * totalSum / 1000).toFixed(2),
+                    fillColor: '#00E396'
 
-                    }, {
-                        x: 'Organization Cost',
-                        y: Number(deviceCost).toFixed(2),
-                        fillColor: "#d40000"
-                    }
-                ]
-            }
-        ]
-    }
+                }, {
+                    x: 'Organization Cost',
+                    y: Number(deviceCost).toFixed(2),
+                    fillColor: "#d40000"
+                }
+            ]
+        }
+    ]
 
     const renderData = (filter) =>
         <>
@@ -239,7 +237,7 @@ const RenewableCards = ({ item, bills, resources }) => {
                     <Statistic value={!metric ? solarSum : solarSum / 1000} suffix={metric ? "kW" : "W"} precision={2} />
                 </Card>
             </Col>
-            <Modal destroyOnClose visible={visible} onCancel={() => setVisible(false)} width={1000} title={"Total " + filter + " Production"}>
+            <Modal destroyOnClose visible={visible} onOk={() => setVisible(false)} onCancel={() => setVisible(false)} width={1000} title={"Total " + filter + " Production"}>
                 {renderData(filter)}
             </Modal>
             <ResourcesModal defaultActiveKey={filter} building={item} visible={visible1} setVisible={setVisible1} data={item.resources} />

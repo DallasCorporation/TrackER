@@ -1,5 +1,5 @@
 import { ProCard } from "@ant-design/pro-components"
-import { Card, Col, Divider, Layout, Modal, PageHeader, Row, Statistic } from "antd"
+import { Card, Col, Divider, Layout, Modal, PageHeader, Row, Statistic, Tooltip } from "antd"
 import { IconFont } from "../utils"
 import React, { useEffect, useState } from "react"
 import { CardTitle } from "../../Components/CustomComponents"
@@ -7,7 +7,7 @@ import api from "../../api"
 import { isMobile } from "react-device-detect"
 import ReactApexChart from "react-apexcharts"
 
-const TemperatureCard = () => {
+const TemperatureCard = ({outText = false}) => {
     const [temperature, setTemperature] = useState(18)
     const [humidity, setHumidity] = useState(50)
     const [currentTime, setCurrentTime] = useState(new Date())
@@ -24,6 +24,7 @@ const TemperatureCard = () => {
         })
 
     useEffect(() => {
+        fetchTemperature()
         setInterval(() => {
             fetchTemperature()
         }, 5000);
@@ -54,32 +55,43 @@ const TemperatureCard = () => {
             enabled: false
         },
         stroke: {
-            width: 3,
+            width: 2,
             curve: 'smooth'
         },
-        markers: {
-            size: 0
-        },
         legend: {
-            show: false
+            show: true,
+            hideOverlappingLabels: true,
         },
-    }
 
+    }
 
     return (
         <>
-            <ProCard onClick={() => setVisible(true)} bordered style={{ borderRadius: "10px", boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
-                <Row justify="space-between" align="middle">
-                    <CardTitle style={{ margin: 0 }} >Time & Humidity</CardTitle>
-                    <Statistic valueStyle={{ fontSize: 18 }} value={currentTime.toLocaleTimeString()} />
-                </Row>
-                <Row justify="center" align="middle" style={{ marginTop: 12 }}>
-                    <Statistic value={temperature} suffix="°" />
-                    <IconFont type="i-Temperature" style={{ fontSize: 50 }} />
-                    <Statistic value={humidity} suffix="%" />
-                    <IconFont type="i-Humidity" style={{ fontSize: 40 }} />
-                </Row>
-            </ProCard>
+            {outText ?
+                <Tooltip title="Temperature & Humidity Sensor Installed">
+                    <Col onClick={() => setVisible(true)} style={{ boxShadow: "0 2px 10px rgba(0,0,0,0.2)", borderRadius: "100%", display: "inline-block", padding: 20, cursor: "pointer" }}>
+                        <Col style={{ paddingLeft: 12, paddingRight: 12 }}>
+                            <IconFont type="i-Temperature" style={{ fontSize: 30 }} />
+                        </Col>
+                        <Col style={{ paddingLeft: 12, paddingRight: 12 }}>
+                            <IconFont type="i-Humidity" style={{ fontSize: 30 }} />
+                        </Col>
+                    </Col>
+                </Tooltip>
+                :
+                <ProCard onClick={() => setVisible(true)} bordered style={{ borderRadius: "10px", boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
+                    <Row justify="space-between" align="middle">
+                        <CardTitle style={{ margin: 0 }} >Time & Humidity</CardTitle>
+                        <Statistic valueStyle={{ fontSize: 18 }} value={currentTime.toLocaleTimeString()} />
+                    </Row>
+                    <Row justify="center" align="middle" style={{ marginTop: 12 }}>
+                        <Statistic value={temperature} suffix="°" />
+                        <IconFont type="i-Temperature" style={{ fontSize: 50 }} />
+                        <Statistic value={humidity} suffix="%" />
+                        <IconFont type="i-Humidity" style={{ fontSize: 40 }} />
+                    </Row>
+                </ProCard>
+            }
             <Modal width={1000} visible={visible} destroyOnClose onCancel={() => setVisible(false)} onOk={() => setVisible(false)}>
                 <>
                     <Layout

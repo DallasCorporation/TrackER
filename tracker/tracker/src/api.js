@@ -30,8 +30,8 @@ export default {
                 .then((res) => res.data),
     },
     organization: {
-        fetchCost: () =>
-            axios.get(`${API_URL}/organization/`)
+        fetchCost: (q = '') =>
+            axios.get(`${API_URL}/organization/${q}`)
                 .then((res) => res.data),
     },
     temperature: {

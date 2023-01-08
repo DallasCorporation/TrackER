@@ -1,19 +1,12 @@
 import { Col, Row, Empty } from "antd";
 import { ProCard } from "@ant-design/pro-components";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { IconFont } from "../utils";
-const SeismographCard = ({ series }) => {
+import api from "../../api";
+const SeismographCard = () => {
   let options = {
     chart: {
-      type: 'line',
-      animations: {
-        enabled: true,
-        easing: 'linear',
-        dynamicAnimation: {
-          speed: 200
-        }
-      },
       dropShadow: {
         enabled: true,
         color: '#000',
@@ -22,6 +15,19 @@ const SeismographCard = ({ series }) => {
         blur: 10,
         opacity: 0.2
       },
+      animations: {
+        enabled: true,
+        easing: 'linear',
+        dynamicAnimation: {
+          speed: 200
+        }
+      },
+      toolbar: {
+        show: true
+      },
+      zoom: {
+        enabled: true
+      }
     },
     annotations: {
       yaxis: [
@@ -42,6 +48,17 @@ const SeismographCard = ({ series }) => {
           }
         }]
     },
+    dataLabels: {
+      enabled: false
+    },
+    stroke: {
+      width: 2,
+      curve: 'smooth'
+    },
+    legend: {
+      show: true,
+      hideOverlappingLabels: true,
+    },
     xaxis: {
       labels: {
         format: 'dd-MM-yyyy HH:mm',
@@ -57,20 +74,22 @@ const SeismographCard = ({ series }) => {
         format: "dd-MM-yyyy HH:mm"
       },
     },
-    dataLabels: {
-      enabled: false
-    },
-    stroke: {
-      width: 3,
-      curve: 'smooth'
-    },
-    markers: {
-      size: 0
-    },
-    legend: {
-      show: false
-    },
   }
+
+
+
+  const getQuake = async () => {
+    await api.quake.get().then(res => { setQuake(res.intensity.map(el => ({ x: el.date, y: el.value }))) })
+  }
+  const [quake, setQuake] = useState({})
+
+  useEffect(() => {
+    getQuake()
+    setInterval(() => {
+      getQuake()
+    }, 5000);
+  }, [])
+
   return (
     <ProCard bordered style={{
       borderRadius: "10px",
@@ -84,7 +103,7 @@ const SeismographCard = ({ series }) => {
           <IconFont type="i-wi-earthquake" style={{ fontSize: 40, color: "#713F00" }} />
         </Col>
         <Col xs={24} >
-          <ReactApexChart options={options} series={[series]} type="line" height={350} />
+          <ReactApexChart options={options} series={[{ name: "Quake", data: quake }]} type="line" height={350} />
         </Col>
       </Row>
     </ProCard >

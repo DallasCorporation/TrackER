@@ -120,7 +120,7 @@ const Dashboard = () => {
             <EarningsCard series={[solar]} total={(totalRen / 1000).toFixed(3)} data={solarArrayData} />
           </Row>
           <Row style={{ marginTop: "32px" }}>
-            <SeismographCard series={{ name: "Quake", data: quake }} />
+            <SeismographCard/>
           </Row>
         </Col>
         <Col lg={6} md={24} sx={24}>

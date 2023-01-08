@@ -1,5 +1,4 @@
 import { Breadcrumb, Card, Carousel, Col, Divider, Empty, Layout, PageHeader, Row, Statistic } from "antd"
-import moment from "moment"
 import { useEffect, useState } from "react"
 import ReactApexChart from "react-apexcharts"
 import { isMobile } from "react-device-detect"
@@ -169,7 +168,7 @@ const ElectricInvoices = ({ bills, cost, aggregated, filtered }) => {
     }
 
     useEffect(() => {
-        if (bills === null)
+        if (bills === null || Object.keys(bills).length === 0)
             return
         setAllElectricLine([])
         setElectricSum(0)
@@ -177,11 +176,10 @@ const ElectricInvoices = ({ bills, cost, aggregated, filtered }) => {
             filtered.map(el => setElectricSum(old => old + el[1]))
         else
             setElectricSum(Number(bills.totalElectric).toFixed(2))
-
         if (cost !== undefined && Object.keys(cost).length > 0) {
             cost.forEach(el => {
                 if (el.name === "Electricity Cost at kWh") {
-                    setTotalEarning((electricSum * 0.0833333 / 1000 * el.price))
+                    setTotalEarning((electricSum / 1000 * el.price))
                 }
                 if (el.name === "Electricity Supplier Cost") {
                     setSupplier(el.price)
@@ -190,7 +188,7 @@ const ElectricInvoices = ({ bills, cost, aggregated, filtered }) => {
                     setDelivery(el.price)
                 }
                 if (el.name === "Electricity Tax Percentage") {
-                    setTotalTax(electricSum * 0.0833333 / 1000 * el.price / 100)
+                    setTotalTax(electricSum / 1000 * el.price / 100)
                 }
             });
         }
@@ -232,7 +230,7 @@ const ElectricInvoices = ({ bills, cost, aggregated, filtered }) => {
                         <Col md={6} sm={12}>
                             <Statistic title="Total Electric Usage" value={metricCubic ? electricSum / 1000 : electricSum} suffix={metricCubic ? "Kilowatt (kW)" : "Watt"} precision={2} />
                             <Row align="middle">
-                                <span onClick={() => setMetric(!metricCubic)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} class="anticon iconfont">&#xe615;</span>
+                                <span onClick={() => setMetric(!metricCubic)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} className="anticon iconfont">&#xe615;</span>
                                 <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricCubic ? "Kilowatt (kW)" : "Watt"}</p>
                             </Row>
                         </Col>

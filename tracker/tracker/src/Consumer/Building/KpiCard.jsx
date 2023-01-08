@@ -45,7 +45,7 @@ const KpiCard = ({ bills, gasVisible, waterVisible, electricVisible }) => {
     return (
         <Row align="top" gutter={[32, 32]} >
             <Col md={8} sm={24} xs={24} >
-                <Card class="kpi" hoverable style={{ borderRadius: 20, cursor: "default" }} onClick={() => electricVisible(true)}>
+                <Card className="kpi" hoverable style={{ borderRadius: 20, cursor: "default" }} onClick={() => electricVisible(true)}>
                     <Row gutter={[32, 32]} justify={width <= 768 ? "center" : "space-between"} align="middle">
                         <Col md={6} sm={24} xs={24}>
                             <IconFont type="i-Energy" style={{ fontSize: 45, color: "#1196db" }} />
@@ -55,14 +55,14 @@ const KpiCard = ({ bills, gasVisible, waterVisible, electricVisible }) => {
                         </Col>
                     </Row>
                     <Row align="middle" >
-                        <span onClick={() => setMetricElectric(!metricElectric)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} class="anticon iconfont">&#xe615;</span>
+                        <span onClick={() => setMetricElectric(!metricElectric)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} className="anticon iconfont">&#xe615;</span>
                         <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricElectric ? "Kilowatt (kW)" : "Watt"}</p>
                     </Row>
                 </Card>
             </Col>
 
             <Col md={8} sm={24} xs={24}>
-                <Card class="kpi" hoverable style={{ borderRadius: 20, cursor: "default" }} onClick={() => waterVisible(true)}>
+                <Card className="kpi" hoverable style={{ borderRadius: 20, cursor: "default" }} onClick={() => waterVisible(true)}>
                     <Row gutter={[32, 32]} justify={width <= 768 ? "center" : "space-between"} align="middle">
                         <Col md={6} sm={24} xs={24}>
                             <IconFont type="i-water" color="#1196db" style={{ fontSize: 45, color: "#1196db" }} />
@@ -72,14 +72,14 @@ const KpiCard = ({ bills, gasVisible, waterVisible, electricVisible }) => {
                         </Col>
                     </Row>
                     <Row align="middle" >
-                        <span onClick={() => setMetricWater(!metricWater)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} class="anticon iconfont">&#xe615;</span>
+                        <span onClick={() => setMetricWater(!metricWater)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} className="anticon iconfont">&#xe615;</span>
                         <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricWater ? "Liter(l)" : "ml"}</p>
                     </Row>
                 </Card>
             </Col>
 
             <Col md={8} sm={24} xs={24}>
-                <Card class="kpi" hoverable style={{ borderRadius: 20, cursor: "default" }}>
+                <Card className="kpi" hoverable style={{ borderRadius: 20, cursor: "default" }}>
                     <Row gutter={[32, 32]} justify={width <= 768 ? "center" : "space-between"} align="middle" onClick={() => gasVisible(true)}>
                         <Col md={6} sm={24} xs={24}>
                             <IconFont type="i-fire-line" style={{ fontSize: 45, color: "#1196db" }} />
@@ -89,7 +89,7 @@ const KpiCard = ({ bills, gasVisible, waterVisible, electricVisible }) => {
                         </Col>
                     </Row>
                     <Row align="middle" >
-                        <span onClick={() => setMetricGas(!metricGas)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} class="anticon iconfont">&#xe615;</span>
+                        <span onClick={() => setMetricGas(!metricGas)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} className="anticon iconfont">&#xe615;</span>
                         <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricGas ? "m³" : "Gallon"}</p>
                     </Row>
                 </Card>

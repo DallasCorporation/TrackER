@@ -63,14 +63,14 @@ const ResourcesContent = ({  data, type, building }) => {
             render: (val, data) => val + " €"
         },
         {
-            title: 'Saving at KWh',
+            title: 'Saving at kWh',
             dataIndex: 'earning',
             width: 200,
 
             render: (val, data) => val + " €"
         },
         {
-            title: 'Organization percentage earning at KWh',
+            title: 'Organization percentage earning at kWh',
             dataIndex: 'organization',
             width: 200,
             render: (val, data) => val + "%"
@@ -87,7 +87,7 @@ const ResourcesContent = ({  data, type, building }) => {
                         setVisible(true)
                     }}>
                         <Tooltip title="See Building List">
-                            <div style={{ cursor: "pointer" }}>Sign Contract<span class="anticon iconfont" style={{ marginLeft: 10, color: "blue" }}>&#x100db;</span></div>
+                            <div style={{ cursor: "pointer" }}>Sign Contract<span className="anticon iconfont" style={{ marginLeft: 10, color: "blue" }}>&#x100db;</span></div>
                         </Tooltip>
                     </Popconfirm>
                 </Row>

@@ -27,48 +27,46 @@ const InvoicesModal = ({ data, visible, setVisible, timeSpan }) => {
         fetchDetailedConsumptions()
     }, [data])
 
-    function isDateInThisWeek(date) {
+    function isDateInThisWeek(dateTmp) {
+        let date = new Date(dateTmp.setMonth(dateTmp.getMonth() - 2))
         const todayObj = new Date();
         const todayDate = todayObj.getDate();
         const todayDay = todayObj.getDay();
         const firstDayOfWeek = new Date(todayObj.setDate(todayDate - todayDay));
         const lastDayOfWeek = new Date(firstDayOfWeek);
         lastDayOfWeek.setDate(lastDayOfWeek.getDate() + 6);
-        return date >= firstDayOfWeek && date <= lastDayOfWeek;
+        return date.getDate() >= firstDayOfWeek.getDate() && date.getDate() <= lastDayOfWeek.getDate()
     }
     function isDateInThisMonth(date) {
         const todayObj = new Date();
-        return todayObj.getMonth() === date.getMonth()
+        return todayObj.getMonth() === date.getMonth() - 2
     }
     function isDateInThisYear(date) {
         const todayObj = new Date();
         return todayObj.getFullYear() === date.getFullYear()
     }
 
-
     data.bills?.forEach(el => {
-
-        let date = new Date(el.date)
         switch (timeSpan) {
             case "Weekly":
                 if (isDateInThisWeek(new Date(el.date))) {
-                    elec.push([moment.utc(date).local().format(), el.electric])
-                    gas.push([moment.utc(date).local().format(), el.gas])
-                    water.push([moment.utc(date).local().format(), el.water])
+                    elec.push([moment.utc(el.date).local().format(), el.electric])
+                    gas.push([moment.utc(el.date).local().format(), el.gas])
+                    water.push([moment.utc(el.date).local().format(), el.water])
                 }
                 break;
             case "Monthly":
                 if (isDateInThisMonth(new Date(el.date))) {
-                    elec.push([moment.utc(date).local().format(), el.electric])
-                    gas.push([moment.utc(date).local().format(), el.gas])
-                    water.push([moment.utc(date).local().format(), el.water])
+                    elec.push([moment.utc(el.date).local().format(), el.electric])
+                    gas.push([moment.utc(el.date).local().format(), el.gas])
+                    water.push([moment.utc(el.date).local().format(), el.water])
                 }
                 break;
             case "Yearly":
                 if (isDateInThisYear(new Date(el.date))) {
-                    elec.push([moment.utc(date).local().format(), el.electric])
-                    gas.push([moment.utc(date).local().format(), el.gas])
-                    water.push([moment.utc(date).local().format(), el.water])
+                    elec.push([moment.utc(el.date).local().format(), el.electric])
+                    gas.push([moment.utc(el.date).local().format(), el.gas])
+                    water.push([moment.utc(el.date).local().format(), el.water])
                 }
                 break;
             default:
@@ -77,7 +75,7 @@ const InvoicesModal = ({ data, visible, setVisible, timeSpan }) => {
     })
 
     return (
-        <Modal destroyOnClose visible={visible} width={1200} onOk={() => setVisible(!visible)} onCancel={() => setVisible(!visible)}>
+        <Modal destroyOnClose visible={visible} width={1200} onOk={() => setVisible(!visible)} cancelButtonProps={{ style: { display: 'none' } }}>
             <Tabs defaultActiveKey="1" centered destroyInactiveTabPane>
                 <TabPane tab="Electric" key="1">
                     <ElectricInvoices bills={data} cost={electricDetail} filtered={elec} />

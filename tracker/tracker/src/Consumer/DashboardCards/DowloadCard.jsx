@@ -1,12 +1,17 @@
-import { Button, Col, Modal, Row } from "antd";
-import { ProCard } from "@ant-design/pro-components";
-import React from "react";
+import { Avatar, Breadcrumb, Button, Card, Col, Divider, Layout, Modal, PageHeader, Row, Slider, Space, Statistic, Tag, Tooltip } from "antd";
+import { ProCard, ProList } from "@ant-design/pro-components";
+import React, { useEffect } from "react";
 import { CardTitle } from "../../Components/CustomComponents";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import api from "../../api";
+import OrganizationModal from "./OrganizationModal";
+
+
+
 const DownloadCard = ({ ...props }) => {
-    const navigate = useNavigate()
     const [visible, setVisible] = useState()
+
     return (
         <ProCard bordered style={{
             borderRadius: "10px",
@@ -34,9 +39,7 @@ const DownloadCard = ({ ...props }) => {
                     }}
                     src="http://yoda.hypeople.studio/yoda-admin-template/react/static/media/analytics-download-vector.614c5d22.svg" />
             </Row>
-            <Modal visible={visible} onCancel={() => setVisible(false)} footer={null} >
-                <p>Bla bla bla</p>
-            </Modal>
+            <OrganizationModal visible={visible} setVisible={setVisible} />
         </ProCard >
     )
 };

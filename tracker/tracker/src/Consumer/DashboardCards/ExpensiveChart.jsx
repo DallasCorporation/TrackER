@@ -106,20 +106,20 @@ const ExpensiveChart = ({ bills }) => {
         {
             name: "Total Expenses",
             desc: "Check your buildings bills",
-            icon: <span class="anticon iconfont" >&#xe715;</span>,
+            icon: <span className="anticon iconfont" >&#xe715;</span>,
             action: () => navigate("/Invoices/Yearly")
         },
         {
             name: "Total Consumption",
             desc: "Gas, Water and Electric data consumption",
-            icon: <span class="anticon iconfont" >&#xe730;</span>,
+            icon: <span className="anticon iconfont" >&#xe730;</span>,
             action: () => setDrawer(true)
 
         },
         {
             name: "Energy Production",
             desc: "Check your production",
-            icon: <span style={{ fontSize: "80px !important" }} class="anticon iconfont" >&#xe61d;</span>,
+            icon: <span style={{ fontSize: "80px !important" }} className="anticon iconfont" >&#xe61d;</span>,
             action: () => setModal(true)
         },
     ]
@@ -129,15 +129,15 @@ const ExpensiveChart = ({ bills }) => {
             <ProCard bordered style={{ borderRadius: "10px", boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
                 <Row justify="space-between" align="middle">
                     <CardTitle >Expensive & Production</CardTitle>
-                    <span class="anticon iconfont" style={{ color: "blue" }} >&#xe71b;</span>
+                    <span className="anticon iconfont" style={{ color: "blue" }} >&#xe71b;</span>
                 </Row>
                 <Row justify="center">
                     <ReactApexChart options={state.options} series={state.series} type="donut" height={360} />
                 </Row>
                 <CardTitle style={{ marginTop: "32px" }}>By Category</CardTitle>
-                {names.map((el) => {
+                {names.map((el, key) => {
                     return (
-                        <RowHover justify="space-evenly" align="middle" style={{ padding: 12 }} className="hover" onClick={() => el.action()}>
+                        <RowHover key={key} justify="space-evenly" align="middle" style={{ padding: 12 }} className="hover" onClick={() => el.action()}>
                             <Col span={4} style={{ color: "blue" }}> {el.icon}</Col>
                             <Col span={16} >
                                 <CardTitle style={{ lineHeight: 1 }} >{el.name}</CardTitle>
@@ -152,17 +152,17 @@ const ExpensiveChart = ({ bills }) => {
                 <Drawer destroyOnClose width={1000} visible={showDrawer} onClose={() => setDrawer(false)}>
                     <Tabs defaultActiveKey="1" centered destroyInactiveTabPane>
                         <TabPane tab="Electric" key="1" >
-                            <ElectricInvoices bills={bills} cost={electricDetail} aggregated={bills.aggregated}></ElectricInvoices>
+                            <ElectricInvoices bills={bills} cost={electricDetail} aggregated={bills.aggregated} />
                         </TabPane>
                         <TabPane tab="Gas" key="2">
-                            <GasInvoices bills={bills} cost={gasDetail} aggregated={bills.aggregated}></GasInvoices>
+                            <GasInvoices bills={bills} cost={gasDetail} aggregated={bills.aggregated} />
                         </TabPane>
                         <TabPane tab="Water" key="3">
-                            <WaterInvoices bills={bills} cost={waterDetail} aggregated={bills.aggregated}></WaterInvoices>
+                            <WaterInvoices bills={bills} cost={waterDetail} aggregated={bills.aggregated} />
                         </TabPane>
                     </Tabs>
                 </Drawer>
-                <Modal width={1200} visible={showModal} onCancel={() => setModal(false)} onOk={() => setModal(false)}>
+                <Modal width={1200} visible={showModal} cancelButtonProps={{ style: { display: 'none' } }} onOk={() => setModal(false)}>
                     <BuildingsProductionCard />
                 </Modal>
             </ProCard>

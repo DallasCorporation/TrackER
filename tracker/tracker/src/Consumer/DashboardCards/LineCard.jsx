@@ -1,11 +1,7 @@
-import { Col, DatePicker, Row } from "antd";
+import { Col, Row } from "antd";
 import { ProCard } from "@ant-design/pro-components";
 import React from "react";
 import ReactApexChart from "react-apexcharts";
-import locale from 'antd/es/date-picker/locale/it_IT'
-import { CardTitle } from "../../Components/CustomComponents";
-import ApexCharts from 'apexcharts';
-
 
 const options = {
     noData: {
@@ -79,21 +75,11 @@ const options = {
 }
 const LineCard = ({ data }) => {
 
-    const filterData = (e) => {
-        ApexCharts.exec('area-datetime', 'zoomX',
-            new Date(e[0]).getTime(),
-            new Date(e[1]).getTime(),
-        )
-    }
-
     return (
         <ProCard colSpan={12} bordered style={{ borderRadius: "10px", boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
             <Row justify="space-between" align="middle" >
                 <Col>
-                    <CardTitle> Consumption Overview</CardTitle>
-                </Col>
-                <Col>
-                    <DatePicker.RangePicker placeholder={["Start Date", "End Date"]} locale={locale} onChange={(e) => filterData(e)} />
+                    <h4 style={{ fontSize: "20px", fontWeight: 500, color: "#2d3436" }}> Consumption Overview</h4>
                 </Col>
             </Row>
             <ReactApexChart options={options} series={data} type="area" height={350} />

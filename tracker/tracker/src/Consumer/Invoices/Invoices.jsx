@@ -54,7 +54,7 @@ const Invoices = ({ user }) => {
                 <Col span={24}>
                     <Row gutter={[32, 32]}>
                         {buildings === null || Object.keys(buildings).length === 0 ?
-                            <Col span={24} style={{ marginBottom: 32, background: "white", borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }}>
+                            <Col span={24} style={{ marginBottom: 64, background: "white", borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }}>
                                 <Empty
                                     image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
                                     imageStyle={{
@@ -69,7 +69,7 @@ const Invoices = ({ user }) => {
                             </Col>
                             :
                             buildings.map(el =>
-                                <Col md={12} sm={12} xs={24}>
+                                <Col md={12} sm={12} xs={24} style={{ marginTop: 32 }}>
                                     <Card style={{ borderRadius: 20, boxShadow: "0 2px 4px rgba(0,0,0,0.2)" }} >
                                         <Row justify="space-between" align="middle">
                                             <p style={{ fontWeight: 500, fontSize: 22, margin: 0 }}>{el.name}</p>

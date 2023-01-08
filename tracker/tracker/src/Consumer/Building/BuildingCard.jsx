@@ -11,7 +11,6 @@ import RenewableCards from "./RenewableCards";
 import ResourcesModal from "./Resources/ResourcesModal";
 import { isMobile } from "react-device-detect";
 import SeismographCard from "../DashboardCards/SeismographCard";
-import api from "../../api";
 import TemperatureCard from "../DashboardCards/TemperatureCard";
 
 const BuildingCard = ({ bills, item, setIsModalVisible, setContact, setName, setAddress, setType, setBuildingId, getData }) => {
@@ -20,19 +19,7 @@ const BuildingCard = ({ bills, item, setIsModalVisible, setContact, setName, set
     const [visibleElec, setVisibleElec] = useState(false)
     const [visibleWater, setVisibleWater] = useState(false)
     const [visibleGas, setVisibleGas] = useState(false)
-    const [visibleTemp, setVisibleTemp] = useState(false)
     const [visibleQuake, setVisibleQuake] = useState(false)
-    const [quake, setQuake] = useState({})
-    const getQuake = async () => {
-        await api.quake.get().then(res => { setQuake(res.intensity.map(el => ({ x: el.date, y: el.value }))) })
-    }
-
-    useEffect(() => {
-        getQuake()
-        setInterval(() => {
-            getQuake()
-        }, 10000);
-    }, [visibleTemp, visibleQuake])
 
     return (
         <div style={isMobile ? {} : { paddingTop: "32px" }} key={item._id}>
@@ -132,18 +119,18 @@ const BuildingCard = ({ bills, item, setIsModalVisible, setContact, setName, set
                 </Collapse>
             </Card >
             <ResourcesModal building={item} visible={visible} setVisible={setVisible} data={item.resources} />
-            <Modal visible={visibleQuake} width={1200} onOk={() => setVisibleQuake(false)} >
-                <SeismographCard series={{ name: "Quake", data: quake }} />
+            <Modal visible={visibleQuake} width={1200} cancelButtonProps={{ style: { display: 'none' } }} onOk={() => setVisibleQuake(false)} >
+                <SeismographCard />
             </Modal>
             {isMobile &&
                 <>
-                    <Modal visible={visibleElec} onCancel={() => setVisibleElec(false)} onOk={() => setVisibleElec(false)}>
+                    <Modal cancelButtonProps={{ style: { display: 'none' } }} visible={visibleElec} onOk={() => setVisibleElec(false)}>
                         <StatsCard chart={<ReactApexChart options={linear('Consumed Electricity', "watt", "#1984f5").options} series={getData("Electric")} type="area" height={350} />} />
                     </Modal>
-                    <Modal visible={visibleWater} onCancel={() => setVisibleWater(false)} onOk={() => setVisibleWater(false)}>
+                    <Modal visible={visibleWater} cancelButtonProps={{ style: { display: 'none' } }} onOk={() => setVisibleWater(false)}>
                         <StatsCard chart={<ReactApexChart options={linear('Consumed Water', "liter", "#00c2f6").options} series={getData("Water")} type="area" height={350} />} />
                     </Modal>
-                    <Modal visible={visibleGas} onCancel={() => setVisibleGas(false)} onOk={() => setVisibleGas(false)}>
+                    <Modal visible={visibleGas} cancelButtonProps={{ style: { display: 'none' } }} onOk={() => setVisibleGas(false)}>
                         <StatsCard chart={<ReactApexChart options={linear('Consumed Gas', "m³", "#00cbc8").options} series={getData("Gas")} type="area" height={350} />} />
                     </Modal>
                 </>

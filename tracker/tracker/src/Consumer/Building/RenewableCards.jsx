@@ -181,7 +181,7 @@ const RenewableCards = ({ item, bills, resources }) => {
                     <Col span={12}>
                         <Statistic title={`Total ${filter} Production`} value={metric ? totalSum / 1000 : totalSum} suffix={metric ? "Kilowatt (kW)" : "Watt"} precision={2} />
                         <Row align="middle">
-                            <span onClick={() => setMetric(!metric)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} class="anticon iconfont">&#xe615;</span>
+                            <span onClick={() => setMetric(!metric)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} className="anticon iconfont">&#xe615;</span>
                             <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metric ? "Kilowatt (kW)" : "Watt"}</p>
                         </Row>
                     </Col>
@@ -221,9 +221,9 @@ const RenewableCards = ({ item, bills, resources }) => {
     return (
         <Row justify="center" gutter={[32, 32]}>
             <Col span={24}>
-                <Statistic title="Total Energy Production" value={metric ? (solarSum) / 1000 : (solarSum)} suffix={metric ? "KiloWatt (kW)" : "Watt"} precision={2} />
+                <Statistic title="Total Energy Production" value={metric ? (solarSum) / 1000 : (solarSum)} suffix={metric ? "KiloWatt (kW)" : "Watt (W)"} precision={2} />
                 <Row align="middle">
-                    <span onClick={() => setMetric(!metric)} style={{ color: "#3c9d18", marginRight: 6, cursor: "pointer" }} class="anticon iconfont">&#xe615;</span>
+                    <span onClick={() => setMetric(!metric)} style={{ color: "#3c9d18", marginRight: 6, cursor: "pointer" }} className="anticon iconfont">&#xe615;</span>
                     <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metric ? "Total in Kilowatt (kW)" : "Total in Watt (W)"}</p>
                 </Row>
             </Col>
@@ -237,7 +237,7 @@ const RenewableCards = ({ item, bills, resources }) => {
                     <Statistic value={!metric ? solarSum : solarSum / 1000} suffix={metric ? "kW" : "W"} precision={2} />
                 </Card>
             </Col>
-            <Modal destroyOnClose visible={visible} onOk={() => setVisible(false)} onCancel={() => setVisible(false)} width={1000} title={"Total " + filter + " Production"}>
+            <Modal destroyOnClose visible={visible} onOk={() => setVisible(false)} cancelButtonProps={{ style: { display: 'none' } }} width={1000} title={"Total " + filter + " Production"}>
                 {renderData(filter)}
             </Modal>
             <ResourcesModal defaultActiveKey={filter} building={item} visible={visible1} setVisible={setVisible1} data={item.resources} />

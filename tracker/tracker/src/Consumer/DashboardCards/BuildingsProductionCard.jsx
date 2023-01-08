@@ -23,39 +23,39 @@ const BuildingsProductionCard = () => {
     const renderIcon = (building) => {
         switch (building.type) {
             case "Residential":
-                return <Row align="middle"><svg class="iconSvg" aria-hidden="true"><use xlinkHref="#i--house" /></svg>{building.name}</Row>
+                return <Row align="middle"><svg className="iconSvg" aria-hidden="true"><use xlinkHref="#i--house" /></svg>{building.name}</Row>
             case "Factory":
-                return <Row align="middle"><svg class="iconSvg" aria-hidden="true"><use xlinkHref="#i-factory" /></svg>{building.name} </Row>
+                return <Row align="middle"><svg className="iconSvg" aria-hidden="true"><use xlinkHref="#i-factory" /></svg>{building.name} </Row>
 
             case "Skyscraper":
-                return <Row align="middle"><svg class="iconSvg" aria-hidden="true"><use xlinkHref="#i--skyline" /></svg>{building.name} </Row>
+                return <Row align="middle"><svg className="iconSvg" aria-hidden="true"><use xlinkHref="#i--skyline" /></svg>{building.name} </Row>
 
             case "School":
-                return <Row align="middle"><svg class="iconSvg" aria-hidden="true"><use xlinkHref="#i-school" /></svg>{building.name}</Row>
+                return <Row align="middle"><svg className="iconSvg" aria-hidden="true"><use xlinkHref="#i-school" /></svg>{building.name}</Row>
 
             case "University":
-                return <Row align="middle"><svg class="iconSvg" aria-hidden="true"><use xlinkHref="#i-university" /></svg>{building.name} </Row>
+                return <Row align="middle"><svg className="iconSvg" aria-hidden="true"><use xlinkHref="#i-university" /></svg>{building.name} </Row>
 
             case "Hospital":
-                return <Row align="middle"><svg class="iconSvg" aria-hidden="true"><use xlinkHref="#i-ambulance" /></svg>{building.name} </Row>
+                return <Row align="middle"><svg className="iconSvg" aria-hidden="true"><use xlinkHref="#i-ambulance" /></svg>{building.name} </Row>
 
             case "Police Station":
-                return <Row align="middle"><svg class="iconSvg" aria-hidden="true"><use xlinkHref="#i-police" /></svg>{building.name} </Row>
+                return <Row align="middle"><svg className="iconSvg" aria-hidden="true"><use xlinkHref="#i-police" /></svg>{building.name} </Row>
 
             case "Bank":
-                return <Row align="middle"><svg class="iconSvg" aria-hidden="true"><use xlinkHref="#i-bank" /></svg>{building.name} </Row>
+                return <Row align="middle"><svg className="iconSvg" aria-hidden="true"><use xlinkHref="#i-bank" /></svg>{building.name} </Row>
 
             case "Shopping Mall":
-                return <Row align="middle"><svg class="iconSvg" aria-hidden="true"><use xlinkHref="#i--shopping-mal" /></svg>{building.name} </Row>
+                return <Row align="middle"><svg className="iconSvg" aria-hidden="true"><use xlinkHref="#i--shopping-mal" /></svg>{building.name} </Row>
 
             case "Court":
-                return <Row align="middle"><svg class="iconSvg" aria-hidden="true"><use xlinkHref="#i-museum" /></svg>{building.name} </Row>
+                return <Row align="middle"><svg className="iconSvg" aria-hidden="true"><use xlinkHref="#i-museum" /></svg>{building.name} </Row>
 
             case "Airport":
-                return <Row align="middle"><svg class="iconSvg" aria-hidden="true"><use xlinkHref="#i-airport" /></svg>{building.name} </Row>
+                return <Row align="middle"><svg className="iconSvg" aria-hidden="true"><use xlinkHref="#i-airport" /></svg>{building.name} </Row>
 
             case "City Hall":
-                return <Row align="middle"><svg class="iconSvg" aria-hidden="true"><use xlinkHref="#i--orthodoxian" /></svg>{building.name} </Row>
+                return <Row align="middle"><svg className="iconSvg" aria-hidden="true"><use xlinkHref="#i--orthodoxian" /></svg>{building.name} </Row>
             default:
         }
     }

@@ -7,9 +7,9 @@ import api from "../../api"
 import { isMobile } from "react-device-detect"
 import ReactApexChart from "react-apexcharts"
 
-const TemperatureCard = ({outText = false}) => {
-    const [temperature, setTemperature] = useState(18)
-    const [humidity, setHumidity] = useState(50)
+const TemperatureCard = ({ outText = false }) => {
+    const [temperature, setTemperature] = useState()
+    const [humidity, setHumidity] = useState()
     const [currentTime, setCurrentTime] = useState(new Date())
     const [visible, setVisible] = useState(false)
     const [metric, setMetric] = useState(true)
@@ -36,7 +36,6 @@ const TemperatureCard = ({outText = false}) => {
 
     let options = {
         chart: {
-            type: 'line',
             animations: {
                 enabled: true,
                 easing: 'linear',
@@ -62,7 +61,21 @@ const TemperatureCard = ({outText = false}) => {
             show: true,
             hideOverlappingLabels: true,
         },
-
+        xaxis: {
+            labels: {
+                format: 'dd-MM-yyyy HH:mm',
+            },
+            type: 'datetime',
+        },
+        tooltip: {
+            enabled: true,
+            followCursor: true,
+            theme: "light",
+            x: {
+                show: true,
+                format: "dd-MM-yyyy HH:mm"
+            },
+        },
     }
 
     return (
@@ -92,7 +105,7 @@ const TemperatureCard = ({outText = false}) => {
                     </Row>
                 </ProCard>
             }
-            <Modal width={1000} visible={visible} destroyOnClose onCancel={() => setVisible(false)} onOk={() => setVisible(false)}>
+            <Modal width={1000} visible={visible} destroyOnClose cancelButtonProps={{ style: { display: 'none' } }} onOk={() => setVisible(false)}>
                 <>
                     <Layout
                         className="site-layout-background"
@@ -111,7 +124,7 @@ const TemperatureCard = ({outText = false}) => {
                                 <Col span={12}>
                                     <Statistic title={`Actual Temperature`} value={metric ? temperature : temperature * 1.8 + 32} suffix={metric ? "Celsius" : "Fahrenheit"} precision={2} />
                                     <Row align="middle">
-                                        <span onClick={() => setMetric(!metric)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} class="anticon iconfont">&#xe615;</span>
+                                        <span onClick={() => setMetric(!metric)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} className="anticon iconfont">&#xe615;</span>
                                         <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metric ? "Celsius" : "Fahrenheit"}</p>
                                     </Row>
                                 </Col>
@@ -120,7 +133,7 @@ const TemperatureCard = ({outText = false}) => {
                                 </Col>
                             </Row>
                             <Divider />
-                            <ReactApexChart options={options} series={[{ name: "Temperature", data: historyTemperature }, { "name": "Humidity", data: historyHumidity }]} type="line" height={450} />
+                            <ReactApexChart options={options} series={[{ name: "Temperature", data: historyTemperature }, { "name": "Humidity", data: historyHumidity }]} type="area" height={450} />
                         </Card>
                     </Layout>
                 </>

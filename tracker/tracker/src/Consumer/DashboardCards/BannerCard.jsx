@@ -1,8 +1,11 @@
 import { Button, Col, Row } from "antd";
 import { ProCard } from "@ant-design/pro-components";
-import React from "react";
+import React, { useState } from "react";
+import OrganizationModal from "./OrganizationModal";
 
 const BannerCard = ({ name = "default" }) => {
+    const [visible, setVisible] = useState(false)
+
     return (
         <ProCard colSpan={12} bordered style={{
             boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
@@ -17,9 +20,10 @@ const BannerCard = ({ name = "default" }) => {
                     <div>Check all Organization</div>
                 </Col>
                 <Col >
-                    <Button onClick={() => console.log("/Organizations")} type="default" style={{ fontSize: 15, textTransform: "none", borderRadius: 10, color: "blue" }}>Check it out</Button>
+                    <Button onClick={() => setVisible(true)} type="default" style={{ fontSize: 15, textTransform: "none", borderRadius: 10, color: "blue" }}>Check it out</Button>
                 </Col>
             </Row>
+            <OrganizationModal visible={visible} setVisible={setVisible} />
         </ProCard>
     );
 }

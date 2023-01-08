@@ -29,18 +29,18 @@ let defaultProps = {
             {
                 path: '/Dashboard',
                 name: 'Dashboard',
-                icon: <span class="anticon iconfont">&#x100d9;</span>,
+                icon: <span className="anticon iconfont">&#x100d9;</span>,
 
             },
             {
                 path: '/Buildings',
                 name: 'Buildings',
-                icon: <span class="anticon iconfont" >&#x100dc;</span>
+                icon: <span className="anticon iconfont" >&#x100dc;</span>
             },
             {
                 path: '/Invoices',
                 name: 'Invoices',
-                icon: <span class="anticon iconfont" >&#x100e6;</span>,
+                icon: <span className="anticon iconfont" >&#x100e6;</span>,
                 routes: [
                     {
                         path: '/Invoices/Weekly',

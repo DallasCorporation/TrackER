@@ -220,7 +220,7 @@ const WaterInvoices = ({ bills, cost, aggregated, filtered }) => {
                         <Col md={6} sm={12}>
                             <Statistic title="Total Water Usage" value={metricCubic ? waterSum / 1000 : waterSum} suffix={metricCubic ? "Liter(l)" : "ml"} precision={2} />
                             <Row align="middle">
-                                <span onClick={() => setMetric(!metricCubic)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} class="anticon iconfont">&#xe615;</span>
+                                <span onClick={() => setMetric(!metricCubic)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} className="anticon iconfont">&#xe615;</span>
                                 <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricCubic ? "Liter (l)" : "ml"}</p>
                             </Row>
                         </Col>

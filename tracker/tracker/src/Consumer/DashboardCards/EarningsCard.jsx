@@ -6,6 +6,9 @@ import { useEffect } from "react";
 import { IconFont } from "../utils";
 
 let options = {
+  legend: {
+    showForSingleSeries: true
+  },
   dataLabels: {
     enabled: false
   },
@@ -38,7 +41,7 @@ const EarningsCard = ({ total = 0, data }) => {
   useEffect(() => {
     if (data !== undefined) {
       setSeries([{
-        name: 'Energy production',
+        name: 'Energy production in W/s',
         data: data
       }])
     }

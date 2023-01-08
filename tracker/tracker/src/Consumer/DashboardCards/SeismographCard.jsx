@@ -7,10 +7,8 @@ import api from "../../api";
 const SeismographCard = () => {
   let options = {
     legend: {
-      position: "top",
-      horizontalAlign: "center",
-      align: "right"
-  },
+      showForSingleSeries: true
+    },
     chart: {
       dropShadow: {
         enabled: true,
@@ -104,7 +102,7 @@ const SeismographCard = () => {
           <IconFont type="i-wi-earthquake" style={{ fontSize: 40, color: "#713F00" }} />
         </Col>
         <Col xs={24} >
-          <ReactApexChart options={options} series={[{ name: "Quake", data: quake }]} type="line" height={350} />
+          <ReactApexChart options={options} series={[{ name: "Quake Intensity", data: quake }]} type="line" height={350} />
         </Col>
       </Row>
     </ProCard >

@@ -6,6 +6,11 @@ import { IconFont } from "../utils";
 import api from "../../api";
 const SeismographCard = () => {
   let options = {
+    legend: {
+      position: "top",
+      horizontalAlign: "center",
+      align: "right"
+  },
     chart: {
       dropShadow: {
         enabled: true,
@@ -54,10 +59,6 @@ const SeismographCard = () => {
     stroke: {
       width: 2,
       curve: 'smooth'
-    },
-    legend: {
-      show: true,
-      hideOverlappingLabels: true,
     },
     xaxis: {
       labels: {

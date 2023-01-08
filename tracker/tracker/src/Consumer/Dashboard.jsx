@@ -18,7 +18,6 @@ const Dashboard = () => {
   const buildings = useSelector((state) => state.buildings.buildings)
   const [bills, setBills] = useState({})
   const [solar, setSolar] = useState({})
-  const [quake, setQuake] = useState({})
   const [totalRen, setTotalRen] = useState(0)
   const [solarArrayData, setSolarArrayData] = useState([])
 
@@ -85,16 +84,12 @@ const Dashboard = () => {
     })
   }
 
-  const getQuake = async () => {
-    await api.quake.get().then(res => { setQuake(res.intensity.map(el => ({ x: el.date, y: el.value }))) })
-  }
+
 
   useEffect(() => {
     getBills()
-    getQuake()
     setInterval(() => {
       getBills()
-      getQuake()
     }, 5000);
   }, [user, buildings])
 
@@ -109,7 +104,7 @@ const Dashboard = () => {
     >
       <Row gutter={[32, 32]}>
         <Col lg={18} md={24} sx={24}>
-          <h1 style={{ fontSize: "24px", }}>Welcome back, {user.name} 👋</h1>
+          <h1 style={{ fontSize: "24px", }}>Welcome back, {user?.name} 👋</h1>
           <p style={{ color: "#636e72", fontSize: "14px", lineHeight: "21px" }}>Your current status and analytics are here</p>
 
           <Row gutter={[0, 32]}>
@@ -120,7 +115,7 @@ const Dashboard = () => {
             <EarningsCard series={[solar]} total={(totalRen / 1000).toFixed(3)} data={solarArrayData} />
           </Row>
           <Row style={{ marginTop: "32px" }}>
-            <SeismographCard/>
+            <SeismographCard />
           </Row>
         </Col>
         <Col lg={6} md={24} sx={24}>

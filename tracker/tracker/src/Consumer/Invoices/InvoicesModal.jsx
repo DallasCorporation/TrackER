@@ -35,10 +35,11 @@ const InvoicesModal = ({ data, visible, setVisible, timeSpan }) => {
         const firstDayOfWeek = new Date(todayObj.setDate(todayDate - todayDay));
         const lastDayOfWeek = new Date(firstDayOfWeek);
         lastDayOfWeek.setDate(lastDayOfWeek.getDate() + 6);
-        return date.getDate() >= firstDayOfWeek.getDate() && date.getDate() <= lastDayOfWeek.getDate()
+        return date.getDate() >= firstDayOfWeek.getDate() || date.getDate() <= lastDayOfWeek.getDate()
     }
     function isDateInThisMonth(date) {
         const todayObj = new Date();
+        console.log(date.getMonth(), todayObj.getMonth())
         return todayObj.getMonth() === date.getMonth() - 2
     }
     function isDateInThisYear(date) {
@@ -56,7 +57,7 @@ const InvoicesModal = ({ data, visible, setVisible, timeSpan }) => {
                 }
                 break;
             case "Monthly":
-                if (isDateInThisMonth(new Date(el.date))) {
+                if (isDateInThisWeek(new Date(el.date))) {
                     elec.push([moment.utc(el.date).local().format(), el.electric])
                     gas.push([moment.utc(el.date).local().format(), el.gas])
                     water.push([moment.utc(el.date).local().format(), el.water])

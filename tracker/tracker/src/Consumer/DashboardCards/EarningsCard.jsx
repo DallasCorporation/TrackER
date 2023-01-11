@@ -19,10 +19,20 @@ let options = {
     width: 2,
   },
   xaxis: {
-    labels: {
-      format: 'dd-MM-yyyy HH:mm',
-    },
     type: 'datetime',
+    tooltip: {
+      enabled: false
+    },
+    labels: {
+      show: true,
+      datetimeUTC: false,
+      datetimeFormatter: {
+        year: 'yyyy',
+        month: "MMM 'yy",
+        day: 'dd MMM',
+        hour: 'HH:mm',
+      },
+    },
   },
   tooltip: {
     enabled: true,

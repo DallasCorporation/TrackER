@@ -53,7 +53,7 @@ const options = {
         },
         labels: {
             show: true,
-            datetimeUTC: false,
+            datetimeUTC: true,
             datetimeFormatter: {
                 year: 'yyyy',
                 month: "MMM 'yy",

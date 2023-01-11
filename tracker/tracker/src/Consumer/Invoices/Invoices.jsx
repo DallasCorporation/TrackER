@@ -18,7 +18,7 @@ const Invoices = ({ user }) => {
     const [building, setBuilding] = useState({})
 
     const getBillsAggregated = async () => {
-        await api.bills.getBillsAggregated(user._id).then(res => setBills(res.all))
+        await api.bills.fetchBills().then(res => setBills(res))
     }
     useEffect(() => {
         getBillsAggregated(user._id)
@@ -95,12 +95,7 @@ const Invoices = ({ user }) => {
                                             <Button
                                                 onClick={() => {
                                                     setVisible(true)
-                                                    bills.forEach(bill => {
-                                                        if (bill.buildingId === el._id) {
-                                                            setData(bill)
-                                                            setBuilding(el)
-                                                        }
-                                                    });
+                                                    setData(bills)
                                                     setTimeSpan(filter)
                                                 }}
                                                 size="middle" type="primary" style={{ borderRadius: 10 }}>{filter} Bills Details</Button>

@@ -22,7 +22,7 @@ cursor: pointer;
 `
 const ExpensiveChart = ({ bills }) => {
     const state = {
-        series: [bills.totalElectric / 1000, bills.totalWater / 1000, bills.totalGas / 1000],
+        series: [Number((bills.totalElectric / 1000).toFixed(2)), Number((bills.totalWater/ 1000).toFixed(2)),  Number((bills.totalGas/ 1000).toFixed(2))],
         options: {
             labels: ['Electric Consumption(Kw)', 'Water Consumption(l)', 'Gas Consumption(m³)'],
             legend: {

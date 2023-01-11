@@ -31,15 +31,15 @@ const Dashboard = () => {
     Object.values(data.bills).forEach((el) => {
       electric.push({
         x: moment.utc(el.date).local().format(),
-        y: el.electric === undefined ? 0 : el.electric
+        y: el.electric === undefined ? 0 : el.electric.toFixed(2)
       })
       gas.push({
         x: moment.utc(el.date).local().format(),
-        y: el.gas === undefined ? 0 : el.gas
+        y: el.gas === undefined ? 0 : el.gas.toFixed(2)
       })
       water.push({
         x: moment.utc(el.date).local().format(),
-        y: el.water === undefined ? 0 : el.water
+        y: el.water === undefined ? 0 : el.water.toFixed(2)
       })
     })
     electric = {

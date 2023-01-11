@@ -184,7 +184,7 @@ const WaterInvoices = ({ bills, cost, aggregated, filtered }) => {
         }
         setAllWaterLine([{
             data: bills.bills.map(el =>
-                [el.date, el.water]
+                [el.date, el.water.toFixed(2)]
             )
         }])
     }, [filtered, metricCubic, aggregated, cost, waterSum, bills])

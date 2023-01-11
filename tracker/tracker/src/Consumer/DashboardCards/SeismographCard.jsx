@@ -36,7 +36,7 @@ const SeismographCard = () => {
       yaxis: [
         {
           y: 0,
-          y2: 4500,
+          y2: 8500,
           borderColor: '#000',
           fillColor: '#00E396',
           opacity: 0.2,
@@ -59,10 +59,20 @@ const SeismographCard = () => {
       curve: 'smooth'
     },
     xaxis: {
-      labels: {
-        format: 'dd-MM-yyyy HH:mm',
-      },
       type: 'datetime',
+      tooltip: {
+        enabled: false
+      },
+      labels: {
+        show: true,
+        datetimeUTC: false,
+        datetimeFormatter: {
+          year: 'yyyy',
+          month: "MMM 'yy",
+          day: 'dd MMM',
+          hour: 'HH:mm',
+        },
+      },
     },
     tooltip: {
       enabled: true,

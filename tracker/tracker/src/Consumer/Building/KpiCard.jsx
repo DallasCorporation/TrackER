@@ -85,7 +85,7 @@ const KpiCard = ({ bills, gasVisible, waterVisible, electricVisible }) => {
                             <IconFont type="i-fire-line" style={{ fontSize: 45, color: "#1196db" }} />
                         </Col>
                         <Col md={18} sm={24} xs={24}>
-                            <Statistic title={`Gas Consumption`} value={metricGas ? gas / 1000 : gas} suffix={metricGas ? "m³" : "Gallon"} precision={2} />
+                            <Statistic title={`Gas Consumption`} value={metricGas ? gas / 1000 : gas / 1000 * 264.172} suffix={metricGas ? "m³" : "Gallon"} precision={2} />
                         </Col>
                     </Row>
                     <Row align="middle" >

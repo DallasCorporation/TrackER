@@ -70,7 +70,7 @@ let optionsLine = {
         },
         y: {
             formatter: function (val) {
-                return val + "Gallon"
+                return val.toFixed(2) + " m³"
             },
             title: {
                 formatter: () => {
@@ -180,7 +180,7 @@ const GasInvoices = ({ bills, cost, aggregated, filtered }) => {
         if (cost !== undefined && Object.keys(cost).length > 0) {
             cost.forEach(el => {
                 if (el.name === "Gas Cost at m³") {
-                    setTotalEarning((gasSum * 0.0833333 / 1000 * el.price))
+                    setTotalEarning((gasSum / 1000 * el.price))
                 }
                 if (el.name === "Gas Supplier Cost") {
                     setSupplier(el.price)
@@ -189,13 +189,13 @@ const GasInvoices = ({ bills, cost, aggregated, filtered }) => {
                     setDelivery(el.price)
                 }
                 if (el.name === "Gas Tax Percentage") {
-                    setTotalTax(gasSum * 0.0833333 / 1000 * el.price / 100)
+                    setTotalTax(gasSum / 1000 * el.price / 100)
                 }
             });
         }
         setAllGasLine([{
             data: bills.bills.map(el =>
-                [el.date, el.gas]
+                [el.date, el.gas.toFixed(2)]
             )
         }])
     }, [filtered, metricCubic, aggregated, cost, gasSum, bills])
@@ -230,10 +230,10 @@ const GasInvoices = ({ bills, cost, aggregated, filtered }) => {
                 <Card style={{ borderRadius: 20, marginBottom: 32, boxShadow: "0 2px 4px rgba(0,0,0,0.2)", }}>
                     <Row align="top" gutter={[32, 32]} >
                         <Col md={6} sm={12}>
-                            <Statistic title="Total Gas Usage" value={metricCubic ? gasSum * 0.0454249414 / 1000 : gasSum} suffix={metricCubic ? "Gas/m³" : "Gallon"} precision={4} />
+                            <Statistic title="Total Gas Usage" value={metricCubic ? gasSum : gasSum * 264.172} suffix={metricCubic ? "m³" : "Gallon"} precision={2} />
                             <Row align="middle">
                                 <span onClick={() => setMetric(!metricCubic)} style={{ color: "blue", marginRight: 6, cursor: "pointer" }} className="anticon iconfont">&#xe615;</span>
-                                <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricCubic ? "Gas/m³" : "Gallon"}</p>
+                                <p style={{ color: "grey", fontSize: "18px", fontWeight: "lighter", margin: 0 }}>{!metricCubic ? "m³" : "Gallon"}</p>
                             </Row>
                         </Col>
                         <Col md={6} sm={12} style={{ height: 90 }} >

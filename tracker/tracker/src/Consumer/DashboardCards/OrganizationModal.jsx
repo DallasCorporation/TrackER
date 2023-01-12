@@ -331,7 +331,7 @@ const OrganizationModal = ({ visible , setVisible}) => {
                                                         <Avatar size={240} src={data.icon} style={{ boxShadow: "0 19px 38px rgba(0,0,0,0.30), 0 10px 12px rgba(0,0,0,0.22)" }} />
                                                     </Tooltip>
                                                     <Col span={14} style={{ marginLeft: 22 }}>
-                                                        <p style={{ fontSize: 17 }}>Owner:  </p>
+                                                        <p style={{ fontSize: 17 }}>Owner: <b>TrackER</b> </p>
                                                         <Row>
                                                             <p style={{ fontSize: 17 }}>Created at: {new Date(data.createAt).toLocaleDateString()}</p>
                                                             <p style={{ fontSize: 17, marginLeft: 32 }}>Total Registered Buildings: {data.customers.length}</p>

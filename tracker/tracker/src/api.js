@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://192.168.1.14:3000/api";
+const API_URL = "http://172.20.10.6:3000/api";
 // const API_URL = "http://localhost:3000/api";
 
 // eslint-disable-next-line import/no-anonymous-default-export

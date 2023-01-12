@@ -210,9 +210,8 @@ const RenewableCards = ({ item, bills, resources }) => {
                     <Empty
                         image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
                         imageStyle={{ height: 100, }}
-                        description={<span>  This building has <a>NO {filter}</a> resources installed yet</span>}
+                        description={<span>  This building has <b>NO {filter}</b> data yet</span>}
                     >
-                        <Button onClick={() => setVisible1(true)} type="primary" style={{ borderRadius: 20 }}>Install One Now</Button>
                     </Empty>
                 }
             </Card>

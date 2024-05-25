@@ -1,15 +1,15 @@
-import { ProCard } from "@ant-design/pro-components"
-import { Avatar, Breadcrumb, Col, Divider, Dropdown, Layout, Menu, PageHeader, Row, Space, Tooltip } from "antd"
+import { MoreOutlined } from '@ant-design/icons';
+import { ProCard } from "@ant-design/pro-components";
+import { Avatar, Breadcrumb, Col, Dropdown, Layout, Menu, PageHeader, Row, Space } from "antd";
+import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import AvatarDrawer from "./AvatarDrawer";
+import OrganizationDrawer from "./OrganizationDrawer";
 import AccountActivity from "./RightSide/AccountActivity";
+import AccountNotification from "./RightSide/AccountNotification";
 import ChangePassword from "./RightSide/ChangePassword";
 import InfoAccount from "./RightSide/InfoAccount";
 import SecuritySettings from "./RightSide/SecuritySettings";
-import { MoreOutlined } from '@ant-design/icons';
-import { useState } from "react";
-import AvatarDrawer from "./AvatarDrawer";
-import AccountNotification from "./RightSide/AccountNotification";
-import OrganizationDrawer from "./OrganizationDrawer";
 
 const Account = ({ updateRoute, user, avatar, socket }) => {
     const navigate = useNavigate()

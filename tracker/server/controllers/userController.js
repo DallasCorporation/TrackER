@@ -60,9 +60,10 @@ const registerUser = asyncHandler(async (req, res) => {
 // @access  Public
 const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body
-
   // Check for user email
+  console.log(User.find({ email }))
   const user = await User.findOne({ email })
+  console.log(user)
   const resa = await bcrypt.compare(password, user.password)
   if (user && resa) {
     res.json({
@@ -176,16 +177,16 @@ const deleteUserById = asyncHandler(async (req, res) => {
     await Organization.findOneAndDelete(myQuery)
   } else { await Buildings.findOneAndDelete(myQuery) }
   await Preference.findOneAndDelete(myQuery)
-  
-    // const organization = await Organization.findById(building.organizationId)
-    // let tmp = organization
-    // let customersCopy = organization.customers
-    // customersCopy.pop(building.userId)
-    // tmp.customers = customersCopy
-    // const updateOrganization = await Organization.findByIdAndUpdate(building.organizationId, tmp, {
-    //     new: true,
-    // })
-  
+
+  // const organization = await Organization.findById(building.organizationId)
+  // let tmp = organization
+  // let customersCopy = organization.customers
+  // customersCopy.pop(building.userId)
+  // tmp.customers = customersCopy
+  // const updateOrganization = await Organization.findByIdAndUpdate(building.organizationId, tmp, {
+  //     new: true,
+  // })
+
   await user.remove()
   res.status(200).json({ id: req.params.id })
 })
@@ -193,10 +194,10 @@ const deleteUserById = asyncHandler(async (req, res) => {
 const getAll = asyncHandler(async (req, res) => {
   const goal = await User.find({})
   if (goal)
-      res.status(200).json(goal)
+    res.status(200).json(goal)
   else {
-      res.status(400)
-      throw new Error('Organizations not found')
+    res.status(400)
+    throw new Error('Organizations not found')
   }
 })
 

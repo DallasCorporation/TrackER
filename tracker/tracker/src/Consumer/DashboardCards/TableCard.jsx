@@ -1,8 +1,8 @@
-import { Card, Col, Row } from "antd";
 import { ProTable } from '@ant-design/pro-components';
+import { Card, Col, Row } from "antd";
 import React from 'react';
 
-const TableCard = ({ buildings, chart, value, title }) => {
+const TableCard = ({ buildings}) => {
     const tableListDataSource = [];
 
     if (buildings === null)

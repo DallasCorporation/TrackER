@@ -1,4 +1,4 @@
-import { Avatar, Button, Card, Col, Drawer, message, Row, Tooltip } from "antd";
+import { Avatar, Button, Card, Drawer, message, Row, Tooltip } from "antd";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import api from "../api";
@@ -19,8 +19,7 @@ const AvatarDrawer = ({ user, visible, onClose }) => {
     const [current, setCurrent] = useState(userPreference.avatar)
     const dispatch = useDispatch()
     const confirm = async () => {
-        if(userPreference.avatar===current)
-        {
+        if (userPreference.avatar === current) {
             message.warning("You cannot select the same Avatar")
             return
         }
@@ -29,7 +28,7 @@ const AvatarDrawer = ({ user, visible, onClose }) => {
         onClose()
     }
     return (
-        <Drawer title="Change Avatar" size="large" placement="right" visible={visible} onClose={() => onClose()}>
+        <Drawer title="Change Avatar" size="large" placement="right" open={visible} onClose={() => onClose()}>
             <Row justify="center">
                 <Avatar size={200} src={current} />
             </Row>
@@ -46,7 +45,7 @@ const AvatarDrawer = ({ user, visible, onClose }) => {
                     </Tooltip>
 
                     {[...Array(38)].map((x, i) =>
-                        <Tooltip title={"Avatar-" + (i + 1)}>
+                        <Tooltip title={"Avatar-" + (i + 1)} key={i}>
                             <AvatarHover
                                 style={
                                     current === images['Avatar-' + (i + 1) + '.svg']
@@ -65,8 +64,8 @@ const AvatarDrawer = ({ user, visible, onClose }) => {
 
             </Card>
             <Row justify="end" style={{ marginTop: 60 }}>
-                <Button type="ghost" onClick={()=>onClose()}>Cancel</Button>
-                <Button style={{ marginLeft: 20 }} type="primary" onClick={()=>confirm()}>Change</Button>
+                <Button type="ghost" onClick={() => onClose()}>Cancel</Button>
+                <Button style={{ marginLeft: 20 }} type="primary" onClick={() => confirm()}>Change</Button>
             </Row>
         </Drawer>
     )

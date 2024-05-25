@@ -1,12 +1,10 @@
-import { SwapOutlined } from "@ant-design/icons"
-import { Breadcrumb, Card, Carousel, Col, Divider, Layout, PageHeader, Radio, Row, Statistic, Switch } from "antd"
+import { Breadcrumb, Card, Carousel, Col, Divider, Layout, PageHeader, Row, Statistic } from "antd"
 import { useEffect, useState } from "react"
 import ReactApexChart from "react-apexcharts"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import CustomerDrawer from "../CustomerDrawer"
 import CustomersBuildingTable from "../CustomersBuildingTable"
-import ModalDetails from "../ModalDetails"
 
 let optionsBar = {
     chart: {

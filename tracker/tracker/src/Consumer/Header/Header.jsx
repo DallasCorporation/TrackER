@@ -1,5 +1,5 @@
-import { Avatar, Badge, Col, Dropdown, List, Menu, notification, Row, Space, Typography } from "antd";
-import React, { useEffect, useState } from "react";
+import { Col, Dropdown, Menu, Row, Space } from "antd";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AvatarHover, LinkHover } from "../../Components/CustomComponents";
 import { logout } from "../../reducers/user";

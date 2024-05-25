@@ -1,9 +1,8 @@
-import { Card, Col, Divider, Row, Tooltip } from "antd"
-import OrganizationCard from "../Organization/OrganizationCard"
-import "../Organization/Organization.css"
-import { useState } from "react"
 import { ProFormMoney } from '@ant-design/pro-components';
-import { useEffect } from "react";
+import { Card, Col, Divider, Row, Tooltip } from "antd";
+import { useEffect, useState } from "react";
+import "../Organization/Organization.css";
+import OrganizationCard from "../Organization/OrganizationCard";
 
 const FirstStep = ({ gas, setGas, electric, setElectric, water, setWater, distributed, setDistributed, setPrices, prices = [] }) => {
     const [solar, setSolar] = useState(Object.values(prices).find(el => el.name === "Solar" ? el.price : false))

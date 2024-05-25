@@ -1,13 +1,13 @@
 import { InboxOutlined } from "@ant-design/icons";
-import { Avatar, Button, Card, Col, Drawer, message, Row, Spin, Tooltip, Upload } from "antd";
+import { Avatar, Button, Card, Drawer, message, Row, Spin } from "antd";
+import ImgCrop from 'antd-img-crop';
 import Dragger from "antd/lib/upload/Dragger";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import api from "../api";
 import { AccountSubTitle } from "../Components/CustomComponents";
-import { updatePreference } from "../reducers/preference";
 import { fetchOrganization } from "../reducers/organization";
-import ImgCrop from 'antd-img-crop';
+import { updatePreference } from "../reducers/preference";
 
 const props = {
     name: 'file',

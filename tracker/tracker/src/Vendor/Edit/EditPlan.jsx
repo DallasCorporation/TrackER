@@ -1,13 +1,12 @@
-import { Breadcrumb, Card, Col, Form, Input, InputNumber, Layout, PageHeader, Radio, Row } from "antd"
-import { useState } from "react"
+import { Breadcrumb, Layout, PageHeader, Row } from "antd"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import EditCard from "./EditCard"
 
 const EditPlan = () => {
     const organization = useSelector(state => state.organization.organization)
-    const { gas, water, electric, resources } = organization.details
-    let navigate= useNavigate()
+    const { gas, water, electric } = organization.details
+    let navigate = useNavigate()
     return (
         <Layout
             style={{

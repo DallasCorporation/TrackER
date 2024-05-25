@@ -1,8 +1,7 @@
-import { ProTable } from "@ant-design/pro-components"
+import { ProTable } from "@ant-design/pro-components";
 import { Col, Divider } from "antd";
-import { useState } from "react";
-import { useEffect } from "react";
-import api from "../../api"
+import { useEffect, useState } from "react";
+import api from "../../api";
 import { AccountTitle, GreyParagraph } from "../../Components/CustomComponents";
 import LoadingSpinner from "../../Components/LoadingSpinner";
 
@@ -29,7 +28,7 @@ const columns = [
         title: 'Date',
         dataIndex: 'date',
         render: (a) => {
-            var newDate = new Date(a);
+            let newDate = new Date(a);
             return (
                 newDate.toLocaleString()
             )
